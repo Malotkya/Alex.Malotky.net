@@ -1,0 +1,12 @@
+﻿[
+  {
+    "outputFile": "public/stylesheets/master.css",
+    "inputFile": "public/stylesheets/master.scss",
+    "includeInProject": false
+  },
+  {
+    "outputFile": "build/admin/public/admin.css",
+    "inputFile": "src/admin/public/admin.scss",
+    "includeInProject": false
+  }
+]

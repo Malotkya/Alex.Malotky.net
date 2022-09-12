@@ -1,0 +1,44 @@
+[
+  {
+    "outputFileName": "build/index/index.ejs",
+    "inputFiles": [
+      "src/index/index.ejs"
+    ],
+    "includeInProject": false
+  },
+  {
+    "outputFileName": "build/index/error.ejs",
+    "inputFiles": [
+      "src/index/error.ejs"
+    ],
+    "includeInProject": false
+  },
+  {
+    "outputFileName": "build/templates/footer.ejs",
+    "inputFiles": [
+      "src/templates/footer.ejs"
+    ],
+    "includeInProject": false
+  },
+  {
+    "outputFileName": "build/templates/header.ejs",
+    "inputFiles": [
+      "src/templates/header.ejs"
+    ],
+    "includeInProject": false
+  },
+  {
+    "outputFileName": "build/templates/navbar.ejs",
+    "inputFiles": [
+      "src/templates/navbar.ejs"
+    ],
+    "includeInProject": false
+  },
+  {
+    "outputFileName": "build/admin/view.ejs",
+    "inputFiles": [
+      "src/admin/view.ejs"
+    ],
+    "includeInProject": false
+  }
+]

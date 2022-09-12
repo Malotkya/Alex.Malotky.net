@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">14.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <Name>AlexMalotky.com</Name>
+    <RootNamespace>AlexMalotky.com</RootNamespace>
+    <SaveNodeJsSettingsInProjectFile>True</SaveNodeJsSettingsInProjectFile>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <Environment>NODE_ENV=debug</Environment>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>336c1fce-8a3b-4071-a802-6a8230286c2e</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <StartupFile>bin/www</StartupFile>
+    <SearchPath>
+    </SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{349c5851-65df-11da-9384-00065b846f21};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
+    <NodejsPort>8080</NodejsPort>
+    <EnableTypeScript>true</EnableTypeScript>
+    <StartWebBrowser>True</StartWebBrowser>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="compilerconfig.json" />
+    <Content Include=".firebaserc" />
+    <Content Include=".gitignore" />
+    <Content Include="bin\index.js" />
+    <Content Include="bin\www" />
+    <Content Include="bundleconfig.json" />
+    <Content Include="compilerconfig.json.defaults">
+      <SubType>Content</SubType>
+      <DependentUpon>compilerconfig.json</DependentUpon>
+    </Content>
+    <None Include="packages.config" />
+    <Content Include="firebase.json" />
+    <Content Include="public\media\face.jpg" />
+    <Content Include="public\media\github.svg" />
+    <Content Include="public\media\linkedin.svg" />
+    <Content Include="public\media\Mana Symbols.png" />
+    <Content Include="public\stylesheets\colorscheme.scss" />
+    <Content Include="public\stylesheets\master.scss" />
+    <Content Include="public\stylesheets\navbar.scss" />
+    <Content Include="public\stylesheets\normalize.scss" />
+    <Content Include="public\stylesheets\responsive.scss" />
+    <Content Include="src\admin\public\admin.js" />
+    <Content Include="src\admin\public\admin.scss" />
+    <Content Include="src\admin\public\Admin\Navbar.js" />
+    <Content Include="src\admin\public\Admin\Panel\Index.js" />
+    <Content Include="src\admin\public\Admin\Panel\PanelBase.js" />
+    <Content Include="src\admin\view.ejs" />
+    <Content Include="src\index\error.ejs" />
+    <Content Include="src\index\index.ejs" />
+    <Content Include="src\templates\footer.ejs" />
+    <Content Include="src\templates\header.ejs" />
+    <Content Include="src\templates\navbar.ejs" />
+    <Content Include="tsconfig.json" />
+    <Content Include="package.json" />
+    <Content Include="README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="bin\" />
+    <Folder Include="public\" />
+    <Folder Include="public\javascripts\" />
+    <Folder Include="public\media\" />
+    <Folder Include="public\stylesheets\" />
+    <Folder Include="src\" />
+    <Folder Include="src\admin\" />
+    <Folder Include="src\admin\public\" />
+    <Folder Include="src\admin\public\Admin\" />
+    <Folder Include="src\admin\public\Admin\Panel\" />
+    <Folder Include="src\index\" />
+    <Folder Include="src\index\routes\" />
+    <Folder Include="src\templates\" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="src\admin\router.ts" />
+    <TypeScriptCompile Include="src\app.ts" />
+    <TypeScriptCompile Include="src\index\routes\Admin.ts" />
+    <TypeScriptCompile Include="src\index\router.ts" />
+    <TypeScriptCompile Include="src\index\routes\Portfolio.ts" />
+  </ItemGroup>
+  <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsToolsV2.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:48022/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>True</UseCustomServer>
+          <CustomServerUrl>http://localhost:1337</CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}" User="">
+        <WebProjectProperties>
+          <StartPageUrl>
+          </StartPageUrl>
+          <StartAction>CurrentPage</StartAction>
+          <AspNetDebugging>True</AspNetDebugging>
+          <SilverlightDebugging>False</SilverlightDebugging>
+          <NativeDebugging>False</NativeDebugging>
+          <SQLDebugging>False</SQLDebugging>
+          <ExternalProgram>
+          </ExternalProgram>
+          <StartExternalURL>
+          </StartExternalURL>
+          <StartCmdLineArguments>
+          </StartCmdLineArguments>
+          <StartWorkingDirectory>
+          </StartWorkingDirectory>
+          <EnableENC>False</EnableENC>
+          <AlwaysStartWebServerOnDebug>False</AlwaysStartWebServerOnDebug>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Import Project="packages\BuildWebCompiler2022.1.14.8\build\BuildWebCompiler2022.targets" Condition="Exists('packages\BuildWebCompiler2022.1.14.8\build\BuildWebCompiler2022.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('packages\BuildWebCompiler2022.1.14.8\build\BuildWebCompiler2022.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\BuildWebCompiler2022.1.14.8\build\BuildWebCompiler2022.targets'))" />
+    <Error Condition="!Exists('packages\BuildBundlerMinifier.3.2.449\build\BuildBundlerMinifier.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\BuildBundlerMinifier.3.2.449\build\BuildBundlerMinifier.targets'))" />
+  </Target>
+  <Import Project="packages\BuildBundlerMinifier.3.2.449\build\BuildBundlerMinifier.targets" Condition="Exists('packages\BuildBundlerMinifier.3.2.449\build\BuildBundlerMinifier.targets')" />
+</Project>

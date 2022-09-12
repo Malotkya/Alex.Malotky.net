@@ -1,0 +1,45 @@
+$dark: #202020;
+$medium: #3F3F3F;
+$light: #D0D0D0;
+$accent-dark: #733EA8;
+$accent-light: #B28FD6;
+$white: #FCF7F8;
+
+html {
+    background-color: black;
+}
+
+body {
+    background-color: $white;
+    color: $dark;
+}
+
+a:link,
+a:visited {
+    color: $accent-dark;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: $accent-light;
+}
+
+aside {
+    background-color: $medium;
+    color: $white;
+
+    a:link,
+    a:visited {
+        color: $accent-light;
+    }
+}
+
+footer {
+    background-color: $medium;
+    color: $white;
+
+    .icon {
+        color: $white;
+        width: 2em;
+        height: auto;
+    }
+}

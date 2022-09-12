@@ -1,0 +1,81 @@
+@import "normalize.scss";
+@import "colorscheme.scss";
+@import "responsive.scss";
+@import "navbar.scss";
+
+.hidden {
+    position: absolute;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    width: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+}
+
+#main > article {
+    width: 95%;
+    margin: 1em auto;
+    border: 0.25em solid $dark;
+    border-radius: 0.5em;
+    padding: 0.5em;
+}
+
+h1 {
+    width: 100%;
+    text-align: center;
+}
+
+.about {
+    display: grid;
+    grid-template-columns: auto 30%;
+    grid-template-rows: 4em auto;
+    grid-template-areas: 'header figure'
+                         'p figure';
+    text-align: right;
+
+    &:nth-child(even){
+        grid-template-columns: 30% auto;
+        grid-template-areas: 'figure header'
+                             'figure p';
+        text-align: left;
+    }
+
+    h2{
+        grid-area: header;
+        margin: 0;
+        font-size: 2em;
+        padding: .5em;
+    }
+
+    p {
+       grid-area: p;
+       margin: 0;
+       padding: 1em;
+   }
+
+   figure{
+       grid-area: figure;
+       margin: 0;
+   }
+}
+
+@media (max-width: $phone) {
+    .about,
+     .about:nth-child(even) {
+        grid-template-areas: 'header' 'figure' 'p';
+        grid-template-rows: 4em auto auto;
+        grid-template-columns: 100%;
+    }
+
+    .about{
+        h2 {
+            text-align: center;
+        }
+
+        p {
+            text-align: left;
+        }
+    }
+}

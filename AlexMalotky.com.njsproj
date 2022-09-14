@@ -24,7 +24,7 @@
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{349c5851-65df-11da-9384-00065b846f21};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
     <NodejsPort>8080</NodejsPort>
-    <EnableTypeScript>true</EnableTypeScript>
+    <EnableTypeScript>false</EnableTypeScript>
     <StartWebBrowser>True</StartWebBrowser>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -33,20 +33,17 @@
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'test' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\test\</OutputPath>
+  </PropertyGroup>
   <ItemGroup>
+    <Content Include="package.json" />
     <Content Include="util\bundle.js">
       <SubType>Code</SubType>
     </Content>
-    <None Include="compilerconfig.json" />
     <Content Include=".firebaserc" />
     <Content Include=".gitignore" />
-    <Content Include="bin\index.js" />
-    <Content Include="bundleconfig.json" />
-    <Content Include="compilerconfig.json.defaults">
-      <SubType>Content</SubType>
-      <DependentUpon>compilerconfig.json</DependentUpon>
-    </Content>
-    <None Include="packages.config" />
     <Content Include="firebase.json" />
     <Content Include="public\media\face.jpg">
       <Publish>False</Publish>
@@ -78,11 +75,9 @@
     <Content Include="src\templates\header.ejs" />
     <Content Include="src\templates\navbar.ejs" />
     <Content Include="tsconfig.json" />
-    <Content Include="package.json" />
     <Content Include="README.md" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="bin\" />
     <Folder Include="util\" />
     <Folder Include="public\" />
     <Folder Include="public\javascripts\" />
@@ -159,13 +154,4 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
-  <Import Project="packages\BuildWebCompiler2022.1.14.8\build\BuildWebCompiler2022.targets" Condition="Exists('packages\BuildWebCompiler2022.1.14.8\build\BuildWebCompiler2022.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('packages\BuildWebCompiler2022.1.14.8\build\BuildWebCompiler2022.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\BuildWebCompiler2022.1.14.8\build\BuildWebCompiler2022.targets'))" />
-    <Error Condition="!Exists('packages\BuildBundlerMinifier.3.2.449\build\BuildBundlerMinifier.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\BuildBundlerMinifier.3.2.449\build\BuildBundlerMinifier.targets'))" />
-  </Target>
-  <Import Project="packages\BuildBundlerMinifier.3.2.449\build\BuildBundlerMinifier.targets" Condition="Exists('packages\BuildBundlerMinifier.3.2.449\build\BuildBundlerMinifier.targets')" />
 </Project>

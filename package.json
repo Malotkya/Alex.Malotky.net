@@ -4,7 +4,7 @@
     "build": "node util/bundle.js",
     "build:watch": "tsc --watch",
     "clean": "tsc --build --clean",
-    "serve": "npm run build && firebase emulators:start",
+    "serve": "firebase serve",
     "shell": "npm run build && firebase functions:shell",
     "start": "npm run serve",
     "deploy": "firebase deploy",
@@ -37,4 +37,5 @@
     "typescript": "^4.5.4"
   },
   "private": true
+, "-vs-binding":{"BeforeBuild":["build"]}
 }

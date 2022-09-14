@@ -40,5 +40,33 @@
       "src/admin/view.ejs"
     ],
     "includeInProject": false
+  },
+  {
+    "outputFileName": "build/resume/view.ejs",
+    "inputFiles": [
+      "src/resume/view.ejs"
+    ],
+    "includeInProject": false
+  },
+  {
+    "outputFileName": "build/resume/views/job.ejs",
+    "inputFiles": [
+      "src/resume/views/job.ejs"
+    ],
+    "includeInProject": false
+  },
+  {
+    "outputFileName": "build/cert.json",
+    "inputFiles": [
+      "src/cert.json"
+    ],
+    "includeInProject": false
+  },
+  {
+    "outputFileName": "build/package.json",
+    "inputFiles": [
+      "package.json"
+    ],
+    "includeInProject": false
   }
 ]

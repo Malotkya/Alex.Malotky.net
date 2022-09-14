@@ -16,10 +16,10 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>336c1fce-8a3b-4071-a802-6a8230286c2e</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>bin/www</StartupFile>
+    <StartupFile>build/bin/server.js</StartupFile>
     <SearchPath>
     </SearchPath>
-    <WorkingDirectory>.</WorkingDirectory>
+    <WorkingDirectory>build</WorkingDirectory>
     <OutputPath>.</OutputPath>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{349c5851-65df-11da-9384-00065b846f21};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
@@ -34,11 +34,13 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="util\bundle.js">
+      <SubType>Code</SubType>
+    </Content>
     <None Include="compilerconfig.json" />
     <Content Include=".firebaserc" />
     <Content Include=".gitignore" />
     <Content Include="bin\index.js" />
-    <Content Include="bin\www" />
     <Content Include="bundleconfig.json" />
     <Content Include="compilerconfig.json.defaults">
       <SubType>Content</SubType>
@@ -46,7 +48,9 @@
     </Content>
     <None Include="packages.config" />
     <Content Include="firebase.json" />
-    <Content Include="public\media\face.jpg" />
+    <Content Include="public\media\face.jpg">
+      <Publish>False</Publish>
+    </Content>
     <Content Include="public\media\github.svg" />
     <Content Include="public\media\linkedin.svg" />
     <Content Include="public\media\Mana Symbols.png" />
@@ -61,8 +65,15 @@
     <Content Include="src\admin\public\Admin\Panel\Index.js" />
     <Content Include="src\admin\public\Admin\Panel\PanelBase.js" />
     <Content Include="src\admin\view.ejs" />
+    <Content Include="src\cert.json" />
     <Content Include="src\index\error.ejs" />
     <Content Include="src\index\index.ejs" />
+    <Content Include="src\resume\view.ejs">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="src\resume\views\job.ejs">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="src\templates\footer.ejs" />
     <Content Include="src\templates\header.ejs" />
     <Content Include="src\templates\navbar.ejs" />
@@ -72,6 +83,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\" />
+    <Folder Include="util\" />
     <Folder Include="public\" />
     <Folder Include="public\javascripts\" />
     <Folder Include="public\media\" />
@@ -83,14 +95,30 @@
     <Folder Include="src\admin\public\Admin\Panel\" />
     <Folder Include="src\index\" />
     <Folder Include="src\index\routes\" />
+    <Folder Include="src\bin\" />
+    <Folder Include="src\resume\" />
+    <Folder Include="src\resume\data\" />
+    <Folder Include="src\resume\views\" />
     <Folder Include="src\templates\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="src\admin\router.ts" />
     <TypeScriptCompile Include="src\app.ts" />
+    <TypeScriptCompile Include="src\bin\index.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="src\bin\server.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
     <TypeScriptCompile Include="src\index\routes\Admin.ts" />
     <TypeScriptCompile Include="src\index\router.ts" />
     <TypeScriptCompile Include="src\index\routes\Portfolio.ts" />
+    <TypeScriptCompile Include="src\resume\data\database.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="src\resume\router.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsToolsV2.targets" />
   <ProjectExtensions>

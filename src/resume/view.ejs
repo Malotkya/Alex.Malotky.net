@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <%- include("../templates/header.ejs", {title: 'Alex Malotky - Resume'}) %>
+<body>
+    <%- include("../templates/navbar.ejs") %>
+    <main id="main">
+        <h1>Resume</h1>
+        <p>This is currently just a test to see if the firestore connection is working</p>
+        <article>
+            <h2>Jobs</h2>
+            <ul>
+                <% for(let job of jobs) {%>
+                    <%- include("./views/job.ejs", {job: job}) %>
+                <% } %>
+            </ul>
+        </article>
+    </main>
+    <%- include("../templates/footer.ejs") %>
+</body>
+</html>

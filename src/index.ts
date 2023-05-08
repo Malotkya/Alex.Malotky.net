@@ -1,18 +1,11 @@
-import Router from "./App/Router";
-import App, {render, execute} from "./App";
+import App from "./App";
+import {Home} from "./Home";
+import {Resume} from "./Resume";
 
-let app = new App();
+const app = new App();
 
-let index = new Router("/", "Home", "");
-index.onLoad(()=>{
-    return render("home.html");
-});
-
-index.onConnected(()=>{
-    return execute("test.js");
-})
-
-app.add(index);
+app.add(Home);
+app.add(Resume, true);
 
 app.onReady(()=>{
     console.log("Hello World!");

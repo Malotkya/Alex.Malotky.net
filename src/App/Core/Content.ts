@@ -1,3 +1,11 @@
+/** Content Class
+ * 
+ * Base Class for Routers
+ * 
+ * I will likely be changing this to be called middleware
+ * 
+ * @author Alex Malotky
+ */
 export default class Countent{
     private _title: string;
     private _description: string;
@@ -17,6 +25,10 @@ export default class Countent{
         }
     }
 
+    /** Set HTML string.
+     * 
+     * @param {string} html 
+     */
     set(html: string){
         if(typeof html === "string"){
             this._string = html;
@@ -25,6 +37,9 @@ export default class Countent{
         }
     }
 
+    /** Get HTML string.
+     * 
+     */
     get html():Promise<string>{
         return new Promise( (resolve, reject)=>{
             if(typeof this._string === "undefined")
@@ -34,14 +49,18 @@ export default class Countent{
         });
     }
 
+    /** Get Javascript (does nothing)
+     * 
+     */
     get js(){
         return new Promise((res,rej)=>res(undefined));
     }
 
+    /** Getters
+     */
     get title(){
         return this._title;
     }
-
     get description(){
         return this._description;
     }

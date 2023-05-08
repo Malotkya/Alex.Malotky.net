@@ -1,16 +1,25 @@
 import Content from "./Content";
 import Router from "../Router";
 
+/** Base Application Class
+ * 
+ * This class is a layer of abstration between the application class and the window/dom elements.
+ * 
+ * @author Alex Malotky
+ */
 export default class App_Base{
     private _ready: Function;
     protected _routes: Array<Router>
 
+    //HTML elements
     private _title: HTMLElement;
     private _target: HTMLElement;
     private _description: HTMLElement;
     private _script: HTMLElement;
 
     constructor(window: any){
+
+        //Dirty trick because typscript doesn't like window.route.
         if(window) {
             window.onpopstate = () => this._handler();
             window.route = () => this._route();
@@ -21,12 +30,16 @@ export default class App_Base{
         this._routes = [];
     }
 
+    /** Path Handler Function
+     * 
+     * Loads content, title, and description.
+     */
     private _handler(){
         let location:string = window.location.pathname;
         if(location.length === 0)
             location = "/";
     
-        let r = this._get(location);
+        let r = this._getRouter(location);
 
         if(this._description)
             this._description.setAttribute("content", r.description);
@@ -52,6 +65,13 @@ export default class App_Base{
         });
     }
 
+    /** Route Clicked Function
+     * 
+     * This function currently only triggers on navbar clicks,
+     * I am unsure if I will be adding this to other internal links.
+     * 
+     * @param {Event} event 
+     */
     protected _route(event?: any){
         event = event || window.event;
         event.preventDefault();
@@ -59,7 +79,14 @@ export default class App_Base{
         this._handler();
     }
 
-    private _get(url: string){
+    /** Get Router Function
+     * 
+     * I may have this start returning a list with middleware in addition to routers being returned.
+     * 
+     * @param url 
+     * @returns {Content}
+     */
+    private _getRouter(url: string){
         for(let router of this._routes){
             if(router.matches(url))
                 return router;
@@ -70,6 +97,9 @@ export default class App_Base{
         return fourzerofour;
     }
 
+    /** Start App Function
+     * 
+     */
     private _start(){
         this._title = document.querySelector("title");
         this._target = document.querySelector("main");
@@ -81,6 +111,10 @@ export default class App_Base{
             this._ready();
     }
 
+     /** On Ready Event Callback
+     * 
+     * @param {Function} callback
+     */
     onReady(callback: Function){
         this._ready = callback;
     }

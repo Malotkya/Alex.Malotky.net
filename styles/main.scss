@@ -14,7 +14,17 @@
     border: 0;
 }
 
-#main > article {
+.flex-50 {
+    display: flex;
+    flex-flow: row nowrap;
+
+    .w-50 {
+        width: 50%;
+        height: 50%;
+    }
+}
+
+article {
     width: 95%;
     margin: 1em auto;
     border: 0.25em solid $dark;
@@ -61,6 +71,59 @@ h1 {
    }
 }
 
+
+.resume-main {
+    display: flex;
+
+    .resume-list {
+        width: 50%;
+
+        h2 {
+            text-align: center;
+        }
+
+        .resume-card {
+            width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+            display: flex;
+            flex-flow: row wrap;
+            background-color: $medium;
+            color: $white;
+            margin-bottom: 1em;
+            border-radius: 0.5em;
+            padding: 0.5em;
+
+            .resume-title {
+                width: 70%;
+                color: $accent-light;
+                font-size: 1.25em;
+                margin: 0;
+            }
+
+            .resume-date {
+                width: 30%;
+                margin: 0;
+            }
+
+            .resume-sub-title,
+            .resume-comments {
+                width: 100%;
+                margin: 0;
+            }
+        }
+    }
+}
+
+
+
+
+@media (max-width: $tablet){
+    .resume-list {
+        max-width: 100%;
+    }
+}
+
 @media (max-width: $phone) {
     .about,
      .about:nth-child(even) {
@@ -78,4 +141,7 @@ h1 {
             text-align: left;
         }
     }
+
+    
 }
+

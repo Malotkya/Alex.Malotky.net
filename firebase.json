@@ -1,25 +1,16 @@
 {
-  "functions": {
-    "ignore": [
-      "node_modules",
-      ".git",
-      "firebase-debug.log",
-      "firebase-debug.*.log"
-    ],
-    "source": "build"
-  },
   "hosting": {
-    "public": "build/public",
+    "public": "public",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
     "rewrites": [
       {
         "source": "**",
-        "function": "app"
+        "destination": "/index.html"
       }
-    ],
-      "ignore": [
-        "firebase.json",
-        "**/.*",
-        "**/node_modules/**"
-      ]
-    }
+    ]
+  }
 }

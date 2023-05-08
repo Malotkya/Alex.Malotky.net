@@ -1,15 +1,11 @@
 {
-  "compilerOptions": {
-    "module": "commonjs",
-    "noImplicitReturns": true,
-    "esModuleInterop": true,
-    "outDir": "build",
-    "sourceMap": true,
-    "strict": true,
-    "target": "es2017"
-  },
-  "compileOnSave": true,
-  "include": [
-    "src"
-  ]
-}
+    "compilerOptions": {
+      "outDir": "./public/",
+      //"noImplicitAny": true,
+      "module": "es6",
+      "target": "es5",
+      "jsx": "react",
+      "allowJs": true,
+      "moduleResolution": "node"
+    }
+  }

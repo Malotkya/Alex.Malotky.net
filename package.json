@@ -1,41 +1,24 @@
 {
-  "name": "functions",
+  "name": "alexmalotky.com",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "build": "node util/bundle.js",
-    "build:watch": "tsc --watch",
-    "clean": "tsc --build --clean",
-    "serve": "firebase serve",
-    "shell": "npm run build && firebase functions:shell",
-    "start": "npm run serve",
-    "deploy": "firebase deploy",
-    "logs": "firebase functions:log"
+    "dev": "npx webpack-cli -d source-map",
+    "build": "npx webpack-cli",
+    "clean": "npx webpack-cli",
+    "test": "npm run dev && firebase serve",
+    "serve": "npm run build && firebase serve",
+    "deploy": "npm run clean && firebase deploy"
   },
-  "engines": {
-    "node": "16"
-  },
-  "main": "bin/index.js",
-  "dependencies": {
-    "debug": "~2.6.9",
-    "ejs": "^3.1.8",
-    "express": "~4.16.1",
-    "firebase-admin": "^10.0.2",
-    "firebase-functions": "^3.23.0",
-    "helmet": "^6.0.0",
-    "http-errors": "~1.6.3",
-    "morgan": "~1.9.1"
-  },
+  "author": "Alex Malotky",
+  "license": "ISC",
   "devDependencies": {
-    "@types/debug": "0.0.30",
-    "@types/ejs": "^3.1.1",
-    "@types/express": "^4.17.13",
-    "@types/helmet": "0.0.43",
-    "@types/http-errors": "^1.8.2",
-    "@types/morgan": "^1.9.3",
-    "@types/node": "^14.18.21",
-    "firebase-functions-test": "^0.2.0",
-    "sass": "^1.54.9",
-    "typescript": "^4.5.4"
-  },
-  "private": true
-, "-vs-binding":{"BeforeBuild":["build"]}
+    "sass": "^1.62.1",
+    "sass-loader": "^13.2.2",
+    "ts-loader": "^9.4.2",
+    "typescript": "^5.0.4",
+    "webpack": "^5.81.0",
+    "webpack-cli": "^5.0.2"
+  }
 }

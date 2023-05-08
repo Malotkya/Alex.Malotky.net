@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "npx webpack-cli -d source-map",
     "build": "npx webpack-cli",
+    "watch": "npx webpack-cli --watch",
     "clean": "npx webpack-cli",
     "test": "npm run dev && firebase serve",
     "serve": "npm run build && firebase serve",

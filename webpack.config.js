@@ -1,11 +1,14 @@
 const path = require('path');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const HtmlMinimizerPlugin = require("html-minimizer-webpack-plugin");
 
 const dev = process.argv.includes('-d');
-const public_directory = path.resolve(__dirname, 'public');
+const build_directory = path.resolve(__dirname, 'build');
+const source_directory = path.resolve(__dirname, "src");
 
 module.exports = {
   mode: dev? "development": "production",
-  entry: './src/index.ts',
+  entry: path.join(source_directory, '/scripts/index.ts'),
   devtool: dev? 'source-map': undefined,
   module: {
     rules: [
@@ -13,14 +16,38 @@ module.exports = {
         test: /\.tsx?$/,
         use: 'ts-loader',
         exclude: /node_modules/
-      },
+      }
     ],
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
   },
   output: {
-    filename: 'app.js',
-    path: public_directory
+    filename: 'script.js',
+    path: build_directory
+  },
+  plugins: [
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          to: build_directory,
+          from: path.join(source_directory, 'static')
+        }
+      ]
+    }),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          to: path.join(build_directory, 'templates'),
+          from: path.join(source_directory, 'views')
+        }
+      ]
+    })
+  ],
+  optimization: {
+    minimize: true,
+    minimizer:[
+      new HtmlMinimizerPlugin()
+    ]
   }
 };

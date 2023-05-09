@@ -1,0 +1,18 @@
+<h2>Resume</h2>
+<aside>
+    <p>
+        This page is an attempt at showing of the render engine.
+    </p>
+</aside>
+<article>
+    <h3>Job History</h3>
+    <ul>
+        {{ jobs.map(j=>include("resume/jobs.html", j)).join("") }}
+    </ul>
+</article>
+<article>
+    <h3>School History</h3>
+    <ul>
+        {{ schools.map(s=>`<li>${JSON.stringify(s)}</li>`).join("") }}
+    </ul>
+</article>

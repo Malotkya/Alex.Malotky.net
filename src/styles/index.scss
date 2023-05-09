@@ -1,148 +1,30 @@
 @import "normalize.scss";
-@import "colorscheme.scss";
-@import "responsive.scss";
 @import "navbar.scss";
+@import "views/resume.scss";
 
-.hidden {
+.skip {
     position: absolute;
-    overflow: hidden;
-    clip: rect(0 0 0 0);
-    height: 1px;
-    width: 1px;
-    margin: -1px;
-    padding: 0;
-    border: 0;
-}
+    left: -999px;
 
-.flex-50 {
-    display: flex;
-    flex-flow: row nowrap;
-
-    .w-50 {
-        width: 50%;
-        height: 50%;
+    &:focus {
+        top: auto;
+        left: auto;
+        right: 1px;
+        z-index: 1;
     }
 }
 
-article {
-    width: 95%;
-    margin: 1em auto;
-    border: 0.25em solid $dark;
-    border-radius: 0.5em;
-    padding: 0.5em;
-}
-
-h1 {
+header {
+    position: sticky;
     width: 100%;
+    top: 0;
+}
+
+main {
+    padding: 0 .2em;
+}
+
+h2{
     text-align: center;
-}
-
-.about {
-    display: grid;
-    grid-template-columns: auto 30%;
-    grid-template-rows: 4em auto;
-    grid-template-areas: 'header figure'
-                         'p figure';
-    text-align: right;
-
-    &:nth-child(even){
-        grid-template-columns: 30% auto;
-        grid-template-areas: 'figure header'
-                             'figure p';
-        text-align: left;
-    }
-
-    h2{
-        grid-area: header;
-        margin: 0;
-        font-size: 2em;
-        padding: .5em;
-    }
-
-    p {
-       grid-area: p;
-       margin: 0;
-       padding: 1em;
-   }
-
-   figure{
-       grid-area: figure;
-       margin: 0;
-   }
-}
-
-
-.resume-main {
-    display: flex;
-
-    .resume-list {
-        width: 50%;
-
-        h2 {
-            text-align: center;
-        }
-
-        .resume-card {
-            width: 80%;
-            margin-left: auto;
-            margin-right: auto;
-            display: flex;
-            flex-flow: row wrap;
-            background-color: $medium;
-            color: $white;
-            margin-bottom: 1em;
-            border-radius: 0.5em;
-            padding: 0.5em;
-        
-
-            .resume-title {
-                width: 70%;
-                color: $accent-light;
-                font-size: 1.25em;
-                margin: 0;
-            }
-
-            .resume-date {
-                width: 30%;
-                margin: 0;
-            }
-
-            .resume-sub-title,
-            .resume-comments {
-                width: 100%;
-                margin: 0;
-            }
-        }
-    }
-}
-
-
-
-
-@media (max-width: $tablet){
-    .resume-list {
-        max-width: 100%;
-    }
-}
-
-@media (max-width: $phone) {
-    .about,
-     .about:nth-child(even) {
-        grid-template-areas: 'header' 'figure' 'p';
-        grid-template-rows: 4em auto auto;
-        grid-template-columns: 100%;
-    }
-
-    .about{
-        h2 {
-            text-align: center;
-        }
-
-        p {
-            text-align: left;
-        }
-    }
-
-    
 }
 

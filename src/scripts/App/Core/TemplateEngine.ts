@@ -9,6 +9,11 @@
 const TEMPLATE_REGEX = /{{(.*?)}}/gm
 const TEMPLATE_DIRECTORY = "templates/"
 
+const FUNCTIONS = {
+    include: templateEngine,
+    forEach: forEach
+}
+
 /** Syncrous Template Engine 
  * 
  * Should only be wrapped in a promise.
@@ -68,10 +73,33 @@ export function compile(buffer: Array<string>, args?: any): string{
         args = {};
         
     const string = buffer.join("");
-    const names =  Object.keys(args);
-    const vals = Object.values(args);
 
-    return new Function('include', ...names, `return \`${string}\`;`)(templateEngine, ...vals);
+    const objectNames =  Object.keys(args);
+    const objectValues = Object.values(args);
+
+    const functionNames = Object.keys(FUNCTIONS);
+    const functionValues = Object.values(FUNCTIONS);
+
+    while (true){
+        try {
+            return new Function(...functionNames, ...objectNames,
+                `return \`${string}\`;`)(...functionValues, ...objectValues);
+
+        } catch(error){
+            if(typeof error.message === "string"){
+                const index = error.message.indexOf(" is not defined");
+                if(index > 0){
+                    objectNames.push(error.message.substring(0, index));
+                    objectValues.push("undefined");
+                } else {
+                    throw error;
+                }
+            } else {
+                throw error;
+            }
+        }
+    }
+    
 }
 
 /** Get File (Syncronus)
@@ -88,4 +116,19 @@ function getFile(filename: string): String{
         throw new Error("Unable to load file: " + request.statusText);
 
     return new String(request.response);
+}
+
+function forEach(arr:Array<any>, loopCallback:(value:any, index:string)=>string, emptyCallback:()=>string){
+    
+    if(arr.length === 0){
+        if(emptyCallback)
+            return emptyCallback();
+        return "";
+    }
+
+    let buffer: string = "";
+    for(let i in arr)
+        buffer += loopCallback(arr[i], i);
+
+    return buffer;
 }

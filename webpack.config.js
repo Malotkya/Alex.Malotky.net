@@ -1,13 +1,25 @@
 const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlMinimizerPlugin = require("html-minimizer-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin")
 
-const dev = process.argv.includes('-d');
+//directories used multiple times
 const build_directory = path.resolve(__dirname, 'build');
 const source_directory = path.resolve(__dirname, "src");
 
+//test if in dev environment
+const dev = process.argv.includes('-d');
+
+//create minify requirements if in dev
+const minify = dev? {
+  minimize: true,
+  minimizer:[
+    new HtmlMinimizerPlugin(),
+    new CssMinimizerPlugin()
+  ]
+} : undefined;
+
+//export config
 module.exports = {
   mode: dev? "development": "production",
   entry: [
@@ -40,7 +52,8 @@ module.exports = {
   },
   output: {
     filename: 'script.js',
-    path: build_directory
+    path: build_directory,
+    clean: !dev
   },
   plugins: [
     new CopyWebpackPlugin({
@@ -61,11 +74,5 @@ module.exports = {
     }),
     
   ],
-  optimization: {
-    minimize: true,
-    minimizer:[
-      new HtmlMinimizerPlugin(),
-      new CssMinimizerPlugin()
-    ]
-  }
+  optimization: minify
 };

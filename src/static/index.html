@@ -1,13 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" dir="ltr">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width-defice-width, initial-scale-1.0">
+        <link rel="stylesheet" href="style.css">
+        <meta name="description" content="Portfolio website for Alex Malotky.">
+        <meta name="author" content="Alex Malotky">
         <title>Alex Malotky.com</title>
     </head>
     <body>
         <header>
-            <a class="hidden">Skip Link</a>
+            <a class="hidden" href="#main">Skip Link</a>
             <nav id="top-nav-bar">
                 <a id="top-nav-title" class="top-nav-item" href="/">AlexMalotky.com</a>
                 <button id="top-nav-button">
@@ -15,11 +18,23 @@
                     <div></div>
                     <div></div>
                 </button>
-                <ul id="top-nav-menu"></ul>
+                <ul id="top-nav-menu">
+                    <!-- NavBar class will populate this list -->
+                </ul>
             </nav>
         </header>
-        <main></main>
-        <footer></footer>
+        <main id="main">
+            <!-- Main content will be rendered here -->
+        </main>
+        <footer>
+            <strong>Where to find me:</strong>
+            <a href="https://github.com/Malotkya">
+                <img src="/media/github.svg" alt="GitHub" class="icon"/>
+            </a>
+            <a href="https://www.linkedin.com/in/amalotky/">
+                <img src="/media/linkedin.svg" alt="LinkedIn" class="icon"/>
+            </a>
+        </footer>
     </body>
     <script src="script.js"></script>
 </html>

@@ -7,7 +7,7 @@
 <article>
     <h3>Job History</h3>
     <ul>
-        {{ jobs.map(j=>include("resume/jobs.html", j)).join("") }}
+        {{ forEach(jobs, j=>include("resume/jobs.html", j)) }}
     </ul>
 </article>
 <article>

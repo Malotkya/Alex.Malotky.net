@@ -24,7 +24,7 @@ module.exports = {
   mode: dev? "development": "production",
   entry: [
     path.join(source_directory, 'scripts', 'index.ts'),
-    path.join(source_directory, 'styles', 'main.scss')
+    path.join(source_directory, 'styles', 'index.scss')
   ],
   devtool: dev? 'source-map': undefined,
   module: {

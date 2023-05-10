@@ -5,12 +5,8 @@ import {render, execute} from "./App";
  * 
  * @author Alex Malotky
  */
-export const Home = new Router("/", "", "");
+export const Home = new Router("/", "Home", "");
 
-Home.onLoad(()=>{
-    return render("home.html");
-});
+Home.onLoad(()=>render("home.html"));
 
-Home.onConnected(()=>{
-    return execute("home.js");
-});
+Home.onConnected(()=>execute("home.js"));

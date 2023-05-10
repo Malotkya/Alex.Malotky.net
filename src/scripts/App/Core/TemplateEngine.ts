@@ -105,7 +105,12 @@ function getFile(filename: string): String{
     if(request.status !== 200)
         throw new Error("Unable to load file: " + request.statusText);
 
-    return new String(request.response);
+    const response = new String(request.response);
+
+    if(response.match("<!DOCTYPE html>"))
+        throw new Error(`Unable to find: '${filename}'`);
+
+    return response;
 }
 
 function forEach(arr:Array<any>, loopCallback:(value:any, index:string)=>string, emptyCallback:()=>string){

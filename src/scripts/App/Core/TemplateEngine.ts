@@ -7,11 +7,17 @@
 
 //Constants used by file
 const TEMPLATE_REGEX = /{{(.*?)}}/gm
+const SYMBOLS_REGEX = /(?<=[\s{(,])[\w_$]+?(?=[\s?:}),=])/gm
 const TEMPLATE_DIRECTORY = "templates/"
 
 const FUNCTIONS = {
     include: templateEngine,
     forEach: forEach
+}
+
+interface Template{
+    buffer: Array<string>
+    expectations: Array<string>
 }
 
 /** Syncrous Template Engine 
@@ -23,9 +29,9 @@ const FUNCTIONS = {
  * @returns {string}
  */
 export default function templateEngine(filename: string, args?: any): string{
-    const html = getFile(filename);
-    const buffer = split(html.toString());
-    return compile(buffer, args);
+    const template = split(getFile(filename).toString());
+    const symbols = Object.fromEntries(template.expectations.map(k => [k, null]));
+    return compile(template.buffer, {...symbols, ...args});
 }
 
 /** Split String
@@ -33,16 +39,18 @@ export default function templateEngine(filename: string, args?: any): string{
  * Splits the string into seperate componenets and escapes special characters.
  * 
  * @param {string} template 
- * @returns {Array<string>}
+ * @returns {Template}
  */
-export function split(template: string): Array<string>{
+export function split(template: string): Template{
     if(typeof template !== "string")
         throw new Error("Template must be a string!");
 
+    const buffer: Array<string> = [];
+    let expected: Array<string> = [];
+
     let escapes = template.match(TEMPLATE_REGEX);
     if(escapes) {
-        const buffer = [];
-
+        
         for(let e of escapes){
             let index = template.indexOf(e);
             if(index > 0){
@@ -51,15 +59,20 @@ export function split(template: string): Array<string>{
                 template = template.slice(index + e.length);
             }
             buffer.push(e.replace(TEMPLATE_REGEX, "${$1}"));
+            expected = expected.concat(e.match(SYMBOLS_REGEX));
         }
 
         if(template)
             buffer.push(template);
 
-        return buffer;
+    } else {
+        buffer.push(template);
     }
 
-    return [template];
+    return {
+        buffer: buffer,
+        expectations: expected
+    };
 }
 
 /** Complie back into String
@@ -69,36 +82,14 @@ export function split(template: string): Array<string>{
  * @returns {string}
  */
 export function compile(buffer: Array<string>, args?: any): string{
-    if(typeof args === "undefined")
-        args = {};
-        
-    const string = buffer.join("");
+    args = {...args, ...FUNCTIONS};
 
     let names =  Object.keys(args);
     let values = Object.values(args);
 
-    names = names.concat(Object.keys(FUNCTIONS));
-    values = values.concat(Object.values(FUNCTIONS));
+    const string = buffer.join("");
 
-    while (true){
-        try {
-            return new Function(...names, `return \`${string}\`;`)(...values);
-
-        } catch(error){
-            if(typeof error.message === "string"){
-                const index = error.message.indexOf(" is not defined");
-                if(index > 0){
-                    names.push(error.message.substring(0, index));
-                    values.push("undefined");
-                } else {
-                    throw error;
-                }
-            } else {
-                throw error;
-            }
-        }
-    }
-    
+    return new Function(...names, `return \`${string}\`;`)(...values);
 }
 
 /** Get File (Syncronus)

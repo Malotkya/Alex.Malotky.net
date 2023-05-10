@@ -1,7 +1,9 @@
 <section class="resume-card">
-    <h4 class="resume-title">{{ title }}</h4>
+    <h3 class="resume-title">{{ title }}</h3>
     <p class="resume-date">
-        {{ startDate }} - {{ endDate }}
+        {{ startDate }}
+        -
+        {{ endDate? endDate: "current"}}
     </p>
     <p class="resume-sub-title">{{ employer }}</p>
     <hr>

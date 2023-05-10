@@ -10,6 +10,8 @@ import Router from "../Router";
 export default class App_Base{
     private _ready: Function;
     protected _routes: Array<Router>
+    private _defaultTitle: string;
+    private _defaultContent: string;
 
     //HTML elements
     private _title: HTMLElement;
@@ -42,10 +44,10 @@ export default class App_Base{
         let r = this._getRouter(location);
 
         if(this._description)
-            this._description.setAttribute("content", r.description);
+            this._description.setAttribute("content", r.description !== ""? r.description: this._defaultContent);
 
         if(this._title)
-            this._title.textContent = r.title;
+            this._title.textContent = (r.title !== ""? r.title + " | ": "") + this._defaultTitle;
 
         if(this._script)
             document.body.removeChild(this._script);
@@ -104,6 +106,9 @@ export default class App_Base{
         this._title = document.querySelector("title");
         this._target = document.querySelector("main");
         this._description = document.querySelector("meta[name='description'");
+
+        this._defaultTitle = this._title.textContent;
+        this._defaultContent = this._description.getAttribute("content");
 
         this._handler();
 

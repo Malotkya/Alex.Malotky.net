@@ -1,4 +1,4 @@
-<h2>Resume</h2>
+<h1>Resume</h1>
 <aside>
     <p>
         This page is an attempt at showing of the render engine.
@@ -13,6 +13,6 @@
 <article>
     <h3>School History</h3>
     <ul>
-        {{ schools.map(s=>`<li>${JSON.stringify(s)}</li>`).join("") }}
+        {{ forEach(schools, s=>include("resume/school.html", s)) }}
     </ul>
 </article>

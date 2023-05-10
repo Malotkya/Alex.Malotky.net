@@ -62,7 +62,7 @@ export default class App_Base{
             }).catch(console.error);
             
         }).catch( error=>{
-            this._target.innerHTML = `<h2>${error.message || "An unknown error occured!"}</h2>`;
+            this._target.innerHTML = makeErrorMessage(error);
             console.error(error);
         });
     }
@@ -95,7 +95,7 @@ export default class App_Base{
         }
 
         let fourzerofour = new Content("404", "");
-        fourzerofour.set("<h2>Unable to find: " + url + "</h2>");
+        fourzerofour.set(makeErrorMessage(`Unable to find '${url}'`, 404));
         return fourzerofour;
     }
 
@@ -123,4 +123,26 @@ export default class App_Base{
     onReady(callback: Function){
         this._ready = callback;
     }
+}
+
+/** Make Error Message
+ * 
+ * Prints easy to read error message for html page.
+ * 
+ * @param {any|string} error 
+ * @param {string|number} code?
+ * @returns {string}
+ */
+function makeErrorMessage(error: any|string, code?: string|number): string{
+    let message: string;
+    if(typeof error === "string"){
+        message = error;
+    } else {
+        message = error.message || "An unknown error occured!";
+    }
+
+    if(typeof code === "undefined")
+        code = "Error"
+    
+    return `<h1 class="error">${code}: ${message}</h1>`;
 }

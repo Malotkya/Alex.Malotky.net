@@ -6,7 +6,7 @@ import Content from "./Core/Content"
  */
 export default class Router extends Content{
     private _route: string;
-    private _render: ()=>Promise<string>;
+    private _render: ()=>Promise<string>|string;
     private _execute: ()=>Promise<any>;
 
     constructor(route: string, title: string, description:string){
@@ -28,7 +28,7 @@ export default class Router extends Content{
      * 
      * @param {Function} callback 
      */
-    onLoad(callback:()=>Promise<string>){
+    onLoad(callback:()=>Promise<string>|string){
         this._render = callback;
     }
 
@@ -47,10 +47,14 @@ export default class Router extends Content{
      */
     get html(): Promise<string>{
         return new Promise( (resolve, reject)=>{
-            if(this._render)
-                this._render().then(resolve).catch(reject);
-            else
+            if(this._render) {
+                const p = this._render();
+                if(p instanceof Promise)
+                    p.then(resolve).catch(reject);
+                resolve(p);
+            } else {
                 resolve(this._string);
+            }
         });
     }
 

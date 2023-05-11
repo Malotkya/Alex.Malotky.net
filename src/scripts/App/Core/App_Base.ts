@@ -49,8 +49,14 @@ export default class App_Base{
         if(this._title)
             this._title.textContent = (r.title !== ""? r.title + " | ": "") + this._defaultTitle;
 
-        if(this._script)
-            document.body.removeChild(this._script);
+        if(this._script) {
+            try {
+                document.body.removeChild(this._script);
+            } catch(e){
+                this._script = undefined;
+            }
+        }
+            
     
         r.html.then(content=>{
             this._target.innerHTML = content;

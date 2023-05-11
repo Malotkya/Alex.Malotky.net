@@ -1,7 +1,3 @@
-{%
-    if(typeof bad === "undefined")
-        console.log("It works!");
-%}
 <h1>Resume</h1>
 <aside>
     <p>
@@ -9,7 +5,7 @@
     </p>
 </aside>
 <article>
-    <h3>Job History</h3>
+    <h2>Job History:</h2>
     <section>
         {% for(let j of jobs){ %}
             {{ include("resume/job.html", j) }}
@@ -17,8 +13,14 @@
     </section>
 </article>
 <article>
-    <h3>School History</h3>
+    <h2>School History:</h2>
     <section>
         {{ forEach(schools, s=>include("resume/school.html", s)) }}
     </section>
+</article>
+<article>
+    <h2>Skills:</h2>
+    <ul>
+    {{ forEach(skills, undefined, ()=>"<li>Alex doesn't have any skills!</li>") }}
+    </ul>
 </article>

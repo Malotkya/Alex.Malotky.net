@@ -1,5 +1,5 @@
 import Router from "./App/Router";
-import {render, execute} from "./App";
+import {render} from "./App";
 
 /** Resume Router
  * 
@@ -35,9 +35,13 @@ Resume.onLoad(()=>{
             startDate: "May, 2018"
         }
     ];
+    const skills = [
+        /* Coming Soon */
+    ]
 
     return render("resume.html", {
         schools: schooling,
-        jobs: work
+        jobs: work,
+        skills: skills
     });
 });

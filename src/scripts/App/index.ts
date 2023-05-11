@@ -1,5 +1,5 @@
 import App_Base from "./Core/App_Base";
-import NavBar from "./Core/NavBar";
+import NavBar from "./NavBar";
 import Router from "./Router";
 import templateEngine from "./Core/TemplateEngine";
 

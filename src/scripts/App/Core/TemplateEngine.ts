@@ -131,7 +131,7 @@ function getFile(filename: string): String{
     const response = new String(request.response);
 
     if(response.match("<!DOCTYPE html>"))
-        throw new Error(`Unable to find: '${filename}'`);
+        throw new Error(`Unable to find '${filename}'`);
 
     return response;
 }

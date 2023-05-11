@@ -15,20 +15,25 @@
         
 
     .resume-title {
-        width: 70%;
         color: $accent-light;
         font-size: 1.25em;
         margin: 0;
+        flex: 1;
     }
 
     .resume-date {
-        width: 30%;
         margin: 0;
+        text-align: right;
     }
+
 
     .resume-sub-title,
     .resume-comments {
         width: 100%;
         margin: 0;
+    }
+
+    .resume-comments {
+        border-top: 3px solid $white;
     }
 }

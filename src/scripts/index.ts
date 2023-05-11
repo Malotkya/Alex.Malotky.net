@@ -1,7 +1,7 @@
 import App from "./App";
-import {Home} from "./Home";
-import {Resume} from "./Resume";
-import {Portfolio} from "./Portfolio";
+import {Home} from "./Routes/Home";
+import {Resume} from "./Routes/Resume";
+import {Portfolio} from "./Routes/Portfolio";
 
 const app = new App();
 

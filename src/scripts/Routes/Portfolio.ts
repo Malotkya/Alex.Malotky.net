@@ -1,5 +1,5 @@
-import Router from "./App/Router";
-import {render} from "./App";
+import Router from "../App/Router";
+import {render} from "../App";
 
 /** Portfolio Router
  * 

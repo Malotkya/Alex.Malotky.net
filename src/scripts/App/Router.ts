@@ -17,9 +17,9 @@ export default class Router extends Content{
         } else {
             throw new Error("Title must be a string!");
         }
-
+        
         //easier to make execute return nothing!
-        this._execute = () => new Promise((res, rej)=> res(undefined));
+        this._execute = () => undefined;
     }
 
     /** On Load Event Callback
@@ -46,23 +46,17 @@ export default class Router extends Content{
      * 
      */
     get html(): Promise<string>{
-        return new Promise( (resolve, reject)=>{
-            if(this._render) {
-                const p = this._render();
-                if(p instanceof Promise)
-                    p.then(resolve).catch(reject);
-                resolve(p);
-            } else {
-                resolve(this._string);
-            }
-        });
+        if(this._render)
+            return convertToPromise(this._render())
+        else
+            return convertToPromise(this._string);
     }
 
     /** Get Javascript
      * 
      */
-    get js(): Promise<HTMLElement>{
-        return this._execute();
+    get js(): Promise<any>{
+        return convertToPromise(this._execute());
     }
 
     /** Checks if the route matches the url
@@ -86,4 +80,13 @@ export default class Router extends Content{
     get href(){
         return this._route;
     }
+}
+
+function convertToPromise(value: any){
+    if(value instanceof Promise)
+        return value;
+
+    return new Promise((res,rej)=>{
+        res(value);
+    })
 }

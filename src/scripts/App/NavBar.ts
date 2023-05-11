@@ -6,15 +6,45 @@ import Router from "./Router";
  */
 export default class NavBar{
     private _list: HTMLElement;
+    private _home: HTMLElement;
 
     /** Constructor w/ selector string.
      * 
-     * @param {string} target 
+     * @param {string} id 
      */
-    constructor(target: string){
-        this._list = document.querySelector(target);
-        if(typeof this._list === "undefined")
+    constructor(id: string){
+        let target = document.querySelector(id);
+
+        if(typeof target === "undefined")
             throw new Error("Unable to find NavBar!");
+
+        this._list = target.querySelector("#top-nav-menu");
+        this._home = target.querySelector("#top-nav-title");
+
+        if(typeof this._list === "undefined") {
+            throw new Error("Unable to find nav list!");
+        }
+
+        if(typeof this._home === "undefined") {
+            throw new Error("Unable to find nav title!");
+        }
+
+        let button = target.querySelector("#top-nav-button");
+        if(button){
+            button.addEventListener("click", ()=>{
+               if(this._list.style.display){
+                    this._list.style.display = "";
+               } else {
+                    this._list.style.display = "flex";
+               }
+            })
+        } else {
+            throw new Error("Unable to find nav button!");
+        }
+
+        document.addEventListener("click", event=>{
+            this._list.style.display = "";
+        });
     }
 
     /** Routeing Event Listener Callback
@@ -24,10 +54,14 @@ export default class NavBar{
      * @param {EventListener} callback 
      */
     routeEvent(callback: EventListener){
-        this._list.addEventListener("click", callback);
-        let title = document.querySelector("#top-nav-title");
-        if(title)
-            title.addEventListener("click", callback);
+        this._home.addEventListener("click", event=>{
+            this._list.style.display = "";
+            callback(event)
+        });
+        this._list.addEventListener("click", event=>{
+            this._list.style.display = "";
+            callback(event);
+        });
     }
 
     /** Add link to router in navigation bar.

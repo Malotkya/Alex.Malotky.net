@@ -14,7 +14,7 @@ export default class App extends App_Base {
         //Dirty trick for typscript
         super(window);
 
-        this._navbar = new NavBar("#top-nav-menu");
+        this._navbar = new NavBar("#top-nav-bar");
         this._navbar.routeEvent(event=>this._route(event));
     }
 

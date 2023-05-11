@@ -1,3 +1,7 @@
+{%
+    if(typeof bad === "undefined")
+        console.log("It works!");
+%}
 <h1>Resume</h1>
 <aside>
     <p>
@@ -7,7 +11,9 @@
 <article>
     <h3>Job History</h3>
     <section>
-        {{ forEach(jobs, j=>include("resume/jobs.html", j)) }}
+        {% for(let j of jobs){ %}
+            {{ include("resume/job.html", j) }}
+        {% } %}
     </section>
 </article>
 <article>

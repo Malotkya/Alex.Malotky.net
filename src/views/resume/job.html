@@ -1,0 +1,13 @@
+{%
+    if(typeof endDate === "undefined")
+        endDate = "Current";
+%}
+<section class="resume-card">
+    <h3 class="resume-title">{{ title }}</h3>
+    <p class="resume-date">
+        {{ startDate }}
+        -
+        {{ endDate }}
+    </p>
+    <p class="resume-sub-title">{{ employer }}</p>
+</section>

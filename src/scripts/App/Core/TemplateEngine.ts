@@ -5,19 +5,16 @@
  * @author Alex Malotky
  */
 
-//Constants used by file
-const TEMPLATE_REGEX = /{{(.*?)}}/gm
+//Regex thanks to (Regex101.com)
+const TEMPLATE_CODE_REGEX = /{%(.*?)%}/gm
+const TEMPLATE_STRING_REGEX = /{{(.*?)}}/gm
 const SYMBOLS_REGEX = /(?<=[\s{(,])[\w_$]+?(?=[\s?:}),=])/gm
-const TEMPLATE_DIRECTORY = "templates/"
 
-const FUNCTIONS = {
+//Other constants
+const TEMPLATE_DIRECTORY = "templates/"
+const INCLUDED_FUNCTIONS = {
     include: templateEngine,
     forEach: forEach
-}
-
-interface Template{
-    buffer: Array<string>
-    expectations: Array<string>
 }
 
 /** Syncrous Template Engine 
@@ -29,26 +26,61 @@ interface Template{
  * @returns {string}
  */
 export default function templateEngine(filename: string, args?: any): string{
-    const template = split(getFile(filename).toString());
-    const symbols = Object.fromEntries(template.expectations.map(k => [k, null]));
-    return compile(template.buffer, {...symbols, ...args});
+    const instructions = createTemplateInstructions(getFile(filename).toString());
+    return compileTemplateInstructions(instructions, args );
 }
 
-/** Split String
+/** Create Template Instructions
+ * 
+ * Splits the string into instructions that can be executed line by line.
+ * 
+ * @param {string} template 
+ * @returns {TemplateString}
+ */
+export function createTemplateInstructions(template: string): Array<string>{
+    if(typeof template !== "string")
+        throw new Error("Template must be a string!");
+
+    const instructions: Array<string> = [];
+    instructions.push("let output = '';")
+
+    let escapes = template.match(TEMPLATE_CODE_REGEX);
+    if(escapes) {
+
+        for(let e of escapes){
+            let index = template.indexOf(e);
+            if(index > 0){
+                let temp = convertToTemplateString(template.substring(0, index));
+                instructions.push(`output += \`${temp}\`;`);
+            }
+            instructions.push(e.substring(2, e.length-2));
+            template = template.slice(index+e.length);
+        }
+
+    }
+
+    let temp = convertToTemplateString(template);
+    instructions.push(`output += \`${temp}\`;`);
+
+    instructions.push("return output;");
+
+    return instructions;
+}
+
+/** Convert To Template String
  * 
  * Splits the string into seperate componenets and escapes special characters.
  * 
  * @param {string} template 
- * @returns {Template}
+ * @returns {TemplateString}
  */
-export function split(template: string): Template{
+export function convertToTemplateString(template: string): string{
     if(typeof template !== "string")
         throw new Error("Template must be a string!");
 
     const buffer: Array<string> = [];
-    let expected: Array<string> = [];
 
-    let escapes = template.match(TEMPLATE_REGEX);
+    let escapes = template.match(TEMPLATE_STRING_REGEX);
     if(escapes) {
         
         for(let e of escapes){
@@ -56,23 +88,16 @@ export function split(template: string): Template{
             if(index > 0){
                 let temp = template.substring(0, index);
                 buffer.push(temp.replace("`", "\`"));
-                template = template.slice(index + e.length);
             }
-            buffer.push(e.replace(TEMPLATE_REGEX, "${$1}"));
-            expected = expected.concat(e.match(SYMBOLS_REGEX));
+            buffer.push(e.replace(TEMPLATE_STRING_REGEX, "${$1}"));
+
+            template = template.slice(index + e.length);
         }
-
-        if(template)
-            buffer.push(template);
-
-    } else {
-        buffer.push(template);
     }
 
-    return {
-        buffer: buffer,
-        expectations: expected
-    };
+    buffer.push(template);
+
+    return buffer.join("");
 }
 
 /** Complie back into String
@@ -81,15 +106,13 @@ export function split(template: string): Template{
  * @param {any} args 
  * @returns {string}
  */
-export function compile(buffer: Array<string>, args?: any): string{
-    args = {...args, ...FUNCTIONS};
+export function compileTemplateInstructions(instructions: Array<string>, args?: any): string{
+    args = {...args, ...INCLUDED_FUNCTIONS};
 
     let names =  Object.keys(args);
     let values = Object.values(args);
 
-    const string = buffer.join("");
-
-    return new Function(...names, `return \`${string}\`;`)(...values);
+    return new Function(...names, instructions.join("\n"))(...values);
 }
 
 /** Get File (Syncronus)
@@ -114,7 +137,6 @@ function getFile(filename: string): String{
 }
 
 function forEach(arr:Array<any>, loopCallback:(value:any, index:string)=>string, emptyCallback:()=>string){
-    
     if(arr.length === 0){
         if(emptyCallback)
             return emptyCallback();

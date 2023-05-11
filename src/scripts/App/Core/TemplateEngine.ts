@@ -136,8 +136,18 @@ function getFile(filename: string): String{
     return response;
 }
 
-function forEach(arr:Array<any>, loopCallback:(value:any, index:string)=>string, emptyCallback:()=>string){
-    if(arr.length === 0){
+/** For Each (outdated)
+ * 
+ * Loop function used within templates to print objects found with the array.
+ * Includes a callback to print to template if array is empty.
+ * 
+ * @param {Array<any>} arr 
+ * @param {(any,string)=>string} loopCallback 
+ * @param {()=>string} emptyCallback 
+ * @returns {string}
+ */
+function forEach(arr:Array<any>, loopCallback:(value:any, index:string)=>string, emptyCallback:()=>string): string{
+    if(arr && arr.length === 0){
         if(emptyCallback)
             return emptyCallback();
         return "";

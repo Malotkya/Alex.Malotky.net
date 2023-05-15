@@ -1,10 +1,6 @@
 @import "colors.scss";
 @import "responsive.scss";
 
-%force-flex {
-    display: flex !important;
-}
-
 #top-nav-bar {
     background-color: $dark;
     color: $white;
@@ -70,5 +66,19 @@
         height: 5px;
         background-color: $white;
         margin: 6px;
+    }
+}
+
+@media (min-width: $tablet){
+    #top-nav-bar{
+        flex-wrap: nowrap;
+        
+        #top-nav-button{
+            display: none;
+        }
+    
+        #top-nav-menu{
+            display: flex;
+        }
     }
 }

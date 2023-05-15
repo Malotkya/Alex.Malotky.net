@@ -8,13 +8,13 @@
 //Regex thanks to (Regex101.com)
 const TEMPLATE_CODE_REGEX = /{%(.*?)%}/gm
 const TEMPLATE_STRING_REGEX = /{{(.*?)}}/gm
-const SYMBOLS_REGEX = /(?<=[\s{(,])[\w_$]+?(?=[\s?:}),=])/gm
 
 //Other constants
 const TEMPLATE_DIRECTORY = "templates/"
 const INCLUDED_FUNCTIONS = {
     include: templateEngine,
-    forEach: forEach
+    forEach: forEach,
+    formatDate: formatDate
 }
 
 /** Syncrous Template Engine 
@@ -158,4 +158,85 @@ function forEach(arr:Array<any>, loopCallback:(value:any, index:string)=>string,
         buffer += loopCallback(arr[i], i);
 
     return buffer;
+}
+
+const LONG_MONTH = [
+    "January",
+    "Febuary",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+];
+
+const SHORT_MONTH = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "June",
+    "July",
+    "Aug",
+    "Sept",
+    "Oct",
+    "Nov",
+    "Dec"
+]
+
+const LONG_DAY = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Tursday",
+    "Friday",
+    "Saturday"
+]
+
+const SHORT_DAY = [
+    "Sun",
+    "Mon",
+    "Tue",
+    "Wend",
+    "Thur",
+    "Fri",
+    "Sat"
+]
+
+interface firebaseDate{
+    toDate: ()=>Date
+}
+
+function formatDate(date: firebaseDate|Date, format: string){
+    if(!(date instanceof Date))
+        date = date.toDate();
+
+    return format
+        //Year
+        .replace("%Y", date.getFullYear().toString())
+        .replace("%y", date.getFullYear().toString().substring(2))
+
+        //Month
+        .replace("%M-d", date.getMonth().toString())
+        .replace("%M", LONG_MONTH[date.getMonth()])
+        .replace("%m", SHORT_MONTH[date.getMonth()])
+
+        //Day/Date
+        .replace("%D", date.getDate().toString())
+        .replace("%W", LONG_DAY[date.getDay()])
+        .replace("%w", SHORT_DAY[date.getDay()])
+
+        //Time
+        .replace("%H", date.getHours().toString())
+        .replace("%h", (((date.getHours()-1)%12)+1).toString() )
+        .replace("%N", date.getMinutes().toString())
+        .replace("%S", date.getSeconds().toString())
+        .replace("%s", date.getMilliseconds().toString());
 }

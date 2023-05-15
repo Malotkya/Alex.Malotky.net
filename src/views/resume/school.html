@@ -1,5 +1,12 @@
+{%
+    if(typeof graduated === "undefined"){
+        graduated = "Current";
+    } else {
+        graduated = formatDate(graduated, "%m, %Y");
+    }
+%}
 <section class="resume-card">
-    <h3 class="resume-title">{{schoolName}}</h3>
+    <h3 class="resume-title">{{name}}</h3>
     <p class="resume-date">{{graduated}}</p>
     <p class="resume-sub-title">{{degree}}</p>
 </section>

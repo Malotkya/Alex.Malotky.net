@@ -1,4 +1,5 @@
 import Router from "../App/Router";
+import Database, {firebaseConfig} from "../App/Database";
 import {render} from "../App";
 
 /** Resume Router
@@ -6,9 +7,14 @@ import {render} from "../App";
  * @author Alex Malotky
  */
 export const Resume = new Router("/Resume", "Resume", "Alex's resume and other skills.");
+const database = new Database();
 
-Resume.onLoad(()=>{
+Resume.onLoad(async()=>{
 
+    let results = await database.resume();
+    if(results.unknown.length > 0)
+        console.warn("Unknown results found:\n" + JSON.stringify(results.unknown, null, 2));
+    
     // Imitating database results to show template rendering functionality.
     const schooling = [
         {
@@ -39,9 +45,5 @@ Resume.onLoad(()=>{
         /* Coming Soon */
     ]
 
-    return render("resume.html", {
-        schools: schooling,
-        jobs: work,
-        skills: skills
-    });
+    return render("resume.html", results);
 });

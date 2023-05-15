@@ -1,26 +1,21 @@
 <h1>Resume</h1>
-<aside>
-    <p>
-        This page is an attempt at showing of the render engine.
-    </p>
-</aside>
 <article>
     <h2>Job History:</h2>
-    <section>
+    <ul class="resume-card-list">
         {% for(let j of jobs){ %}
             {{ include("resume/job.html", j) }}
         {% } %}
-    </section>
+    </ul>
 </article>
 <article>
     <h2>School History:</h2>
-    <section>
+    <ul class="resume-card-list">
         {{ forEach(schools, s=>include("resume/school.html", s)) }}
-    </section>
+    </ul>
 </article>
 <article>
     <h2>Skills:</h2>
-    <ul>
-    {{ forEach(skills, undefined, ()=>"<li>Alex doesn't have any skills!</li>") }}
+    <ul class="resume-card-list">
+        {{ forEach(skills, s=>include("resume/skill.html", s), "<p>Alex has no skills!</p>")}}
     </ul>
 </article>

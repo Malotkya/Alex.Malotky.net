@@ -1,0 +1,12 @@
+{%
+    if(typeof list === "undefined")
+        list = [];
+%}
+<li class="resume-card">
+    <h3 class="resume-title">{{name}}</h3>
+    <ul class="resume-sub-title">
+        {% for(let i of list){ %}
+            <li>{{ i }}</li>
+        {% } %}
+    </ul>
+</li>

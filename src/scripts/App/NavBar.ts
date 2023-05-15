@@ -31,7 +31,8 @@ export default class NavBar{
 
         let button = target.querySelector("#top-nav-button");
         if(button){
-            button.addEventListener("click", ()=>{
+            button.addEventListener("click", event=>{
+                event.stopPropagation();
                if(this._list.style.display){
                     this._list.style.display = "";
                } else {

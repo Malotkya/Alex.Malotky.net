@@ -1,18 +1,24 @@
 @import "../colors.scss";
 @import "../responsive.scss";
 
+.resume-card-list{
+    padding: 0;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+    width: 100%;
+}
+
 .resume-card {
-    width: 80%;
-    margin-left: auto;
-    margin-right: auto;
+    max-width: 300px;
     display: flex;
     flex-flow: row wrap;
     background-color: $medium;
+    list-style-type: none;
     color: $white;
     margin-bottom: 1em;
     border-radius: 0.5em;
     padding: 0.5em;
-        
 
     .resume-title {
         color: $accent-light;
@@ -26,7 +32,6 @@
         text-align: right;
     }
 
-
     .resume-sub-title,
     .resume-comments {
         width: 100%;
@@ -37,3 +42,11 @@
         border-top: 3px solid $white;
     }
 }
+
+@media (min-width: 850px){
+    .resume-card {
+        max-width: 400px;
+        width: 400px;
+    }
+}
+

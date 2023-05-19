@@ -2,6 +2,7 @@
 @import "normalize.scss";
 @import "app/navbar.scss";
 @import "views/resume.scss";
+@import "views/portfolio.scss";
 
 .skip {
     position: absolute;
@@ -33,3 +34,11 @@ h1{
     color: red !important;
 }
 
+footer{
+    text-align: center;
+    
+    .icon{
+        width: 1.5em;
+        height: auto;
+    }
+}

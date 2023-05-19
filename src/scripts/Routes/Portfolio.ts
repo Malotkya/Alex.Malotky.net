@@ -9,5 +9,5 @@ export const Portfolio = new Router("/Portfolio", "Portfolio",
     "A list of projects that Alex has worked on.");
 
 Portfolio.onLoad(()=>{
-    return render("bad.html");
+    return render("portfolio.html");
 })

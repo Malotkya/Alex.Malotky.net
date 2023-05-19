@@ -30,6 +30,15 @@ export default class App extends App_Base {
             this._navbar.add(router);
 
     }
+
+    /** Public Getter for Route Function
+     * 
+     * Made this public so a Router could get access to the route function
+     * to prevent a reload when clicking on a link.
+     */
+    public get routeFunction(){
+        return this._route;
+    }
 }
 
 /** Render Template File

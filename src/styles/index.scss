@@ -1,6 +1,11 @@
-/*! Alex Malotky.com */
 @import "normalize.scss";
+
+/*! Alex Malotky.com */
 @import "app/navbar.scss";
+
+*{
+    box-sizing: border-box;
+}
 
 .skip {
     position: absolute;

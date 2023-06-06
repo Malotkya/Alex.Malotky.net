@@ -6,6 +6,28 @@
 
 #spotlight {
     padding: 0.25em;
-    text-align: center;
-    border: 3px  solid $accent-dark; 
+    border: 3px solid $accent-dark; 
+    display: flex;
+    flex-flow: row-reverse wrap;
+
+    h3 {
+        text-align: center;
+        width: 100%;
+    }
+
+    figure {
+        text-align: center;
+        width: 100%;
+    }
+
+    @media(min-width: $tablet) {
+        section {
+            width: 70%;
+        }
+
+        figure{
+            margin: 0;
+            width: 30%;
+        }
+    }
 }

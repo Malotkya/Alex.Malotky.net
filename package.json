@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "npx webpack-cli -d source-map",
-    "build": "npx webpack-cli",
+    "dev": "npx webpack-cli --env dev",
+    "build": "npx webpack-cli --env prod",
     "watch": "npx webpack-cli --watch",
-    "clean": "npx webpack-cli",
+    "clean": "rm -r build && npm run build",
+
     "test": "npm run dev && firebase serve",
     "serve": "npm run build && firebase serve",
     "deploy": "npm run clean && firebase deploy"

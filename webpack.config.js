@@ -1,4 +1,5 @@
 const path = require('path');
+const TerserPlugin = require("terser-webpack-plugin");
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlMinimizerPlugin = require("html-minimizer-webpack-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin")
@@ -8,14 +9,15 @@ const build_directory = path.resolve(__dirname, 'build');
 const source_directory = path.resolve(__dirname, "src");
 
 //test if in dev environment
-const dev = process.argv.includes('-d');
+const dev = process.argv.includes('dev');
 
 //create minify requirements if in production
 const minify = !dev ? {
   minimize: true,
   minimizer:[
     new HtmlMinimizerPlugin(),
-    new CssMinimizerPlugin()
+    new CssMinimizerPlugin(),
+    new TerserPlugin()
   ]
 } : undefined;
 

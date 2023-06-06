@@ -10,6 +10,7 @@
     margin-bottom: 1em;
 
     h2 {
+        color: $accent-light;
         text-align: center;
         border-bottom: 3px solid $white;
         padding: 0.5em;
@@ -19,5 +20,10 @@
 
     .links{
         text-align: center;
+
+        a:link,
+        a:visited {
+            color: $accent-light;
+        }
     }
 }

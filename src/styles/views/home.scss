@@ -1,0 +1,11 @@
+#home-container{
+    article, p {
+        padding: 0 0.5em;
+    }
+}
+
+#spotlight {
+    padding: 0.25em;
+    text-align: center;
+    border: 3px  solid $accent-dark; 
+}

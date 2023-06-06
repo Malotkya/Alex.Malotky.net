@@ -10,8 +10,8 @@ const source_directory = path.resolve(__dirname, "src");
 //test if in dev environment
 const dev = process.argv.includes('-d');
 
-//create minify requirements if in dev
-const minify = dev? {
+//create minify requirements if in production
+const minify = !dev ? {
   minimize: true,
   minimizer:[
     new HtmlMinimizerPlugin(),

@@ -6,8 +6,8 @@
  */
 
 //Regex thanks to (Regex101.com)
-const TEMPLATE_CODE_REGEX = /{%(.*?)%}/gm
-const TEMPLATE_STRING_REGEX = /{{(.*?)}}/gm
+const TEMPLATE_CODE_REGEX = /{%(.*?)%}/gs
+const TEMPLATE_STRING_REGEX = /{{(.*?)}}/gs
 
 //Other constants
 const TEMPLATE_DIRECTORY = "templates/"
@@ -35,7 +35,7 @@ export default function templateEngine(filename: string, args?: any): string{
  * Splits the string into instructions that can be executed line by line.
  * 
  * @param {string} template 
- * @returns {TemplateString}
+ * @returns {Array<string>}
  */
 export function createTemplateInstructions(template: string): Array<string>{
     if(typeof template !== "string")
@@ -72,7 +72,7 @@ export function createTemplateInstructions(template: string): Array<string>{
  * Splits the string into seperate componenets and escapes special characters.
  * 
  * @param {string} template 
- * @returns {TemplateString}
+ * @returns {string}
  */
 export function convertToTemplateString(template: string): string{
     if(typeof template !== "string")
@@ -102,7 +102,7 @@ export function convertToTemplateString(template: string): string{
 
 /** Complie back into String
  * 
- * @param {Array<string>} buffer 
+ * @param {Array<string>} instructions 
  * @param {any} args 
  * @returns {string}
  */

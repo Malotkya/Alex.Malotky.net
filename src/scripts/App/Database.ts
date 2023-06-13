@@ -24,10 +24,10 @@ export default class Database{
     async resume(){
         const raw = await getDocs(collection(this._firestore, "Resume"));
 
-        const schools = [];
-        const jobs = [];
-        const skills = [];
-        const unknown = [];
+        const schools:Array<any> = [];
+        const jobs: Array<any> = [];
+        const skills: Array<any> = [];
+        const unknown: Array<any> = [];
 
         raw.forEach(result=>{
             switch(result.data().type){

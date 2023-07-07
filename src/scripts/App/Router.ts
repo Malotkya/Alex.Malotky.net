@@ -7,7 +7,7 @@ import Content from "./Core/Content"
 export default class Router extends Content{
     private _route: string;
     private _render: ()=>Promise<string>|string;
-    private _execute: ()=>Promise<any>;
+    private _execute: ()=>Promise<any>|void;
 
     constructor(route: string, title: string, description:string){
         super(title, description);
@@ -38,7 +38,7 @@ export default class Router extends Content{
      * 
      * @param {Function} callback 
      */
-    onConnected(callback:()=>Promise<any>){
+    onConnected(callback:()=>Promise<any>|void){
         this._execute = callback;
     }
 

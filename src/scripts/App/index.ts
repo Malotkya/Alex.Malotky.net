@@ -79,3 +79,17 @@ export function execute(filename: string): Promise<HTMLElement>{
         script.src = "scripts/" + filename;
     })
 }
+
+/** Sleep/Wait Utility
+ * 
+ * Currently only used by the home page, I felt like this utility funciton should
+ * be included in the app file.
+ * 
+ * @param {number} t - time in milliseconds.
+ * @returns {Promise<void>}
+ */
+export function sleep(t: number): Promise<void>{
+    return new Promise((res,rej)=>{
+        window.setTimeout(res, t);
+    });
+}

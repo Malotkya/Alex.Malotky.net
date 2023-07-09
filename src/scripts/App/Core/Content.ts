@@ -52,8 +52,49 @@ export default class Countent{
     /** Get Javascript (does nothing)
      * 
      */
-    get js(){
+    get js():Promise<any>{
         return new Promise((res,rej)=>res(undefined));
+    }
+
+    /** Render to Element
+     * 
+     * Displays content after the transition out and executes javascript
+     * after the transition in.
+     * 
+     * @param target 
+     */
+    renderDisplay(target: HTMLElement): Promise<any>{
+        let content: string;
+
+        return new Promise((resolve, reject)=>{
+            //Callback for when transition OUT is finished
+            target.ontransitionend = () => {
+
+                //Set content to page.
+                target.innerHTML = content;
+    
+                //Callback for when transiton IN is finished
+                target.ontransitionend = () => {
+
+                    //Run the javascript
+                    this.js.then((result:any)=>{
+
+                        //Return with results
+                        resolve(result);
+
+                    }).catch(reject);
+                }
+                target.style.opacity = "";
+            }
+
+            //Render the HTML
+            this.html.then(value=>{
+                content = value;
+            }).catch(reject);
+
+            //Start transition
+            target.style.opacity = "0";
+        });
     }
 
     /** Getters

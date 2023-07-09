@@ -50,27 +50,21 @@ export default class App_Base{
             this._title.textContent = (r.title !== ""? r.title + " | ": "") + this._defaultTitle;
 
         if(this._script) {
+            //Fixes occasonal error when user refreshes quickly.
             try {
                 document.body.removeChild(this._script);
             } catch(e){
                 this._script = undefined;
             }
         }
-            
-    
-        r.html.then(content=>{
-            this._target.innerHTML = content;
-            r.js.then(element=>{
-                if(element instanceof HTMLElement)
-                    this._script = element;
-                else
-                    this._script = undefined;
-            }).catch(console.error);
-            
-        }).catch( error=>{
-            this._target.innerHTML = makeErrorMessage(error);
-            console.error(error);
+
+        r.renderDisplay(this._target).then( (element:any)=>{
+            if(element instanceof HTMLElement)
+                this._script = element;
+             else
+                this._script = undefined;
         });
+        
     }
 
     /** Route Clicked Function

@@ -1,5 +1,5 @@
 import Router from "../App/Router";
-import {render, execute} from "../App";
+import {render, sleep} from "../App";
 
 /** Home Router
  * 
@@ -7,6 +7,22 @@ import {render, execute} from "../App";
  */
 export const Home = new Router("/", "Home", "");
 
+const WELCOME_TEXT = "Hello,\nMy name is Alex Malotky.";
+const TEXT_DELAY = 15;//ms
+
 Home.onLoad(()=>render("home.html"));
 
-Home.onConnected(()=>execute("home.js"));
+Home.onConnected(async()=>{
+    const element: HTMLElement = document.querySelector("#text-target");
+
+    if(element){
+        
+        for(let char of WELCOME_TEXT){
+            element.textContent += char;
+            await sleep(TEXT_DELAY);
+        }
+
+    } else {
+        console.error("Unable to find text element!");
+    }
+});

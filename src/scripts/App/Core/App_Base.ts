@@ -63,7 +63,7 @@ export default class App_Base{
                 this._script = element;
              else
                 this._script = undefined;
-        });
+        }).catch(console.error);
         
     }
 
@@ -130,7 +130,7 @@ export default class App_Base{
  * Prints easy to read error message for html page.
  * 
  * @param {any|string} error 
- * @param {string|number} code?
+ * @param {string|number} code
  * @returns {string}
  */
 function makeErrorMessage(error: any|string, code?: string|number): string{
@@ -141,8 +141,9 @@ function makeErrorMessage(error: any|string, code?: string|number): string{
         message = error.message || "An unknown error occured!";
     }
 
-    if(typeof code === "undefined")
-        code = "Error"
+    if(typeof code === "undefined") {
+        code = error.code || "Error";
+    }
     
     return `<h1 class="error">${code}: ${message}</h1>`;
 }

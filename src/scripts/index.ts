@@ -5,6 +5,7 @@ import {Portfolio} from "./Routes/Portfolio";
 import {AboutMe} from "./Routes/AboutMe";
 
 const app = new App();
+const appVersion = "1.0.0";
 
 app.add(Home);
 app.add(Resume, true);
@@ -12,5 +13,5 @@ app.add(Portfolio, true);
 app.add(AboutMe, true);
 
 app.onReady(()=>{
-    console.info("App loaded successfully!");
+    console.info(`App v${appVersion} loaded successfully!`);
 })

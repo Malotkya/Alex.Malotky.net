@@ -28,7 +28,10 @@ export default class Router extends Content{
      * 
      * @param {Function} callback 
      */
-    onLoad(callback:()=>Promise<string>|string){
+    public onLoad(callback:()=>Promise<string>|string): void{
+        if(typeof callback !== "function")
+            throw new Error("Callback must be a function!");
+
         this._render = callback;
     }
 
@@ -38,7 +41,10 @@ export default class Router extends Content{
      * 
      * @param {Function} callback 
      */
-    onConnected(callback:()=>Promise<any>|void){
+    public onConnected(callback:()=>Promise<any>|void): void{
+        if(typeof callback !== "function")
+            throw new Error("Callback must be a function!");
+
         this._execute = callback;
     }
 
@@ -49,7 +55,7 @@ export default class Router extends Content{
         if(this._render)
             return convertToPromise(this._render())
         else
-            return convertToPromise(this._string);
+            return convertToPromise(this._string, "No html given!");
     }
 
     /** Get Javascript
@@ -64,9 +70,9 @@ export default class Router extends Content{
      * May be changing to allow variables within the url
      * 
      * @param {string} url 
-     * @returns 
+     * @returns {boolean}
      */
-    matches(url: string){
+    public matches(url: string): boolean{
         if(typeof url !== "string"){
             throw new Error("Title must be a string!");
         }
@@ -82,11 +88,26 @@ export default class Router extends Content{
     }
 }
 
-function convertToPromise(value: any){
+/** Convert to Promise
+ * 
+ * Wraps the value in a promis if the value isn't already a promise.
+ * Will reject if value is undefined & message is set.
+ * 
+ * @param {any} value 
+ * @param {string} message 
+ * @returns {Promise<any>}
+ */
+function convertToPromise(value: any, message?: string): Promise<any>{
     if(value instanceof Promise)
         return value;
 
     return new Promise((res,rej)=>{
-        res(value);
+        if(value)
+            res(value);
+
+        if(message)
+            rej(new Error(message));
+
+        res(undefined);
     })
 }

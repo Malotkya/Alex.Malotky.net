@@ -36,7 +36,7 @@ export default class App_Base{
      * 
      * Loads content, title, and description.
      */
-    private _handler(){
+    private _handler(): void{
         let location:string = window.location.pathname;
         if(location.length === 0)
             location = "/";
@@ -74,7 +74,7 @@ export default class App_Base{
      * 
      * @param {Event} event 
      */
-    protected _route(event?: any){
+    protected _route(event?: any): void{
         event = event || window.event;
         event.preventDefault();
         window.history.pushState({}, "", event.target.href);
@@ -88,7 +88,7 @@ export default class App_Base{
      * @param url 
      * @returns {Content}
      */
-    private _getRouter(url: string){
+    private _getRouter(url: string): Content{
         for(let router of this._routes){
             if(router.matches(url))
                 return router;
@@ -102,7 +102,7 @@ export default class App_Base{
     /** Start App Function
      * 
      */
-    private _start(){
+    private _start(): void{
         this._title = document.querySelector("title");
         this._target = document.querySelector("main");
         this._description = document.querySelector("meta[name='description'");
@@ -120,7 +120,10 @@ export default class App_Base{
      * 
      * @param {Function} callback
      */
-    onReady(callback: Function){
+    public onReady(callback: Function): void{
+        if(typeof callback !== "function")
+            throw new Error("Callback must be a function!");
+            
         this._ready = callback;
     }
 }

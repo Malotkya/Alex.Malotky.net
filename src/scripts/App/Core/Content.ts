@@ -1,3 +1,5 @@
+import { sleep } from "..";
+
 /** Content Class
  * 
  * Base Class for Routers
@@ -29,12 +31,11 @@ export default class Countent{
      * 
      * @param {string} html 
      */
-    set(html: string){
-        if(typeof html === "string"){
-            this._string = html;
-        } else {
+    public set(html: string): void{
+        if(typeof html !== "string")
             throw new Error("Html must be a string!");
-        }
+            
+        this._string = html;
     }
 
     /** Get HTML string.
@@ -63,7 +64,7 @@ export default class Countent{
      * 
      * @param target 
      */
-    renderDisplay(target: HTMLElement): Promise<any>{
+    public renderDisplay(target: HTMLElement): Promise<any>{
         let content: string;
 
         return new Promise((resolve, reject)=>{
@@ -102,10 +103,10 @@ export default class Countent{
 
     /** Getters
      */
-    get title(){
+    get title(): string{
         return this._title;
     }
-    get description(){
+    get description(): string{
         return this._description;
     }
 }

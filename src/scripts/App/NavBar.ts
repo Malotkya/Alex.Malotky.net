@@ -54,11 +54,15 @@ export default class NavBar{
      * 
      * @param {EventListener} callback 
      */
-    routeEvent(callback: EventListener){
+    public routeEvent(callback: EventListener): void{
+        if(typeof callback !== "function")
+            throw new Error("Event Listener must be a Function");
+
         this._home.addEventListener("click", event=>{
             this._list.style.display = "";
             callback(event)
         });
+
         this._list.addEventListener("click", event=>{
             this._list.style.display = "";
             callback(event);
@@ -69,7 +73,10 @@ export default class NavBar{
      * 
      * @param {Router} router 
      */
-    add(router: Router){
+    public add(router: Router):void{
+        if( !(router instanceof Router) )
+            throw new Error("router must be an instace of a Router!");
+
         let item = document.createElement("li");
         let link = document.createElement("a");
         link.className = "top-nav-item";

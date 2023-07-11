@@ -23,7 +23,10 @@ export default class App extends App_Base {
      * @param {Router} router 
      * @param {boolean} addToNav 
      */
-    public add(router: Router,addToNav?:boolean){
+    public add(router: Router,addToNav?:boolean): void{
+        if( !(router instanceof Router) )
+            throw new Error("rotuer must be instance of Router!");
+
         this._routes.push(router);
 
         if(addToNav)
@@ -36,7 +39,7 @@ export default class App extends App_Base {
      * Made this public so a Router could get access to the route function
      * to prevent a reload when clicking on a link.
      */
-    public get routeFunction(){
+    public get routeFunction(): (event?:any)=>void{
         return this._route;
     }
 }

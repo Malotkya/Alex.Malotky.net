@@ -14,6 +14,19 @@ export const firebaseConfig = {
   measurementId: "G-GT065KPVZ7"
 };
 
+interface ResumeResults{
+    schools: Array<any>,
+    jobs: Array<any>,
+    skills: Array<any>,
+    unknown: Array<any>
+}
+
+/** Database class
+ * 
+ * Wrapper around firestore.
+ * 
+ * @author Alex Malotky
+ */
 export default class Database{
     private _firestore: Firestore;
     constructor(){
@@ -21,7 +34,11 @@ export default class Database{
         this._firestore = getFirestore(app);
     }
 
-    async resume(){
+    /** Get Resume
+     * 
+     * @returns {ResumeResults}
+     */
+    public async resume(): Promise<ResumeResults>{
         const raw = await getDocs(collection(this._firestore, "Resume"));
 
         const schools:Array<any> = [];

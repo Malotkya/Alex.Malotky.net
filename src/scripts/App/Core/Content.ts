@@ -60,12 +60,34 @@ export default class Countent{
     /** Render to Element
      * 
      * Displays content after the transition out and executes javascript
-     * after the transition in.
+     * after the transition in.  Will return any script elements that need
+     * to be deleted on loading a new page.
      * 
-     * @param target 
+     * @param {HTMLElement} target 
+     * @returns {any}
      */
     public renderDisplay(target: HTMLElement): Promise<any>{
         let content: string;
+
+        /** Content Time Out
+         * 
+         * Gives the content about half a second to render checking
+         * event 5 milliseconds.
+         * 
+         * @returns {string}
+         */
+        function contentTimeOut(): Promise<string> {
+            return new Promise(async(res,rej)=>{
+                let counter = 100;
+                while( (--counter > 0) ){
+                    if(content)
+                        res(content);
+                    await sleep(5);
+                }
+                    
+                rej(new Error("Content rendering has timed out!"))
+            })
+        }
 
         return new Promise((resolve, reject)=>{
 
@@ -78,22 +100,25 @@ export default class Countent{
             target.ontransitionend = () => {
 
                 //Set content to page.
-                target.innerHTML = content;
-    
-                //Callback for when transiton IN is finished
-                target.ontransitionend = () => {
+                contentTimeOut().then( (content:string) => {
+                    target.innerHTML = content;
 
-                    //Run the javascript
-                    this.js.then((result:any)=>{
+                    //Callback for when transiton IN is finished
+                    target.ontransitionend = () => {
 
-                        //Return with results
-                        resolve(result);
+                        //Run the javascript
+                        this.js.then((result:any)=>{
 
-                    }).catch(reject);
-                }
+                            //Return with results
+                            resolve(result);
 
-                //Start transition IN
-                target.style.opacity = "";
+                        }).catch(reject);
+                    }
+
+                    //Start transition IN
+                    target.style.opacity = "";
+                }).catch(reject);
+                
             }
 
             //Start transition OUT

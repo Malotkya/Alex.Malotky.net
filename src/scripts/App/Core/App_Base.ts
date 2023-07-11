@@ -63,7 +63,10 @@ export default class App_Base{
                 this._script = element;
              else
                 this._script = undefined;
-        }).catch(console.error);
+        }).catch((error:any)=>{
+            console.error(error);
+            this._target.innerHTML = makeErrorMessage(error, 500);
+        });
         
     }
 

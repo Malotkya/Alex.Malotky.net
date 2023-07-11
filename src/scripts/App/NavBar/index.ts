@@ -1,4 +1,5 @@
-import Router from "./Router";
+import Router from "../Router";
+import { createHambergerButton, createMenuList, createNavTitle } from "./html";
 
 /** Navigation Bar Class
  * 
@@ -13,35 +14,31 @@ export default class NavBar{
      * @param {string} id 
      */
     constructor(id: string){
+
+        //TODO: create html instead of finding it!
         let target = document.querySelector(id);
 
         if(typeof target === "undefined")
             throw new Error("Unable to find NavBar!");
+        
+        this._home = createNavTitle("Alex.Malotky.net");
+        target.appendChild(this._home);
 
-        this._list = target.querySelector("#top-nav-menu");
-        this._home = target.querySelector("#top-nav-title");
+        let button = createHambergerButton();
+        target.appendChild(button);
 
-        if(typeof this._list === "undefined") {
-            throw new Error("Unable to find nav list!");
-        }
-
-        if(typeof this._home === "undefined") {
-            throw new Error("Unable to find nav title!");
-        }
-
-        let button = target.querySelector("#top-nav-button");
-        if(button){
-            button.addEventListener("click", event=>{
-                event.stopPropagation();
-               if(this._list.style.display){
-                    this._list.style.display = "";
-               } else {
-                    this._list.style.display = "flex";
-               }
-            })
-        } else {
-            throw new Error("Unable to find nav button!");
-        }
+        this._list = createMenuList();
+        target.appendChild(this._list);
+        
+        //Toggle the list display
+        button.addEventListener("click", event=>{
+            event.stopPropagation();
+           if(this._list.style.display){
+                this._list.style.display = "";
+           } else {
+                this._list.style.display = "flex";
+           }
+        })
 
         document.addEventListener("click", event=>{
             this._list.style.display = "";

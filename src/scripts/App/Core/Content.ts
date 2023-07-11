@@ -67,6 +67,12 @@ export default class Countent{
         let content: string;
 
         return new Promise((resolve, reject)=>{
+
+            //Render the HTML
+            this.html.then(value=>{
+                content = value;
+            }).catch(reject);
+
             //Callback for when transition OUT is finished
             target.ontransitionend = () => {
 
@@ -84,15 +90,12 @@ export default class Countent{
 
                     }).catch(reject);
                 }
+
+                //Start transition IN
                 target.style.opacity = "";
             }
 
-            //Render the HTML
-            this.html.then(value=>{
-                content = value;
-            }).catch(reject);
-
-            //Start transition
+            //Start transition OUT
             target.style.opacity = "0";
         });
     }

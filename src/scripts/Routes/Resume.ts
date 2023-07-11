@@ -1,5 +1,5 @@
 import Router from "../App/Router";
-import Database, {firebaseConfig} from "../App/Database";
+import Database from "../App/Database";
 import {render} from "../App";
 
 /** Resume Router
@@ -12,7 +12,7 @@ const database = new Database();
 Resume.onLoad(async()=>{
 
     let results = await database.resume();  
-    console.log(results);
+    console.debug(results);
 
     return render("resume.html", results);
 });

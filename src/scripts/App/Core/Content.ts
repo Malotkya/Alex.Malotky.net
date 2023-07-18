@@ -1,4 +1,10 @@
 import { sleep } from "..";
+import {makeErrorMessage} from "./App_Base";
+
+export interface execute{
+    args: any,
+    function: (args:any)=>Promise<void>|void
+}
 
 /** Content Class
  * 
@@ -53,8 +59,11 @@ export default class Countent{
     /** Get Javascript (does nothing)
      * 
      */
-    get js():Promise<any>{
-        return new Promise((res,rej)=>res(undefined));
+    get js():Promise<execute>{
+        return new Promise((res,rej)=>res({
+            args: {},
+            function: ()=>undefined
+        }));
     }
 
     /** Render to Element
@@ -64,65 +73,72 @@ export default class Countent{
      * to be deleted on loading a new page.
      * 
      * @param {HTMLElement} target 
-     * @returns {any}
+     * @returns {void}
      */
-    public renderDisplay(target: HTMLElement): Promise<any>{
-        let content: string;
-
-        /** Content Time Out
-         * 
-         * Gives the content about half a second to render checking
-         * event 5 milliseconds.
-         * 
-         * @returns {string}
-         */
-        function contentTimeOut(): Promise<string> {
-            return new Promise(async(res,rej)=>{
-                let counter = 100;
-                while( (--counter > 0) ){
-                    if(content)
-                        res(content);
-                    await sleep(5);
-                }
-                    
-                rej(new Error("Content rendering has timed out!"))
-            })
-        }
-
-        return new Promise((resolve, reject)=>{
-
-            //Render the HTML
-            this.html.then(value=>{
-                content = value;
-            }).catch(reject);
-
-            //Callback for when transition OUT is finished
-            target.ontransitionend = () => {
-
-                //Set content to page.
-                contentTimeOut().then( (content:string) => {
-                    target.innerHTML = content;
-
-                    //Callback for when transiton IN is finished
-                    target.ontransitionend = () => {
-
-                        //Run the javascript
-                        this.js.then((result:any)=>{
-
-                            //Return with results
-                            resolve(result);
-
-                        }).catch(reject);
+    public renderDisplay(target: HTMLElement): Promise<void>{
+        return new Promise(async(resolve, reject)=>{
+            let content:string;
+            /** Content Time Out
+             * 
+             * Gives the content about half a second to render checking
+             * event 5 milliseconds.
+             * 
+             * @returns {string}
+             */
+            function contentTimeOut(): Promise<string> {
+                return new Promise(async(res,rej)=>{
+                    let counter = 100;
+                    while( (--counter > 0) ){
+                        if(content)
+                            res(content);
+                        await sleep(5);
                     }
-
-                    //Start transition IN
-                    target.style.opacity = "";
-                }).catch(reject);
-                
+                        
+                    rej(new Error("Content rendering has timed out!"))
+                })
             }
 
-            //Start transition OUT
-            target.style.opacity = "0";
+            function handleError(error: any){
+                target.ontransitionend = undefined;
+                target.innerHTML = makeErrorMessage(error, 500);
+                target.style.opacity ="";
+                reject(error);
+            }
+
+            try {
+                //Callback for when transition OUT is finished
+                target.ontransitionend = async() => {
+
+                    try {
+                        //Set content to page.
+                        target.innerHTML = await contentTimeOut();
+                        let exe:execute = await this.js;
+
+                        //Callback for when transiton IN is finished
+                        target.ontransitionend = async() => {
+
+                            target.ontransitionend = undefined;
+
+                            //Run the javascript
+                            resolve(await exe.function(exe.args));
+                        }
+
+                        //Start transition IN
+                        target.style.opacity = "";
+                    } catch(err: any){
+                        handleError(err);
+                    }
+                    
+                }
+
+                //Start transition OUT
+                target.style.opacity = "0";
+
+                //Get HTML
+                content = await this.html;
+            }catch(err: any){
+                handleError(err);
+            }
         });
     }
 

@@ -1,4 +1,6 @@
-import Content from "./Core/Content"
+import Content, {execute} from "./Core/Content"
+
+
 
 /** Router Class
  * 
@@ -6,8 +8,10 @@ import Content from "./Core/Content"
  */
 export default class Router extends Content{
     private _route: string;
-    private _render: ()=>Promise<string>|string;
-    private _execute: ()=>Promise<any>|void;
+    private _render: (args:any)=>Promise<string>|string;
+    private _load: ()=>Promise<any>|any;
+    private _connected: ()=>Promise<any>|any;
+    private _ready: (args: any)=>Promise<void>|void
 
     constructor(route: string, title: string, description:string){
         super(title, description);
@@ -17,18 +21,32 @@ export default class Router extends Content{
         } else {
             throw new Error("Title must be a string!");
         }
-        
-        //easier to make execute return nothing!
-        this._execute = () => undefined;
+
+        this._ready = ()=>undefined;
     }
+
+    
 
     /** On Load Event Callback
      * 
-     * This event is called when the page loads to render the html.
+     * This event is called when the page loads before rendering html.
      * 
      * @param {Function} callback 
      */
-    public onLoad(callback:()=>Promise<string>|string): void{
+    public onLoad(callback:()=>Promise<any>|any): void{
+        if(typeof callback !== "function")
+            throw new Error("Callback must be a function!");
+
+        this._load = callback;
+    }
+
+    /** On Render Event Callback
+     * 
+     * This event is called when the page is rendering html.
+     * 
+     * @param {Function} callback 
+     */
+    public onRender(callback:(args:any)=>Promise<string>|string): void{
         if(typeof callback !== "function")
             throw new Error("Callback must be a function!");
 
@@ -37,32 +55,73 @@ export default class Router extends Content{
 
     /** On Connected Event Callback
      * 
-     * This event is called once the html is rendered to execute any javascript.
+     * This event is called once the html is rendered.
      * 
      * @param {Function} callback 
      */
-    public onConnected(callback:()=>Promise<any>|void): void{
+    public onConnected(callback:()=>Promise<any>|any): void{
         if(typeof callback !== "function")
             throw new Error("Callback must be a function!");
 
-        this._execute = callback;
+        this._connected = callback;
+    }
+
+    /** On Ready Event Callback
+     * 
+     * This event is called once the html has been drawn to the display.
+     * 
+     * @param {Function} callback 
+     */
+    public onReady(callback:(args:any)=>Promise<void>|void): void{
+        if(typeof callback !== "function")
+            throw new Error("Callback must be a function!");
+
+        this._ready = callback;
     }
 
     /** Get HTML
      * 
      */
     get html(): Promise<string>{
-        if(this._render)
-            return convertToPromise(this._render())
-        else
-            return convertToPromise(this._string, "No html given!");
+        return new Promise(async(res,rej)=>{
+            try {
+                let args: any;
+                if(this._load){
+                    args = await this._load();
+                }
+
+                if(this._render){
+                    res(await this._render(args));
+                } else if(this._string){
+                    res(this._string);
+                } else {
+                    rej("No HTML givin!");
+                }
+
+            } catch(err: any){
+                rej(err)
+            }
+        })
     }
 
     /** Get Javascript
      * 
      */
-    get js(): Promise<any>{
-        return convertToPromise(this._execute());
+    get js(): Promise<execute>{
+        return new Promise(async(res,rej)=>{
+            try{
+                let args: any;
+                if(this._connected)
+                    args = await this._connected();
+
+                res({
+                    args: args,
+                    function: this._ready
+                });
+            } catch(err: any){
+                rej(err);
+            }
+        });
     }
 
     /** Checks if the route matches the url
@@ -86,28 +145,4 @@ export default class Router extends Content{
     get href(){
         return this._route;
     }
-}
-
-/** Convert to Promise
- * 
- * Wraps the value in a promis if the value isn't already a promise.
- * Will reject if value is undefined & message is set.
- * 
- * @param {any} value 
- * @param {string} message 
- * @returns {Promise<any>}
- */
-function convertToPromise(value: any, message?: string): Promise<any>{
-    if(value instanceof Promise)
-        return value;
-
-    return new Promise((res,rej)=>{
-        if(value)
-            res(value);
-
-        if(message)
-            rej(new Error(message));
-
-        res(undefined);
-    })
 }

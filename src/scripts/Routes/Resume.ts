@@ -14,5 +14,11 @@ Resume.onLoad(async()=>{
     let results = await database.resume();  
     console.debug(results);
 
-    return render("resume.html", results);
+    return {
+        results: results
+    }
 });
+
+Resume.onRender(async(args:any)=>{
+    return render("resume.html", args.results);
+})

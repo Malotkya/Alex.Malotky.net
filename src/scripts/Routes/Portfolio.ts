@@ -8,6 +8,6 @@ import {render} from "../App";
 export const Portfolio = new Router("/Portfolio", "Portfolio",
     "A list of projects that Alex has worked on.");
 
-Portfolio.onLoad(()=>{
+Portfolio.onRender(()=>{
     return render("portfolio.html");
 })

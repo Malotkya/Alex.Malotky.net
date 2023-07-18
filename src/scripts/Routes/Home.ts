@@ -7,22 +7,35 @@ import {render, sleep} from "../App";
  */
 export const Home = new Router("/", "Home", "");
 
-const WELCOME_TEXT = "Hello,\nMy name is Alex Malotky.";
+const WELCOME_TEXT = "";
 const TEXT_DELAY = 15;//ms
 
-Home.onLoad(()=>render("home.html"));
+Home.onRender(()=>render("home.html"));
 
 Home.onConnected(async()=>{
     const element: HTMLElement = document.querySelector("#text-target");
 
     if(element){
+        let text: string = element.textContent.trim();
+        element.textContent = "";
         
-        for(let char of WELCOME_TEXT){
-            element.textContent += char;
-            await sleep(TEXT_DELAY);
-        }
+        return {
+            text: text,
+            element: element
+        };
 
     } else {
         console.error("Unable to find text element!");
     }
 });
+
+Home.onReady(async(args: any)=>{
+
+    if(args.text && args.element){
+
+        for(let char of args.text){
+            args.element.textContent += char;
+            await sleep(TEXT_DELAY);
+        }
+    }
+})

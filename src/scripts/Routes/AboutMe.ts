@@ -7,7 +7,7 @@ import {render, execute} from "../App";
 export const AboutMe = new Router("/About", "About Me",
     "A little bit about me so that you can get to know me better.");
 
-AboutMe.onLoad(()=>{
+AboutMe.onRender(()=>{
     return render("about.html");
 });
 

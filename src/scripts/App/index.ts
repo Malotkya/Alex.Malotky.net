@@ -62,27 +62,6 @@ export function render(filename: string, args?: any): Promise<string>{
     })
 }
 
-/** Execute Javascript File
- * 
- * Links javascript file to dom and executes within a promise.
- * Return script element to allow app remove it when a new page gets loaded.
- * 
- * @param {string} filename 
- * @returns {Promise<HTMLElement>}
- */
-export function execute(filename: string): Promise<HTMLElement>{
-    return new Promise((resolve, reject)=>{
-        const script = document.createElement("script");
-        document.body.appendChild(script);
-        script.onload = () => {
-            resolve(script)
-        };
-        script.onerror = reject;
-        script.async = true;
-        script.src = "scripts/" + filename;
-    })
-}
-
 /** Sleep/Wait Utility
  * 
  * Currently only used by the home page, I felt like this utility funciton should

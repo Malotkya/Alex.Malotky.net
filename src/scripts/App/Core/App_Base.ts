@@ -17,7 +17,6 @@ export default class App_Base{
     private _title: HTMLElement;
     private _target: HTMLElement;
     private _description: HTMLElement;
-    private _script: HTMLElement;
 
     constructor(window: any){
 
@@ -49,25 +48,8 @@ export default class App_Base{
         if(this._title)
             this._title.textContent = (r.title !== ""? r.title + " | ": "") + this._defaultTitle;
 
-        if(this._script) {
-            //Fixes occasonal error when user refreshes quickly.
-            try {
-                document.body.removeChild(this._script);
-            } catch(e){
-                this._script = undefined;
-            }
-        }
-
-        r.renderDisplay(this._target).then( (element:any)=>{
-            if(element instanceof HTMLElement)
-                this._script = element;
-             else
-                this._script = undefined;
-        }).catch((error:any)=>{
-            console.error(error);
-            this._target.innerHTML = makeErrorMessage(error, 500);
-        });
-        
+        r.renderDisplay(this._target)
+            .catch(console.error);
     }
 
     /** Route Clicked Function
@@ -139,7 +121,7 @@ export default class App_Base{
  * @param {string|number} code
  * @returns {string}
  */
-function makeErrorMessage(error: any|string, code?: string|number): string{
+export function makeErrorMessage(error: any|string, code?: string|number): string{
     let message: string;
     if(typeof error === "string"){
         message = error;

@@ -7,34 +7,30 @@ import {render, sleep} from "../App";
  */
 export const Home = new Router("/", "Home", "");
 
-const WELCOME_TEXT = "";
 const TEXT_DELAY = 15;//ms
+let targetElement: HTMLElement;
+let animatedText: string;
 
 Home.onRender(()=>render("home.html"));
 
 Home.onConnected(async()=>{
-    const element: HTMLElement = document.querySelector("#text-target");
+    targetElement = document.querySelector("#text-target");
 
-    if(element){
-        let text: string = element.textContent.trim();
-        element.textContent = "";
+    if(targetElement){
+        animatedText = targetElement.textContent.replace(/\\n/gm, "\r\n").trim();
+        targetElement.style.height = `${targetElement.offsetHeight}px`;
+        targetElement.textContent = "";
         
-        return {
-            text: text,
-            element: element
-        };
-
     } else {
         console.error("Unable to find text element!");
     }
 });
 
-Home.onReady(async(args: any)=>{
+Home.onReady(async()=>{
 
-    if(args.text && args.element){
-
-        for(let char of args.text){
-            args.element.textContent += char;
+    if(targetElement && animatedText){
+        for(let char of animatedText){
+            targetElement.textContent += char;
             await sleep(TEXT_DELAY);
         }
     }

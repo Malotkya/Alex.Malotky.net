@@ -1,5 +1,5 @@
 import Router from "../App/Router";
-import {render, execute} from "../App";
+import {render} from "../App";
 
 /** About Me Router
  * 

@@ -1,6 +1,6 @@
 import Router from "../App/Router";
 import Database from "../App/Database";
-import {render} from "../App";
+import {render, sleep} from "../App";
 
 /** Resume Router
  * 
@@ -9,16 +9,15 @@ import {render} from "../App";
 export const Resume = new Router("/Resume", "Resume", "Alex's resume and other skills.");
 const database = new Database();
 
+let results: any;
+
 Resume.onLoad(async()=>{
-
-    let results = await database.resume();  
+    results = await database.resume();  
     console.debug(results);
-
-    return {
-        results: results
-    }
 });
 
-Resume.onRender(async(args:any)=>{
-    return render("resume.html", args.results);
-})
+Resume.onRender(async()=>{
+    while(typeof results === "undefined")
+        await sleep(5);
+    return render("resume.html", results);
+});

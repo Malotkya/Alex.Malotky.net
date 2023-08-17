@@ -1,4 +1,6 @@
-import Content, {execute} from "./Core/Content"
+import Content from "./Core/Content"
+import { sleep } from ".";
+import {makeErrorMessage} from "./Core/App_Base";
 
 
 
@@ -8,10 +10,10 @@ import Content, {execute} from "./Core/Content"
  */
 export default class Router extends Content{
     private _route: string;
-    private _render: (args:any)=>Promise<string>|string;
-    private _load: ()=>Promise<any>|any;
-    private _connected: ()=>Promise<any>|any;
-    private _ready: (args: any)=>Promise<void>|void
+    private _render: ()=>Promise<string>|string;
+    private _load: ()=>Promise<void>|void;
+    private _connected: ()=>Promise<void>|void;
+    private _ready: ()=>Promise<void>|void
 
     constructor(route: string, title: string, description:string){
         super(title, description);
@@ -46,7 +48,7 @@ export default class Router extends Content{
      * 
      * @param {Function} callback 
      */
-    public onRender(callback:(args:any)=>Promise<string>|string): void{
+    public onRender(callback:()=>Promise<string>|string): void{
         if(typeof callback !== "function")
             throw new Error("Callback must be a function!");
 
@@ -68,58 +70,133 @@ export default class Router extends Content{
 
     /** On Ready Event Callback
      * 
-     * This event is called once the html has been drawn to the display.
+     * This event is called once the html has been drawn.
      * 
      * @param {Function} callback 
      */
-    public onReady(callback:(args:any)=>Promise<void>|void): void{
+    public onReady(callback:()=>Promise<void>|void): void{
         if(typeof callback !== "function")
             throw new Error("Callback must be a function!");
 
         this._ready = callback;
     }
 
-    /** Get HTML
+    /** Call Load Event.
      * 
      */
-    get html(): Promise<string>{
-        return new Promise(async(res,rej)=>{
-            try {
-                let args: any;
-                if(this._load){
-                    args = await this._load();
-                }
-
-                if(this._render){
-                    res(await this._render(args));
-                } else if(this._string){
-                    res(this._string);
-                } else {
-                    rej("No HTML givin!");
-                }
-
-            } catch(err: any){
-                rej(err)
-            }
-        })
+    protected get Load():()=>Promise<void>|void{
+        if(this._load)
+            return this._load;
+        return async()=>undefined;
     }
 
-    /** Get Javascript
+    /** Call Render Event.
      * 
      */
-    get js(): Promise<execute>{
-        return new Promise(async(res,rej)=>{
-            try{
-                let args: any;
-                if(this._connected)
-                    args = await this._connected();
+    protected get Render():()=>string|Promise<string>{
+        if(this._render)
+            return this._render;
+        return async()=>{
+            if(this._string)
+                return this._string;
 
-                res({
-                    args: args,
-                    function: this._ready
-                });
-            } catch(err: any){
-                rej(err);
+            throw new Error("No content to be rendered!")
+        };
+    }
+
+    /** Call Connected Event.
+     * 
+     */
+    protected get Connect():()=>Promise<void>|void{
+        if(this._connected)
+            return this._connected;
+        return async()=>undefined;
+    }
+
+    /** Call Ready Event.
+     * 
+     */
+    protected get Ready():()=>Promise<void>|void{
+        if(this._ready)
+            return this._ready;
+        return async()=>undefined;
+    }
+
+    /** Render to Element
+     * 
+     * Displays content after the transition out and executes javascript
+     * after the transition in.  Will return any script elements that need
+     * to be deleted on loading a new page.
+     * 
+     * @param {HTMLElement} target 
+     * @returns {void}
+     */
+    public renderDisplay(target: HTMLElement): Promise<void>{
+        return new Promise(async(resolve, reject)=>{
+            let content:string;
+            /** Content Time Out
+             * 
+             * Gives the content about half a second to render checking
+             * event 5 milliseconds.
+             * 
+             * @returns {string}
+             */
+            function contentTimeOut(): Promise<string> {
+                return new Promise(async(res,rej)=>{
+                    let counter = 100;
+                    while( (--counter > 0) ){
+                        if(content)
+                            res(content);
+                        await sleep(5);
+                    }
+                        
+                    rej(new Error("Content rendering has timed out!"))
+                })
+            }
+
+            function handleError(error: any){
+                target.ontransitionend = undefined;
+                target.innerHTML = makeErrorMessage(error, 500);
+                target.style.opacity ="";
+                reject(error);
+            }
+
+            try {
+                //Callback for when transition OUT is finished
+                target.ontransitionend = async() => {
+
+                    try {
+                        //Callback for when transiton IN is finished
+                        target.ontransitionend = async() => {
+
+                            target.ontransitionend = undefined;
+
+                            await this.Ready();
+                            resolve();
+                        }
+
+                        //Set content to page.
+                        target.innerHTML = await contentTimeOut();
+
+                        this.Connect()
+
+                        //Start transition IN
+                        target.style.opacity = "";
+                    } catch(err: any){
+                        handleError(err);
+                    }
+                    
+                }
+
+                this.Load()
+
+                //Start transition OUT
+                target.style.opacity = "0";
+
+                //Get HTML
+                content = await this.Render();
+            }catch(err: any){
+                handleError(err);
             }
         });
     }

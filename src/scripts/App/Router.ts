@@ -84,42 +84,39 @@ export default class Router extends Content{
     /** Call Load Event.
      * 
      */
-    protected get Load():()=>Promise<void>|void{
+    protected async Load():Promise<void>{
         if(this._load)
-            return this._load;
-        return async()=>undefined;
+            await this._load();
     }
 
     /** Call Render Event.
      * 
      */
-    protected get Render():()=>string|Promise<string>{
-        if(this._render)
-            return this._render;
-        return async()=>{
+    protected async Render():Promise<string>{
+        if(this._render) {
+            return await this._render();
+        } else {
             if(this._string)
                 return this._string;
-
-            throw new Error("No content to be rendered!")
-        };
+        }
+        
+        throw new Error("No content to be rendered!");
     }
 
     /** Call Connected Event.
      * 
      */
-    protected get Connect():()=>Promise<void>|void{
+    protected async Connect():Promise<void>{
         if(this._connected)
-            return this._connected;
-        return async()=>undefined;
+            await this._connected();
     }
 
     /** Call Ready Event.
      * 
      */
-    protected get Ready():()=>Promise<void>|void{
+    protected async Ready():Promise<void>{
         if(this._ready)
-            return this._ready;
-        return async()=>undefined;
+            await this._ready();
     }
 
     /** Render to Element
@@ -154,7 +151,11 @@ export default class Router extends Content{
                 })
             }
 
-            function handleError(error: any){
+            /** Error Handler
+             * 
+             * @param {any} error 
+             */
+            function handleError(error: any): void{
                 target.ontransitionend = undefined;
                 target.innerHTML = makeErrorMessage(error, 500);
                 target.style.opacity ="";

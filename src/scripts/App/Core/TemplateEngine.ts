@@ -26,8 +26,11 @@ const INCLUDED_FUNCTIONS = {
  * @returns {string}
  */
 export default function templateEngine(filename: string, args?: any): string{
+    if(typeof filename !== "string")
+        throw new Error("Filename must be a string!");
+
     const instructions = createTemplateInstructions(getFile(filename).toString());
-    return compileTemplateInstructions(instructions, args );
+    return compileTemplateInstructions(instructions, args);
 }
 
 /** Create Template Instructions

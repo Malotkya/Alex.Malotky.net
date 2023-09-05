@@ -21,55 +21,46 @@ interface ResumeResults{
     unknown: Array<any>
 }
 
-/** Database class
- * 
- * Wrapper around firestore.
- * 
- * @author Alex Malotky
- */
-export default class Database{
-    private _firestore: Firestore;
-    constructor(){
-        const app = initializeApp(firebaseConfig);
-        this._firestore = getFirestore(app);
-    }
+const app = initializeApp(firebaseConfig);
+const database = getFirestore(app);
 
-    /** Get Resume
+/** Get Resume
      * 
      * @returns {ResumeResults}
      */
-    public async resume(): Promise<ResumeResults>{
-        const raw = await getDocs(collection(this._firestore, "Resume"));
+export async function getResume(): Promise<ResumeResults>{
+    const raw = await getDocs(collection(database, "Resume"));
 
-        const schools:Array<any> = [];
-        const jobs: Array<any> = [];
-        const skills: Array<any> = [];
-        const unknown: Array<any> = [];
+    const schools:Array<any> = [];
+    const jobs: Array<any> = [];
+    const skills: Array<any> = [];
+    const unknown: Array<any> = [];
 
-        raw.forEach(result=>{
-            switch(result.data().type){
-                case "school":
-                schools.push(result.data());
-                break;
+    raw.forEach(result=>{
+        switch(result.data().type){
+            case "school":
+            schools.push(result.data());
+            break;
 
-                case "job":
-                jobs.push(result.data());
-                break;
+            case "job":
+            jobs.push(result.data());
+            break;
 
-                case "skill":
-                skills.push(result.data());
-                break;
+            case "skill":
+            skills.push(result.data());
+            break;
 
-                default:
-                unknown.push(result.data());
-            }
-        });
+            default:
+            unknown.push(result.data());
+        }
+    });
 
-        return {
-            schools: schools,
-            jobs: jobs,
-            skills: skills,
-            unknown: unknown
-        };
-    }
+    return {
+        schools: schools,
+        jobs: jobs,
+        skills: skills,
+        unknown: unknown
+    };
 }
+
+export default database;

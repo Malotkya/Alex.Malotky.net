@@ -1,5 +1,5 @@
 import Router from "../App/Router";
-import Database from "../App/Database";
+import {getResume} from "../App/Database";
 import {render, sleep} from "../App";
 
 /** Resume Router
@@ -7,12 +7,11 @@ import {render, sleep} from "../App";
  * @author Alex Malotky
  */
 export const Resume = new Router("/Resume", "Resume", "Alex's resume and other skills.");
-const database = new Database();
 
 let results: any;
 
 Resume.onLoad(async()=>{
-    results = await database.resume();  
+    results = await getResume();
     console.debug(results);
 });
 

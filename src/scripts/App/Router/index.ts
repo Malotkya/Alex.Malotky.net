@@ -1,4 +1,5 @@
 import Content from "../Core/Content"
+import Path from "./Path";
 import { sleep } from "..";
 import {makeErrorMessage} from "../Core/App_Base";
 import Route from "./Route";
@@ -10,10 +11,10 @@ import Route from "./Route";
  */
 export default class Router extends Content{
     private _route: Route;
-    private _render: ()=>Promise<string>|string;
-    private _load: ()=>Promise<void>|void;
-    private _connected: ()=>Promise<void>|void;
-    private _ready: ()=>Promise<void>|void
+    private _render: (args:any)=>Promise<string>|string;
+    private _load: (args:any)=>Promise<void>|void;
+    private _connected: (args:any)=>Promise<void>|void;
+    private _ready: (args:any)=>Promise<void>|void
 
     constructor(route: string, title: string, description:string){
         super(title, description);
@@ -35,7 +36,7 @@ export default class Router extends Content{
      * 
      * @param {Function} callback 
      */
-    public onLoad(callback:()=>Promise<any>|any): void{
+    public onLoad(callback:(args:any)=>Promise<any>|any): void{
         if(typeof callback !== "function")
             throw new Error("Callback must be a function!");
 
@@ -48,7 +49,7 @@ export default class Router extends Content{
      * 
      * @param {Function} callback 
      */
-    public onRender(callback:()=>Promise<string>|string): void{
+    public onRender(callback:(args:any)=>Promise<string>|string): void{
         if(typeof callback !== "function")
             throw new Error("Callback must be a function!");
 
@@ -61,7 +62,7 @@ export default class Router extends Content{
      * 
      * @param {Function} callback 
      */
-    public onConnected(callback:()=>Promise<any>|any): void{
+    public onConnected(callback:(args:any)=>Promise<any>|any): void{
         if(typeof callback !== "function")
             throw new Error("Callback must be a function!");
 
@@ -74,7 +75,7 @@ export default class Router extends Content{
      * 
      * @param {Function} callback 
      */
-    public onReady(callback:()=>Promise<void>|void): void{
+    public onReady(callback:(args:any)=>Promise<void>|void): void{
         if(typeof callback !== "function")
             throw new Error("Callback must be a function!");
 
@@ -84,17 +85,17 @@ export default class Router extends Content{
     /** Call Load Event.
      * 
      */
-    protected async Load():Promise<void>{
+    protected async Load(args: any):Promise<void>{
         if(this._load)
-            await this._load();
+            await this._load(args);
     }
 
     /** Call Render Event.
      * 
      */
-    protected async Render():Promise<string>{
+    protected async Render(args: any):Promise<string>{
         if(this._render) {
-            return await this._render();
+            return await this._render(args);
         } else {
             if(this._string)
                 return this._string;
@@ -106,17 +107,17 @@ export default class Router extends Content{
     /** Call Connected Event.
      * 
      */
-    protected async Connect():Promise<void>{
+    protected async Connect(args: any):Promise<void>{
         if(this._connected)
-            await this._connected();
+            await this._connected(args);
     }
 
     /** Call Ready Event.
      * 
      */
-    protected async Ready():Promise<void>{
+    protected async Ready(args: any):Promise<void>{
         if(this._ready)
-            await this._ready();
+            await this._ready(args);
     }
 
     /** Render to Element
@@ -162,6 +163,7 @@ export default class Router extends Content{
                 reject(error);
             }
 
+            const args: any = this._route.args;
             try {
                 //Callback for when transition OUT is finished
                 target.ontransitionend = async() => {
@@ -172,14 +174,14 @@ export default class Router extends Content{
 
                             target.ontransitionend = undefined;
 
-                            await this.Ready();
+                            await this.Ready(args);
                             resolve();
                         }
 
                         //Set content to page.
                         target.innerHTML = await contentTimeOut();
 
-                        this.Connect()
+                        this.Connect(args);
 
                         //Start transition IN
                         target.style.opacity = "";
@@ -189,13 +191,13 @@ export default class Router extends Content{
                     
                 }
 
-                this.Load()
+                this.Load(args);
 
                 //Start transition OUT
                 target.style.opacity = "0";
 
                 //Get HTML
-                content = await this.Render();
+                content = await this.Render(args);
             }catch(err: any){
                 handleError(err);
             }
@@ -206,15 +208,11 @@ export default class Router extends Content{
      * 
      * May be changing to allow variables within the url
      * 
-     * @param {string} url 
+     * @param {Path} path 
      * @returns {boolean}
      */
-    public matches(url: string): boolean{
-        if(typeof url !== "string"){
-            throw new Error("Title must be a string!");
-        }
-
-        return this._route.match(url);
+    public matches(path: Path): boolean{
+        return this._route.match(path);
     }
 
     /** Get Hypertext Reference

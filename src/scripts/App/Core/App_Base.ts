@@ -37,8 +37,6 @@ export default class App_Base{
      */
     private _handler(): void{
         let location:string = window.location.pathname;
-        if(location.length === 0)
-            location = "/";
     
         let r = this._getRouter(location);
 

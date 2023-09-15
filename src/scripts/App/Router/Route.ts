@@ -1,3 +1,5 @@
+import Path from "./Path";
+
 interface Layer {
     key: boolean,
     value: string
@@ -24,7 +26,7 @@ export default class Route {
                 if(value[0] === ":") {
                     this._layers.push({
                         key: true,
-                        value: value
+                        value: value.substring(1)
                     });
                 } else if(value[0] === "*"){
                     this._overflow = true;
@@ -37,35 +39,22 @@ export default class Route {
                 }
             }
         }
-        console.log(`${path}:\n${JSON.stringify(this._layers, null, 2)}`);
     }
 
-    public match(path: string):boolean{
-        const index = path.indexOf("?");
+    public match(path: Path):boolean{
+        this._get = path._get;
 
-        this._get = {};
-        if(index != -1) {
-            path = path.substring(0, index-1);
-
-            for(let args of path.substring(index+1).split('&')){
-                let buffer = decodeURIComponent(args).split("=");
-                this._get[buffer[0]] = buffer[1];
-            }
-        }
-
-        let values: Array<string> = path.split("/").filter(value=>value!=="");
-        if(values.length > this._layers.length) {
+        if(path.length > this._layers.length) {
             if(this._overflow){
-                this._keys["args"] = values.splice(this._layers.length);
+                this._keys["args"] = path.splice(this._layers.length);
             } else {
                 return false;
             }
         }
-            
 
         for(let index = 0; index < this._layers.length; index++){
             let layer = this._layers[index];
-            let value = values[index];
+            let value = path[index];
 
             if(typeof value === "undefined"){
                 if(!layer.key)
@@ -73,8 +62,8 @@ export default class Route {
             } else {
                 if(layer.key){
                     this._keys[layer.value] = value;
-                } else {
-                    return layer.value === value;
+                } else if(layer.value !== value){
+                    return false;
                 }
             }
         }

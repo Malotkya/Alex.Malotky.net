@@ -10,7 +10,7 @@ const TEMPLATE_CODE_REGEX = /{%(.*?)%}/gs
 const TEMPLATE_STRING_REGEX = /{{(.*?)}}/gs
 
 //Other constants
-const TEMPLATE_DIRECTORY = "templates/"
+const TEMPLATE_DIRECTORY = "/templates/"
 const INCLUDED_FUNCTIONS = {
     include: templateEngine,
     forEach: forEach,
@@ -151,8 +151,11 @@ function getFile(filename: string): String{
  */
 function forEach(arr:Array<any>, loopCallback:(value:any, index:string)=>string, emptyCallback:()=>string): string{
     if(arr && arr.length === 0){
-        if(emptyCallback)
+        if(emptyCallback){
+            if(typeof emptyCallback === "string")
+                return emptyCallback;
             return emptyCallback();
+        }
         return "";
     }
 

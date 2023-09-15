@@ -1,5 +1,6 @@
 import Content from "./Content";
 import Router from "../Router";
+import Path from "../Router/Path";
 
 /** Base Application Class
  * 
@@ -36,7 +37,7 @@ export default class App_Base{
      * Loads content, title, and description.
      */
     private _handler(): void{
-        let location:string = window.location.pathname;
+        let location = new Path(window.location);
     
         let r = this._getRouter(location);
 
@@ -68,17 +69,17 @@ export default class App_Base{
      * 
      * I may have this start returning a list with middleware in addition to routers being returned.
      * 
-     * @param url 
+     * @param {Path} path 
      * @returns {Content}
      */
-    private _getRouter(url: string): Content{
+    private _getRouter(path: Path): Content{
         for(let router of this._routes){
-            if(router.matches(url))
+            if(router.matches(path))
                 return router;
         }
 
         let fourzerofour = new Content("404", "");
-        fourzerofour.set(makeErrorMessage(`Unable to find '${url}'`, 404));
+        fourzerofour.set(makeErrorMessage(`Unable to find '${path.toString()}'`, 404));
         return fourzerofour;
     }
 

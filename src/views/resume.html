@@ -2,20 +2,18 @@
 <article>
     <h2>Job History:</h2>
     <ul class="resume-card-list">
-        {% for(let j of jobs){ %}
-            {{ include("resume/job.html", j) }}
-        {% } %}
+        {{ forEach(results.jobs, j=>include("resume/job.html", j)) }}
     </ul>
 </article>
 <article>
     <h2>School History:</h2>
     <ul class="resume-card-list">
-        {{ forEach(schools, s=>include("resume/school.html", s)) }}
+        {{ forEach(results.schools, s=>include("resume/school.html", s)) }}
     </ul>
 </article>
 <article>
     <h2>Skills:</h2>
     <ul class="resume-card-list">
-        {{ forEach(skills, s=>include("resume/skill.html", s), "<p>Alex has no skills!</p>")}}
+        {{ forEach(results.skills, s=>include("resume/skill.html", s), "<p>Alex has no skills!</p>")}}
     </ul>
 </article>

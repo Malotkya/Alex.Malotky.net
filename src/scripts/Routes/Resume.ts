@@ -6,7 +6,7 @@ import {render, sleep} from "../App";
  * 
  * @author Alex Malotky
  */
-export const Resume = new Router("/Resume", "Resume", "Alex's resume and other skills.");
+export const Resume = new Router("/Resume/:page", "Resume", "Alex's resume and other skills.");
 
 let results: any;
 
@@ -15,8 +15,15 @@ Resume.onLoad(async()=>{
     console.debug(results);
 });
 
-Resume.onRender(async()=>{
+Resume.onRender(async(args:any)=>{
     while(typeof results === "undefined")
         await sleep(5);
-    return render("resume.html", results);
+
+    if(typeof args.page === "undefined")
+        args.page = "all";
+
+    return render("resume.html", {
+        page: args.page,
+        results: results
+    });
 });

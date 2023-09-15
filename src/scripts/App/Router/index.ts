@@ -142,13 +142,13 @@ export default class Router extends Content{
             function contentTimeOut(): Promise<string> {
                 return new Promise(async(res,rej)=>{
                     let counter = 100;
-                    while( (--counter > 0) ){
+                    while( true ){ //(--counter > 0) ){
                         if(content)
                             res(content);
                         await sleep(5);
                     }
                         
-                    rej(new Error("Content rendering has timed out!"))
+                    //rej(new Error("Content rendering has timed out!"))
                 })
             }
 

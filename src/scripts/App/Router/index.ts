@@ -1,7 +1,7 @@
-import Content from "./Core/Content"
-import { sleep } from ".";
-import {makeErrorMessage} from "./Core/App_Base";
-
+import Content from "../Core/Content"
+import { sleep } from "..";
+import {makeErrorMessage} from "../Core/App_Base";
+import Route from "./Route";
 
 
 /** Router Class
@@ -9,7 +9,7 @@ import {makeErrorMessage} from "./Core/App_Base";
  * @author Alex Malotky
  */
 export default class Router extends Content{
-    private _route: string;
+    private _route: Route;
     private _render: ()=>Promise<string>|string;
     private _load: ()=>Promise<void>|void;
     private _connected: ()=>Promise<void>|void;
@@ -19,9 +19,9 @@ export default class Router extends Content{
         super(title, description);
 
         if(typeof route === "string"){
-            this._route = route;
+            this._route = new Route(route);
         } else {
-            throw new Error("Title must be a string!");
+            throw new Error("Route must be a string!");
         }
 
         this._ready = ()=>undefined;
@@ -214,13 +214,13 @@ export default class Router extends Content{
             throw new Error("Title must be a string!");
         }
 
-        return url === this._route;
+        return this._route.match(url);
     }
 
     /** Get Hypertext Reference
      * 
      */
-    get href(){
-        return this._route;
+    get href(): string{
+        return "/".concat(this._route.value);
     }
 }

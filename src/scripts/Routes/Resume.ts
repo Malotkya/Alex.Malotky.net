@@ -1,12 +1,12 @@
 import Router from "../App/Router";
-import {getResume} from "../App/Database";
+import {getResume} from "../Database";
 import {render, sleep} from "../App";
 
 /** Resume Router
  * 
  * @author Alex Malotky
  */
-export const Resume = new Router("/Resume/:page", "Resume", "Alex's resume and other skills.");
+/*export const Resume = new Router("/Resume/:page", "Resume", "Alex's resume and other skills.");
 
 let results: any;
 
@@ -27,3 +27,4 @@ Resume.onRender(async(args:any)=>{
         results: results
     });
 });
+*/

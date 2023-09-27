@@ -1,16 +1,13 @@
-import Router from "../App/Router";
-import {render} from "../App";
+import {Router, Context, render} from "../App"
 
 /** About Me Router
  * 
+ * @author Alex Malotky
  */
-export const AboutMe = new Router("/About", "About Me",
-    "A little bit about me so that you can get to know me better.");
+export const AboutMe = new Router("About Me",
+    "A list of projects that Alex has worked on."
+    );
 
-AboutMe.onRender(()=>{
-    return render("about.html");
+AboutMe.use(async(ctx:Context, next:Function)=>{
+    ctx.body = await render("about.html");
 });
-
-/*AboutMe.onConnected(()=>{
-    return execute("about.js");
-})*/

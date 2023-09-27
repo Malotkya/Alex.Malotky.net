@@ -1,13 +1,16 @@
-import Router from "../App/Router";
-import {render, sleep} from "../App";
+import {Router, Context, render} from "../App"
 
 /** Home Router
  * 
  * @author Alex Malotky
  */
-export const Home = new Router("/", "Home", "");
+export const Home = new Router("Home");
 
-const TEXT_DELAY = 15;//ms
+Home.use(async(ctx:Context, next:Function)=>{
+    ctx.body = await render("home.html");
+});
+
+/*const TEXT_DELAY = 15;//ms
 let targetElement: HTMLElement;
 let animatedText: string;
 
@@ -34,4 +37,4 @@ Home.onReady(async()=>{
             await sleep(TEXT_DELAY);
         }
     }
-})
+})*/

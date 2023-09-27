@@ -1,13 +1,13 @@
-import Router from "../App/Router";
-import {render} from "../App";
+import {Router, Context, render} from "../App"
 
 /** Portfolio Router
  * 
  * @author Alex Malotky
  */
-export const Portfolio = new Router("/Portfolio", "Portfolio",
-    "A list of projects that Alex has worked on.");
+export const Portfolio = new Router("Portfolio",
+    "A list of projects that Alex has worked on."
+    );
 
-Portfolio.onRender(()=>{
-    return render("portfolio.html");
-})
+    Portfolio.use(async(ctx:Context, next:Function)=>{
+    ctx.body = await render("portfolio.html");
+});

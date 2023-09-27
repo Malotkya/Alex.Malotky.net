@@ -1,4 +1,4 @@
-import Router from "../Router";
+import {Router} from "../App";
 import { createHambergerButton, createMenuList, createNavTitle } from "./html";
 
 /** Navigation Bar Class
@@ -13,10 +13,9 @@ export default class NavBar{
      * 
      * @param {string} id 
      */
-    constructor(id: string){
+    constructor(){
 
-        //TODO: create html instead of finding it!
-        let target = document.querySelector(id);
+        let target = document.querySelector("nav");
 
         if(typeof target === "undefined")
             throw new Error("Unable to find NavBar!");

@@ -8,11 +8,11 @@ const CssMinimizerPlugin = require("css-minimizer-webpack-plugin")
 const build_directory = path.resolve(__dirname, 'build');
 const source_directory = path.resolve(__dirname, "src");
 
-//test if in dev environment
-const dev = process.argv.includes('dev');
+//test if in production environment
+const prod = process.argv.includes('prod');
 
 //create minify requirements if in production
-const minify = !dev ? {
+const minify = prod ? {
   minimize: true,
   minimizer:[
     new HtmlMinimizerPlugin(),
@@ -23,12 +23,15 @@ const minify = !dev ? {
 
 //export config
 module.exports = {
-  mode: dev? "development": "production",
-  entry: [
-    path.join(source_directory, 'scripts', 'index.ts'),
-    path.join(source_directory, 'styles', 'index.scss')
-  ],
-  devtool: dev? 'source-map': undefined,
+  mode: prod? "production": "development",
+  entry: {
+    script: [
+      path.join(source_directory, 'scripts', 'index.ts'),
+      path.join(source_directory, 'styles', 'index.scss')
+    ],
+    firebase: path.join(source_directory, "scripts", "firebase.ts")
+  },
+  devtool: prod? undefined: 'source-map',
   module: {
     rules: [
       {
@@ -52,10 +55,16 @@ module.exports = {
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
   },
+  experiments: {
+    outputModule: true
+},
   output: {
-    filename: 'script.js',
+    filename: '[name].js',
     path: build_directory,
-    clean: !dev
+    clean: prod,
+    library: {
+      type: 'module'
+  }
   },
   plugins: [
     new CopyWebpackPlugin({

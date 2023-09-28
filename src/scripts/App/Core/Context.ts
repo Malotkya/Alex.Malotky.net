@@ -17,7 +17,7 @@ export default class Context{
 
     //Information Generated from path
     private _gets: any;
-    private _params: any;
+    private _params: Map<string, string>;
 
     //Information gnerated by users.
     private _body: string;
@@ -34,7 +34,7 @@ export default class Context{
         this._host = l.hostname;
         this._path = l.pathname;
         this._body = "";
-        this._params = {};
+        this._params = new Map<string, string>();;
         this._gets = {};
         this._execute = ()=>undefined;
         for(let args of location.search.substring(1).split('&')){
@@ -74,8 +74,8 @@ export default class Context{
     /** Paramters Getter
      * 
      */
-    get params(): any{
-        return {...this._gets, ...this._params};
+    get params(): Map<string, string>{
+        return this._params;
     }
 
     /** HTML Title Getter
@@ -98,15 +98,26 @@ export default class Context{
     set body(value:string|HTMLElement){
         if(value instanceof HTMLElement)
             this._body = value.outerHTML;
-        else
+        else if(typeof value === "string")
             this._body = String(value);
     }
 
     /** Paramters Setter
      * 
      */
-    set params(value: any){
-        this._params = value;
+    set params(value: any|Map<string, string>){
+        if(value instanceof Map){
+            this._params = copyMap(value);
+        } else {
+            this._params = new Map<string, string>();
+            for(let key in value){
+                this._params.set(key, String(value[key]));
+            }
+        }
+
+        for(let key in this._gets){
+            this._params.set(key, this._gets[key]);
+        }
     }
 
     /** HTML Title Setter
@@ -124,10 +135,21 @@ export default class Context{
     }
 
     set execute(value: Executable){
+        if(typeof value !== "function")
+            throw new TypeError(`Unknown type '${typeof value}' for Executable!`);
         this._execute = value;
     }
 
     get execute(){
         return this._execute;
     }
+}
+
+function copyMap(original:Map<string, string>): Map<string, string>{
+    const newMap = new Map<string, string>();
+
+    for(let it of original.entries())
+        newMap.set(it[0], it[1]);
+    
+    return newMap;
 }

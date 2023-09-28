@@ -14,6 +14,7 @@ export default class Core extends Route{
     private _ready: Function;
     private _defaultTitle: string;
     private _defaultContent: string;
+    private _routing: boolean;
 
     //HTML elements
     private _title: HTMLElement;
@@ -29,6 +30,8 @@ export default class Core extends Route{
         window.onpopstate = () => this.handler();
         window.onload = () => this.start();
         (window as any).route = () => this.route();
+
+        this._routing = false;
     }
 
     /** Path Handler Function
@@ -36,6 +39,8 @@ export default class Core extends Route{
      * Loads content, title, and description.
      */
     private handler(): void{
+        this._routing = true;
+
         const context = new Context(window.location);
         let contextReady: boolean = false;
 
@@ -58,6 +63,7 @@ export default class Core extends Route{
                 await sleep(5);
 
             await this.display(context);
+            this._routing = false;
         }
 
         //Start Transition Out
@@ -74,8 +80,11 @@ export default class Core extends Route{
     protected route(event?: any): void{
         event = event || window.event;
         event.preventDefault();
-        window.history.pushState({}, "", event.target.href);
-        this.handler();
+
+        if(!this._routing){
+            window.history.pushState({}, "", event.target.href);
+            this.handler();
+        }
     }
 
     /** Start App Function

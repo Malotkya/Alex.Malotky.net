@@ -45,6 +45,8 @@ export default class Core extends Route{
         let contextReady: boolean = false;
 
         this._target.ontransitionstart = async() => {
+            this._target.ontransitionstart = undefined;
+
             this.handle(context, (error?: any) => {
                 if(error && error !== SignalEnd){
                     context.body = makeErrorMessage(error);
@@ -52,17 +54,20 @@ export default class Core extends Route{
                     context.info = "";
                     console.error(error);
                 }
-    
+
                 contextReady = true;
             });
         };
 
         this._target.ontransitionend = async() => {
+            this._target.ontransitionend = undefined;
+
             //Wait for routing & rendering to finish
             while(!contextReady)
                 await sleep(5);
 
             await this.display(context);
+
             this._routing = false;
         }
 
@@ -118,6 +123,7 @@ export default class Core extends Route{
     private display(context: Context): Promise<void>{
         return new Promise((resolve, reject)=>{
             this._target.ontransitionend = () => {
+                this._target.ontransitionend = undefined
                 context.execute();
                 resolve();
             }

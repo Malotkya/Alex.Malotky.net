@@ -39,14 +39,15 @@ export default class Core extends Route{
         const context = new Context(window.location);
         this.handle(context, (error?: any) => {
             if(error && error !== SignalEnd){
-                this._target.innerHTML = makeErrorMessage(error);
-                this._title.textContent = this._defaultTitle + " | Error";
-                this._description = this._description;
+                this.body = makeErrorMessage(error);
+                this.title = "Error";
+                this.description = "";
                 console.error(error);
             } else {
-                this._target.innerHTML = context.body;
-                this._title.textContent = this._defaultTitle + context.title === ""? "": " | " + context.title;
-                this._description.setAttribute("content", context.info === ""? this._defaultContent: context.info);
+                this.body = context.body;
+                this.title = context.title;
+                this.description = context.info;
+                context.execute();
             }
         });
     }
@@ -91,6 +92,28 @@ export default class Core extends Route{
             throw new Error("Callback must be a function!");
             
         this._ready = callback;
+    }
+
+    protected set body(value: string){
+        this._target.innerHTML = value;
+    }
+
+    protected set title(value: string){
+        if(typeof value === "undefined" || value === ""){
+            value = this._defaultTitle;
+        } else {
+            value = this._defaultTitle.concat(" | ", value);
+        }
+
+        this._title.textContent = value;
+    }
+
+    protected set description(value: string){
+        if(typeof value === "undefined" || value === ""){
+            value = this._defaultContent;
+        }
+
+        this._description.setAttribute("content", value);
     }
 }
 

@@ -2,15 +2,15 @@
  * 
  * @author Alex Malotky
  */
-import {Router, Context, render} from "../App"
+import {Module, Context, render} from "../App"
 
 /** Portfolio Router
  * 
  */
-export const Portfolio = new Router("Portfolio",
+export const Portfolio = new Module("Portfolio",
     "A list of projects that Alex has worked on."
     );
 
-    Portfolio.use(async(ctx:Context)=>{
+Portfolio.onRender(async(ctx:Context)=>{
     ctx.body = await render("portfolio.html");
 });

@@ -26,7 +26,7 @@ While trying to figure out the best way to create template files for HTML, I rea
 ## Technology
 
 ### Firebase
-I decided to go with firebase to host my project because it is easy to set up and deploy too.  On top of that I am also able to access firestore, which is a document database, so that I can update information on my website without having to redeploy the application.
+I decided to go with firebase to host my project because it is easy to set up and deploy to.  On top of that I am also able to access firestore, which is a document database, so that I can update information on my website without having to redeploy the application.
 
 ### Typescript
 I decided to go with typescript over plane javascript because I wanted to have stricter typing then javascript has natively.  I thought working with typescript would be fun especially because I would already be going through the process of bundling my code with webpack.

@@ -1,4 +1,4 @@
-import {Router} from "../App";
+import {Router} from "..";
 import { createHambergerButton, createMenuList, createNavTitle } from "./html";
 
 /** Navigation Bar Class

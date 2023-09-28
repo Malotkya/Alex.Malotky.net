@@ -31,9 +31,9 @@ export default class Layer {
     }
 
     protected set path(value: string){
-        this._regex = new RegExp(value);
+        this._regex = pathToRegexp(value);
         this._path = value;
-        this._shortcut = value === "" || value === "/";
+        this._shortcut = value === "";
     }
 
     protected get path(){

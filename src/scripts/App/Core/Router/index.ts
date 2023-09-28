@@ -37,6 +37,6 @@ export default class Router extends Route {
     }
 
     public get href(){
-        return this._path;
+        return this.path;
     }
 }

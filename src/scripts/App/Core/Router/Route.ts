@@ -56,7 +56,7 @@ export default class Route extends Layer{
                 return done();
 
             if(layer.match(context.path)) {
-                layer.handle(context, next);
+                return layer.handle(context, next);
             }
 
             next();

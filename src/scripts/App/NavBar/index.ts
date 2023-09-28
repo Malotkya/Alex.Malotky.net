@@ -55,7 +55,7 @@ export default class NavBar{
      */
     public routeEvent(callback: EventListener): void{
         if(typeof callback !== "function")
-            throw new Error("Event Listener must be a Function");
+            throw new TypeError("Event Listener must be a Function");
 
         this._home.addEventListener("click", event=>{
             this._list.style.display = "";
@@ -74,7 +74,7 @@ export default class NavBar{
      */
     public add(router: Router):void{
         if( !(router instanceof Router) )
-            throw new Error("router must be an instace of a Router!");
+            throw new TypeError("router must be an instace of a Router!");
 
         let item = document.createElement("li");
         let link = document.createElement("a");

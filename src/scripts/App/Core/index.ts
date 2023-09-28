@@ -89,7 +89,7 @@ export default class Core extends Route{
      */
     public onReady(callback: Function): void{
         if(typeof callback !== "function")
-            throw new Error("Callback must be a function!");
+            throw new TypeError("Callback must be a function!");
             
         this._ready = callback;
     }

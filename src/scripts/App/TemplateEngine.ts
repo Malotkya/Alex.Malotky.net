@@ -27,7 +27,7 @@ const INCLUDED_FUNCTIONS = {
  */
 export default function templateEngine(filename: string, args?: any): string{
     if(typeof filename !== "string")
-        throw new Error("Filename must be a string!");
+        throw new TypeError("Filename must be a string!");
 
     const instructions = createTemplateInstructions(getFile(filename).toString());
     return compileTemplateInstructions(instructions, args);
@@ -42,7 +42,7 @@ export default function templateEngine(filename: string, args?: any): string{
  */
 export function createTemplateInstructions(template: string): Array<string>{
     if(typeof template !== "string")
-        throw new Error("Template must be a string!");
+        throw new TypeError("Template must be a string!");
 
     const instructions: Array<string> = [];
     instructions.push("let output = '';")
@@ -79,7 +79,7 @@ export function createTemplateInstructions(template: string): Array<string>{
  */
 export function convertToTemplateString(template: string): string{
     if(typeof template !== "string")
-        throw new Error("Template must be a string!");
+        throw new TypeError("Template must be a string!");
 
     const buffer: Array<string> = [];
 

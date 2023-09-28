@@ -56,6 +56,9 @@ export default class App extends Core {
  */
 export function render(filename: string, args?: any): Promise<string>{
     return new Promise((resolve, reject)=>{
+        if(typeof filename !== "string")
+            reject(new TypeError(`Unknown type '${typeof filename}' for filename!`));
+
         try{
             resolve(templateEngine(filename, args));
         } catch (e){

@@ -52,6 +52,10 @@ export default class Route extends Layer{
             return this;
         }
 
+        //Validate Path
+        if(typeof path !== "string")
+            throw new TypeError(`Unknown type '${typeof path}' for path!`);
+
         //Handle adding middleware
         if(middleware instanceof Route){
             middleware.path = this.path + path;
@@ -59,7 +63,7 @@ export default class Route extends Layer{
         } else if(typeof middleware === "function"){
             this._layers.push(new Layer(this._path + path, this._options, middleware));
         } else {
-            throw new Error(`Unknown middlware type '${typeof middleware}'!`);
+            throw new TypeError(`Unknown middlware type '${typeof middleware}'!`);
         }
 
         return this;

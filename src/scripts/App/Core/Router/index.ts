@@ -29,12 +29,14 @@ export default class Router extends Route {
         if(typeof title === "string")
             this._title = title;
         else
-            throw new Error(`Unknown type '${typeof title}' for title!`);
+            throw new TypeError(`Unknown type '${typeof title}' for title!`);
 
         if(typeof info === "string")
             this._info = info;
-        else
+        else if(typeof info === "undefined")
             this._info = "";
+        else
+            throw new TypeError(`Unknown type '${typeof title}' for info!`)
     }
 
     /** Handle Context/Response Override
@@ -43,8 +45,15 @@ export default class Router extends Route {
      * @param {Signal} done 
      */
     public handle(context: Context, done: Signal) {
-        context.title = this._title;
-        context.info = this._info;
+        if(context instanceof Context) {
+            context.title = this._title;
+            context.info = this._info;
+        } else {
+            throw new TypeError(`Unknown type '${typeof context}' for Context!`);
+        }
+        
+        if(typeof done !== "function")
+            throw new TypeError(`Unknown type '${typeof done}' for done!`);
         
         super.handle(context, (error?:any) =>{
             if(error)

@@ -38,8 +38,14 @@ export default class Layer {
      * @param {Middleware} handler 
      */
     constructor(path: string, options: any = {}, handler:Middleware){
+        if(typeof path !== "string")
+            throw new TypeError(`Unknown type '${typeof path}' for path!`);
         this.path = path;
+
+        if(typeof handler !== "function")
+            throw new TypeError(`Unknown type '${typeof handler}' for handler!`);
         this._handler = handler;
+
         this._options = options;
     }
 
@@ -49,10 +55,14 @@ export default class Layer {
      * @param {Signal} next 
      */
     public handle(context: Context, next: Signal){
-        context.params = this._params;
-        this._handler(context)
-            .then(next)
-            .catch(next);
+        if(context instanceof Context)
+            context.params = this._params;
+        else
+            throw new TypeError(`Unknown type '${typeof context}' for context!`);
+
+        const wrapper = async(callback:Middleware) => await callback(context);
+        wrapper(this._handler).then(next).catch(next);
+        
     }
 
     /** Path Setter
@@ -60,6 +70,9 @@ export default class Layer {
      * Used by parent route to update path if/when added to a route.
      */
     protected set path(value: string){
+        if(typeof value !== "string")
+            throw new TypeError(`Unknown type '${typeof value}' for path!`);
+
         this._regex = pathToRegexp(value);
         this._path = value;
         this._shortcut = value === "";
@@ -78,6 +91,9 @@ export default class Layer {
      * @returns {boolean}
      */
     public match(path: string): boolean{
+        if(typeof path !== "string")
+            throw new TypeError(`Unknown type '${typeof path}' for path!`);
+
         if(this._shortcut)
             return true;
 
@@ -96,4 +112,8 @@ export default class Layer {
 
         return true;
     }
+}
+
+async function promiseWrapper(callback:Middleware, context:Context):Promise<void>{
+    return await callback(context);
 }

@@ -1,3 +1,12 @@
+/** App/Core/Context.ts
+ * 
+ * @author Alex Malotky
+ */
+
+/** Context Class
+ * 
+ * Contains information that can be modified by middleware.
+ */
 export default class Context{
     //Location Information
     private _port: string;
@@ -13,6 +22,10 @@ export default class Context{
     private _title: string;
     private _info: string;
 
+    /** Constructor
+     * 
+     * @param {Location} l 
+     */
     constructor(l: Location){
         this._port = l.port;
         this._host = l.hostname;
@@ -26,34 +39,58 @@ export default class Context{
         }
     }
 
+    /** Port Number Getter
+     * 
+     */
     get port(): string{
         return this._port;
     }
 
+    /** Host Name Getter
+     * 
+     */
     get host(): string{
         return this._host;
     }
 
+    /** Path Getter
+     * 
+     */
     get path(): string{
         return this._path;
     }
 
+    /** HTML Body Getter
+     * 
+     */
     get body(): string{
         return this._body;
     }
 
+    /** Paramters Getter
+     * 
+     */
     get params(): any{
         return {...this._gets, ...this._params};
     }
 
+    /** HTML Title Getter
+     * 
+     */
     get title(): string {
         return this._title;
     }
 
+    /** HTML Description Getter
+     * 
+     */
     get info(): string {
         return this._info;
     }
 
+    /** HTML Body Setter
+     * 
+     */
     set body(value:string|HTMLElement){
         if(value instanceof HTMLElement)
             this._body = value.outerHTML;
@@ -61,14 +98,23 @@ export default class Context{
             this._body = String(value);
     }
 
+    /** Paramters Setter
+     * 
+     */
     set params(value: any){
         this._params = value;
     }
 
+    /** HTML Title Setter
+     * 
+     */
     set title(value: string){
         this._title = String(value);
     }
 
+    /** HTML Description Setter
+     * 
+     */
     set info(value: string){
         this._info = String(value);
     }

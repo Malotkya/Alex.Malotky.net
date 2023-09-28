@@ -1,21 +1,42 @@
+/** /App.ts
+ * 
+ * @author Alex Malotky
+ */
 import Core from "./Core";
 import templateEngine from "./TemplateEngine";
 import Context from "./Core/Context";
 import Router from "./Core/Router"
 import NavBar from "./NavBar";
 
+//Export Classes and Functions
 export {Context, Router};
 export {makeErrorMessage} from "./Core";
 
+/** App Class
+ * 
+ * Combines the Navbar and Core App Classes
+ */
 export default class App extends Core {
     private _nav: NavBar;
 
+    /** Constructor
+     * 
+     */
     constructor(){
         super();
         this._nav = new NavBar();
         this._nav.routeEvent(event=>this.route(event));
     }
 
+    /** Add to Navbar and Use Router
+     * 
+     * Calls this.use(path, Router)
+     * 
+     * TODO: create drop down if router has sub-routes.
+     * 
+     * @param {string} path 
+     * @param {Router} router 
+     */
     public add(path: string, router:Router){
         this.use(path, router);
         if(path !== "/")

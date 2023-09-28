@@ -1,11 +1,28 @@
+/** App/Core/Router.ts
+ * 
+ * @author Alex Malotky
+ */
 import Context from "../Context";
-import { Signal, SignalEnd } from "./Layer";
+import { Signal } from "./Layer";
 import Route from "./Route";
 
+//End Signal
+export const SignalEnd = "END";
+
+/** Router Class
+ * 
+ * Distinct from route in that when done it will signal to end routing,
+ * and automatically updates the title and info metadata in the context.
+ */
 export default class Router extends Route {
     private _title: string;
     private _info: string;
 
+    /** Constructor
+     * 
+     * @param {string} title 
+     * @param {string} info 
+     */
     constructor(title:string, info?:string){
         super();
 
@@ -20,6 +37,11 @@ export default class Router extends Route {
             this._info = "";
     }
 
+    /** Handle Context/Response Override
+     * 
+     * @param {Context} context 
+     * @param {Signal} done 
+     */
     public handle(context: Context, done: Signal) {
         context.title = this._title;
         context.info = this._info;
@@ -32,10 +54,16 @@ export default class Router extends Route {
         });
     }
 
+    /** Title Getter
+     * 
+     */
     public get title(){
         return this._title;
     }
 
+    /** Hyperlink Reference Getter
+     * 
+     */
     public get href(){
         return this.path;
     }

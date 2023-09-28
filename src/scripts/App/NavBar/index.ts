@@ -1,9 +1,13 @@
+
+/** App/Navbar.ts
+ * 
+ * @author Alex Malotky
+ */
 import {Router} from "..";
 import { createHambergerButton, createMenuList, createNavTitle } from "./html";
 
 /** Navigation Bar Class
  * 
- * @author Alex Malotky
  */
 export default class NavBar{
     private _list: HTMLElement;
@@ -11,7 +15,6 @@ export default class NavBar{
 
     /** Constructor w/ selector string.
      * 
-     * @param {string} id 
      */
     constructor(){
 

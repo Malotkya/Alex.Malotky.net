@@ -1,4 +1,7 @@
-import Router from "../App/Router";
+/** /Routes/Resume.ts
+ * 
+ */
+import Router from "../App/Core/Router";
 import {getResume} from "../Database";
 import {render, sleep} from "../App";
 

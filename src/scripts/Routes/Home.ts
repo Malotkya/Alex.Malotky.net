@@ -1,12 +1,15 @@
+/** /Router/Home.ts
+ * 
+ * @author Alex Malotky
+ */
 import {Router, Context, render} from "../App"
 
 /** Home Router
  * 
- * @author Alex Malotky
  */
 export const Home = new Router("Home");
 
-Home.use(async(ctx:Context, next:Function)=>{
+Home.use(async(ctx:Context)=>{
     ctx.body = await render("home.html");
 });
 

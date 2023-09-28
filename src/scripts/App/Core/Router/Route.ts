@@ -1,19 +1,39 @@
+/** App/Core/Router/Route.ts
+ * 
+ * @author Alex Malotky
+ */
 import Layer, {Middleware, Signal} from "./Layer";
 import Context from "../Context";
 
+/** Route Class
+ * 
+ */
 export default class Route extends Layer{
     private _layers: Array<Layer>
 
+    /** Constructor
+     * 
+     * @param {any} options 
+     */
     public constructor(options: any = {}){
         super("", options, undefined);
         this._layers = [];
     }
 
-    //(path:string|Array<string> = "", middleware:Middleware|Router)
-    public use(...args: Array<any>): Route{
+    /** Use Middleware or Route
+     * 
+     * originaly: use(path:string|Array<string> = "", middleware:Middleware|Router)
+     * 
+     * @param {string|Array<string>} path 
+     * @param {Middleware|Router} middleware
+     * @returns {Route}
+     */
+    public use(...args: Array<any>): Route {
+        //Input Arguments
         let path: string;
         let middleware: Route|Middleware;
 
+        //Filter Arguments
         if(args.length === 0){
             throw new Error("No arguments given!");
         } else if(args.length === 1){
@@ -24,6 +44,7 @@ export default class Route extends Layer{
             middleware = args[1];
         }
 
+        //Recursion for List of paths
         if(Array.isArray(path)){
             for(let p of path)
                 this.use(p, middleware);
@@ -31,6 +52,7 @@ export default class Route extends Layer{
             return this;
         }
 
+        //Handle adding middleware
         if(middleware instanceof Route){
             middleware.path = this.path + path;
             this._layers.push(middleware);
@@ -43,6 +65,11 @@ export default class Route extends Layer{
         return this;
     }
 
+    /** Handle Context/Response Override
+     * 
+     * @param {Context} context 
+     * @param {Signal} done 
+     */
     public handle(context: Context, done: Signal){
         let index = 0;
 

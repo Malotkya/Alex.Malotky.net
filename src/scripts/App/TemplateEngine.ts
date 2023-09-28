@@ -1,4 +1,4 @@
-/** Template Engine 
+/** App/TemplateEngine.ts
  * 
  * Render html from template html files.
  * 

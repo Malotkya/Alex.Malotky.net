@@ -1,13 +1,15 @@
-/** Application Class
+/** /App/Core.ts
  * 
  * @author Alex Malotky
  */
 import Route from "./Router/Route";
 import Context from "./Context";
-import Router from "./Router";
-import { SignalEnd } from "./Router/Layer";
+import { SignalEnd } from "./Router";
 
-
+/** Application Core Class
+ * 
+ * Interacts with and overrides browser functinoality.
+ */
 export default class Core extends Route{
     private _ready: Function;
     private _defaultTitle: string;
@@ -18,6 +20,9 @@ export default class Core extends Route{
     private _target: HTMLElement;
     private _description: HTMLElement;
 
+    /** Constructor
+     * 
+     */
     constructor(){
         super();
         

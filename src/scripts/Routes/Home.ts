@@ -2,42 +2,25 @@
  * 
  * @author Alex Malotky
  */
-import {Router, Context, render} from "../App"
+import {Context, Module, render, sleep} from "../App"
 
-/** Home Router
- * 
+/** Home Module
+ *
  */
-export const Home = new Router("Home");
+export const Home = new Module("Home");
 
-Home.use(async(ctx:Context)=>{
+//Message Constants
+const TEXT = "Hello,\r\nMy name is Alex Malotky.";
+const TEXT_DELAY = 15;//ms
+
+Home.onRender(async(ctx:Context)=>{
     ctx.body = await render("home.html");
 });
 
-/*const TEXT_DELAY = 15;//ms
-let targetElement: HTMLElement;
-let animatedText: string;
-
-Home.onRender(()=>render("home.html"));
-
-Home.onConnected(async()=>{
-    targetElement = document.querySelector("#text-target");
-
-    if(targetElement){
-        animatedText = targetElement.textContent.replace(/\\n/gm, "\r\n").trim();
-        targetElement.style.height = `${targetElement.offsetHeight}px`;
-        targetElement.textContent = "";
-        
-    } else {
-        console.error("Unable to find text element!");
+Home.onConnected(async() => {
+    const targetElement = document.querySelector("#text-target");
+    for(let char of TEXT){
+        targetElement.textContent += char;
+        await sleep(TEXT_DELAY);
     }
 });
-
-Home.onReady(async()=>{
-
-    if(targetElement && animatedText){
-        for(let char of animatedText){
-            targetElement.textContent += char;
-            await sleep(TEXT_DELAY);
-        }
-    }
-})*/

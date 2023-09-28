@@ -3,6 +3,8 @@
  * @author Alex Malotky
  */
 
+export type Executable = ()=>Promise<void>|void;
+
 /** Context Class
  * 
  * Contains information that can be modified by middleware.
@@ -21,6 +23,7 @@ export default class Context{
     private _body: string;
     private _title: string;
     private _info: string;
+    private _execute: Executable;
 
     /** Constructor
      * 
@@ -33,6 +36,7 @@ export default class Context{
         this._body = "";
         this._params = {};
         this._gets = {};
+        this._execute = ()=>undefined;
         for(let args of location.search.substring(1).split('&')){
             let buffer = decodeURIComponent(args).split("=");
             this._gets[buffer[0]] = buffer[1];
@@ -117,5 +121,13 @@ export default class Context{
      */
     set info(value: string){
         this._info = String(value);
+    }
+
+    set execute(value: Executable){
+        this._execute = value;
+    }
+
+    get execute(){
+        return this._execute;
     }
 }

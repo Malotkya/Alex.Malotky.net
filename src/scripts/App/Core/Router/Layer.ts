@@ -42,7 +42,7 @@ export default class Layer {
             throw new TypeError(`Unknown type '${typeof path}' for path!`);
         this.path = path;
 
-        if(typeof handler !== "function")
+        if(typeof handler !== "function" && typeof handler !== "undefined")
             throw new TypeError(`Unknown type '${typeof handler}' for handler!`);
         this._handler = handler;
 

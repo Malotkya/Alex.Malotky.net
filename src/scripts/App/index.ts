@@ -4,13 +4,15 @@
  */
 import Core from "./Core";
 import templateEngine from "./TemplateEngine";
-import Context from "./Core/Context";
-import Router from "./Core/Router"
 import NavBar from "./NavBar";
+import Router from "./Core/Router";
 
 //Export Classes and Functions
-export {Context, Router};
+import Module from "./Module";
+import Context from "./Core/Context";
+export {Router, Context, Module};
 export {makeErrorMessage} from "./Core";
+
 
 /** App Class
  * 

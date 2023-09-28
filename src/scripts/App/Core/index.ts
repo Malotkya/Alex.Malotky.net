@@ -37,19 +37,31 @@ export default class Core extends Route{
      */
     private handler(): void{
         const context = new Context(window.location);
-        this.handle(context, (error?: any) => {
-            if(error && error !== SignalEnd){
-                this.body = makeErrorMessage(error);
-                this.title = "Error";
-                this.description = "";
-                console.error(error);
-            } else {
-                this.body = context.body;
-                this.title = context.title;
-                this.description = context.info;
-                context.execute();
-            }
-        });
+        let contextReady: boolean = false;
+
+        this._target.ontransitionstart = async() => {
+            this.handle(context, (error?: any) => {
+                if(error && error !== SignalEnd){
+                    context.body = makeErrorMessage(error);
+                    context.title = "Error";
+                    context.info = "";
+                    console.error(error);
+                }
+    
+                contextReady = true;
+            });
+        };
+
+        this._target.ontransitionend = async() => {
+            //Wait for routing & rendering to finish
+            while(!contextReady)
+                await sleep(5);
+
+            await this.display(context);
+        }
+
+        //Start Transition Out
+        this._target.style.opacity = "0";
     }
 
     /** Route Clicked Function
@@ -92,6 +104,22 @@ export default class Core extends Route{
             throw new TypeError("Callback must be a function!");
             
         this._ready = callback;
+    }
+
+    private display(context: Context): Promise<void>{
+        return new Promise((resolve, reject)=>{
+            this._target.ontransitionend = () => {
+                context.execute();
+                resolve();
+            }
+    
+            this.body = context.body;
+            this.title = context.title;
+            this.description = context.info;
+    
+            //Start Transition In
+            this._target.style.opacity = "";
+        });
     }
 
     protected set body(value: string){
@@ -138,4 +166,18 @@ export function makeErrorMessage(error: any|string, code?: string|number): strin
     }
     
     return `<h1 class="error">${code}: ${message}</h1>`;
+}
+
+/** Sleep/Wait Utility
+ * 
+ * Currently only used by the home page, I felt like this utility funciton should
+ * be included in the app file.
+ * 
+ * @param {number} t - time in milliseconds.
+ * @returns {Promise<void>}
+ */
+export function sleep(t: number): Promise<void>{
+    return new Promise((res,rej)=>{
+        window.setTimeout(res, t);
+    });
 }

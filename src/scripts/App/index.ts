@@ -11,7 +11,7 @@ import Router from "./Core/Router";
 import Module from "./Module";
 import Context from "./Core/Context";
 export {Router, Context, Module};
-export {makeErrorMessage} from "./Core";
+export {makeErrorMessage, sleep} from "./Core";
 
 
 /** App Class
@@ -65,18 +65,4 @@ export function render(filename: string, args?: any): Promise<string>{
             reject(e);
         }
     })
-}
-
-/** Sleep/Wait Utility
- * 
- * Currently only used by the home page, I felt like this utility funciton should
- * be included in the app file.
- * 
- * @param {number} t - time in milliseconds.
- * @returns {Promise<void>}
- */
-export function sleep(t: number): Promise<void>{
-    return new Promise((res,rej)=>{
-        window.setTimeout(res, t);
-    });
 }

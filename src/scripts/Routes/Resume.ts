@@ -1,15 +1,14 @@
 /** /Routes/Resume.ts
  * 
  */
-import Router from "../App/Core/Router";
-import {getResume} from "../Database";
-import {render, sleep} from "../App";
+import {Context, Module, render, sleep} from "../App";
+import { getResume } from "../Util/Database";
 
 /** Resume Router
  * 
  * @author Alex Malotky
  */
-/*export const Resume = new Router("/Resume/:page", "Resume", "Alex's resume and other skills.");
+export const Resume = new Module("Resume", "Alex's resume and other skills.");
 
 let results: any;
 
@@ -18,16 +17,15 @@ Resume.onLoad(async()=>{
     console.debug(results);
 });
 
-Resume.onRender(async(args:any)=>{
+Resume.onRender(async(ctx: Context)=>{
     while(typeof results === "undefined")
         await sleep(5);
 
-    if(typeof args.page === "undefined")
-        args.page = "all";
+    if(typeof ctx.params.page === "undefined")
+        ctx.params.page = "all";
 
-    return render("resume.html", {
-        page: args.page,
+    ctx.body = await render("resume.html", {
+        page: ctx.params.page,
         results: results
     });
 });
-*/

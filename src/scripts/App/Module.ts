@@ -44,6 +44,9 @@ export default class Module extends Router{
      * @param {Executable} callback 
      */
     onLoad(callback:Executable){
+        if(typeof callback !== "function")
+            throw new TypeError(`Unknown type '${typeof callback}' for Load Event`);
+
         this._load = callback;
     }
 
@@ -52,6 +55,9 @@ export default class Module extends Router{
      * @param {Middleware} callback 
      */
     onRender(callback:Middleware){
+        if(typeof callback !== "function")
+            throw new TypeError(`Unknown type '${typeof callback}' for Render Event`);
+
         this.use(callback);
     }
 
@@ -60,6 +66,9 @@ export default class Module extends Router{
      * @param {Executable} callback
      */
     onConnected(callback:Executable){
+        if(typeof callback !== "function")
+            throw new TypeError(`Unknown type '${typeof callback}' for Connected Event`);
+
         this._connected = callback;
     }
 

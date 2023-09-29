@@ -77,7 +77,7 @@ export default class Route extends Layer{
     public handle(context: Context, done: Signal){
         let index = 0;
 
-        const next: Signal = async(error?:any)=>{
+        const next: Signal = async(error?:any): Promise<void>=>{
             if(error)
                 return done(error);
 

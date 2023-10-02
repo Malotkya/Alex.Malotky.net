@@ -2,7 +2,7 @@
  * 
  */
 import {Context, Module, render, sleep} from "../App";
-import { getResume } from "../Util/Database";
+import { getResume, ResumeResults } from "../Util/Database";
 import { cache } from "../Util/Memory";
 
 /** Resume Router
@@ -10,25 +10,43 @@ import { cache } from "../Util/Memory";
  * @author Alex Malotky
  */
 export const Resume = new Module("Resume", "Alex's resume and other skills.");
+export const resumePath = "/Resume/:page?";
 
-let results: any;
+let results: ResumeResults;
 
 Resume.onLoad(async()=>{
     results = await cache("Resume", getResume);
-    console.debug(results);
+    if(results.unknown.length > 0){
+        console.warn(results.unknown);
+    }
 });
 
 Resume.onRender(async(ctx: Context)=>{
     while(typeof results === "undefined")
-        await sleep(5);
+        await sleep();
 
     let page:string = ctx.params.get("page");
 
-    if(typeof page === "undefined")
-        page = "all";
+    switch(page){
+        case "Jobs":
+            page = "resume/allJobs.html";
+            break;
+        
+        case "Schools":
+            page = "resume/allSchools.html";
+            break;
 
-    ctx.body = await render("resume.html", {
-        page: page,
-        results: results
-    });
+        case "Skills":
+            page = "resume/allSkills.html";
+            break;
+
+        case "undefined":
+            page = "resume.html";
+            break;
+
+        default:
+            throw new Error(`Unknown Resume Page '${page}'!`)
+    }
+
+    ctx.body = await render(page, results);
 });

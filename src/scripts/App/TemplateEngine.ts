@@ -17,6 +17,12 @@ const INCLUDED_FUNCTIONS = {
     formatDate: formatDate
 }
 
+class TemplateError extends Error {
+    constructor(filename: string, message: string){
+        super(`(${filename}) ${message}`);
+    }
+}
+
 /** Syncrous Template Engine 
  * 
  * Should only be wrapped in a promise.
@@ -29,8 +35,16 @@ export default function templateEngine(filename: string, args?: any): string{
     if(typeof filename !== "string")
         throw new TypeError("Filename must be a string!");
 
-    const instructions = createTemplateInstructions(getFile(filename).toString());
-    return compileTemplateInstructions(instructions, args);
+    try {
+        const instructions = createTemplateInstructions(getFile(filename));
+        return compileTemplateInstructions(instructions, args);
+    } catch (err: any){
+        if(err instanceof TemplateError)
+            throw err;
+
+        throw new TemplateError(filename, err.message);
+    }
+    
 }
 
 /** Create Template Instructions
@@ -123,7 +137,7 @@ export function compileTemplateInstructions(instructions: Array<string>, args?: 
  * @param {string} filename 
  * @returns {String} 
  */
-function getFile(filename: string): String{
+function getFile(filename: string): string{
     const request = new XMLHttpRequest()
     request.open("GET", TEMPLATE_DIRECTORY+filename, false);
     request.send();
@@ -131,7 +145,7 @@ function getFile(filename: string): String{
     if(request.status !== 200)
         throw new Error("Unable to load file: " + request.statusText);
 
-    const response = new String(request.response);
+    const response = String(request.response);
 
     if(response.match("<!DOCTYPE html>"))
         throw new Error(`Unable to find '${filename}'`);

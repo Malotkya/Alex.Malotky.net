@@ -7,7 +7,7 @@ import { QuerySnapshot, DocumentReference } from "../firebase";
 /** Resume Results Interface
  * 
  */
-interface ResumeResults{
+export interface ResumeResults{
     schools: Array<any>,
     jobs: Array<any>,
     skills: Array<any>,

@@ -29,7 +29,7 @@ export default class Layer {
     protected _path: string;
     protected _handler: Middleware;
     protected _options: any;
-    protected _params: any;
+    protected _params: Map<string, string>;
     
     /** Constructor
      * 
@@ -38,6 +38,8 @@ export default class Layer {
      * @param {Middleware} handler 
      */
     constructor(path: string, options: any = {}, handler:Middleware){
+        this._options = options;
+
         if(typeof path !== "string")
             throw new TypeError(`Unknown type '${typeof path}' for path!`);
         this.path = path;
@@ -46,7 +48,8 @@ export default class Layer {
             throw new TypeError(`Unknown type '${typeof handler}' for handler!`);
         this._handler = handler;
 
-        this._options = options;
+        
+        this._params = new Map<string, string>();
     }
 
     /** Handle Context/Response
@@ -62,7 +65,10 @@ export default class Layer {
 
         const wrapper = async(callback:Middleware) => await callback(context);
         wrapper(this._handler).then(next).catch(next);
-        
+    }
+
+    public set(key:string|number, value:string){
+        this._params.set(String(key), value);
     }
 
     /** Path Setter
@@ -73,7 +79,7 @@ export default class Layer {
         if(typeof value !== "string")
             throw new TypeError(`Unknown type '${typeof value}' for path!`);
 
-        this._regex = pathToRegexp(value);
+        this._regex = pathToRegexp(value, this._keys = [], this._options);
         this._path = value;
         this._shortcut = value === "";
     }
@@ -103,11 +109,10 @@ export default class Layer {
             return false;
         }
 
-        this._params = {};
         for(let index = 1; index < match.length; index++){
             let name = this._keys[index-1].name;
             let value = decodeURIComponent(match[index]);
-            this._params[name] = value;
+            this.set(name, value);
         }
 
         return true;

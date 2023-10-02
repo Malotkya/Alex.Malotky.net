@@ -80,7 +80,7 @@ export default class Layer {
      * 
      * Used by parent route to update path if/when added to a route.
      */
-    protected set path(value: string){
+    public set path(value: string){
         if(typeof value !== "string")
             throw new TypeError(`Unknown type '${typeof value}' for path!`);
 
@@ -92,7 +92,7 @@ export default class Layer {
     /** Path Getter
      * 
      */
-    protected get path(){
+    public get path(){
         return this._path;
     }
 

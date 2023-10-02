@@ -1,19 +1,10 @@
 <h1>Resume</h1>
 <article>
-    <h2>Job History:</h2>
-    <ul class="resume-card-list">
-        {{ forEach(results.jobs, j=>include("resume/job.html", j)) }}
-    </ul>
+    {{ include("resume/allJobs.html", {jobs: jobs}) }}
 </article>
 <article>
-    <h2>School History:</h2>
-    <ul class="resume-card-list">
-        {{ forEach(results.schools, s=>include("resume/school.html", s)) }}
-    </ul>
+    {{ include("resume/allSchools.html", {schools: schools}) }}
 </article>
 <article>
-    <h2>Skills:</h2>
-    <ul class="resume-card-list">
-        {{ forEach(results.skills, s=>include("resume/skill.html", s), "<p>Alex has no skills!</p>")}}
-    </ul>
+    {{ include("resume/allSkills.html", {skills: skills}) }}
 </article>

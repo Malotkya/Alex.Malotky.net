@@ -1,0 +1,8 @@
+{%
+    if(typeof schools === "undefined")
+        schools = [];
+%}
+<h2>School History:</h2>
+<ul class="resume-card-list">
+    {{ forEach(schools, s=>include("resume/school.html", s), "<li>Empty Results!</li>") }}
+</ul>

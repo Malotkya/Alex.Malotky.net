@@ -3,7 +3,7 @@
  * @author Alex Malotky
  */
 
-export type Executable = ()=>Promise<void>|void;
+export type Executable = (context?:Context)=>Promise<void>|void;
 
 /** Context Class
  * 
@@ -34,7 +34,7 @@ export default class Context{
         this._host = l.hostname;
         this._path = l.pathname;
         this._body = "";
-        this._params = new Map<string, string>();;
+        this._params = new Map<string, string>();
         this._gets = {};
         this._execute = ()=>undefined;
         for(let args of location.search.substring(1).split('&')){
@@ -116,7 +116,7 @@ export default class Context{
         }
 
         for(let key in this._gets){
-            this._params.set(key, this._gets[key]);
+            this._params.set(key, String(this._gets[key]));
         }
     }
 

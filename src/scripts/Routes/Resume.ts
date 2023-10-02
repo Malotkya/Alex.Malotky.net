@@ -1,8 +1,8 @@
 /** /Routes/Resume.ts
  * 
  */
-import {Context, Module, render, sleep} from "../App";
-import { getResume, ResumeResults } from "../Util/Database";
+import {Context, Module, render, sleep, HtmlError} from "../App";
+import { getResume } from "../Util/Database";
 import { cache } from "../Util/Memory";
 
 /** Resume Router
@@ -10,9 +10,9 @@ import { cache } from "../Util/Memory";
  * @author Alex Malotky
  */
 export const Resume = new Module("Resume", "Alex's resume and other skills.");
-export const resumePath = "/Resume/:page?";
+Resume.path = "/Resume/:page?";
 
-let results: ResumeResults;
+let results: any;
 
 Resume.onLoad(async()=>{
     results = await cache("Resume", getResume);
@@ -45,7 +45,7 @@ Resume.onRender(async(ctx: Context)=>{
             break;
 
         default:
-            throw new Error(`Unknown Resume Page '${page}'!`)
+            throw new HtmlError(404, `Unknown page '${page}' in Resume!`);
     }
 
     ctx.body = await render(page, results);

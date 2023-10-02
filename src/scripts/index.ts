@@ -2,10 +2,10 @@
  * 
  * @author Alex Malotky
  */
-import App, { Context, makeErrorMessage } from "./App";
+import App, { Context, HtmlError } from "./App";
 
 import {Home} from "./Routes/Home";
-import {Resume, resumePath} from "./Routes/Resume";
+import {Resume} from "./Routes/Resume";
 import {Portfolio} from "./Routes/Portfolio";
 import {AboutMe} from "./Routes/AboutMe";
 
@@ -13,12 +13,12 @@ const pkg:any = require("../../package.json");
 const app:App = new App();
 
 app.add("/", Home);
-app.add(resumePath, Resume);
+app.add(Resume.path, Resume);
 app.add("/Portfolio", Portfolio);
 app.add("/About", AboutMe);
 
-app.use(async(ctx: Context, next:Function)=>{
-    ctx.body = makeErrorMessage("Page not Found!", 404);
+app.use(async(ctx: Context)=>{
+    throw new HtmlError(404, "Page not Found!");
 });
 
 app.onReady(()=>{

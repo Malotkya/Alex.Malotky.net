@@ -95,4 +95,15 @@ export default class Route extends Layer{
 
         next();
     }
+
+    /** Set Parameter Override
+     * 
+     * @param {string} key 
+     * @param {string} value 
+     */
+    public set(key:string, value:string){
+        for(let layer of this._layers){
+            layer.set(key, value);
+        }
+    }
 }

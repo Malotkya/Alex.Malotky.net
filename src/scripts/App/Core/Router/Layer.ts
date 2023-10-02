@@ -67,7 +67,12 @@ export default class Layer {
         wrapper(this._handler).then(next).catch(next);
     }
 
-    public set(key:string|number, value:string){
+    /** Set Parameter
+     * 
+     * @param {string} key 
+     * @param {string} value 
+     */
+    public set(key:string, value:string){
         this._params.set(String(key), value);
     }
 
@@ -110,7 +115,7 @@ export default class Layer {
         }
 
         for(let index = 1; index < match.length; index++){
-            let name = this._keys[index-1].name;
+            let name = String(this._keys[index-1].name);
             let value = decodeURIComponent(match[index]);
             this.set(name, value);
         }

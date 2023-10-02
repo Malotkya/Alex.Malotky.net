@@ -74,6 +74,7 @@ export default class Router extends Route {
      * 
      */
     public get href(){
-        return this.path;
+        //Remove Variables from path.
+        return this.path.replace(/\/:.*?(?=\/|$)/gm, "");
     }
 }

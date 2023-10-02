@@ -11,7 +11,7 @@ import Router from "./Core/Router";
 import Module from "./Module";
 import Context from "./Core/Context";
 export {Router, Context, Module};
-export {makeErrorMessage, sleep} from "./Core";
+export {makeErrorMessage, sleep, HtmlError} from "./Core";
 
 
 /** App Class

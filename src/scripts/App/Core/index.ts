@@ -160,6 +160,30 @@ export default class Core extends Route{
     }
 }
 
+/** Html Error Class
+ * 
+ */
+export class HtmlError extends Error{
+    private  _code:number;
+
+    /** Constuctor
+     * 
+     * @param {number} code 
+     * @param {string} message 
+     */
+    constructor(code:number, message:string){
+        super(message);
+        this._code = code;
+    }
+
+    /** Error Code Getter;
+     * 
+     */
+    get code(){
+        return this._code;
+    }
+}
+
 /** Make Error Message
  * 
  * Prints easy to read error message for html page.

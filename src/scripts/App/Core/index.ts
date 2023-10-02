@@ -64,7 +64,7 @@ export default class Core extends Route{
 
             //Wait for routing & rendering to finish
             while(!contextReady)
-                await sleep(5);
+                await sleep();
 
             await this.display(context);
 
@@ -191,7 +191,7 @@ export function makeErrorMessage(error: any|string, code?: string|number): strin
  * @param {number} t - time in milliseconds.
  * @returns {Promise<void>}
  */
-export function sleep(t: number): Promise<void>{
+export function sleep(t: number = 5): Promise<void>{
     return new Promise((res,rej)=>{
         window.setTimeout(res, t);
     });

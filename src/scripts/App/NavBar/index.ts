@@ -4,6 +4,7 @@
  * @author Alex Malotky
  */
 import {Router} from "..";
+import { findOrCreateNode } from "../Core";
 import { createHambergerButton, createMenuList, createNavTitle } from "./html";
 
 /** Navigation Bar Class
@@ -18,7 +19,7 @@ export default class NavBar{
      */
     constructor(){
 
-        let target = document.querySelector("nav");
+        let target = findOrCreateNode("nav", "header");
 
         if(typeof target === "undefined")
             throw new Error("Unable to find NavBar!");

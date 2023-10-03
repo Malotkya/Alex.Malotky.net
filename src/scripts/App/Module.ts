@@ -31,7 +31,7 @@ export default class Module extends Router{
      */
     handle(context: Context, done: Signal){
         if(this._load)
-            this._load();
+            this._load(context);
 
         if(this._connected)
             context.execute = this._connected;

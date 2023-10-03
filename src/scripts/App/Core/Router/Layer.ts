@@ -47,7 +47,6 @@ export default class Layer {
         if(typeof handler !== "function" && typeof handler !== "undefined")
             throw new TypeError(`Unknown type '${typeof handler}' for handler!`);
         this._handler = handler;
-
         
         this._params = new Map<string, string>();
     }
@@ -78,7 +77,6 @@ export default class Layer {
 
     /** Path Setter
      * 
-     * Used by parent route to update path if/when added to a route.
      */
     public set path(value: string){
         if(typeof value !== "string")
@@ -122,8 +120,4 @@ export default class Layer {
 
         return true;
     }
-}
-
-async function promiseWrapper(callback:Middleware, context:Context):Promise<void>{
-    return await callback(context);
 }

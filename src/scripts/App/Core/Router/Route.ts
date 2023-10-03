@@ -9,7 +9,7 @@ import Context from "../Context";
  * 
  */
 export default class Route extends Layer{
-    private _layers: Array<Layer>
+    protected _layers: Array<Layer>
 
     /** Constructor
      * 
@@ -30,18 +30,31 @@ export default class Route extends Layer{
      */
     public use(...args: Array<any>): Route {
         //Input Arguments
-        let path: string;
+        let path: string|Array<string>;
         let middleware: Route|Middleware;
 
         //Filter Arguments
-        if(args.length === 0){
-            throw new Error("No arguments given!");
-        } else if(args.length === 1){
-            path = "";
-            middleware = args[0];
-        } else if(args.length === 2){
-            path = args[0];
-            middleware = args[1];
+        switch (args.length){
+            case 1:
+                path = "";
+                middleware = args[0];
+                break;
+
+            case 2:
+                path = args[0];
+                middleware = args[1];
+                break;
+                
+            case 0:
+                throw new Error("No arguments given!");
+
+            default:
+                path = [];
+
+                while(args.length > 1){
+                    path.push( String(args.splice(0,1)) );
+                }
+                middleware = args[0];
         }
 
         //Recursion for List of paths

@@ -34,9 +34,11 @@ export default class Context{
         this._host = l.hostname;
         this._path = l.pathname;
         this._body = "";
+        this._title = "";
+        this._info = "";
         this._params = new Map<string, string>();
-        this._gets = {};
         this._execute = ()=>undefined;
+        this._gets = {};
         for(let args of location.search.substring(1).split('&')){
             let buffer = decodeURIComponent(args).split("=");
             this._gets[buffer[0]] = buffer[1];
@@ -98,7 +100,7 @@ export default class Context{
     set body(value:string|HTMLElement){
         if(value instanceof HTMLElement)
             this._body = value.outerHTML;
-        else if(typeof value === "string")
+        else 
             this._body = String(value);
     }
 

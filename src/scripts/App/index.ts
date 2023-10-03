@@ -26,8 +26,12 @@ export default class App extends Core {
      */
     constructor(){
         super();
-        this._nav = new NavBar();
-        this._nav.routeEvent(event=>this.route(event));
+        try{
+            this._nav = new NavBar();
+            this._nav.routeEvent(event=>this.route(event));
+        } catch(err: any){
+            this.failed(err);
+        }
     }
 
     /** Add to Navbar and Use Router
@@ -38,12 +42,21 @@ export default class App extends Core {
      * 
      * @param {string} path 
      * @param {Router} router 
+     * @returns {App}
      */
-    public add(path: string, router:Router){
-        this.use(path, router);
-        if(path !== "/")
-            this._nav.add(router);
+    public add(path: string, router:Router): App{
+        try{
+            this.use(path, router);
+            if(path !== "/")
+                this._nav.add(router);
+        } catch(err: any){
+            this.failed(err);
+        }
+        
+        return this;
     }
+
+    
 }
 
 /** Render Template File

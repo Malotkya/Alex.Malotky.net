@@ -15,6 +15,7 @@ export default class Core extends Route{
     private _defaultTitle: string;
     private _defaultContent: string;
     private _routing: boolean;
+    private _loadingError: Array<any>;
 
     //HTML elements
     private _title: HTMLElement;
@@ -30,6 +31,8 @@ export default class Core extends Route{
         window.onpopstate = () => this.handler();
         window.onload = () => this.start();
         (window as any).route = () => this.route();
+
+        this._loadingError = [];
 
         this._routing = false;
     }
@@ -86,7 +89,7 @@ export default class Core extends Route{
         event = event || window.event;
         event.preventDefault();
 
-        if(!this._routing){
+        if(!this._routing && this._loadingError.length === 0){
             window.history.pushState({}, "", event.target.href);
             this.handler();
         }
@@ -96,17 +99,57 @@ export default class Core extends Route{
      * 
      */
     private start(): void{
-        this._title = document.querySelector("title");
-        this._target = document.querySelector("main");
-        this._description = document.querySelector("meta[name='description'");
+        try {
+            this._title = findOrCreateNode("title", "head");
+            this._target = findOrCreateNode("main");
+            this._description = findOrCreateNode("meta[name='description'", "head");
+        } catch (err){
+            this.failed(err);
+        }
 
         this._defaultTitle = this._title.textContent;
         this._defaultContent = this._description.getAttribute("content");
+        if(this._defaultContent === null){
+            this._defaultContent = "";
+        }
 
-        this.handler();
+        if(this._loadingError.length > 0){
+            this._target.innerHTML = makeErrorMessage("App Failed to Load!");
 
-        if(this._ready)
-            this._ready();
+            for(let err of this._loadingError){
+                console.error(err);
+            }
+        } else {
+            this.handler();
+
+            if(this._ready)
+                this._ready();
+        }
+    }
+
+    protected failed(err: any){
+        if(err)
+            this._loadingError.push(err);
+        else
+            this._loadingError.push(new Error("Failed without a reason!"));
+    }
+
+    /** Use Middleware or Route override
+     * 
+     * originaly: use(path:string|Array<string> = "", middleware:Middleware|Router)
+     * 
+     * @param {string|Array<string>} path 
+     * @param {Middleware|Router} middleware
+     * @returns {Core}
+     */
+    public use(...args:Array<any>): Core{
+        try {
+            super.use(...args);
+        } catch(err: any){
+            this.failed(err);
+        }
+
+        return this;
     }
 
      /** On Ready Event Callback
@@ -115,16 +158,16 @@ export default class Core extends Route{
      */
     public onReady(callback: Function): void{
         if(typeof callback !== "function")
-            throw new TypeError("Callback must be a function!");
+            this.failed( new TypeError("Callback must be a function!") );
             
         this._ready = callback;
     }
 
     private display(context: Context): Promise<void>{
         return new Promise((resolve, reject)=>{
-            this._target.ontransitionend = () => {
+            this._target.ontransitionend = async() => {
                 this._target.ontransitionend = undefined
-                context.execute();
+                await context.execute(context);
                 resolve();
             }
     
@@ -144,7 +187,7 @@ export default class Core extends Route{
     protected set title(value: string){
         if(typeof value === "undefined" || value === ""){
             value = this._defaultTitle;
-        } else {
+        } else if(this._defaultTitle !== ""){
             value = this._defaultTitle.concat(" | ", value);
         }
 
@@ -186,7 +229,7 @@ export class HtmlError extends Error{
 
 /** Make Error Message
  * 
- * Prints easy to read error message for html page.
+ * Builds easy to read error message for html page.
  * 
  * @param {any|string} error 
  * @param {string|number} code
@@ -209,8 +252,6 @@ export function makeErrorMessage(error: any|string, code?: string|number): strin
 
 /** Sleep/Wait Utility
  * 
- * Currently only used by the home page, I felt like this utility funciton should
- * be included in the app file.
  * 
  * @param {number} t - time in milliseconds.
  * @returns {Promise<void>}
@@ -219,4 +260,75 @@ export function sleep(t: number = 5): Promise<void>{
     return new Promise((res,rej)=>{
         window.setTimeout(res, t);
     });
+}
+
+/** Attempts to find node, and parents of node.
+ * 
+ * If nothing is entered, document body is reterned.
+ * Will create and append node to parents if not found.
+ * 
+ * @param {string} name 
+ * @param {Array<string>} parents 
+ * @returns {HTMLElement}
+ */
+export function findOrCreateNode(name?:string, ...parents:Array<string>): HTMLElement{
+
+    if(typeof name === "undefined"){
+        return document.body;
+    } else if(typeof name !== "string"){
+        throw new TypeError(`Unknown type '${typeof name}' for query string`);
+    }
+
+    let node:HTMLElement = document.querySelector(name);
+    if(node)
+        return node;
+
+    node = findOrCreateNode(...parents);
+
+    let attributes: Array<string>;
+    let index = name.indexOf("[");
+    if(index > 0){
+        attributes = name.replace(/.*?\[(.*?)='(.*?)'\]?/gm, "$1=$2 ").split(/\s+/gm);
+        if(attributes === null){
+            attributes = [];
+        }
+        name = name.substring(0, index);
+    }
+
+    let id:string;
+    let className:string;
+
+    index = name.indexOf("#");
+    if(index >= 0) {
+        id = name.substring(index+1);
+        name = name.substring(0, index);
+    }
+
+    index = name.indexOf(".");
+    if(index >= 0) {
+        className = name.substring(index+1);
+        name = name.substring(0, index);
+    }
+
+    if(name.trim().length === 0){
+        name = "div";
+    }
+
+    let newNode = document.createElement(name);
+    if(id)
+        newNode.id = id;
+    if(className)
+        newNode.className = className;
+
+    for(let string of attributes){
+        string = string.trim();
+        if(string.length > 3){
+            const buffer = string.split("=");
+            newNode.setAttribute(buffer[0], buffer[1]);
+        }
+    }
+
+    node.appendChild(newNode);
+
+    return newNode;
 }

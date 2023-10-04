@@ -80,7 +80,6 @@ function cleanCode(string:string):string {
 
 function cleanTemplateString(string: string):string {
     string = cleanCode(string);
-    console.log(string);
     for(let name in INCLUDED_FUNCTIONS){
         const regex = AWAIT_REGEX(name)
         string = string.replace(regex, "await $1");

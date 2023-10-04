@@ -7,7 +7,7 @@
 
 //Regex thanks to (Regex101.com)
 const TEMPLATE_CODE_REGEX = /{%(.*?)%}/gs
-const TEMPLATE_STRING_REGEX = /{{(.*?)}}/gs
+const TEMPLATE_STRING_REGEX = /{{([^\n]*?)}}/gs
 
 //Other constants
 const TEMPLATE_DIRECTORY = "/templates/"

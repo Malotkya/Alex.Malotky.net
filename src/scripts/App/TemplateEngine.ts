@@ -17,9 +17,27 @@ const INCLUDED_FUNCTIONS = {
     formatDate: formatDate
 }
 
+const INSTRUCTIONS_OPEN: Array<string> = [
+    "return new Promise(async(res, rej)=>{",
+    "let trace = 0;",
+    "try {",
+    "let output = '';",
+];
+
+const INSTRUCTIONS_CLOSE: Array<string> = [
+    "res(output);",
+    "}catch(e){",
+    "rej({line: trace, message: e.message})",
+    "}});",
+];
+
 class TemplateError extends Error {
-    constructor(filename: string, message: string){
-        super(`(${filename}) ${message}`);
+    private line: string|undefined;
+
+    constructor(filename: string, line:number, message: string, instruction?:string){
+        super(`${filename} (${line}):${message}`);
+
+        this.line = instruction;
     }
 }
 
@@ -31,20 +49,19 @@ class TemplateError extends Error {
  * @param {any} args 
  * @returns {string}
  */
-export default function templateEngine(filename: string, args?: any): string{
+export default async function templateEngine(filename: string, args?: any): Promise<string>{
     if(typeof filename !== "string")
         throw new TypeError("Filename must be a string!");
 
     try {
-        const instructions = createTemplateInstructions(getFile(filename));
-        return compileTemplateInstructions(instructions, args);
+        const instructions = createTemplateInstructions(await getFile(filename));
+        return compileTemplateInstructions(instructions, filename, args);
     } catch (err: any){
         if(err instanceof TemplateError)
             throw err;
 
-        throw new TemplateError(filename, err.message);
+        throw new TemplateError(filename, 0, err.message);
     }
-    
 }
 
 /** Create Template Instructions
@@ -58,8 +75,7 @@ export function createTemplateInstructions(template: string): Array<string>{
     if(typeof template !== "string")
         throw new TypeError("Template must be a string!");
 
-    const instructions: Array<string> = [];
-    instructions.push("let output = '';")
+    const instructions: Array<string> = [].concat(INSTRUCTIONS_OPEN);
 
     let escapes = template.match(TEMPLATE_CODE_REGEX);
     if(escapes) {
@@ -69,8 +85,10 @@ export function createTemplateInstructions(template: string): Array<string>{
             if(index > 0){
                 let temp = convertToTemplateString(template.substring(0, index));
                 instructions.push(`output += \`${temp}\`;`);
+                instructions.push('trace++;');
             }
             instructions.push(e.substring(2, e.length-2));
+            instructions.push('trace++;');
             template = template.slice(index+e.length);
         }
 
@@ -79,9 +97,7 @@ export function createTemplateInstructions(template: string): Array<string>{
     let temp = convertToTemplateString(template);
     instructions.push(`output += \`${temp}\`;`);
 
-    instructions.push("return output;");
-
-    return instructions;
+    return instructions.concat(INSTRUCTIONS_CLOSE);
 }
 
 /** Convert To Template String
@@ -114,7 +130,7 @@ export function convertToTemplateString(template: string): string{
 
     buffer.push(template);
 
-    return buffer.join("");
+    return buffer.join("").replace("\s+", " ");
 }
 
 /** Complie back into String
@@ -123,13 +139,17 @@ export function convertToTemplateString(template: string): string{
  * @param {any} args 
  * @returns {string}
  */
-export function compileTemplateInstructions(instructions: Array<string>, args?: any): string{
+export async function compileTemplateInstructions(instructions: Array<string>,filename:string, args?: any): Promise<string>{
     args = {...args, ...INCLUDED_FUNCTIONS};
 
     let names =  Object.keys(args);
     let values = Object.values(args);
 
-    return new Function(...names, instructions.join("\n"))(...values);
+    try {
+        return await new Function(...names, instructions.join("\n"))(...values);
+    } catch (e: any){
+        throw new TemplateError(filename, e.line, e.message, instructions[e.line+INSTRUCTIONS_OPEN.length]);
+    }
 }
 
 /** Get File (Syncronus)
@@ -137,20 +157,18 @@ export function compileTemplateInstructions(instructions: Array<string>, args?: 
  * @param {string} filename 
  * @returns {String} 
  */
-function getFile(filename: string): string{
-    const request = new XMLHttpRequest()
-    request.open("GET", TEMPLATE_DIRECTORY+filename, false);
-    request.send();
+async function getFile(filename: string): Promise<string>{
+    const response = await fetch(TEMPLATE_DIRECTORY+filename);
 
-    if(request.status !== 200)
-        throw new Error("Unable to load file: " + request.statusText);
+    if(response.status !== 200)
+        throw new Error("Unable to load file: " + response.statusText);
 
-    const response = String(request.response);
+    const fileText = await response.text();
 
-    if(response.match("<!DOCTYPE html>"))
+    if(fileText.match("<!DOCTYPE html>"))
         throw new Error(`Unable to find '${filename}'`);
 
-    return response;
+    return fileText;
 }
 
 /** For Each (outdated)

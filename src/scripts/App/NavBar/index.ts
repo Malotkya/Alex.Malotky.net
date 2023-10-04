@@ -58,8 +58,10 @@ export default class NavBar{
 
         this._nav.addEventListener("click", event=>{
             this._list.style.display = "";
-            if((event.target as HTMLElement).localName === "a"){
+            const target = event.target as HTMLElement;
+            if(target.localName === "a"){
                 event.stopPropagation();
+                target.blur();
                 callback(event);
             }
         });

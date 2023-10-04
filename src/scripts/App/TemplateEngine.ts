@@ -8,6 +8,7 @@
 //Regex thanks to (Regex101.com)
 const TEMPLATE_CODE_REGEX = /{%(.*?)%}/gs
 const TEMPLATE_STRING_REGEX = /{{([^\n]*?)}}/gs
+const AWAIT_REGEX = (name:string) => new RegExp(`^\\s*(${name}\\(.*?\\))`, "gs");
 
 //Other constants
 const TEMPLATE_DIRECTORY = "/templates/"
@@ -31,13 +32,20 @@ const INSTRUCTIONS_CLOSE: Array<string> = [
     "}});",
 ];
 
+const BAD_KEYWORDS = [
+    "fetch",
+    "await",
+    "yield",
+    "class",
+]
+
 class TemplateError extends Error {
-    private line: string|undefined;
+    private additional: string|undefined;
 
     constructor(filename: string, line:number, message: string, instruction?:string){
         super(`${filename} (${line}):${message}`);
 
-        this.line = instruction;
+        this.additional = instruction;
     }
 }
 
@@ -62,6 +70,24 @@ export default async function templateEngine(filename: string, args?: any): Prom
 
         throw new TemplateError(filename, 0, err.message);
     }
+}
+
+function cleanCode(string:string):string {
+    for(let keyword of BAD_KEYWORDS)
+        string = string.replace(keyword, "_"+keyword);
+    return string;
+}
+
+function cleanTemplateString(string: string):string {
+    string = cleanCode(string);
+    console.log(string);
+    for(let name in INCLUDED_FUNCTIONS){
+        const regex = AWAIT_REGEX(name)
+        string = string.replace(regex, "await $1");
+    }
+
+       
+    return "${" + string + "}";
 }
 
 /** Create Template Instructions
@@ -122,7 +148,7 @@ export function convertToTemplateString(template: string): string{
                 let temp = template.substring(0, index);
                 buffer.push(temp.replace("`", "\`"));
             }
-            buffer.push(e.replace(TEMPLATE_STRING_REGEX, "${$1}"));
+            buffer.push(cleanTemplateString(e.replace(TEMPLATE_STRING_REGEX, "$1")));
 
             template = template.slice(index + e.length);
         }
@@ -181,7 +207,7 @@ async function getFile(filename: string): Promise<string>{
  * @param {()=>string} emptyCallback 
  * @returns {string}
  */
-function forEach(arr:Array<any>, loopCallback:(value:any, index:string)=>string, emptyCallback:()=>string): string{
+async function forEach(arr:Array<any>, loopCallback:(value:any, index:string)=>Promise<string>|string, emptyCallback:()=>string): Promise<string>{
     if(arr && arr.length === 0){
         if(emptyCallback){
             if(typeof emptyCallback === "string")
@@ -192,8 +218,8 @@ function forEach(arr:Array<any>, loopCallback:(value:any, index:string)=>string,
     }
 
     let buffer: string = "";
-    for(let i in arr)
-        buffer += loopCallback(arr[i], i);
+    for(let i in arr) 
+        buffer += await loopCallback(arr[i], i);
 
     return buffer;
 }

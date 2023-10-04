@@ -13,25 +13,23 @@ import { createHambergerButton, createMenuList, createNavTitle } from "./html";
 export default class NavBar{
     private _list: HTMLElement;
     private _home: HTMLElement;
+    private _nav: HTMLElement;
 
     /** Constructor w/ selector string.
      * 
      */
     constructor(){
 
-        let target = findOrCreateNode("nav", "header");
-
-        if(typeof target === "undefined")
-            throw new Error("Unable to find NavBar!");
+        this._nav = findOrCreateNode("nav", "header");
         
         this._home = createNavTitle("Alex.Malotky.net");
-        target.appendChild(this._home);
+        this._nav.appendChild(this._home);
 
         let button = createHambergerButton();
-        target.appendChild(button);
+        this._nav.appendChild(button);
 
         this._list = createMenuList();
-        target.appendChild(this._list);
+        this._nav.appendChild(this._list);
         
         //Toggle the list display
         button.addEventListener("click", event=>{
@@ -58,14 +56,12 @@ export default class NavBar{
         if(typeof callback !== "function")
             throw new TypeError("Event Listener must be a Function");
 
-        this._home.addEventListener("click", event=>{
+        this._nav.addEventListener("click", event=>{
             this._list.style.display = "";
-            callback(event)
-        });
-
-        this._list.addEventListener("click", event=>{
-            this._list.style.display = "";
-            callback(event);
+            if((event.target as HTMLElement).localName === "a"){
+                event.stopPropagation();
+                callback(event);
+            }
         });
     }
 

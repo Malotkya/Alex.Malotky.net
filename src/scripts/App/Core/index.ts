@@ -55,6 +55,8 @@ export default class Core extends Route{
                     context.body = makeErrorMessage(error);
                     context.title = "Error";
                     context.info = "";
+                    if(error.additional)
+                        console.error(error.additional);
                     console.error(error);
                 }
 

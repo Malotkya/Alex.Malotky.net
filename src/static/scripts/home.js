@@ -6,6 +6,12 @@ export default async function home(){
     //Target Element
     const targetElement = document.querySelector("#text-target");
 
+    if(typeof window.visited === "undefined"){
+        window.visited = true;
+        console.log("Welcome to Alex.Malotky.net!");
+        console.log("This is being printed from a file that is being loaded and executed dynamically!")
+    }
+
     //Animate Text
     let index = 0;
     const placeChar = () => {

@@ -13,7 +13,7 @@ const pkg:any = require("../../package.json");
 const app:App = new App();
 
 app.add("/", Home);
-app.add(Resume.path, Resume);
+app.add("/Resume", Resume);
 app.add("/Portfolio", Portfolio);
 app.add("/About", AboutMe);
 

@@ -169,7 +169,7 @@ export default class Core extends Route{
         return new Promise((resolve, reject)=>{
             this._target.ontransitionend = async() => {
                 this._target.ontransitionend = undefined
-                await context.execute(context);
+                await context.connected(context);
                 resolve();
             }
     

@@ -23,7 +23,7 @@ export default class Context{
     private _body: string;
     private _title: string;
     private _info: string;
-    private _execute: Executable;
+    private _connected: Executable;
 
     /** Constructor
      * 
@@ -37,7 +37,7 @@ export default class Context{
         this._title = "";
         this._info = "";
         this._params = new Map<string, string>();
-        this._execute = ()=>undefined;
+        this._connected = ()=>undefined;
         this._gets = {};
         for(let args of location.search.substring(1).split('&')){
             let buffer = decodeURIComponent(args).split("=");
@@ -136,14 +136,14 @@ export default class Context{
         this._info = String(value);
     }
 
-    set execute(value: Executable){
+    set connected(value: Executable){
         if(typeof value !== "function")
             throw new TypeError(`Unknown type '${typeof value}' for Executable!`);
-        this._execute = value;
+        this._connected = value;
     }
 
-    get execute(){
-        return this._execute;
+    get connected(){
+        return this._connected;
     }
 }
 

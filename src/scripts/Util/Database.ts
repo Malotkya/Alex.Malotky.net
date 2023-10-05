@@ -10,8 +10,22 @@ import { QuerySnapshot, DocumentReference } from "../firebase";
 export interface ResumeResults{
     schools: Array<any>,
     jobs: Array<any>,
-    skills: Array<any>,
-    unknown: Array<any>
+    skills: Array<any>
+}
+
+let database: Database;
+
+export interface Database{
+    getTable:(name:string)=>Promise<QuerySnapshot>
+}
+
+export default async function Database(): Promise<Database>{
+    if(typeof database === "undefined") {
+        //@ts-ignore
+        return (await import(/*webpackIgnore: true*/ "/firebase.js"));
+    }
+
+    return database;
 }
 
 /** Get Resume
@@ -19,38 +33,12 @@ export interface ResumeResults{
  * @returns {ResumeResults}
  */
 export async function getResume(): Promise<ResumeResults>{
-    //@ts-ignore
-    const database = (await import(/*webpackIgnore: true*/ "/firebase.js"));
-    const raw:QuerySnapshot = await database.getTable("Resume");
-
-    const schools:Array<any> = [];
-    const jobs: Array<any> = [];
-    const skills: Array<any> = [];
-    const unknown: Array<any> = [];
-
-    raw.forEach(result=>{
-        switch(result.data().type){
-            case "school":
-            schools.push(result.data());
-            break;
-
-            case "job":
-            jobs.push(result.data());
-            break;
-
-            case "skill":
-            skills.push(result.data());
-            break;
-
-            default:
-            unknown.push(result.data());
-        }
-    });
+    
+    const database = await Database();
 
     return {
-        schools: schools,
-        jobs: jobs,
-        skills: skills,
-        unknown: unknown
+        schools: [],
+        jobs: await database.getTable("Jobs"),
+        skills: await database.getTable("Skills"),
     };
 }

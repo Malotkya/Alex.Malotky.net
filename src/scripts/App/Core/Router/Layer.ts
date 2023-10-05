@@ -23,7 +23,6 @@ export default class Layer {
     //Private attributes
     private _regex: RegExp;
     private _keys: Array<Key>  
-    private _shortcut: boolean
 
     //Protected attributes
     protected _path: string;
@@ -47,7 +46,7 @@ export default class Layer {
         if(typeof handler !== "function" && typeof handler !== "undefined")
             throw new TypeError(`Unknown type '${typeof handler}' for handler!`);
         this._handler = handler;
-        
+    
         this._params = new Map<string, string>();
     }
 
@@ -82,9 +81,11 @@ export default class Layer {
         if(typeof value !== "string")
             throw new TypeError(`Unknown type '${typeof value}' for path!`);
 
+        if(value.length > 1 && value.charAt(value.length - 1) === "/")
+            value = value.substring(0, value.length-1);
+
         this._regex = pathToRegexp(value, this._keys = [], this._options);
         this._path = value;
-        this._shortcut = value === "";
     }
 
     /** Path Getter
@@ -102,9 +103,6 @@ export default class Layer {
     public match(path: string): boolean{
         if(typeof path !== "string")
             throw new TypeError(`Unknown type '${typeof path}' for path!`);
-
-        if(this._shortcut)
-            return true;
 
         let match = path.match(this._regex)
 

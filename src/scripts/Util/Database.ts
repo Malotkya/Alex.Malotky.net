@@ -37,15 +37,17 @@ export default async function Database(): Promise<Database>{
  */
 export async function getResume(): Promise<ResumeResults>{
     const database:Database = await Database();
-
-    const constraint = {
-        orderBy: ["startDate", "desc"],
-        limit: [2]
-    }
+        
 
     return {
-        schools: await database.getFromCollection("School", constraint),
-        jobs: await database.getFromCollection("Jobs", constraint),
+        schools: await database.getFromCollection("School", {
+            orderBy: ["graduated", "desc"],
+            limit: [2]
+        }),
+        jobs: await database.getFromCollection("Jobs", {
+            orderBy: ["startDate", "desc"],
+            limit: [2]
+        }),
         skills: await database.getFromCollection("Skills"),
     };
 }

@@ -25,7 +25,7 @@ let database: Database;
 export default async function Database(): Promise<Database>{
     if(typeof database === "undefined") {
         //@ts-ignore
-        return (await import(/*webpackIgnore: true*/ "/firebase.js"));
+        database = await import(/*webpackIgnore: true*/ "/firebase.js");
     }
 
     return database;

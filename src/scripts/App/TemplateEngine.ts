@@ -28,7 +28,8 @@ const INSTRUCTIONS_OPEN: Array<string> = [
 const INSTRUCTIONS_CLOSE: Array<string> = [
     "res(output);",
     "}catch(e){",
-    "rej({line: trace, message: e.message})",
+    "e.line = e.line || trace",
+    "rej(e)",
     "}});",
 ];
 
@@ -61,15 +62,8 @@ export default async function templateEngine(filename: string, args?: any): Prom
     if(typeof filename !== "string")
         throw new TypeError("Filename must be a string!");
 
-    try {
-        const instructions = createTemplateInstructions(await getFile(filename));
-        return compileTemplateInstructions(instructions, filename, args);
-    } catch (err: any){
-        if(err instanceof TemplateError)
-            throw err;
-
-        throw new TemplateError(filename, 0, err.message);
-    }
+    const instructions = createTemplateInstructions(await getFile(filename));
+    return compileTemplateInstructions(instructions, filename, args);
 }
 
 function cleanCode(string:string):string {
@@ -173,6 +167,8 @@ export async function compileTemplateInstructions(instructions: Array<string>,fi
     try {
         return await new Function(...names, instructions.join("\n"))(...values);
     } catch (e: any){
+        if(e instanceof TemplateError)
+            throw e;
         throw new TemplateError(filename, e.line, e.message, instructions[e.line+INSTRUCTIONS_OPEN.length]);
     }
 }

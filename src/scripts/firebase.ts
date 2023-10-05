@@ -5,7 +5,7 @@
  * @author Alex Malotky
  */
 import {initializeApp} from "firebase/app";
-import {getFirestore, collection, query, QueryConstraint, getDocs} from "firebase/firestore";
+import {getFirestore, collection, query, QueryConstraint, getDocs, getDoc, doc} from "firebase/firestore";
 import {where, orderBy, startAt, startAfter, endBefore, endAt, limit, limitToLast} from "firebase/firestore";
 
 // Your web app's Firebase configuration
@@ -26,12 +26,22 @@ export const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const database = getFirestore(app);
 
+export async function getDocument(collectionName:string, documentId:string): Promise<any>{
+    const response = await getDoc(doc(database, collectionName, documentId));
+    const data:any = response.data();
+    
+    if(data)
+        data.id = response.id;
+
+    return data;
+}
+
 /** Get Table
  * 
  * @param {string} name 
  * @returns {QuerySnapshot}
  */
-export async function getFromCollection(name: string, opts?:any):Promise<Array<any>>{
+export async function queryCollection(name: string, opts?:any):Promise<Array<any>>{
     const output: Array<any> = [];
     const options: Array<QueryConstraint> = [];
 

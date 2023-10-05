@@ -34,7 +34,7 @@ Resume.use("/:page", async(ctx: Context)=>{
             throw new HtmlError(404, `Unknown page ${page} in Resume!`);
     }     
 
-    ctx.body = await render(file, {list: await database.getFromCollection(page)});
+    ctx.body = await render(file, {list: await database.queryCollection(page)});
 });
 
 Resume.use("/:page/:id", async(ctx: Context)=>{
@@ -61,12 +61,14 @@ Resume.use("/:page/:id", async(ctx: Context)=>{
             throw new HtmlError(404, `Unknown page ${page} in Resume!`);
     }
 
-    const results:Array<any> = await database.getFromCollection(page, {where: ["id", "==", id]});
+    const result:any = await database.getDocument(page, id);
 
-    if(results.length === 0)
+    if(typeof result === "undefined")
         throw new Error("Unable to find id: " + id);
+
+    console.log(result);
            
-    ctx.body = await render(file, results[0]);
+    ctx.body = await render(file, result);
 });
 
 Resume.use("/", async(ctx: Context)=>{

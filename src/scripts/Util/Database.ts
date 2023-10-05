@@ -16,7 +16,8 @@ export interface ResumeResults{
  * 
  */
 export interface Database{
-    getFromCollection:(name:string, opts?:any)=>Promise<Array<any>>
+    queryCollection:(name:string, opts?:any)=>Promise<Array<any>>,
+    getDocument:(collectionName:string, documentId:string)=>Promise<any>
 }
 
 //Database object.
@@ -40,14 +41,14 @@ export async function getResume(): Promise<ResumeResults>{
         
 
     return {
-        schools: await database.getFromCollection("School", {
+        schools: await database.queryCollection("School", {
             orderBy: ["graduated", "desc"],
             limit: [2]
         }),
-        jobs: await database.getFromCollection("Jobs", {
+        jobs: await database.queryCollection("Jobs", {
             orderBy: ["startDate", "desc"],
             limit: [2]
         }),
-        skills: await database.getFromCollection("Skills"),
+        skills: await database.queryCollection("Skills"),
     };
 }

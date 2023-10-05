@@ -2,7 +2,6 @@
  * 
  * @author Alex Malotky
  */
-import { QuerySnapshot, DocumentReference } from "../firebase";
 
 /** Resume Results Interface
  * 
@@ -13,11 +12,15 @@ export interface ResumeResults{
     skills: Array<any>
 }
 
-let database: Database;
-
+/** Database Interface
+ * 
+ */
 export interface Database{
-    getTable:(name:string)=>Promise<QuerySnapshot>
+    getFromCollection:(name:string, opts?:any)=>Promise<Array<any>>
 }
+
+//Database object.
+let database: Database;
 
 export default async function Database(): Promise<Database>{
     if(typeof database === "undefined") {
@@ -33,12 +36,16 @@ export default async function Database(): Promise<Database>{
  * @returns {ResumeResults}
  */
 export async function getResume(): Promise<ResumeResults>{
-    
-    const database = await Database();
+    const database:Database = await Database();
+
+    const constraint = {
+        orderBy: ["startDate", "desc"],
+        limit: [2]
+    }
 
     return {
-        schools: [],
-        jobs: await database.getTable("Jobs"),
-        skills: await database.getTable("Skills"),
+        schools: await database.getFromCollection("School", constraint),
+        jobs: await database.getFromCollection("Jobs", constraint),
+        skills: await database.getFromCollection("Skills"),
     };
 }

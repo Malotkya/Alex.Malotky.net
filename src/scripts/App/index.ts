@@ -8,9 +8,8 @@ import NavBar from "./NavBar";
 import Router from "./Core/Router";
 
 //Export Classes and Functions
-import Module from "./Module";
-import Context from "./Core/Context";
-export {Router, Context, Module};
+import Context, { Executable } from "./Core/Context";
+export {Router, Context};
 export {makeErrorMessage, sleep, HtmlError} from "./Core";
 
 
@@ -61,21 +60,30 @@ export default class App extends Core {
 
 /** Render Template File
  * 
- * Fetches template file and then renders html string.
- * 
  * @param {string} filename 
  * @param {any} args 
  * @returns {Promise<string>}
  */
 export function render(filename: string, args?: any): Promise<string>{
-    return new Promise((resolve, reject)=>{
-        if(typeof filename !== "string")
-            reject(new TypeError(`Unknown type '${typeof filename}' for filename!`));
+    return templateEngine(filename, args);
+}
 
-        try{
-            resolve(templateEngine(filename, args));
-        } catch (e){
-            reject(e);
-        }
-    })
+/** Execute Javascript File
+ * 
+ * @param {string} filename
+ */
+export async function execute(filename: string): Promise<Executable>{
+    //@ts-ignore
+    let module: any;
+    try{
+        module = (await import(/*webpackIgnore: true*/ "/scripts/"+filename));
+    } catch(err){
+        throw new Error(`There was a problem importing module at ${filename}!`);
+    }
+     
+    if(typeof module.default !== "function")
+        throw new Error(`Unknown type '${typeof module.default}' for default export in module at ${filename}!`);
+    
+    
+    return module.default;
 }

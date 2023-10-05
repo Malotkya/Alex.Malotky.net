@@ -1,8 +1,8 @@
 {%
-    if(typeof jobs === "undefined")
-        jobs = [];
+    if(typeof list === "undefined")
+        list = [];
 %}
 <h2>Job History:</h2>
 <ul class="resume-card-list">
-    {{ forEach(jobs, j=>include("resume/job.html", j), "<li>Empty Results!</li>") }}
+    {{ forEach(list, j=>include("resume/job.html", j), "<li>Empty Results!</li>") }}
 </ul>

@@ -1,8 +1,8 @@
 {%
-    if(typeof schools === "undefined")
-        schools = [];
+    if(typeof list === "undefined")
+        list = [];
 %}
 <h2>School History:</h2>
 <ul class="resume-card-list">
-    {{ forEach(schools, s=>include("resume/school.html", s), "<li>Empty Results!</li>") }}
+    {{ forEach(list, s=>include("resume/school.html", s), "<li>Empty Results!</li>") }}
 </ul>

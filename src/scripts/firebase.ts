@@ -52,7 +52,7 @@ export async function getFromCollection(name: string, opts?:any):Promise<Array<a
                     break;
     
                 case "startAt": //        value (based on field in orderBy)
-                    options.push( orderBy(args[0]) );
+                    options.push( startAt(args[0]) );
                     break;
     
                 case "startAfter": //        value (based on field in orderBy)

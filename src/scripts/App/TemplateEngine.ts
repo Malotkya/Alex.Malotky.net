@@ -161,11 +161,11 @@ export function convertToTemplateString(template: string): string{
 export async function compileTemplateInstructions(instructions: Array<string>,filename:string, args?: any): Promise<string>{
     args = {...args, ...INCLUDED_FUNCTIONS};
 
-    let names =  Object.keys(args);
-    let values = Object.values(args);
+    let argNames =  Object.keys(args);
+    let argValues = Object.values(args);
 
     try {
-        return await new Function(...names, instructions.join("\n"))(...values);
+        return await new Function(...argNames, instructions.join("\n"))(...argValues);
     } catch (e: any){
         if(e instanceof TemplateError)
             throw e;

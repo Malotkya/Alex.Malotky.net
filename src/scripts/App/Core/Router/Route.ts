@@ -109,6 +109,43 @@ export default class Route extends Layer{
         next();
     }
 
+    /** Set Path Override
+     * 
+     */
+    public set path(value: string){
+        if(this._layers){
+            let index = this._path.length;
+            for(let layer of this._layers){
+                let oldPath = layer.path.substring(index);
+                layer.path = value + oldPath;
+            }
+        }
+        super.path = value;
+    }
+
+    /** Get Path Override
+     * 
+     * Needed once set path was added.
+     * 
+     */
+    public get path(): string{
+        return this._path;
+    }
+
+    /** Match Path Override
+     * 
+     * @param {string} path 
+     * @returns {boolean}
+     */
+    public match(path:string): boolean{
+        for(let layer of this._layers) {
+            if(layer.match(path))
+                return true;
+        }
+            
+        return super.match(path);
+    }
+
     /** Set Parameter Override
      * 
      * @param {string} key 

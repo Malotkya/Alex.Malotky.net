@@ -2,7 +2,7 @@
  * 
  */
 import {Context, Module, render, sleep, HtmlError} from "../App";
-import Database, { getResume, ResumeResults } from "../Util/Database";
+import Database, { getResume } from "../Util/Database";
 import { cache } from "../Util/Memory";
 
 /** Resume Router
@@ -11,29 +11,62 @@ import { cache } from "../Util/Memory";
  */
 export const Resume = new Module("Resume", "Alex's resume and other skills.");
 
-function fileList(page:string):string {
+Resume.use("/:page", async(ctx: Context)=>{
+    const database = await Database();
+
+    let page:string = ctx.params.get("page");
+    let file:string;
+
     switch(page){
         case "Jobs":
-            return "resume/allJobs.html";
+            file = "resume/allJobs.html";
+            break;
 
         case "School":
-            return "resume/allSchools.html";
+            file = "resume/allSchools.html";
+            break;
 
         case "Skills":
-            return "resume/allSkills.html";
-    }
-     
-    return undefined;
-}
+            file = "resume/allSkills.html";
+            break;
 
-Resume.use("/:page", async(ctx: Context)=>{
+        default:
+            throw new HtmlError(404, `Unknown page ${page} in Resume!`);
+    }     
+
+    ctx.body = await render(file, await database.getFromCollection(page, {orderBy: ["startDate", "desc"]}));
+});
+
+Resume.use("/:page/:id", async(ctx: Context)=>{
+    const database = await Database();
+
     let page:string = ctx.params.get("page");
-    let file:string = fileList(page);
+    let id:string = ctx.params.get("id");
+    let file:string;
 
-    if(typeof file === "undefined")
-        throw new HtmlError(404, `Unknown page ${page} in Resume!`);
+    switch(page){
+        case "Jobs":
+            file = "resume/detailedJob.html";
+            break;
 
-    ctx.body = await render(file, (await Database()).getTable(page));
+        case "School":
+            file = "resume/detailedSchool.html";
+            break;
+
+        case "Skills":
+            file = "resume/detailedSkill.html";
+            break;
+
+        default:
+            throw new HtmlError(404, `Unknown page ${page} in Resume!`);
+    }
+
+    const results:Array<any> = await database.getFromCollection(page, {where: ["id", "==", id]});
+
+    if(results.length === 0)
+        throw new Error("Unable to find id: " + id);
+           
+    ctx.body = await render(file, results[0]);
 });
 
 Resume.use("/", async(ctx: Context)=>{

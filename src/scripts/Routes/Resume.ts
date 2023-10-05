@@ -34,7 +34,7 @@ Resume.use("/:page", async(ctx: Context)=>{
             throw new HtmlError(404, `Unknown page ${page} in Resume!`);
     }     
 
-    ctx.body = await render(file, await database.getFromCollection(page, {orderBy: ["startDate", "desc"]}));
+    ctx.body = await render(file, {list: await database.getFromCollection(page)});
 });
 
 Resume.use("/:page/:id", async(ctx: Context)=>{

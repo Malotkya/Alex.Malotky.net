@@ -1,7 +1,7 @@
 /** /Routes/Resume.ts
  * 
  */
-import {Context, Module, render, sleep, HtmlError} from "../App";
+import {Context, Router, render, HtmlError} from "../App";
 import Database, { getResume } from "../Util/Database";
 import { cache } from "../Util/Memory";
 
@@ -9,7 +9,7 @@ import { cache } from "../Util/Memory";
  * 
  * @author Alex Malotky
  */
-export const Resume = new Module("Resume", "Alex's resume and other skills.");
+export const Resume = new Router("Resume", "Alex's resume and other skills.");
 
 Resume.use("/:page", async(ctx: Context)=>{
     const database = await Database();

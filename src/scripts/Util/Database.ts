@@ -2,6 +2,7 @@
  * 
  * @author Alex Malotky
  */
+import {cache} from "./Memory";
 
 /** Resume Results Interface
  * 
@@ -37,18 +38,33 @@ export default async function Database(): Promise<Database>{
  * @returns {ResumeResults}
  */
 export async function getResume(): Promise<ResumeResults>{
-    const database:Database = await Database();
-        
+    return await cache("Resume", async()=>{
+        const database:Database = await Database();
 
-    return {
-        schools: await database.queryCollection("School", {
-            orderBy: ["graduated", "desc"],
-            limit: [2]
-        }),
-        jobs: await database.queryCollection("Jobs", {
-            orderBy: ["startDate", "desc"],
-            limit: [2]
-        }),
-        skills: await database.queryCollection("Skills"),
-    };
+        return {
+            schools: await database.queryCollection("School", {
+                orderBy: ["graduated", "desc"],
+                limit: [2]
+            }),
+            jobs: await database.queryCollection("Jobs", {
+                orderBy: ["startDate", "desc"],
+                limit: [2]
+            }),
+            skills: await database.queryCollection("Skills"),
+        };
+    });
+}
+
+export async function getWholeCollection(name:string): Promise<Array<any>>{
+    return await cache(name, async()=>{
+        const database:Database = await Database();
+        return await database.queryCollection(name)
+    });
+}
+
+export async function getDocumentById(collectionName:string, documentId:string){
+    return await cache(`${collectionName}(${documentId})`, async()=>{
+        const database:Database = await Database();
+        return await database.getDocument(collectionName, documentId);
+    });
 }

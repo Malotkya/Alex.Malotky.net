@@ -33,6 +33,30 @@ export default class App extends Core {
         }
     }
 
+    /** Route Override
+     * 
+     * Detects if the clicked link is an internal route, or if it is a jump to
+     * an anchor id.
+     * 
+     * @param {Event} event 
+     */
+    protected route(event: Event){
+        let target = event.target as HTMLAnchorElement;
+
+        if(target.localName === "a"){
+            
+            if(target.href.indexOf(this.hostname) !== -1){
+                event.preventDefault();
+                let match = target.href.match(/(?<=#).*?(?=\?|$)/gm);
+                if(match){
+                    this.scroll(match[0]);
+                } else {
+                    super.route(event);
+                }
+            }
+        }
+    }
+
     /** Add to Navbar and Use Router
      * 
      * Calls this.use(path, Router)
@@ -54,8 +78,6 @@ export default class App extends Core {
         
         return this;
     }
-
-    
 }
 
 /** Render Template File

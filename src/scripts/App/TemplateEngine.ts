@@ -8,6 +8,7 @@
 //Regex thanks to (Regex101.com)
 const TEMPLATE_CODE_REGEX = /{%(.*?)%}/gs
 const TEMPLATE_STRING_REGEX = /{{([^\n]*?)}}/gs
+const ECHO_REGEX = /echo\s(.*\(.*?\).*)+;/gs;
 const AWAIT_REGEX = (name:string) => new RegExp(`^\\s*(${name}\\(.*?\\))`, "gs");
 
 //Other constants
@@ -66,21 +67,53 @@ export default async function templateEngine(filename: string, args?: any): Prom
     return compileTemplateInstructions(instructions, filename, args);
 }
 
-function cleanCode(string:string):string {
+/** General String Cleaning
+ * 
+ * Removes unnecesary white space.
+ * Excapes prohibited keywords.
+ * Injects await infront of included functions.
+ * 
+ * @param {string} string 
+ * @returns {string}
+ */
+function generalCleaning(string:string):string{
+    string = string.replace(/\s+/gm, " ").trim();
+
     for(let keyword of BAD_KEYWORDS)
         string = string.replace(keyword, "_"+keyword);
-    return string;
-}
 
-function cleanTemplateString(string: string):string {
-    string = cleanCode(string);
     for(let name in INCLUDED_FUNCTIONS){
         const regex = AWAIT_REGEX(name)
         string = string.replace(regex, "await $1");
     }
 
-       
-    return "${" + string + "}";
+    return string;
+}
+
+/** Clean Code String
+ * 
+ * Implements echo.
+ * Cleans String.
+ * 
+ * @param {string} string 
+ * @returns {string}
+ */
+function cleanCode(string:string):string {
+    string = generalCleaning(string)
+    string = string.replace(ECHO_REGEX, "output += `{{$1}}`");
+    return convertToTemplateString(string);
+}
+
+/** Clean Tempalte String
+ * 
+ * Wraps string in template escapes
+ * Cleans String
+ * 
+ * @param {string} string 
+ * @returns {string}
+ */
+function cleanTemplateString(string: string):string { 
+    return "${" + generalCleaning(string) + "}";
 }
 
 /** Create Template Instructions
@@ -106,7 +139,7 @@ export function createTemplateInstructions(template: string): Array<string>{
                 instructions.push(`output += \`${temp}\`;`);
                 instructions.push('trace++;');
             }
-            instructions.push(e.substring(2, e.length-2));
+            instructions.push( cleanCode(e.substring(2, e.length-2)) );
             instructions.push('trace++;');
             template = template.slice(index+e.length);
         }
@@ -213,8 +246,14 @@ async function forEach(arr:Array<any>, loopCallback:(value:any, index:string)=>P
     }
 
     let buffer: string = "";
-    for(let i in arr) 
-        buffer += await loopCallback(arr[i], i);
+    for(let i in arr) {
+        try {
+            buffer += await loopCallback(arr[i], i);
+        } catch (e){
+            buffer += e.message;
+        }
+    }
+        
 
     return buffer;
 }

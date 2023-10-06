@@ -10,7 +10,7 @@
     <div class="resume-about">
         <ol>
             {% echo forEach(list, (item, index) => {
-                let title = `<h2>${index+1}: ${item}</h2>`;
+                let title = `<h2>${Number(index)+1}: ${item}</h2>`;
                 let about =  info[item];
                 if(typeof about !== "undefined") {
                     if(Array.isArray(about))

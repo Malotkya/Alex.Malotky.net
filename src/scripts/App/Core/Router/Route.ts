@@ -139,7 +139,7 @@ export default class Route extends Layer{
      */
     public match(path:string): boolean{
         for(let layer of this._layers) {
-            if(layer.match(path))
+            if(layer.match(path, true))
                 return true;
         }
             

@@ -129,6 +129,20 @@ export default class Core extends Route{
         }
     }
 
+    /** Scroll to element
+     * 
+     * @param {string} id 
+     */
+    protected scroll(id: string){
+        const target = document.getElementById(id);
+        if(target)
+            target.scrollIntoView();
+    }
+
+    /** App Loading Failed
+     * 
+     * @param {any} err
+     */
     protected failed(err: any){
         if(err)
             this._loadingError.push(err);
@@ -165,6 +179,10 @@ export default class Core extends Route{
         this._ready = callback;
     }
 
+    /** Display Context
+     * 
+     * @param {Context} context  
+     */
     private display(context: Context): Promise<void>{
         return new Promise((resolve, reject)=>{
             this._target.ontransitionend = async() => {
@@ -182,10 +200,16 @@ export default class Core extends Route{
         });
     }
 
+    /** Body Setter
+     * 
+     */
     protected set body(value: string){
         this._target.innerHTML = value;
     }
 
+    /** Title Setter
+     * 
+     */
     protected set title(value: string){
         if(typeof value === "undefined" || value === ""){
             value = this._defaultTitle;
@@ -196,12 +220,22 @@ export default class Core extends Route{
         this._title.textContent = value;
     }
 
+    /** Description Setter
+     * 
+     */
     protected set description(value: string){
         if(typeof value === "undefined" || value === ""){
             value = this._defaultContent;
         }
 
         this._description.setAttribute("content", value);
+    }
+
+    /** Hostname Getter
+     * 
+     */
+    public get hostname(): string{
+        return window.location.hostname;
     }
 }
 

@@ -9,21 +9,21 @@
 <article class="resume-detailed">
     <div class="resume-about">
         <ol>
-            {% for(let i=0; i< list.length; i++) {
-                let item = list[i];
+            {% echo forEach(list, (item, index) => {
+                let title = `<h2>${index+1}: ${item}</h2>`;
+                let about =  info[item];
+                if(typeof about !== "undefined") {
+                    if(Array.isArray(about))
+                        about = about.join("<br/>");
+
+                    about = `<p>${about}</p>`
+                } else {
+                    about = "";
+                }
+
+                return `<li>${title}${about}</li>`;
+            }, "<li>Empty Results</li>");
             %} 
-                <li>
-                    <h2>{{ i+1 }}: {{ item }}</h2>
-                    {%
-                        let about =  info[item];
-                        if(typeof about !== "undefined") {
-                            if(Array.isArray(about))
-                                about = about.join("<br/>");
-                    %}
-                        <p>{{ about }}</p>
-                    {% } %}
-                </li>
-            {% } %}
         </ol>
     </div>
 </article>

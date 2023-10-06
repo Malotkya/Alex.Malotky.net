@@ -23,6 +23,7 @@ export default class Layer {
     //Private attributes
     private _regex: RegExp;
     private _keys: Array<Key>  
+    private _shortcut: boolean;
 
     //Protected attributes
     protected _path: string;
@@ -86,6 +87,7 @@ export default class Layer {
 
         this._regex = pathToRegexp(value, this._keys = [], this._options);
         this._path = value;
+        this._shortcut = value === "";
     }
 
     /** Path Getter
@@ -100,9 +102,12 @@ export default class Layer {
      * @param {string} path 
      * @returns {boolean}
      */
-    public match(path: string): boolean{
+    public match(path: string, ignore?:boolean): boolean{
         if(typeof path !== "string")
             throw new TypeError(`Unknown type '${typeof path}' for path!`);
+
+        if(this._shortcut && !ignore)
+            return true;
 
         let match = path.match(this._regex)
 

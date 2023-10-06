@@ -1,10 +1,29 @@
-<h1>Resume</h1>
+{%
+    if(typeof jobs === "undefined")
+        jobs = [];
+
+    if(typeof schools === "undefined")
+        schools = [];
+
+    if(typeof jobs === "skills")
+        skills = [];
+%}
+<h1>Resume</h1> 
 <article>
-    {{ include("resume/allJobs.html", {list: jobs}) }}
+    <h2><a href="/Resume/Jobs">Job History:</a></h2>
+    <ul class="resume-card-list">
+        {{ forEach(jobs, j=>include("resume/job.html", j), "<li>Empty Results!</li>") }}
+    </ul>
 </article>
 <article>
-    {{ include("resume/allSchools.html", {list: schools}) }}
+    <h2><a href="/Resume/School">School History:</a></h2>
+    <ul class="resume-card-list">
+        {{ forEach(schools, s=>include("resume/school.html", s), "<li>Empty Results!</li>") }}
+    </ul>
 </article>
 <article>
-    {{ include("resume/allSkills.html", {list: skills}) }}
+    <h2><a href="/Resume/Skills">Skills:</a></h2>
+    <ul class="resume-card-list">
+        {{ forEach(skills, s=>include("resume/skill.html", s), "<li>Empty Results!</li>") }}
+    </ul>
 </article>

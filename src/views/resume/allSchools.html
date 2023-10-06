@@ -2,7 +2,7 @@
     if(typeof list === "undefined")
         list = [];
 %}
-<h2>School History:</h2>
+<h1>School History:</h1>
 <ul class="resume-card-list">
     {{ forEach(list, s=>include("resume/school.html", s), "<li>Empty Results!</li>") }}
 </ul>

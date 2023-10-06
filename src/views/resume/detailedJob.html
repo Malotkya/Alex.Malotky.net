@@ -1,0 +1,25 @@
+{%
+    startDate = formatDate(startDate, "%M, %Y");
+    if(typeof endDate === "undefined"){
+        endDate = "Currently Employeed";
+    } else {
+        endDate = formatDate(endDate, "%M, %Y");
+    }
+
+    if(typeof about === "undefined")
+        about = [];
+%}
+<h1>{{ title }}</h1>
+<article class="resume-detailed">
+    <h2>{{ employer }}</h2>
+    <p class="resume-date">
+        <span>{{ startDate }} - {{ endDate }}</span>
+    </p>
+    <div class="resume-about">
+        <ul>
+            {% for(let a of about){ %}
+                <li>{{ a }}</li>
+            {% } %}
+        </ul>
+    </div>
+</article>

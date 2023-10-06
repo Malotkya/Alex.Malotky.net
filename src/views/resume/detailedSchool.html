@@ -1,0 +1,23 @@
+{%
+    if(typeof graduated === "undefined"){
+        graduated = "Currently Enrolled";
+    } else {
+        graduated = formatDate(graduated, "%M, %Y");
+    }
+    if(typeof about === "undefined")
+        about = [];
+%}
+<h1>{{ degree }}</h1>
+<article class="resume-detailed">
+    <h2>{{ name }}</h2>
+    <p class="resume-date">
+        <span>Graduated: {{ graduated }}</span>
+    </p>
+    <div class="resume-about">
+        <ul>
+            {% for(let a of about){ %}
+                <li>{{ a }}</li>
+            {% } %}
+        </ul>
+    </div>
+</article>

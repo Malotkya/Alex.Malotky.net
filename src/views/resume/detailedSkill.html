@@ -1,0 +1,29 @@
+{%
+    if(typeof list === "undefined")
+        list = [];
+
+    if(typeof info === "undefined")
+        info = new Map();
+%}
+<h1>{{ name }}</h1>
+<article class="resume-detailed">
+    <div class="resume-about">
+        <ol>
+            {% for(let i=0; i< list.length; i++) {
+                let item = list[i];
+            %} 
+                <li>
+                    <h2>{{ i+1 }}: {{ item }}</h2>
+                    {%
+                        let about =  info[item];
+                        if(typeof about !== "undefined") {
+                            if(Array.isArray(about))
+                                about = about.join("<br/>");
+                    %}
+                        <p>{{ about }}</p>
+                    {% } %}
+                </li>
+            {% } %}
+        </ol>
+    </div>
+</article>

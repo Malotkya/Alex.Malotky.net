@@ -26,6 +26,12 @@ export const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const database = getFirestore(app);
 
+/** Get Document
+ * 
+ * @param {string} collectionName 
+ * @param {string} documentId 
+ * @returns {any}
+ */
 export async function getDocument(collectionName:string, documentId:string): Promise<any>{
     const response = await getDoc(doc(database, collectionName, documentId));
     const data:any = response.data();
@@ -36,7 +42,7 @@ export async function getDocument(collectionName:string, documentId:string): Pro
     return data;
 }
 
-/** Get Table
+/** Query Collection
  * 
  * @param {string} name 
  * @returns {QuerySnapshot}

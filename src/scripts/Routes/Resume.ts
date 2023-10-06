@@ -62,8 +62,6 @@ Resume.use("/:page/:id", async(ctx: Context)=>{
 
     if(typeof result === "undefined")
         throw new Error("Unable to find id: " + id);
-
-    console.log(result);
            
     ctx.body = await render(file, result);
 });

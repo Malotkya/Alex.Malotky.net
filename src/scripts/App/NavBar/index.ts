@@ -41,8 +41,12 @@ export default class NavBar{
            }
         })
 
-        document.addEventListener("click", event=>{
+        this._nav.addEventListener("click", event=>{
             this._list.style.display = "";
+            const target = event.target as HTMLElement;
+            if(target.localName === "a"){
+                target.blur();
+            }
         });
     }
 
@@ -56,15 +60,11 @@ export default class NavBar{
         if(typeof callback !== "function")
             throw new TypeError("Event Listener must be a Function");
 
-        this._nav.addEventListener("click", event=>{
+        document.addEventListener("click", event=>{
             this._list.style.display = "";
-            const target = event.target as HTMLElement;
-            if(target.localName === "a"){
-                event.stopPropagation();
-                target.blur();
-                callback(event);
-            }
+            callback(event);
         });
+    
     }
 
     /** Add link to router in navigation bar.

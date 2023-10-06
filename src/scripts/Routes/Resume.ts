@@ -2,8 +2,7 @@
  * 
  */
 import {Context, Router, render, HtmlError} from "../App";
-import Database, { getResume } from "../Util/Database";
-import { cache } from "../Util/Memory";
+import { getResume, getWholeCollection, getDocumentById } from "../Util/Database";
 
 /** Resume Router
  * 
@@ -12,7 +11,6 @@ import { cache } from "../Util/Memory";
 export const Resume = new Router("Resume", "Alex's resume and other skills.");
 
 Resume.use("/:page", async(ctx: Context)=>{
-    const database = await Database();
 
     let page:string = ctx.params.get("page");
     let file:string;
@@ -34,11 +32,10 @@ Resume.use("/:page", async(ctx: Context)=>{
             throw new HtmlError(404, `Unknown page ${page} in Resume!`);
     }     
 
-    ctx.body = await render(file, {list: await database.queryCollection(page)});
+    ctx.body = await render(file, {list: await getWholeCollection(page)});
 });
 
 Resume.use("/:page/:id", async(ctx: Context)=>{
-    const database = await Database();
 
     let page:string = ctx.params.get("page");
     let id:string = ctx.params.get("id");
@@ -61,7 +58,7 @@ Resume.use("/:page/:id", async(ctx: Context)=>{
             throw new HtmlError(404, `Unknown page ${page} in Resume!`);
     }
 
-    const result:any = await database.getDocument(page, id);
+    const result:any = await getDocumentById(page, id);
 
     if(typeof result === "undefined")
         throw new Error("Unable to find id: " + id);
@@ -72,5 +69,5 @@ Resume.use("/:page/:id", async(ctx: Context)=>{
 });
 
 Resume.use("/", async(ctx: Context)=>{
-    ctx.body = await render("resume.html", await cache("Resume", getResume));
+    ctx.body = await render("resume.html", await getResume());
 });

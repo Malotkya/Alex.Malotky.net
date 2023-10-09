@@ -46,13 +46,14 @@ export default class App extends Core {
         if(target.localName === "a"){
             
             if(target.href.indexOf(this.hostname) !== -1){
-                event.preventDefault();
                 let match = target.href.match(/(?<=#).*?(?=\?|$)/gm);
                 if(match){
                     this.scroll(match[0]);
                 } else {
                     super.route(event);
                 }
+            } else {
+                this.link(target.href);
             }
         }
     }
@@ -60,8 +61,6 @@ export default class App extends Core {
     /** Add to Navbar and Use Router
      * 
      * Calls this.use(path, Router)
-     * 
-     * TODO: create drop down if router has sub-routes.
      * 
      * @param {string} path 
      * @param {Router} router 

@@ -133,10 +133,20 @@ export default class Core extends Route{
      * 
      * @param {string} id 
      */
-    protected scroll(id: string){
+    protected scroll(id: string):void{
         const target = document.getElementById(id);
         if(target)
             target.scrollIntoView();
+    }
+
+    /** Open link
+     * 
+     * Will open the link in a new tab.
+     * 
+     * @param {string} href 
+     */
+    protected link(href:string):void{
+        window.open(href, '_blank').focus();
     }
 
     /** App Loading Failed

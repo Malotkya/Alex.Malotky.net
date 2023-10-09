@@ -62,12 +62,15 @@ export default class NavBar{
 
         document.addEventListener("click", event=>{
             this._list.style.display = "";
+            event.preventDefault();
             callback(event);
         });
     
     }
 
     /** Add link to router in navigation bar.
+     * 
+     * TODO: create drop down if router has sub-routes.
      * 
      * @param {Router} router 
      */

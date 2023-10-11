@@ -16,7 +16,7 @@ export default class Context{
     private _path: string;
 
     //Information Generated from path
-    private _gets: any;
+    private _gets: Map<string, string>;
     private _params: Map<string, string>;
 
     //Information gnerated by users.
@@ -36,12 +36,12 @@ export default class Context{
         this._body = "";
         this._title = "";
         this._info = "";
-        this._params = new Map<string, string>();
         this._connected = ()=>undefined;
-        this._gets = {};
+        this._params = new Map<string, string>();
+        this._gets = new Map<string, string>();
         for(let args of location.search.substring(1).split('&')){
             let buffer = decodeURIComponent(args).split("=");
-            this._gets[buffer[0]] = buffer[1];
+            this._gets.set(buffer[0], buffer[1]);
         }
     }
 
@@ -107,18 +107,17 @@ export default class Context{
     /** Paramters Setter
      * 
      */
-    set params(value: any|Map<string, string>){
-        if(value instanceof Map){
-            this._params = copyMap(value);
-        } else {
-            this._params = new Map<string, string>();
-            for(let key in value){
-                this._params.set(key, String(value[key]));
-            }
+    set params(value: Map<string, string>){
+        if( !(value instanceof Map) ){
+            throw new TypeError(`Unknown type '${typeof value}' for Params!`);
+        } 
+
+        for(let it of value.entries()){
+            this._params.set(it[0], it[1]);
         }
 
-        for(let key in this._gets){
-            this._params.set(key, String(this._gets[key]));
+        for(let it of this._gets.entries()){
+            this._params.set(it[0], it[1]);
         }
     }
 
@@ -150,8 +149,7 @@ export default class Context{
 function copyMap(original:Map<string, string>): Map<string, string>{
     const newMap = new Map<string, string>();
 
-    for(let it of original.entries())
-        newMap.set(it[0], it[1]);
+    
     
     return newMap;
 }

@@ -45,7 +45,7 @@ export async function getDocument(collectionName:string, documentId:string): Pro
 /** Query Collection
  * 
  * @param {string} name 
- * @returns {QuerySnapshot}
+ * @returns {Array<any>}
  */
 export async function queryCollection(name: string, opts?:any):Promise<Array<any>>{
     const output: Array<any> = [];

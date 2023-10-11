@@ -10,7 +10,7 @@ import Router from "./Core/Router";
 //Export Classes and Functions
 import Context, { Executable } from "./Core/Context";
 export {Router, Context};
-export {makeErrorMessage, sleep, HtmlError} from "./Core";
+export {makeErrorMessage, HtmlError} from "./Core";
 
 
 /** App Class
@@ -44,7 +44,7 @@ export default class App extends Core {
         let target = event.target as HTMLAnchorElement;
 
         if(target.localName === "a"){
-            
+            event.preventDefault();
             if(target.href.indexOf(this.hostname) !== -1){
                 let match = target.href.match(/(?<=#).*?(?=\?|$)/gm);
                 if(match){

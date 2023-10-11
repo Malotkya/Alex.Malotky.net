@@ -44,7 +44,7 @@ export default class Router extends Route {
      * @param {Context} context 
      * @param {Signal} done 
      */
-    public handle(context: Context, done: Signal) {
+    public handle(context: Context, done: Signal):void {
         if(context instanceof Context) {
             context.title = this._title;
             context.info = this._info;
@@ -66,15 +66,32 @@ export default class Router extends Route {
     /** Title Getter
      * 
      */
-    public get title(){
+    public get title(): string{
         return this._title;
     }
 
     /** Hyperlink Reference Getter
      * 
      */
-    public get href(){
+    public get href():string {
         //Remove Variables from path.
         return this.path.replace(/\/:.*?(?=\/|$)/gm, "");
+    }
+
+    /** Sub Routers
+     * 
+     * Compiles all Routers inside of this routers into a seperate list.
+     * 
+     * @returns {Array<Router>}
+     */
+    public subRouters(): Array<Router>{
+        const output: Array<Router> = [];
+
+        for(let layer of this._layers){
+            if(layer instanceof Router)
+                output.push(layer);
+        }
+
+        return output;
     }
 }

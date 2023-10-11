@@ -24,6 +24,12 @@ export interface Database{
 //Database object.
 let database: Database;
 
+/** Initalized the database connection if it isn't already, and returns the connection.
+ * 
+ * Note: I dislike magic comments.
+ * 
+ * @returns {Database}
+ */
 export default async function Database(): Promise<Database>{
     if(typeof database === "undefined") {
         //@ts-ignore
@@ -55,6 +61,11 @@ export async function getResume(): Promise<ResumeResults>{
     });
 }
 
+/** Get Whole Collection
+ * 
+ * @param {string} name 
+ * @returns {Array<any>}
+ */
 export async function getWholeCollection(name:string): Promise<Array<any>>{
     return await cache(name, async()=>{
         const database:Database = await Database();
@@ -62,7 +73,13 @@ export async function getWholeCollection(name:string): Promise<Array<any>>{
     });
 }
 
-export async function getDocumentById(collectionName:string, documentId:string){
+/** Get Document By ID
+ * 
+ * @param {string} collectionName 
+ * @param {string} documentId 
+ * @returns {any}
+ */
+export async function getDocumentById(collectionName:string, documentId:string): Promise<any>{
     return await cache(`${collectionName}(${documentId})`, async()=>{
         const database:Database = await Database();
         return await database.getDocument(collectionName, documentId);

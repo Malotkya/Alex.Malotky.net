@@ -14,6 +14,7 @@ export default class NavBar{
     private _list: HTMLElement;
     private _home: HTMLElement;
     private _nav: HTMLElement;
+    private _route:(e:Event)=>void|undefined
 
     /** Constructor w/ selector string.
      * 
@@ -41,12 +42,20 @@ export default class NavBar{
            }
         })
 
+        //Close nav
         this._nav.addEventListener("click", event=>{
             this._list.style.display = "";
             const target = event.target as HTMLElement;
             if(target.localName === "a"){
                 target.blur();
             }
+        });
+
+        //Close nav
+        document.addEventListener("click", event=>{
+            this._list.style.display = "";
+            if(this._route)
+                this._route(event);
         });
     }
 
@@ -56,21 +65,14 @@ export default class NavBar{
      * 
      * @param {EventListener} callback 
      */
-    public routeEvent(callback: EventListener): void{
+    public routeEvent(callback: EventListener):void{
         if(typeof callback !== "function")
             throw new TypeError("Event Listener must be a Function");
 
-        document.addEventListener("click", event=>{
-            this._list.style.display = "";
-            event.preventDefault();
-            callback(event);
-        });
-    
+        this._route = callback;
     }
 
     /** Add link to router in navigation bar.
-     * 
-     * TODO: create drop down if router has sub-routes.
      * 
      * @param {Router} router 
      */
@@ -84,6 +86,17 @@ export default class NavBar{
         link.href = router.href;
         link.textContent = router.title;
         item.appendChild(link);
+
+        const subRouters = router.subRouters();
+        if(subRouters.length > 0){
+            //TODO: create drop down if router has sub-routes. 
+            link.addEventListener("click", ()=>{
+                console.log("Show Menu!");
+            });
+
+            console.log(subRouters);
+        }
+
         this._list.appendChild(item);
     }
 }

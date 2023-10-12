@@ -4,7 +4,6 @@
  */
 import Route from "./Router/Route";
 import Context from "./Context";
-import { SignalEnd } from "./Router";
 
 /** Application Core Class
  * 
@@ -41,43 +40,39 @@ export default class Core extends Route{
      * 
      * Loads content, title, and description.
      */
-    private handler(): void{
+    private handler(timeout:number = 500): void{
         this._routing = true;
 
         const context = new Context(window.location);
-        let contextReady: boolean = false;
+        this._target.style.opacity = "0";
 
-        this._target.ontransitionstart = async() => {
-            this._target.ontransitionstart = undefined;
-
-            this.handle(context, (error?: any) => {
-                if(error && error !== SignalEnd){
-                    context.body = makeErrorMessage(error);
-                    context.title = "Error";
-                    context.info = "";
-                    if(error.additional)
-                        console.error(error.additional);
-                    console.error(error);
-                }
-
-                contextReady = true;
-            });
-        };
-
-        this._target.ontransitionend = async() => {
+        window.setTimeout(() => {
             this._target.ontransitionend = undefined;
 
             //Wait for routing & rendering to finish
-            while(!contextReady)
-                await sleep();
+            context.onDone(async (newPath?:string)=>{
+                if(newPath) {
+                    this.go(newPath, 0);
+                } else {
+                    await this.display(context);
+                }
 
-            await this.display(context);
+                this._routing = false;
+            });           
+        }, timeout);
 
-            this._routing = false;
-        }
+        this.handle(context, (error?: any) => {
+            if(error){
+                context.body = makeErrorMessage(error);
+                context.title = "Error";
+                context.info = "";
+                if(error.additional)
+                    console.error(error.additional);
+                console.error(error);
+            }
 
-        //Start Transition Out
-        this._target.style.opacity = "0";
+            context.done();
+        });
     }
 
     /** Route Clicked Function
@@ -92,9 +87,13 @@ export default class Core extends Route{
         event.preventDefault();
 
         if(!this._routing && this._loadingError.length === 0){
-            window.history.pushState({}, "", event.target.href);
-            this.handler();
+            this.go(event.target.href)
         }
+    }
+
+    public go(path: string, timeout?: number){
+        window.history.pushState({}, "", path);
+        this.handler(timeout);
     }
 
     /** Start App Function
@@ -197,7 +196,7 @@ export default class Core extends Route{
         return new Promise((resolve, reject)=>{
             this._target.ontransitionend = async() => {
                 this._target.ontransitionend = undefined
-                await context.connected(context);
+                context.connected(context);
                 resolve();
             }
     
@@ -294,17 +293,6 @@ export function makeErrorMessage(error: any|string, code?: string|number): strin
     }
     
     return `<h1 class="error">${code}: ${message}</h1>`;
-}
-
-/** Sleep/Wait Utility
- * 
- * 
- * @param {number} t - time in milliseconds.
- */
-function sleep(t: number = 5): Promise<void>{
-    return new Promise((res,rej)=>{
-        window.setTimeout(res, t);
-    });
 }
 
 /** Attempts to find node, and parents of node.

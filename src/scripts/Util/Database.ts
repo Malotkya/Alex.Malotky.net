@@ -17,8 +17,9 @@ export interface ResumeResults{
  * 
  */
 export interface Database{
-    queryCollection:(name:string, opts?:any)=>Promise<Array<any>>,
-    getDocument:(collectionName:string, documentId:string)=>Promise<any>
+    queryCollection:(collectionName:string, opts?:any)=>Promise<Array<any>>,
+    getDocument:(collectionName:string, documentId:string)=>Promise<any>,
+    countCollection:(collectionName:string)=>Promise<number>
 }
 
 //Database object.

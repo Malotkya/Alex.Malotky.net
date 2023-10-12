@@ -151,7 +151,7 @@ export default class Context{
 
     public reRoute(path: string){
         this._newRoute = path;
-        this._done = true;
+        this.done();
     }
 
     public done(){

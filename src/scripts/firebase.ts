@@ -5,7 +5,7 @@
  * @author Alex Malotky
  */
 import {initializeApp} from "firebase/app";
-import {getFirestore, collection, query, QueryConstraint, getDocs, getDoc, doc} from "firebase/firestore";
+import {getFirestore, collection, query, QueryConstraint, getDocs, getDoc, doc, getCountFromServer} from "firebase/firestore";
 import {where, orderBy, startAt, startAfter, endBefore, endAt, limit, limitToLast} from "firebase/firestore";
 
 // Your web app's Firebase configuration
@@ -42,12 +42,23 @@ export async function getDocument(collectionName:string, documentId:string): Pro
     return data;
 }
 
+/** Count Documents In Collection
+ * 
+ * @param {string} collectionName 
+ * @returns {number}
+ */
+export async function countCollection(collectionName:string): Promise<number>{
+    const response = await getCountFromServer(collection(database, collectionName));
+    return response.data().count;
+}
+
 /** Query Collection
  * 
  * @param {string} name 
+ * @param {any} opts 
  * @returns {Array<any>}
  */
-export async function queryCollection(name: string, opts?:any):Promise<Array<any>>{
+export async function queryCollection(collectionName: string, opts?:any):Promise<Array<any>>{
     const output: Array<any> = [];
     const options: Array<QueryConstraint> = [];
 
@@ -97,7 +108,7 @@ export async function queryCollection(name: string, opts?:any):Promise<Array<any
         }
     }
 
-    (await getDocs(query(collection(database, name), ...options))).forEach(result =>{
+    (await getDocs(query(collection(database, collectionName), ...options))).forEach(result =>{
         const data:any = result.data();
         data.id = result.id;
         output.push(data);

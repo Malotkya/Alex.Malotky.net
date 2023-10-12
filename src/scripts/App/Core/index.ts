@@ -5,6 +5,8 @@
 import Route from "./Router/Route";
 import Context from "./Context";
 
+const CSS_TRANSITION_TIME = 500;//ms
+
 /** Application Core Class
  * 
  * Interacts with and overrides browser functinoality.
@@ -40,7 +42,7 @@ export default class Core extends Route{
      * 
      * Loads content, title, and description.
      */
-    private handler(timeout:number = 500): void{
+    private handler(timeout:number = CSS_TRANSITION_TIME): void{
         this._routing = true;
 
         const context = new Context(window.location);

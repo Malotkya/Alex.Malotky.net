@@ -6,9 +6,6 @@ import Context from "../Context";
 import { Signal } from "./Layer";
 import Route from "./Route";
 
-//End Signal
-export const SignalEnd = "END";
-
 /** Router Class
  * 
  * Distinct from route in that when done it will signal to end routing,
@@ -55,12 +52,7 @@ export default class Router extends Route {
         if(typeof done !== "function")
             throw new TypeError(`Unknown type '${typeof done}' for done!`);
         
-        super.handle(context, (error?:any) =>{
-            if(error)
-                return done(error);
-
-            done(SignalEnd);
-        });
+        super.handle(context, done);
     }
 
     /** Title Getter

@@ -2,7 +2,6 @@
  * 
  * @author Alex Malotky
  */
-
 export type Executable = (context?:Context)=>Promise<void>|void;
 
 /** Context Class
@@ -24,6 +23,10 @@ export default class Context{
     private _title: string;
     private _info: string;
     private _connected: Executable;
+    private _newRoute: string|undefined;
+
+    //app
+    private _done: boolean|Function|undefined;
 
     /** Constructor
      * 
@@ -102,6 +105,7 @@ export default class Context{
             this._body = value.outerHTML;
         else 
             this._body = String(value);
+        this.done();
     }
 
     /** Paramters Setter
@@ -144,12 +148,42 @@ export default class Context{
     get connected(){
         return this._connected;
     }
-}
 
-function copyMap(original:Map<string, string>): Map<string, string>{
-    const newMap = new Map<string, string>();
+    public reRoute(path: string){
+        this._newRoute = path;
+        this._done = true;
+    }
 
-    
-    
-    return newMap;
+    public done(){
+        switch(typeof this._done){
+            case "boolean":
+                //Do Nothing
+                break;
+
+            case "function":
+                this._done(this._newRoute);
+
+            default:
+                this._done = true;
+        }
+    }
+
+    public onDone(callback:(s?:string)=>Promise<void>){
+        if(typeof callback !== "function")
+            throw new TypeError(`Unknown type '${typeof callback}' for done Event!`);
+
+        if(typeof this._done === "boolean") {
+            callback(this._newRoute);
+            this._done = true;
+        } else {
+            this._done = callback;
+        }
+    }
+
+    public isDone(): boolean{
+        if(typeof this._done === "boolean")
+            return this._done;
+
+        return false;
+    }
 }

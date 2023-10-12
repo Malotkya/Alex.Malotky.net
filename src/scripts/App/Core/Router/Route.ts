@@ -94,6 +94,9 @@ export default class Route extends Layer{
             if(error)
                 return done(error);
 
+            if(context.isDone())
+                return done();
+
             let layer: Layer = this._layers[index++];
 
             if(typeof layer === "undefined")

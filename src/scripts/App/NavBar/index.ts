@@ -40,15 +40,6 @@ export default class NavBar{
            } else {
                 this._list.style.display = "flex";
            }
-        })
-
-        //Close nav
-        this._nav.addEventListener("click", event=>{
-            this._list.style.display = "";
-            const target = event.target as HTMLElement;
-            if(target.localName === "a"){
-                target.blur();
-            }
         });
 
         //Close nav

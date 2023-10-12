@@ -44,7 +44,10 @@ export default class App extends Core {
         let target = event.target as HTMLAnchorElement;
 
         if(target.localName === "a"){
+            
             event.preventDefault();
+            target.blur();
+
             if(target.href.indexOf(this.hostname) !== -1){
                 let match = target.href.match(/(?<=#).*?(?=\?|$)/gm);
                 if(match){

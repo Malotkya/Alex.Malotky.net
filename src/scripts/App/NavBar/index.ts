@@ -14,7 +14,7 @@ export default class NavBar{
     private _list: HTMLElement;
     private _home: HTMLElement;
     private _nav: HTMLElement;
-    private _route:(e:Event)=>void|undefined
+    private _route: EventListener|undefined;
 
     /** Constructor w/ selector string.
      * 

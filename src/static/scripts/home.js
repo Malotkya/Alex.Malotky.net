@@ -1,4 +1,4 @@
-export default async function home(){
+export default function home(){
     //Message Constants
     const TEXT = "Hello,\r\nMy name is Alex Malotky.";
     const TEXT_DELAY = 15;//ms

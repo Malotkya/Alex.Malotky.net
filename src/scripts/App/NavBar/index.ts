@@ -81,10 +81,6 @@ export default class NavBar{
         const subRouters = router.subRouters();
         if(subRouters.length > 0){
             //TODO: create drop down if router has sub-routes. 
-            link.addEventListener("click", ()=>{
-                console.log("Show Menu!");
-            });
-
             console.log(subRouters);
         }
 

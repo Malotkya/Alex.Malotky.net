@@ -2,26 +2,35 @@
  * 
  * @author Alex Malotky
  */
-import {Context, Router, render} from "../App";
-import Database from "../Util/Database";
-import { cache } from "../Util/Memory";
-
-const PAGENATION_SIZE = 25;
+import {Context, Router, execute, render} from "../App";
+import {getDocumentById, getBlogPage, BLOG_PAGENATION_SIZE, countDocsInCollection} from "../Util/Database";
 
 /** Blog Module
  * 
  */
 export const Blog = new Router("Blog", "A Blog from Alex.");
 
-Blog.use("/:page?",async(ctx: Context)=>{
-    //const database = await Database();
+Blog.use(async(ctx:Context)=>{
+    ctx.connected = await execute("./blog.js");
+});
 
+Blog.use("/Id/:id", async(ctx: Context)=>{
+    const id:string = ctx.params.get("id");
+    const result: any = await getDocumentById("Blog", id);
+
+    if(typeof result === "undefined")
+        throw new Error("Unable to find id: " + id);
+
+    ctx.body = await render("blog/entry.html", result);
+});
+
+Blog.use("/:page?",async(ctx: Context)=>{
     let page: string = ctx.params.get("page");
     let currentPage: number = Number(page);
     if(page === "undefined")
         currentPage = 0;
 
-    let maxPages: number = 5; //Math.floor((await database.countCollection("Blog")) / PAGENATION_SIZE);
+    let maxPages: number = Math.floor( await countDocsInCollection("Blog") / BLOG_PAGENATION_SIZE );
 
     if(isNaN(currentPage) || currentPage < 0) {
         return ctx.reRoute("/Blog");
@@ -29,17 +38,13 @@ Blog.use("/:page?",async(ctx: Context)=>{
         return ctx.reRoute(`/Blog/${maxPages}`);
     }
 
-    ctx.body = "Comming Soon!";
+    //ctx.body = "<h1>Blog Comming Soon!</h1>";
 
-    /* const results = await database.queryCollection("Blog", {
-        orderBy: ["postDate", "desc"],
-        startAt: [currentPage * PAGENATION_SIZE],
-        limit: [PAGENATION_SIZE]
-    });
+    const results = await getBlogPage(currentPage);
  
-    ctx.body = await render("", {
+    ctx.body = await render("blog.html", {
         results: results,
         page: currentPage+1,
         pageCount: maxPages
-    });*/
+    });
 });

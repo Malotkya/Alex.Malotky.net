@@ -55,8 +55,13 @@ async function updateLocalStorage(key: string, download: Function, timeout?:Date
     }
 
     const data: any = await download();
+    if(data === undefined){
+        window.localStorage.setItem(`${key}:data`, "undefined");
+    } else {
+        window.localStorage.setItem(`${key}:data`, JSON.stringify(data));
+    }
     window.localStorage.setItem(`${key}:update`, String(newUpdate.valueOf()));
-    window.localStorage.setItem(`${key}:data`, JSON.stringify(data));
+   
 
     return data;
 }

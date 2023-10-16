@@ -16,7 +16,8 @@ const TEMPLATE_DIRECTORY = "/templates/"
 const INCLUDED_FUNCTIONS = {
     include: templateEngine,
     forEach: forEach,
-    formatDate: formatDate
+    formatDate: formatDate,
+    markdown: markdownToHTML,
 }
 
 const INSTRUCTIONS_OPEN: Array<string> = [
@@ -328,4 +329,77 @@ function formatDate(date: Date|firebaseDate|string, format: string): string{
         .replace("%N", date.getMinutes().toString())
         .replace("%S", date.getSeconds().toString())
         .replace("%s", date.getMilliseconds().toString());
+}
+
+/** Convert Markdown To HTML
+ * 
+ * @param {string} string 
+ * @returns {string}
+ */
+function markdownToHTML(string:string):string {
+    //Escape Html;
+    string = string.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+    //Code Block
+    string = createMarkdownBlock(string, "pre", /\n`/gm);
+
+    //Blockquotes
+    string = createMarkdownBlock(string, "blockquote", /\n&gt;/gm);
+
+    //Ordered List
+    string = createMarkdownBlock(string, "ol", /\n\d+\./gm, "•");
+
+    //Unordered List
+    string = createMarkdownBlock(string, "ul", /\n[*+-] /gm, "•");
+
+    return string
+        .replace(/(^[*-]+$)/gm, "<hr/>")                               //Horizontal Rule
+        .replace(/^#{1,6} (.*?)$/gim, '<h3>$1</h3>')                   //Headers
+        .replace(/[*_]{2}([^*_].*?)[*_]{2}/gm, '<strong>$1</strong>')  //Bold
+        .replace(/[*_]{1}(.*?)[*_]{1}/gm, '<em>$1</em>')               //Italics
+        .replace(/^•(.*)$/gm, '<li>$1</li>')                           //List Item
+        .replace(/!\[(.*?)\]\((.*?)\)/gm, "<img alt='$1' src='$2' />") //Image
+        .replace(/\[(.*?)\]\((.*?)\)/gm, "<a href='$2'>$1</a>")        //Links
+        .replace(/`(.*?)`/gm, "<code>$1</code>")                       //Code lines
+        .replace(/\n$/gim, '<br/>');                                   //Line Break
+}
+
+/** Create Markdown Block
+ * 
+ * Used to replce elemets in the string because javascript regex won't work
+ * with multiline regex.
+ *
+ * @param {string} string
+ * @param {string} element
+ * @param {RegExp} regex
+ * @param {string} dilimiter
+ * @returns {string}
+ */
+function createMarkdownBlock(string:string, element:string, regex:RegExp, dilimiter?:string):string {
+    let split = string.split(regex);
+    let output = split[0] + '\n';
+    let inBlock = false;
+    for(let i = 1; i < split.length; i++) {
+        if( !inBlock ) {
+            output += `<${element}>\n`;
+            inBlock = true;
+        }
+
+        if(dilimiter)
+            output += dilimiter;
+
+        let index = split[i].indexOf('\n');
+        if(index === -1) {
+            output += split[i] + '\n';
+        } else {
+            output += split[i].substring(0, index) + `</${element}>`
+                + split[i].substring(index+1);
+            inBlock = false;
+        }
+    }
+
+    if(inBlock)
+        output += `</${element}>`;
+
+    return output;
 }

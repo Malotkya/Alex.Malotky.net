@@ -3,7 +3,6 @@
  */
 import {Context, Router, render, HtmlError} from "../App";
 import { getResume, getWholeCollection, getDocumentById } from "../Util/Database";
-import { cache } from "../Util/Memory";
 
 /** Resume Router
  * 
@@ -31,11 +30,9 @@ Resume.use("/:page", async(ctx: Context)=>{
 
         default:
             throw new HtmlError(404, `Unknown page ${page} in Resume!`);
-    }
-    
-    const results = await cache(page, ()=>getWholeCollection(page));
+    }     
 
-    ctx.body = await render(file, {list: results });
+    ctx.body = await render(file, {list: await getWholeCollection(page)});
 });
 
 Resume.use("/:page/:id", async(ctx: Context)=>{
@@ -61,7 +58,7 @@ Resume.use("/:page/:id", async(ctx: Context)=>{
             throw new HtmlError(404, `Unknown page ${page} in Resume!`);
     }
 
-    const result:any = await cache(`${page}(${id})`, ()=>getDocumentById(page, id));
+    const result:any = await getDocumentById(page, id);
 
     if(typeof result === "undefined")
         throw new Error("Unable to find id: " + id);

@@ -13,8 +13,6 @@ export interface ResumeResults{
     skills: Array<any>
 }
 
-export const BLOG_PAGENATION_SIZE = 25;
-
 /** Database Interface
  * 
  */
@@ -61,22 +59,6 @@ export async function getResume(): Promise<ResumeResults>{
             }),
             skills: await database.queryCollection("Skills"),
         };
-    });
-}
-
-/** Get Blog Page
- * 
- * @param {number} page 
- * @returns {Array<any>}
- */
-export async function getBlogPage(page:number):Promise<Array<any>>{
-    return await cache(`Blog(${page})`, async()=>{
-        const database:Database = Database();
-        return database.queryCollection("Blog", {
-            orderBy: ["postDate", "desc"],
-            startAt: [page * BLOG_PAGENATION_SIZE],
-            limit: [BLOG_PAGENATION_SIZE]
-        });
     });
 }
 

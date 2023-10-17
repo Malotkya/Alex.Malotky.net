@@ -36,7 +36,7 @@ Editor.use("/New", (ctx:Context)=>{
     ctx.body = "<h1>Create coming soon!</h1>";
 });
 
-Editor.use(":id", async(ctx:Context)=>{
+Editor.use("/:id", async(ctx:Context)=>{
     const database = await Database();
 
     const id = ctx.params.get("id");

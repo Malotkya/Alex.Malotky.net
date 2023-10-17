@@ -8,6 +8,7 @@ import {Home} from "./Routes/Home";
 import {Resume} from "./Routes/Resume";
 import {Portfolio} from "./Routes/Portfolio";
 import {AboutMe} from "./Routes/AboutMe";
+import { Login } from "./Routes/Login";
 
 const pkg:any = require("../../package.json");
 const app:App = new App();
@@ -16,6 +17,8 @@ app.add("/", Home);
 app.add("/Resume", Resume);
 app.add("/Portfolio", Portfolio);
 app.add("/About", AboutMe);
+
+app.use(Login);
 
 app.use(async(ctx: Context)=>{
     throw new HtmlError(404, "Page not Found!");

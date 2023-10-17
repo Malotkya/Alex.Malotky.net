@@ -29,7 +29,6 @@ module.exports = {
       path.join(source_directory, 'scripts', 'index.ts'),
       path.join(source_directory, 'styles', 'index.scss')
     ],
-    firebase: path.join(source_directory, "scripts", "firebase.ts")
   },
   devtool: prod? undefined: 'source-map',
   module: {
@@ -86,9 +85,4 @@ module.exports = {
     
   ],
   optimization: minify,
-  performance: {
-    hints: false,
-    maxEntrypointSize: 512000,
-    maxAssetSize: 512000
-  },
 };

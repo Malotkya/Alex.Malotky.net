@@ -4,9 +4,14 @@
  * 
  * @author Alex Malotky
  */
+
 import {initializeApp} from "firebase/app";
-import {getFirestore, collection, query, QueryConstraint, getDocs, getDoc, doc, getCountFromServer} from "firebase/firestore";
+import {getFirestore, collection, query, QueryConstraint, getDocs, getDoc, doc, getCountFromServer, QueryDocumentSnapshot} from "firebase/firestore"
 import {where, orderBy, startAt, startAfter, endBefore, endAt, limit, limitToLast} from "firebase/firestore";
+
+import {getAuth, signInWithEmailAndPassword, signOut, User, onAuthStateChanged} from "firebase/auth";
+export { User } from "firebase/auth";
+
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -25,6 +30,38 @@ export const firebaseConfig = {
 //Initalize Firebase App
 const app = initializeApp(firebaseConfig);
 const database = getFirestore(app);
+const auth = getAuth(app);
+
+/** Sign User In
+ * 
+ * @param {string} email 
+ * @param {string} password 
+ * @returns {User}
+ */
+export async function signInUser(email:string, password:string): Promise<User>{
+    return (await signInWithEmailAndPassword(auth, email, password)).user;
+}
+
+/** Sign User Out
+ * 
+ */
+export async function signOutUser(): Promise<void>{
+    return signOut(auth)
+}
+
+/** Get Current User
+ * 
+ * @returns {User}
+ */
+export function getCurrentUser(): Promise<User>{
+    return new Promise( (res, rej)=>{
+        onAuthStateChanged(auth, (user:User)=>{
+            res(user);
+        }, (err: any)=>{
+            rej(err);
+        });
+    });
+}
 
 /** Get Document
  * 
@@ -108,7 +145,7 @@ export async function queryCollection(collectionName: string, opts?:any):Promise
         }
     }
 
-    (await getDocs(query(collection(database, collectionName), ...options))).forEach(result =>{
+    (await getDocs(query(collection(database, collectionName), ...options))).forEach((result:QueryDocumentSnapshot) =>{
         const data:any = result.data();
         data.id = result.id;
         output.push(data);

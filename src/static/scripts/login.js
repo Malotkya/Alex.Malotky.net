@@ -13,16 +13,33 @@ export default function LogIn(){
 function performLogin(event){
     event.preventDefault();
     import("/firebase.js").then(auth=>{
-        const username = event.target.querySelector("#username").value;
-        const password = event.target.querySelector("#password").value;
+        const username = event.target.querySelector("#username").value.trim();
+        const password = event.target.querySelector("#password").value.trim();
 
-        auth.signInUser(username, password).then(user=>{
-            if(user) {
-                location.reload();
-            } else {
-                //Print Error
-            }
-        })
+        if(username === "") {
+           printErrorMessage("Please Enter a Username!");
+        } else if(password === "") {
+            printErrorMessage("Please Enter a Password!")
+        } else {
+            auth.signInUser(username, password).then(user=>{
+                if(user) {
+                    location.reload();
+                } else {
+                    printErrorMessage("Unable to login!");
+                }
+            }).catch(err =>{
+                printErrorMessage("Wrong Username or Password!");
+            })
+        };
     });
     return false;
+}
+
+function printErrorMessage(message){
+    const htmlMessage = document.querySelector("#errorMessage");
+
+    if(htmlMessage)
+        htmlMessage.textContent = message;
+
+    console.error(message);
 }

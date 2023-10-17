@@ -2,7 +2,10 @@
  * 
  */
 import {Context, Router, render, HtmlError} from "../App";
-import { getResume, getWholeCollection, getDocumentById } from "../Util/Database";
+import Database from "../Util/Database";
+import { cache } from "../Util/Memory";
+
+
 
 /** Resume Router
  * 
@@ -11,6 +14,7 @@ import { getResume, getWholeCollection, getDocumentById } from "../Util/Database
 export const Resume = new Router("Resume", "Alex's resume and other skills.");
 
 Resume.use("/:page", async(ctx: Context)=>{
+    const database = await Database();
 
     let page:string = ctx.params.get("page");
     let file:string;
@@ -30,12 +34,15 @@ Resume.use("/:page", async(ctx: Context)=>{
 
         default:
             throw new HtmlError(404, `Unknown page ${page} in Resume!`);
-    }     
+    }
+    
+    const results = await cache(page, ()=>database.queryCollection(page));
 
-    ctx.body = await render(file, {list: await getWholeCollection(page)});
+    ctx.body = await render(file, {list: results});
 });
 
 Resume.use("/:page/:id", async(ctx: Context)=>{
+    const database = await Database();
 
     let page:string = ctx.params.get("page");
     let id:string = ctx.params.get("id");
@@ -58,7 +65,7 @@ Resume.use("/:page/:id", async(ctx: Context)=>{
             throw new HtmlError(404, `Unknown page ${page} in Resume!`);
     }
 
-    const result:any = await getDocumentById(page, id);
+    const result:any = await cache(`${page}(${id})`, ()=>database.getDocument(page, id));
 
     if(typeof result === "undefined")
         throw new Error("Unable to find id: " + id);
@@ -67,5 +74,21 @@ Resume.use("/:page/:id", async(ctx: Context)=>{
 });
 
 Resume.use("/", async(ctx: Context)=>{
-    ctx.body = await render("resume.html", await getResume());
+    const database = await Database();
+
+    const results = await cache("Resume", async()=>{
+        return {
+            schools: await database.queryCollection("School", {
+                orderBy: ["graduated", "desc"],
+                limit: [2]
+            }),
+            jobs: await database.queryCollection("Jobs", {
+                orderBy: ["startDate", "desc"],
+                limit: [2]
+            }),
+            skills: await database.queryCollection("Skills"),
+        };
+    });
+
+    ctx.body = await render("resume.html", results);
 });

@@ -16,6 +16,7 @@ Login.use("/Login", async(ctx: Context)=>{
 
 Login.use("/Logout", async(ctx:Context)=>{
     const auth = await Authentication();
+    
     await auth.signOutUser();
     ctx.reRoute("/");
 })

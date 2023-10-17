@@ -1,13 +1,7 @@
 import { Authentication } from "/firebase.js";
 
 export default function LogIn() {
-    Authentication.getCurrentUser().then(user=>{
-        if(user) {
-            location.reload();
-        } else {
-            document.querySelector("form").addEventListener("submit", performLogin);
-        }
-    });
+    document.querySelector("form").addEventListener("submit", performLogin);
 }
 
 function performLogin(event){

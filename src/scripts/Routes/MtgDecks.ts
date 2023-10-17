@@ -40,7 +40,7 @@ Editor.use(":id", async(ctx:Context)=>{
     const database = await Database();
 
     const id = ctx.params.get("id");
-    const results = database.getDocument("MtgDecks", id);
+    const results = await database.getDocument("MtgDecks", id);
 
     if(typeof results === "undefined")
         throw new Error("Unable to find id: " + id);
@@ -52,7 +52,7 @@ Editor.use(":id", async(ctx:Context)=>{
 Editor.use(async(ctx: Context)=>{
     const database = await Database();
 
-    const results = database.queryCollection("MtgDecks");
+    const results = await database.queryCollection("MtgDecks");
 
     ctx.body = await render("mtg.html", {
         list: results,

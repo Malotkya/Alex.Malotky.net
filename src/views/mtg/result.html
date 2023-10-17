@@ -1,0 +1,17 @@
+{%
+    let deleteButton = "";
+    let link = "";
+
+    if(edit) {
+        deleteButton = `<button class='btn delete' target='${deck.id}'>Delete</button>`;
+        link = "/Decks/Editor/" + deck.id;
+    } else {
+        link = "/Decks/" + deck.id;
+    }
+%}
+<li>
+    <a href="{{ link }}">
+        <h2>{{ deck.name }}</h2>
+    </a>
+    {{ deleteButton }}
+</li>

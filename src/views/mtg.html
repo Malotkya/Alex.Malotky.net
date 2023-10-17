@@ -1,0 +1,17 @@
+{%
+    if(typeof list === "undefined")
+        list = [];
+
+    if(typeof edit === "undefined")
+        edit = false;
+
+    let newButton = "";
+    if(edit) {
+        newButton = "<a class='btn' href='/Decks/Editor/New'>Create New Deck</a>";
+    }
+%}
+<h1>Magic the Gathering Decks!</h1>
+{{ new Button }}
+<ul>
+    {{ forEach(list, deck=>include("mtg/result.html", {deck:deck, edit:edit}), "<li>Empty Results!</li>") }}
+</ul>

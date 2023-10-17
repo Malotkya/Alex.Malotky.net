@@ -8,6 +8,7 @@ import {Home} from "./Routes/Home";
 import {Resume} from "./Routes/Resume";
 import {Portfolio} from "./Routes/Portfolio";
 import {AboutMe} from "./Routes/AboutMe";
+import { MtgDecks } from "./Routes/MtgDecks";
 import { Login } from "./Routes/Login";
 
 const pkg:any = require("../../package.json");
@@ -17,6 +18,7 @@ app.add("/", Home);
 app.add("/Resume", Resume);
 app.add("/Portfolio", Portfolio);
 app.add("/About", AboutMe);
+app.add("/Decks", MtgDecks);
 
 app.use(Login);
 

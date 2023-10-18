@@ -65,3 +65,6 @@ build
 
 # dotenv environment variables file
 .env
+
+*.db 
+cards/*

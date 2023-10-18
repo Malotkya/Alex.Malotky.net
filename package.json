@@ -10,7 +10,9 @@
     "clean": "rm -r build && npm run build",
     "test": "npm run dev && firebase serve",
     "serve": "npm run build && firebase serve",
-    "deploy": "npm run clean && firebase deploy"
+    "deploy": "npm run clean && firebase deploy",
+
+    "scryfall": "node ./util/scryfall.js"
   },
   "author": "Alex Malotky",
   "license": "ISC",

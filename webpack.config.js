@@ -83,7 +83,14 @@ module.exports = {
         }
       ]
     }),
-    
+    new CopyWebpackPlugin({
+      patterns:[
+        {
+          to: path.join(build_directory, 'cards'),
+          from: path.join(__dirname, "cards")
+        }
+      ]
+    })
   ],
   optimization: minify,
 };

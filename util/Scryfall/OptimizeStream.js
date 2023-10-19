@@ -24,7 +24,10 @@ class OptimizeStream extends stream_1.Transform {
             }
             else {
                 for (let prop in object.sets) {
-                    this.database[index].sets[prop] = object.sets[prop];
+                    if (this.database[index].sets[prop])
+                        throw new Error(JSON.stringify(object, null, 2));
+                    else
+                        this.database[index].sets[prop] = object.sets[prop];
                 }
             }
         }

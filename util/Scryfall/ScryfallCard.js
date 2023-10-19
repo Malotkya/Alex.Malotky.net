@@ -37,8 +37,9 @@ class ScryfallCard {
     }
     parseSet() {
         let output = this.scryfall.set;
-        if (this.scryfall.lang != "en")
+        if (this.scryfall.lang !== "en")
             output += "-" + this.scryfall.lang;
+        output += ":" + this.scryfall.collector_number;
         return output;
     }
     parseImages() {

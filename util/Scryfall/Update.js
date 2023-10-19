@@ -11,7 +11,6 @@ const OptimizeStream_1 = __importDefault(require("./OptimizeStream"));
 function CheckForUpdate(compare) {
     return new Promise((resolve, reject) => {
         https_1.default.get("https://api.scryfall.com/bulk-data", (res) => {
-            console.log(compare);
             let buffer = "";
             res.on("data", data => {
                 buffer += data.toString();
@@ -24,8 +23,6 @@ function CheckForUpdate(compare) {
                     let responce = JSON.parse(buffer);
                     responce.data.forEach((object) => {
                         if (object.type == "all_cards") {
-                            console.log(new Date(object.updated_at).valueOf());
-                            console.log(new Date(compare).valueOf());
                             if (new Date(object.updated_at).valueOf() > new Date(compare).valueOf()) {
                                 resolve(object.download_uri);
                             }
@@ -66,18 +63,47 @@ function DownloadUpdate(uri) {
     return new Promise((resolve, reject) => {
         const fileName = "temp.db";
         const fileStream = fs_1.default.createWriteStream(fileName);
+        let download = 0;
+        let saved = 0;
+        let optimized = 0;
+        const update = (refresh = true) => {
+            process.stdout.write("Cards Downloaded: " + download + "\n" +
+                " Cards Optimized: " + optimized + "\n" +
+                "     Cards Saved: " + saved + "\n");
+            if (refresh)
+                process.stdout.moveCursor(-100, -3);
+        };
         https_1.default.get(uri, (response) => {
-            response.pipe(new ImportStream_1.default()).on("log", (message) => {
+            response.pipe(new ImportStream_1.default())
+                .on("log", (message) => {
                 console.log(message);
+            }).on("inc", () => {
+                download++;
+                update();
             }).on("error", (error) => {
                 reject(error);
-            }).pipe(new OptimizeStream_1.default()).on("log", (message) => {
+            }).pipe(new OptimizeStream_1.default())
+                .on("log", (message) => {
                 console.log(message);
+            }).on("inc", (type) => {
+                if (type === "saved") {
+                    saved++;
+                    update();
+                }
+                else if (type === "optimized") {
+                    optimized++;
+                    update();
+                }
+                else {
+                    console.log(type);
+                }
             }).on("error", (error) => {
                 reject(error);
-            }).pipe(fileStream).on("error", (error) => {
+            }).pipe(fileStream)
+                .on("error", (error) => {
                 reject(error);
             }).on("close", () => {
+                update(false);
                 resolve(fileName);
             });
         }).on("error", (error) => {
@@ -89,7 +115,6 @@ exports.DownloadUpdate = DownloadUpdate;
 function Update(database) {
     return new Promise((resolve, reject) => {
         GetDatabaseMetadata(database).then((data) => {
-            console.log(data);
             CheckForUpdate(data).then((uri) => {
                 console.log(uri);
                 if (typeof uri === "string") {

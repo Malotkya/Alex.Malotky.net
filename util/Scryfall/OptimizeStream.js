@@ -6,7 +6,6 @@ class OptimizeStream extends stream_1.Transform {
         super();
         this.database = [];
         this.buffer = "";
-        this.count = 0;
     }
     find(name) {
         for (let i = 0; i < this.database.length; i++) {
@@ -34,7 +33,7 @@ class OptimizeStream extends stream_1.Transform {
         catch (error) {
             this.emit("log", error.message + ": " + line);
         }
-        console.log("O: " + this.count++);
+        this.emit("inc", "optimized");
     }
     _transform(data, encoding, callback) {
         this.buffer += data.toString();
@@ -62,7 +61,7 @@ class OptimizeStream extends stream_1.Transform {
                 return object;
             }, {});
             this.push(JSON.stringify(card) + "\n");
-            console.log("S: " + index++);
+            this.emit("inc", "saved");
         });
         callback();
     }

@@ -15,7 +15,7 @@ class ImportStream extends stream_1.Transform {
         let card = new ScryfallCard_1.default(object).toString();
         if (card != "delete")
             this.push(card.toString() + "\n");
-        console.log("D: " + this.count++);
+        this.emit("inc");
     }
     processLine(line) {
         try {

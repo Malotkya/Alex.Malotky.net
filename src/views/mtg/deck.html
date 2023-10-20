@@ -26,6 +26,7 @@
             {{ forEach(commanders, c=>include("mtg/card.html", c)) }}
         </ul>
     </section>
+    <div id="masonry-layout">
     {% for(let category in main_deck){ %}
         <section class="category">
             <h2>{{ category }}</h2>
@@ -34,4 +35,5 @@
             </ul>
         </section>
     {% } %}
+    </div>
 </article>

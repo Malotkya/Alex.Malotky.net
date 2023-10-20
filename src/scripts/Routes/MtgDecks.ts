@@ -2,8 +2,9 @@
  * 
  * @author Alex Malotky
  */
-import {Context, Router, render, execute} from "../App";
+import {Context, Router, render, execute, HtmlError} from "../App";
 import Database from "../Util/Database";
+import {cache} from "../Util/Memory";
 import Authentication from "../Util/Authentication";
 
 /** Mtg Module
@@ -27,9 +28,7 @@ Editor.use("/Delete/:id", (ctx:Context)=>{
 });
 
 Editor.use("/Update/:id", (ctx:Context)=>{
-    //Doesn't run because the param string is too long,
-    //and can't use POST.
-    ctx.body = "<h1>You shouldn't be here!</h1>";
+    throw new HtmlError(410, "Update is outdate!");
 });
 
 Editor.use("/New", (ctx:Context)=>{
@@ -67,7 +66,7 @@ MtgDecks.use("/:id", async(ctx:Context)=>{
     const database = await Database();
 
     const id = ctx.params.get("id");
-    const results = await database.getDocument("MtgDecks", id);
+    const results = await cache(`MtgDeck(${id})`, ()=>database.getDocument("MtgDecks", id));
     
     if(typeof results === "undefined"){
         throw new Error("Unable to find id: " + id);
@@ -80,7 +79,7 @@ MtgDecks.use("/:id", async(ctx:Context)=>{
 MtgDecks.use(async(ctx:Context)=>{
     const database = await Database();
 
-    const results = await database.queryCollection("MtgDecks");
+    const results = await cache("MtgDecks", ()=>database.queryCollection("MtgDecks"));
 
     ctx.body = await render("mtg.html", { list: results });
 });

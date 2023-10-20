@@ -188,16 +188,14 @@ export async function createCardFromString(string){
         cardName = cardName.substring(0, newLength);
 
         //Remove brackets from setname
-        set = set.substring(1, set.length-2);
+        set = set.substring(1, set.length-1);
 
         
         let collector = set.indexOf(":");
         if(collector > -1){
-            if(collector != 3)
-                throw new Error("Unknown set code: " + set);
 
-            number = set.substring(4);
-            set = set.substring(0, 3);
+            number = set.substring(collector+1);
+            set = set.substring(0, collector);
         }
     }
 
@@ -216,28 +214,31 @@ export async function createCardFromString(string){
     card.count = Number(count);
     card.set = set.trim();
     card.foil = foil;
-    card.collector_number = number;
+    if(number)
+        card.collector_number = number;
 
     //Get possible missing information.
-    if(card.set.length === 0){
-        const buffer = Object.keys(card.sets)
-        const newSet = buffer[buffer.length-1].split(":");
-        card.set = newSet[0];
-        card.collector_number = newSet[1];
-
-    } else if(card.collector_number.length === 0){
-        for(let set in card.sets){
-            const buffer = set.split(":")
-            if(buffer[0] === card.set){
-                card.collector_number = buffer[1];
-                break;
+    if(card.sets) {
+        if(card.set.length === 0){
+            const buffer = Object.keys(card.sets)
+            const newSet = buffer[buffer.length-1].split(":");
+            card.set = newSet[0];
+            card.collector_number = newSet[1];
+    
+        } else if(card.collector_number.length === 0){
+            for(let set in card.sets){
+                const buffer = set.split(":")
+                if(buffer[0] === card.set){
+                    card.collector_number = buffer[1];
+                    break;
+                }
             }
         }
-    }
 
-    //Get image from sets and delete sets.
-    card.image = card.sets[card.set + ":" + card.collector_number];
-    delete card.sets;
+        //Get image from sets and delete sets.
+        card.image = card.sets[card.set + ":" + card.collector_number];
+        delete card.sets;
+    }
 
     return card;
 }
@@ -268,12 +269,28 @@ export async function queryForCard(name){
     const names = shard.match(/(?<="name":").*?(?=")/gm);
 
     for(let i=0; i<names.length; i++){
-        if(names[i] === name){
+        if(compareNames(names[i], name) === 0){
             return JSON.parse(lines[i].trim());
         }
     }
 
     return null;
+}
+
+/** Compare Names
+ * 
+ * Ignores everything that isnt a number or letter
+ * and ignores case.
+ * 
+ * @param {string} lhs 
+ * @param {string} rhs 
+ * @returns {number}
+ */
+function compareNames(lhs, rhs){
+    lhs = lhs.replace(/[^a-zA-Z0-9]/gm, "").toLowerCase();
+    rhs = rhs.replace(/[^a-zA-Z0-9]/gm, "").toLowerCase();
+
+    return lhs.localeCompare(rhs);
 }
 
 /** Get Shard

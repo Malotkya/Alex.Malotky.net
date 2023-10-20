@@ -11,12 +11,12 @@
     "test": "npm run dev && firebase serve",
     "serve": "npm run build && firebase serve",
     "deploy": "npm run clean && firebase deploy",
-
     "scryfall": "node ./util/scryfall.js"
   },
   "author": "Alex Malotky",
   "license": "ISC",
   "devDependencies": {
+    "@types/masonry-layout": "^4.2.6",
     "copy-webpack-plugin": "^11.0.0",
     "css-minimizer-webpack-plugin": "^5.0.0",
     "file-loader": "^6.2.0",
@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "firebase": "^9.22.0",
+    "masonry-layout": "^4.2.2",
     "path-to-regexp": "^6.2.1"
   }
 }

@@ -1,0 +1,22 @@
+#deckEditor {
+    .group{
+        width: 100%;
+        display: flex;
+        flex-flow: column nowrap;
+
+        label, input, textarea{
+            resize: none;
+            margin: 2px;
+        }
+
+        #deckList {
+            height: 50vh;
+        }
+    }
+
+    #submit {
+        display: block;
+        margin: 0 auto;
+        margin-top: 5px;
+    }
+}

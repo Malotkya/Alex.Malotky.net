@@ -1,71 +1,70 @@
+import {createDeckFromString} from "./scryfall.js";
+import {Database} from "/firebase.js";
+
 export default function Edit(){
-    document.querySelector("form").addEventListener("click", performEdit);
-    document.querySelector("#test").addEventListener("click", test);
+    document.querySelector("form").addEventListener("submit", performEdit);
 }
 
 function performEdit(event){
     event.preventDefault();
 
-    const id = document.querySelector("#submit").getAttribute("target").trim();
+    try {
+        const id = document.querySelector("#submit").getAttribute("target").trim();
 
-    if(typeof id === "undefined" || id.length === 0){
-        console.error("Unable to find id or invalid id!");
-    } else {
-        alert("Submit!");
+        if(typeof id === "undefined" || id.length === 0){
+            throw new Error("Unable to find id or invalid id!");
+        }
+
+        const name = document.querySelector("#name").value;
+        const description = document.querySelector("#description").textContent;
+        const deckList = document.querySelector("#deckList").value;
+
+        createDeckFromString(deckList).then(deck=>{
+
+            deck.name = name;
+            deck.description = description;
+                
+            const identity = new Set();
+            deck.commanders.forEach(card=>{
+                const buffer = JSON.stringify(card);
+
+                //White
+                if(buffer.match("{W}"))
+                    identity.add("W");
+
+                //Blue
+                if(buffer.match("{U}"))
+                    identity.add("U");
+
+                //Black
+                if(buffer.match("{B}"))
+                    identity.add("B");
+
+                //Red
+                if(buffer.match("{R}"))
+                    identity.add("R");
+
+                //Green
+                if(buffer.match("{G}"))
+                    identity.add("G");
+            });
+
+            deck.color_identity = [...identity].join();
+
+            //Submit here instead becasue can't use routing option.
+            Database.updateDocument("MtgDecks", id, deck).then(()=>{
+                alert("Success");
+            }).catch(e=>{
+                throw e;
+            });
+        }).catch(e=>{
+            throw e;
+        });
+
+    } catch (e){
+        console.error(e);
+        alert("There was a problem saving the deck!");
     }
 
     return false;
-}
-
-function test(event){
-    const name = document.querySelector("#card").value;
-    const start = Date.now();
-
-    getCardByName(name).then(resp=>{
-        if(resp){
-            console.log(resp);
-        } else {
-            alert("Card Not Found!");
-        }
-        const end = Date.now();
-        console.log(end - start);
-    })
-}
-
-async function getCardByName(name){
-    let shardName = "?";
-
-    const match = name.match(/[a-zA-Z0-9_]/);
-    if(match)
-        shardName = match[0];
-
-    const shard = await getShard(shardName);
-
-    if(shard === null)
-        return null;
-
-    const lines = shard.split("\n");
-    const names = shard.match(/(?<="name":").*?(?=")/gm);
-
-    for(let i=0; i<names.length; i++){
-        if(names[i] === name){
-            return JSON.parse(lines[i].trim());
-        }
-    }
-
-    return null;
-}
-
-async function getShard(shard){
-    const response = await fetch("/cards/"+shard);
-
-    if(response.status !== 200)
-        throw new Error("Unable to load file: " + response.statusText);
-
-    const fileText = await response.text();
-
-    if(fileText.match("<!DOCTYPE html>"))
-        return null;
-
-    return fileText;
 }

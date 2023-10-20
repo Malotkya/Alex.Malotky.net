@@ -1,8 +1,58 @@
-<form>
-    <input id="name" value="{{ name }}" />
-    <button id="submit" target="{{ id }}">Save Changes</button>
-</form> 
-<article>
-    <input id="card">
-    <button id="test">Find Card</button>
-</article>
+{%
+    if(typeof commanders === "undefined")
+        commanders = [];
+
+    if(typeof main_deck === "undefined")
+        main_deck = {};
+
+    if(typeof description === "undefined")
+        description = "";
+
+    if(typeof name === "undefined")
+        name = "";
+
+    const cardToString = (card) => {
+        let output = card.count + " " + card.name;
+
+        if(typeof card.set !== "undefined" && card.set !== ""){
+            output += " [" + card.set;
+
+            if(typeof card.collector_number !== "undefined")
+                output += ":" + card.collector_number;
+
+            output += "]";
+        }
+
+        if(typeof card.foil !== "undefined" && card.foil){
+            output += " F";
+        }
+
+        return output;
+    };
+
+    let decklist = "";
+    if(commanders.length > 0)
+        decklist += "//Commander\n" + commanders.map(cardToString).join("\n");
+
+    for(let cat in main_deck){
+        let list = main_deck[cat];
+
+        decklist += "\n\n//" + cat + "\n" + list.map(cardToString).join("\n");
+    }
+%}
+<a href="/Decks/Editor" class="btn">Back</a>
+<h1>Deck Editor</h1>
+<form id="deckEditor" action="{{ '/Decks/Editor/Update/' + id }}" method="GET">
+    <div class="group">
+        <label for="name">Deck Name</label>
+        <input id="name" value="{{ name }}" />
+        <label for="description">Description</label>
+        <textarea id="description">{{description}}</textarea>
+    </div>
+
+    <div class="group">
+        <label for="deckList">Deck List:</label>
+        <textarea id="deckList">{{decklist}}</textarea>
+    </div>
+    <button target="{{ id }}" id="submit">Save Changes</button>
+</form>

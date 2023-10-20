@@ -7,8 +7,8 @@ const Update_1 = __importDefault(require("./Scryfall/Update"));
 const OptimizeDatabase_1 = __importDefault(require("./Scryfall/OptimizeDatabase"));
 const path_1 = __importDefault(require("path"));
 const fs_1 = __importDefault(require("fs"));
-const dest = path_1.default.join(__dirname, "cards");
-const database = path_1.default.join(__dirname, "cards.db");
+const dest = path_1.default.join(process.cwd(), "cards");
+const database = path_1.default.join(process.cwd(), "cards.db");
 (0, Update_1.default)(database).then(() => {
     console.log("Download Complete!");
     fs_1.default.mkdirSync(dest, { recursive: true });

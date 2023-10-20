@@ -6,7 +6,7 @@
 
     let double = "";
     if(image.length > 1) {
-        double = "doubleFace";
+        double = "class='doubleFace'";
     }
 
 
@@ -19,7 +19,7 @@
 <li class="card">
     <span class="name">{{ count }} {{ name }}</span>
     <span>
-        <figure class="{{ double }}">
+        <figure {{ double }}>
             <div class="figure">
                 {% if(image.length === 0){ %}
                     <pre>{{ typeLine }}</pre>

@@ -73,8 +73,8 @@ MtgDecks.use("/:id", async(ctx:Context)=>{
         throw new Error("Unable to find id: " + id);
     }
 
-    //ctx.connected = await execute("mtg.js");
-    ctx.body = await render("mtg/deck.html");
+    ctx.connected = await execute("deck.js");
+    ctx.body = await render("mtg/deck.html", results);
 })
 
 MtgDecks.use(async(ctx:Context)=>{

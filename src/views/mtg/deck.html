@@ -1,0 +1,32 @@
+{%
+    if(typeof commanders === "undefined")
+        commanders = [];
+
+    if(typeof main_deck === "undefined")
+        main_deck = {};
+
+    if(typeof description === "undefined")
+        description = "";
+
+    if(typeof name === "undefined")
+        name = "";
+%}
+
+<h1>{{ name }}</h1>
+<article>
+    <section>
+        <h2>Commander:</h2>
+        <ul>
+            {{ forEach(commanders, c=>include("mtg/card.html", c)) }}
+        </ul>
+    </section>
+
+    {% for(let category in main_deck){ %}
+        <section>
+            <h2>{{ category }}</h2>
+            <ul>
+                {{ forEach(main_deck[category], c=>include("mtg/card.html", c)) }}
+            </ul>
+        </section>
+    {% } %}
+</article>

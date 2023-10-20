@@ -101,6 +101,10 @@
         position: relative;
         display: grid;
         grid-template-columns: auto 50%;
+
+        .name {
+            width: auto;
+        }
     }
     
     .figure{

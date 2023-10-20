@@ -22,7 +22,7 @@ app.add("/Decks", MtgDecks);
 
 app.use(Login);
 
-app.use(async(ctx: Context)=>{
+app.use("*", async(ctx: Context)=>{
     throw new HtmlError(404, "Page not Found!");
 });
 

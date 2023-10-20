@@ -156,7 +156,7 @@ export const Database = {
      */
     async updateDocument(collectionName:string, documentId:string, object:any){
         const firestore = await initDatabase();
-        await firestore.setDoc(firestore.doc(database, collectionName, documentId), object);
+        await firestore.updateDoc(firestore.doc(database, collectionName, documentId), object);
     }
 }
 

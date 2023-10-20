@@ -16,7 +16,7 @@ function performEdit(event){
         }
 
         const name = document.querySelector("#name").value;
-        const description = document.querySelector("#description").textContent;
+        const description = document.querySelector("#description").value;
         const deckList = document.querySelector("#deckList").value;
 
         createDeckFromString(deckList).then(deck=>{
@@ -29,27 +29,27 @@ function performEdit(event){
                 const buffer = JSON.stringify(card);
 
                 //White
-                if(buffer.match("{W}"))
+                if(buffer.match(/{.{0,4}W{1}.{0,4}}/g))
                     identity.add("W");
 
                 //Blue
-                if(buffer.match("{U}"))
+                if(buffer.match(/{.{0,4}U{1}.{0,4}}/g))
                     identity.add("U");
 
                 //Black
-                if(buffer.match("{B}"))
+                if(buffer.match(/{.{0,4}B{1}.{0,4}}/g))
                     identity.add("B");
 
                 //Red
-                if(buffer.match("{R}"))
+                if(buffer.match(/{.{0,4}R{1}.{0,4}}/g))
                     identity.add("R");
 
                 //Green
-                if(buffer.match("{G}"))
+                if(buffer.match(/{.{0,4}G{1}.{0,4}}/g))
                     identity.add("G");
             });
 
-            deck.color_identity = [...identity].join();
+            deck.color_identity = [...identity].join("");
 
             //Submit here instead becasue can't use routing option.
             Database.updateDocument("MtgDecks", id, deck).then(()=>{

@@ -102,11 +102,7 @@ export default class Route extends Layer{
             if(typeof layer === "undefined")
                 return done();
 
-            if(layer.match(context.path)) {
-                return layer.handle(context, next);
-            }
-
-            next();
+            layer.handle(context, next);
         }
 
         next();
@@ -133,20 +129,6 @@ export default class Route extends Layer{
      */
     public get path(): string{
         return this._path;
-    }
-
-    /** Match Path Override
-     * 
-     * @param {string} path 
-     * @returns {boolean}
-     */
-    public match(path:string): boolean{
-        for(let layer of this._layers) {
-            if(layer.match(path, true))
-                return true;
-        }
-            
-        return super.match(path);
     }
 
     /** Set Parameter Override

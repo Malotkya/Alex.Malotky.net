@@ -42,6 +42,12 @@ export default class Layer {
 
         if(typeof path !== "string")
             throw new TypeError(`Unknown type '${typeof path}' for path!`);
+
+        if(path === "*"){
+            this._shortcut = true;
+            path = "";
+        }
+
         this.path = path;
 
         if(typeof handler !== "function" && typeof handler !== "undefined")
@@ -57,13 +63,16 @@ export default class Layer {
      * @param {Signal} next 
      */
     public handle(context: Context, next: Signal){
-        if(context instanceof Context)
-            context.params = this._params;
-        else
+        if( !(context instanceof Context) )
             throw new TypeError(`Unknown type '${typeof context}' for context!`);
 
-        const wrapper = async(callback:Middleware) => await callback(context);
-        wrapper(this._handler).then(next).catch(next);
+        if(this.match(context.path)){
+            context.params = this._params;
+            const wrapper = async(callback:Middleware) => await callback(context);
+            wrapper(this._handler).then(next).catch(next);
+        } else {
+            next();
+        }
     }
 
     /** Set Parameter
@@ -87,7 +96,6 @@ export default class Layer {
 
         this._regex = pathToRegexp(value, this._keys = [], this._options);
         this._path = value;
-        this._shortcut = value === "";
     }
 
     /** Path Getter
@@ -102,7 +110,7 @@ export default class Layer {
      * @param {string} path 
      * @returns {boolean}
      */
-    public match(path: string, ignore?:boolean): boolean{
+    public match(path: string, ignore:boolean = false): boolean{
         if(typeof path !== "string")
             throw new TypeError(`Unknown type '${typeof path}' for path!`);
 

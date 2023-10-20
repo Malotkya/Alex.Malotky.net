@@ -51,8 +51,22 @@ export default class Router extends Route {
         
         if(typeof done !== "function")
             throw new TypeError(`Unknown type '${typeof done}' for done!`);
-        
-        super.handle(context, done);
+
+        if(this.match(context.path))
+            super.handle(context, done);
+        else
+            done();
+    }
+
+    /** Match Override
+     * 
+     * Routers handle path matching differently then layers and routes.
+     * 
+     * @param {string} path 
+     * @returns {boolean}
+     */
+    public match(path:string):boolean{
+        return path.match(this.path) !== null;
     }
 
     /** Title Getter

@@ -10,6 +10,7 @@ const TEMPLATE_CODE_REGEX = /{%(.*?)%}/gs
 const TEMPLATE_STRING_REGEX = /{{([^\n]*?)}}/gs
 const ECHO_REGEX = /echo\s(.*\(.*?\).*)+;/gs;
 const AWAIT_REGEX = (name:string) => new RegExp(`^\\s*(${name}\\(.*?\\))`, "gs");
+const BAD_REGEX = (name:string) => new RegExp(`\\s+${name}\\s+`, 'gs');
 
 //Other constants
 const TEMPLATE_DIRECTORY = "/templates/"
@@ -80,12 +81,10 @@ function generalCleaning(string:string):string{
     string = string.replace(/\s+/gm, " ").trim();
 
     for(let keyword of BAD_KEYWORDS)
-        string = string.replace(keyword, "_"+keyword);
+        string = string.replace(BAD_REGEX(keyword), "_"+keyword);
 
-    for(let name in INCLUDED_FUNCTIONS){
-        const regex = AWAIT_REGEX(name)
-        string = string.replace(regex, "await $1");
-    }
+    for(let name in INCLUDED_FUNCTIONS)
+        string = string.replace(AWAIT_REGEX(name), "await $1");
 
     return string;
 }

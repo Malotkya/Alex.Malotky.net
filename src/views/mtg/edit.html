@@ -41,6 +41,7 @@
     }
 %}
 <a href="/Decks/Editor" class="btn">Back</a>
+<a href="/Decks/{{ id }}" id="btnView" class="btn">View</a>
 <h1>Deck Editor</h1>
 <form id="deckEditor" action="{{ '/Decks/Editor/Update/' + id }}" method="GET">
     <div class="group">

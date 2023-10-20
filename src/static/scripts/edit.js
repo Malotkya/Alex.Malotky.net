@@ -3,6 +3,9 @@ import {Database} from "/firebase.js";
 
 export default function Edit(){
     document.querySelector("form").addEventListener("submit", performEdit);
+    document.querySelector("#btnView").addEventListener("click", ()=>{
+        localStorage.clear();
+    });
 }
 
 function performEdit(event){

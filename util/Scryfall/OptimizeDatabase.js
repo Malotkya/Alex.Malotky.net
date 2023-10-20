@@ -23,7 +23,7 @@ function OptimizeDatabase(filename) {
                 const match = card.name.match(/[a-zA-Z0-9_]/);
                 let s = "?";
                 if (match) {
-                    s = match[0];
+                    s = match[0].toUpperCase();
                 }
                 if (typeof sections[s] === "undefined")
                     sections[s] = [];

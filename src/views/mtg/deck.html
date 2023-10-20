@@ -10,19 +10,24 @@
 
     if(typeof name === "undefined")
         name = "";
-%}
 
-<h1>{{ name }}</h1>
+    let commanderHeader = "Commander:";
+    if(commanders.length > 2)
+        commanderHeader = "Commanders:"
+%}
+<aside id="deckHeader">
+    <h1>{{ name }}</h1>
+    <p>{{ description }}</p>
+</aside>
 <article>
-    <section>
-        <h2>Commander:</h2>
+    <section id="commanders" class="category">
+        <h2>{{commanderHeader }}</h2>
         <ul>
             {{ forEach(commanders, c=>include("mtg/card.html", c)) }}
         </ul>
     </section>
-
     {% for(let category in main_deck){ %}
-        <section>
+        <section class="category">
             <h2>{{ category }}</h2>
             <ul>
                 {{ forEach(main_deck[category], c=>include("mtg/card.html", c)) }}

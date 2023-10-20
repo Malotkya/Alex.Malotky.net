@@ -20,3 +20,73 @@
         margin-top: 5px;
     }
 }
+
+#commanders {
+    margin-bottom: 1em;
+    font-size: 1.25em;
+}
+
+.category {
+    margin-bottom: 2em;
+    width: 100%;
+
+    ul{
+        padding: 0;
+    }
+}
+
+.card {
+    margin-top: 5px;
+    position: relative;
+    display: flex;
+    flex-flow: row nowrap;
+
+    .figure {
+        display: flex;
+        flex-flow: row nowrap;
+    }
+
+    figure {
+        visibility: hidden;
+        margin: 0;
+        padding: 0;
+        position: absolute;
+        top: auto;
+        left: auto;
+        transform: translateY(-30%);
+        z-index: 1;
+
+        margin-left: 5px;
+        width: 40%;
+
+        .foil {
+            background: linear-gradient(-60deg,purple,blue,green,#ff0,red);
+            opacity: .25;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 5px;
+
+            height: 95%
+        }
+
+        &.doubleFace img{
+            width: 50%;
+        }
+
+        img {
+            width: 100%;
+        }
+    }
+
+    &:hover figure, figure:hover, figure:focus{
+        visibility: visible;
+    }
+
+    .name {
+        cursor: default;
+        width: 55%;
+    }
+}

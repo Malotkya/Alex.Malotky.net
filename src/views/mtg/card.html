@@ -1,3 +1,34 @@
-<li>
-    {{ name }}
+{%
+    name = name.replace("//", "<br>&nbsp;&nbsp;");
+
+    if(typeof image === "undefined")
+        image = [];
+
+    let double = "";
+    if(image.length > 1) {
+        double = "doubleFace";
+    }
+
+
+    if(typeof foil === "undefined" || foil === false) {
+        foil = "";
+    } else {
+        foil = "<div class='foil'></div>";
+    }
+%}
+<li class="card">
+    <span class="name">{{ count }} {{ name }}</span>
+    <span>
+        <figure class="{{ double }}">
+            <div class="figure">
+                {% if(image.length === 0){ %}
+                    <pre>{{ typeLine }}</pre>
+                    <pre>{{ oracle }}</pre>
+                {% } else { for(let side in image){ %}
+                    <img src="{{ image[side] }}" alt="{{ name }} {{ side }}">
+                {% }} %}
+            </div>
+            {{ foil }}
+        </figure>
+    </span>
 </li>

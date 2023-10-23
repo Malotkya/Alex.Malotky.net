@@ -253,7 +253,7 @@ export async function queryForCard(name){
 
     const match = name.match(/[a-zA-Z0-9_]/);
     if(match)
-        shardName = match[0];
+        shardName = match[0].toUpperCase();
 
     const shard = await getShard(shardName);
 

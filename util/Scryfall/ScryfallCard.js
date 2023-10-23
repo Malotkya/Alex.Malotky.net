@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const IMAGE_TYPE = "normal";
 class ScryfallCard {
     constructor(scryfall) {
         this.scryfall = scryfall;
@@ -46,13 +47,13 @@ class ScryfallCard {
         try {
             if (Object.prototype.hasOwnProperty.call(this.scryfall, "card_faces")) {
                 return [
-                    this.scryfall.card_faces[0].image_uris["png"],
-                    this.scryfall.card_faces[1].image_uris["png"]
+                    this.scryfall.card_faces[0].image_uris[IMAGE_TYPE],
+                    this.scryfall.card_faces[1].image_uris[IMAGE_TYPE]
                 ];
             }
             else {
                 return [
-                    this.scryfall.image_uris["png"]
+                    this.scryfall.image_uris[IMAGE_TYPE]
                 ];
             }
         }

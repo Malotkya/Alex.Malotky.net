@@ -30,7 +30,8 @@ module.exports = {
       path.join(source_directory, 'styles', 'index.scss')
     ],
     firebase: path.join(source_directory, "scripts", "firebase.ts"),
-    masonry: path.join(source_directory, "scripts", "masonry.ts")
+    masonry: path.join(source_directory, "scripts", "masonry.ts"),
+    scryfall: path.join(source_directory, "scripts", "scryfall.ts")
   },
   devtool: prod? undefined: 'source-map',
   module: {

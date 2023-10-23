@@ -27,7 +27,7 @@ const DEFAULT_SECTION = "main_deck";
  * @param {String} typeLine
  * @return {String} Card Type
  */
-function getTypeFromLine(typeLine){
+function getTypeFromLine(typeLine:string):string{
     if(typeof typeLine === "string"){
         for(let i=0; i<CARD_TYPE_PRIORITY.length; i++){
             if(typeLine.indexOf(CARD_TYPE_PRIORITY[i]) >= 0) {
@@ -50,7 +50,7 @@ function getTypeFromLine(typeLine){
  * @param {Object} card 
  * @returns {Boolean} if is commander
  */
-export function isCommanderCard(card){
+export function isCommanderCard(card:any):boolean{
     if(typeof card.section === "undefined")
         return false;
 
@@ -68,8 +68,8 @@ export function isCommanderCard(card){
  * @param {string} string 
  * @returns {Object} deck
  */
-export async function createDeckFromString(string){
-    const deck = {
+export async function createDeckFromString(string:string):Promise<any>{
+    const deck:any = {
         commanders: [],
         main_deck: {}
     };
@@ -102,7 +102,7 @@ export async function createDeckFromString(string){
  * @param {String} string
  * @returns {Promise<Array>} Deck List
  */
-async function readTextData(string){
+async function readTextData(string:string):Promise<Array<any>>{
     let lines = string.split("\n");
     let array = [];
 
@@ -150,7 +150,7 @@ async function readTextData(string){
  * @param {string} string
  * @returns {Promise<Object>} Card
  */
-export async function createCardFromString(string){
+export async function createCardFromString(string:string):Promise<any>{
     //get count from string
     let buffer = string.match(/^\d*[Xx]?/gm);
     let count = buffer[0];
@@ -248,7 +248,7 @@ export async function createCardFromString(string){
  * @param {string} name 
  * @returns {Promise<Object>} card
  */
-export async function queryForCard(name){
+export async function queryForCard(name:string):Promise<any>{
     let shardName = "?";
 
     const match = name.match(/[a-zA-Z0-9_]/);
@@ -286,7 +286,7 @@ export async function queryForCard(name){
  * @param {string} rhs 
  * @returns {number}
  */
-function compareNames(lhs, rhs){
+function compareNames(lhs:string, rhs:string):number{
     lhs = lhs.replace(/[^a-zA-Z0-9]/gm, "").toLowerCase();
     rhs = rhs.replace(/[^a-zA-Z0-9]/gm, "").toLowerCase();
 
@@ -298,7 +298,7 @@ function compareNames(lhs, rhs){
  * @param {string} shard 
  * @returns {string}
  */
-async function getShard(shard){
+async function getShard(shard:string):Promise<string>{
     const response = await fetch("/cards/"+shard);
 
     if(response.status !== 200)

@@ -33,26 +33,27 @@ function performEdit(event){
 
                 //White
                 if(buffer.match(/{.{0,4}W{1}.{0,4}}/g))
-                    identity.add("W");
+                    identity.add("white");
 
                 //Blue
                 if(buffer.match(/{.{0,4}U{1}.{0,4}}/g))
-                    identity.add("U");
+                    identity.add("blue");
 
                 //Black
                 if(buffer.match(/{.{0,4}B{1}.{0,4}}/g))
-                    identity.add("B");
+                    identity.add("black");
 
                 //Red
                 if(buffer.match(/{.{0,4}R{1}.{0,4}}/g))
-                    identity.add("R");
+                    identity.add("red");
 
                 //Green
                 if(buffer.match(/{.{0,4}G{1}.{0,4}}/g))
-                    identity.add("G");
+                    identity.add("green");
             });
 
-            deck.color_identity = [...identity].join("");
+            deck.color_identity = [...identity];
+            deck.art = deck.commanders[0].art;
 
             //Submit here instead becasue can't use routing option.
             Database.updateDocument("MtgDecks", id, deck).then(()=>{

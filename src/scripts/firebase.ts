@@ -10,10 +10,11 @@
 import {initializeApp} from "https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js";
 import { FirebaseApp } from "firebase/app";
 
-import {QueryConstraint, QueryDocumentSnapshot, Firestore} from "firebase/firestore"
+import {QueryConstraint, QueryDocumentSnapshot, Firestore, Timestamp} from "firebase/firestore"
 import {User, Auth} from "firebase/auth";
 
 export { User } from "firebase/auth";
+export {Timestamp} from "firebase/firestore";
 
 
 // Your web app's Firebase configuration
@@ -154,9 +155,44 @@ export const Database = {
      * @param {string} documentId 
      * @param {any} object 
      */
-    async updateDocument(collectionName:string, documentId:string, object:any){
+    async updateDocument(collectionName:string, documentId:string, object:any):Promise<void>{
         const firestore = await initDatabase();
         await firestore.updateDoc(firestore.doc(database, collectionName, documentId), object);
+    },
+
+    /** Delete Document
+     * 
+     * @param {string} collectionName 
+     * @param {string} documentId 
+     */
+    async deleteDocument(collectionName:string, documentId:string):Promise<void>{
+        const firestore = await initDatabase();
+        await firestore.deleteDoc(firestore.doc(database, collectionName, documentId));
+    },
+
+    /** Create Document
+     * 
+     * @param {string} collectionName 
+     * @param {any} object 
+     * @returns {any}
+     */
+    async createDocument(collectionName:string, object:any):Promise<string>{
+        const firestore = await initDatabase();
+
+        const response:QueryDocumentSnapshot = await firestore.addDoc(firestore.collection(database, collectionName), object);
+
+        return response.id;
+    },
+
+    /** Get Now
+     * 
+     * Current Time in the form of a timestamp.
+     * 
+     * @returns {Timestamp}
+     */
+    async now():Promise<Timestamp>{
+        const firestore = await initDatabase();
+        return firestore.Timestamp.now();
     }
 }
 

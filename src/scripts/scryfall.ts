@@ -155,64 +155,54 @@ export async function createCardFromString(string:string):Promise<any>{
     let buffer = string.match(/^\d*[Xx]?/gm);
     let count = buffer[0];
 
-    //get set name and foil from string
-    buffer = string.match(/(\[.*?\])?\s*[Ff]?$/gm);
-    let set = buffer[0];
-    let setLength = set.length;
-
-    // Get if foil
-    let foil = false;
-    if(set){
-        let foilTest = set.toUpperCase().lastIndexOf("F");
-        if(foilTest >= 4){
-            foil = true;
-            set = set.substring(0, foilTest).trim();
-        }
-    }
- 
-    // Get cardname from string
-    let cardName = "";
-    if(count === ""){
-        count = "1";
-        cardName = string;
-    } else {
-        cardName = string.substring(count.length);
-    }
-
-    //Get possible collector number
-    let number = undefined;
-    if(setLength !== 0) {
-
-        //Remove set information from cardName
-        let newLength = cardName.length - setLength;
-        cardName = cardName.substring(0, newLength);
-
-        //Remove brackets from setname
-        set = set.substring(1, set.length-1);
-
-        
-        let collector = set.indexOf(":");
-        if(collector > -1){
-
-            number = set.substring(collector+1);
-            set = set.substring(0, collector);
-        }
-    }
-
     //Remove possible x from count
     if(count.toUpperCase().indexOf("X") > -1){
         count = count.substring(0, count.length-1);
     }
 
+    string = string.substring(count.length);
+    let set = "";
+    let setTest =string.indexOf("[");
+    if( setTest > -1){
+        set = string.substring(setTest)
+        string = string.substring(0, setTest);
+    }
+
+    
+    let foil = false;
+    let number:string = "";
+    if(set.length > 0){
+
+        // Get if foil
+        let foilTest = set.toUpperCase().lastIndexOf("F");
+        if(foilTest >= 4){
+            foil = true;
+            set = set.substring(0, foilTest).trim();
+        }
+
+        //Remove brackets from setname
+        set = set.substring(1, set.length-1);
+
+        //Get possible collector number
+        let collector = set.indexOf(":");
+        if(collector > -1){
+            number = set.substring(collector+1);
+            set = set.substring(0, collector);
+        }
+    }
+
+    // Get cardname from string
+    let cardName = string.trim();
+
     //Get and Add info already aquired.
-    let card = await queryForCard(cardName.trim());
+    let card = await queryForCard(cardName);
     if(card === null){
-        card = {name: cardName.trim()};
-        console.warn("'" + cardName.trim() + "' not found!");
+        card = {name: cardName};
+        console.warn("'" + cardName + "' not found!");
     }
 
     card.count = Number(count);
-    card.set = set.trim();
+    card.set = set;
     card.foil = foil;
     if(number)
         card.collector_number = number;

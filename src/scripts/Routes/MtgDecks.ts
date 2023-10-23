@@ -45,7 +45,7 @@ Editor.use("/:id", async(ctx:Context)=>{
     if(typeof results === "undefined")
         throw new Error("Unable to find id: " + id);
 
-    ctx.connected = await execute("edit.js");
+    ctx.connected = await execute("mtg/edit.js");
     ctx.body = await render("mtg/edit.html", results);
 });
 
@@ -54,6 +54,7 @@ Editor.use(async(ctx: Context)=>{
 
     const results = await database.queryCollection("MtgDecks");
 
+    ctx.connected = await execute("mtg/delete.js");
     ctx.body = await render("mtg.html", {
         list: results,
         edit: true
@@ -72,7 +73,7 @@ MtgDecks.use("/:id", async(ctx:Context)=>{
         throw new Error("Unable to find id: " + id);
     }
 
-    ctx.connected = await execute("deck.js");
+    ctx.connected = await execute("mtg/deck.js");
     ctx.body = await render("mtg/deck.html", results);
 })
 

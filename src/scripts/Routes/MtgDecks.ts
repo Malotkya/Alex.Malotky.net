@@ -22,18 +22,25 @@ Editor.use("*", async(ctx: Context)=>{
     }
 });
 
-Editor.use("/Delete/:id", (ctx:Context)=>{
-    //Perfore Delete.
-    ctx.body = "<h1>Delete coming soon!</h1>";
+Editor.use("/Delete/:id", async(ctx:Context)=>{
+    const database = await Database();
+    
+    const id = ctx.params.get("id");
+    database.deleteDocument("MtgDecks", id);
+
+    ctx.reRoute("/Decks/Editor");
 });
 
 Editor.use("/Update/:id", (ctx:Context)=>{
     throw new HtmlError(410, "Update is outdate!");
 });
 
-Editor.use("/New", (ctx:Context)=>{
-    //Perfore Create
-    ctx.body = "<h1>Create coming soon!</h1>";
+Editor.use("/New", async(ctx:Context)=>{
+    const database = await Database();
+
+    const id = await database.createDocument("MtgDecks", {publish: await database.now()});
+
+    ctx.reRoute(`/Decks/Editor/${id}`);
 });
 
 Editor.use("/:id", async(ctx:Context)=>{

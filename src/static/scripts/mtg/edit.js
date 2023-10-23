@@ -1,4 +1,4 @@
-import {createDeckFromString} from "./scryfall.js";
+import {createDeckFromString} from "/scryfall.js";
 import {Database} from "/firebase.js";
 
 export default function Edit(){

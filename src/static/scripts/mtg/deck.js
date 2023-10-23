@@ -1,4 +1,4 @@
-import {Masonry} from "../masonry.js"
+import {Masonry} from "/masonry.js"
 
 export default function Deck(){
 

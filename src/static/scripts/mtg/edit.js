@@ -53,7 +53,11 @@ function performEdit(event){
             });
 
             deck.color_identity = [...identity];
-            deck.art = deck.commanders[0].art;
+            if(deck.commanders.length > 0){
+                if(deck.commanders[0].art)
+                    deck.art = deck.commanders[0].art;
+            }
+            
 
             //Submit here instead becasue can't use routing option.
             Database.updateDocument("MtgDecks", id, deck).then(()=>{

@@ -31,7 +31,7 @@ export default class Core extends Route{
         
         window.onpopstate = () => this.handler();
         window.onload = () => this.start();
-        (window as any).route = () => this.route();
+        (window as any).route = (event:Event) => this.route(event);
 
         this._loadingError = [];
 

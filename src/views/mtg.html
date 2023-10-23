@@ -12,6 +12,6 @@
 %}
 <h1>Magic the Gathering Decks!</h1>
 {{ newButton }}
-<ul>
+<ul id="deck-list">
     {{ forEach(list, deck=>include("mtg/result.html", {deck:deck, edit:edit}), "<li>Empty Results!</li>") }}
 </ul>

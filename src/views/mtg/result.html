@@ -8,10 +8,21 @@
     } else {
         link = "/Decks/" + deck.id;
     }
+
+
 %}
 <li>
     <a href="{{ link }}">
+        <figure class="deck-art">
+            <img src="{{ deck.art }}" alt="deck art" >
+        </figure>
         <h2>{{ deck.name }}</h2>
+        <p>
+            {{ deleteButton }}
+        </p>
+        <p class="color_identity">
+            {{ forEach(deck.color_identity, (color)=>`<span class="mana-symbol ${color}"></span>`, `<span class="mana-symbol colorless"></span>`) }}
+        </p>
     </a>
-    {{ deleteButton }}
 </li>
+    

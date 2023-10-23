@@ -61,6 +61,18 @@ class ScryfallCard {
             return [];
         }
     }
+    getArtCrop(){
+        try {
+            if (Object.prototype.hasOwnProperty.call(this.scryfall, "card_faces")) {
+                return this.scryfall.card_faces[0].image_uris.art_crop;
+            }
+            else {
+                return this.scryfall.image_uris.art_crop;
+            }
+        } catch (error){
+            return "";
+        }
+    }
     getImageUriList() {
         let output = {};
         output[this.parseSet()] = this.parseImages();
@@ -76,7 +88,8 @@ class ScryfallCard {
             manaValue: this.getManaValue(),
             typeLine: this.getTypeLine(),
             oracle: this.getOracleText(),
-            sets: this.getImageUriList()
+            sets: this.getImageUriList(),
+            art: this.getArtCrop(),
         };
         return JSON.stringify(output);
     }

@@ -27,7 +27,7 @@ export default class App extends Core {
         super();
         try{
             this._nav = new NavBar();
-            this._nav.routeEvent(event=>this.route(event));
+            this._nav.routeEvent(event=>this.checkRoute(event));
         } catch(err: any){
             this.failed(err);
         }
@@ -40,7 +40,7 @@ export default class App extends Core {
      * 
      * @param {Event} event 
      */
-    protected route(event: Event){
+    private checkRoute(event: Event){
         let target = (event.target as HTMLElement).closest("a");
 
         if(target){
@@ -53,7 +53,7 @@ export default class App extends Core {
                 if(match){
                     this.scroll(match[0]);
                 } else {
-                    super.route(target.href);
+                    this.route(target.href);
                 }
             } else {
                 this.link(target.href);

@@ -86,10 +86,14 @@ export default class Core extends Route{
      */
     protected route(event?: any): void{
         event = event || window.event;
-        event.preventDefault();
+        if(event instanceof Event){
+            event.preventDefault();
+            event = (event.target as HTMLAnchorElement).href;
+        }
+        
 
         if(!this._routing && this._loadingError.length === 0){
-            this.go(event.target.href)
+            this.go(event)
         }
     }
 

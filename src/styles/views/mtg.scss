@@ -118,7 +118,6 @@
         transform: translateY(-30%);
         z-index: 1;
 
-        margin-left: 5px;
         width: 40%;
 
         .foil {
@@ -129,7 +128,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            border-radius: 5px;
+            border-radius: 7px;
         }
 
         &.doubleFace img{
@@ -138,6 +137,7 @@
 
         img {
             width: 100%;
+            border-radius: 7px;
         }
     }
 
@@ -202,7 +202,11 @@
         width: 33%;
     }
 
-    .foil {
+    .card figure .foil {
         width: 95%;
+    }
+
+    .card figure.doubleFace .foil {
+        width: 100%;
     }
 }

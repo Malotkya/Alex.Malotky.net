@@ -42,20 +42,19 @@ export default class Router extends Route {
      * @param {Signal} done 
      */
     public handle(context: Context, done: Signal):void {
-        if(context instanceof Context) {
-            context.title = this._title;
-            context.info = this._info;
-        } else {
+        if( !(context instanceof Context) )
             throw new TypeError(`Unknown type '${typeof context}' for Context!`);
-        }
         
         if(typeof done !== "function")
             throw new TypeError(`Unknown type '${typeof done}' for done!`);
 
-        if(this.match(context.path))
+        if(this.match(context.path)) {
+            context.title = this._title;
+            context.info = this._info;
             super.handle(context, done);
-        else
+        } else {
             done();
+        }
     }
 
     /** Match Override

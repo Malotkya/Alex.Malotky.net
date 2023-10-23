@@ -9,6 +9,11 @@
         double = "class='doubleFace'";
     }
 
+    if(typeof typeLine === "undefined")
+        typeLine = "Type Line";
+
+    if(typeof oracle === "undefined")
+        oracle = "Oracle Text";
 
     if(typeof foil === "undefined" || foil === false) {
         foil = "";
@@ -22,8 +27,10 @@
         <figure {{ double }}>
             <div class="figure">
                 {% if(image.length === 0){ %}
-                    <pre>{{ typeLine }}</pre>
-                    <pre>{{ oracle }}</pre>
+                    <div>
+                        <pre>{{ typeLine }}</pre>
+                        <pre>{{ oracle }}</pre>
+                    </div>
                 {% } else { for(let side in image){ %}
                     <img src="{{ image[side] }}" alt="{{ name }} {{ side }}">
                 {% }} %}

@@ -41,9 +41,9 @@ export default class App extends Core {
      * @param {Event} event 
      */
     protected route(event: Event){
-        let target = event.target as HTMLAnchorElement;
+        let target = (event.target as HTMLElement).closest("a");
 
-        if(target.localName === "a"){
+        if(target){
             
             event.preventDefault();
             target.blur();
@@ -53,7 +53,7 @@ export default class App extends Core {
                 if(match){
                     this.scroll(match[0]);
                 } else {
-                    super.route(event);
+                    super.route(target.href);
                 }
             } else {
                 this.link(target.href);

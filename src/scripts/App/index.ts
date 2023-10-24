@@ -41,22 +41,22 @@ export default class App extends Core {
      * @param {Event} event 
      */
     private checkRoute(event: Event){
-        let target = (event.target as HTMLElement).closest("a");
-
-        if(target){
-            
+        const target:HTMLElement = event.target as HTMLElement;
+        const link:HTMLAnchorElement = target.closest("a");
+        
+        if(link){
             event.preventDefault();
             target.blur();
 
-            if(target.href.indexOf(this.hostname) !== -1){
-                let match = target.href.match(/(?<=#).*?(?=\?|$)/gm);
+            if(link.href.indexOf(this.hostname) !== -1){
+                let match = link.href.match(/(?<=#).*?(?=\?|$)/gm);
                 if(match){
                     this.scroll(match[0]);
                 } else {
-                    this.route(target.href);
+                    this.route(link.href);
                 }
             } else {
-                this.link(target.href);
+                this.link(link.href);
             }
         }
     }
@@ -102,6 +102,7 @@ export async function execute(filename: string): Promise<Executable>{
     try{
         module = (await import(/*webpackIgnore: true*/ "/scripts/"+filename));
     } catch(err){
+        console.error(err);
         throw new Error(`There was a problem importing module at ${filename}!`);
     }
      

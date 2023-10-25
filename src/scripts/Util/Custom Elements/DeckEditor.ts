@@ -75,12 +75,15 @@ export function isCommanderCategory(category:string):boolean{
 export default class DeckEditor extends HTMLElement {
     private _dialog: DeckListDialog;
     private _categories:Map<string, CategoryElement>;
+    private _input: CategoryElement;
 
     constructor(){
         super();
         this._categories = new Map();
         this._dialog = new DeckListDialog();
         this._dialog.promptEvent(()=>this.propagete());
+
+        this._input = new CategoryElement();
     }
 
     static get observedAttributes(){
@@ -187,6 +190,8 @@ export default class DeckEditor extends HTMLElement {
         for(let cat of order){
             this.appendChild(this._categories.get(cat));
         }
+
+        this.appendChild(this._input);
     }
 }
 

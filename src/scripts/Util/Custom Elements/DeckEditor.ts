@@ -167,6 +167,7 @@ export default class DeckEditor extends HTMLElement {
     }
 
     public connectedCallback(){
+        this.appendChild(this._dialog);
         const btnShowDialog = document.createElement("button");
         btnShowDialog.addEventListener("click", ()=>this._dialog.show());
         btnShowDialog.textContent = "Deck List";

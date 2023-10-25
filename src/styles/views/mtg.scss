@@ -73,6 +73,22 @@
         grid-template-columns: 1fr 1fr;
         grid-gap: 10px;
 
+        .dialog {
+            width: 95vw;
+            height: 75vh;
+            display: flex;
+            flex-flow: column nowrap;
+
+            textarea {
+                flex-grow: 1;
+            }
+
+            div {
+                display: flex;
+                justify-content: space-around;
+            }
+        }
+
 
         ul {
             padding: 0;

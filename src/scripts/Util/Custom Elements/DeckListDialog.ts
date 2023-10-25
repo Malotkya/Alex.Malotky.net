@@ -6,6 +6,7 @@ export default class DeckListDialog extends HTMLDialogElement {
         super();
 
         this._input = document.createElement("textarea");
+        this.style.top = "100px";
     }
 
     get value():string{
@@ -33,10 +34,16 @@ export default class DeckListDialog extends HTMLDialogElement {
         btnCancel.textContent = "Cancel";
         btnCancel.addEventListener("click", ()=>this.close());
         
+        const div = document.createElement("div");
+        div.appendChild(btnSubmit);
+        div.appendChild(btnCancel);
 
-        this.appendChild(this._input);
-        this.appendChild(btnSubmit);
-        this.appendChild(btnCancel);
+        const wrapper = document.createElement("div");
+        wrapper.className = "dialog";
+        wrapper.appendChild(this._input);
+        wrapper.appendChild(div);
+
+        this.appendChild(wrapper);
     }
 }
 

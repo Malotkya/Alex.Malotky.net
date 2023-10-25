@@ -170,7 +170,7 @@ export default class DeckEditor extends HTMLElement {
         const btnShowDialog = document.createElement("button");
         btnShowDialog.addEventListener("click", ()=>this._dialog.show());
         btnShowDialog.textContent = "Deck List";
-        this.appendChild(btnShowDialog);
+        this.parentElement.insertBefore(btnShowDialog, this);
 
         this.propagete();
         const order: Array<string> = Array.from(this._categories.keys()).sort((lhs:string, rhs:string):number=>{

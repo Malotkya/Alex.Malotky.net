@@ -57,7 +57,9 @@
 #deckEditor {
     label, input, textarea{
         resize: none;
-        margin: 2px;
+        margin: 2px auto;
+        width: 99%;
+        display: block;
     }
 
     #submit {
@@ -69,7 +71,12 @@
     deck-editor{
         display: grid;
         grid-template-columns: 1fr 1fr;
+        grid-gap: 10px;
 
+
+        ul {
+            padding: 0;
+        }
 
         .card-input{
             display: flex;
@@ -77,10 +84,6 @@
 
             span {
                 flex-grow: 1;
-
-                input {
-                    width: 100%;
-                }
             }
 
             select {

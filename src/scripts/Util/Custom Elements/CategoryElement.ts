@@ -8,7 +8,6 @@ export default class Category extends HTMLElement {
     constructor(name?:string, list:string|Array<string> = []){
         super();
         this._name = name;
-        this.className = "category";
 
         if(typeof list === "string")
             list = list.split("\n");

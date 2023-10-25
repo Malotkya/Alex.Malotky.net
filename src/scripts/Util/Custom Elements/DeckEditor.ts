@@ -1,5 +1,3 @@
-//@ts-ignore
-//import {Masonry} from /*webpack-ignore: true*/ "/masonry.js"
 import CategoryElement from "./CategoryElement";
 import DeckListDialog from "./DeckListDialog";
 import CardElement, {Card} from "./CardElemet";

@@ -236,14 +236,32 @@ export default class CardElement extends HTMLLIElement {
      * If there is no value, then it creates an input.
      */
     public async connectedCallback(){
-        const nameElement = document.createElement("span");
+        const nameElement = document.createElement("div");
         this.appendChild(nameElement)
+
+        const input = document.createElement("input");
+        
 
         while(this._value === BLANK_CARD)
             await sleep();
-
         if(this._value){
-            nameElement.textContent = this._value.name;
+            nameElement.appendChild(input);
+            const span = document.createElement("span");
+            span.textContent = this._value.name;
+            nameElement.appendChild(span);
+
+            input.value = String(this._value.count);
+            input.style.width = "3ch";
+            input.addEventListener("change", ()=>{
+                let number:number = Number(input.value);
+                if(isNaN(number)){
+                    number = 0;
+                    input.value = "0";
+                }
+
+                this._value.count = number;
+            });
+
             const btnDelete = document.createElement("button");
             btnDelete.textContent = "X";
             btnDelete.addEventListener("click", ()=>this.delete() );
@@ -263,9 +281,7 @@ export default class CardElement extends HTMLLIElement {
             }
 
         } else {
-            const input = document.createElement("input");
             nameElement.appendChild(input);
-
             const btnFind = document.createElement("button");
             btnFind.textContent = "+";
 

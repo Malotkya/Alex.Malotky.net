@@ -70,7 +70,7 @@
 
     deck-editor{
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: repeat(auto-fill, 390px);
         grid-gap: 10px;
 
         .dialog {
@@ -98,8 +98,13 @@
             display: flex;
             flex-flow: row nowrap;
 
-            span {
+            div {
                 flex-grow: 1;
+
+                input {
+                    margin: 0;
+                    display: inline;
+                }
             }
 
             select {
@@ -229,10 +234,6 @@
     .category {
         width: 50%;
     }
-
-    #deckEditor deck-editor {
-        grid-template-columns: 1fr 1fr 1fr;
-    }
 }
 
 @media (min-width: $laptop){
@@ -246,9 +247,5 @@
 
     .card figure.doubleFace .foil {
         width: 100%;
-    }
-
-    #deckEditor deck-editor {
-        grid-template-columns: 1fr 1fr 1fr 1fr;
     }
 }

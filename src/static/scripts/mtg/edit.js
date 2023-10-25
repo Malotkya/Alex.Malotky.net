@@ -50,13 +50,11 @@ function performEdit(event){
 
 
         //Submit here instead becasue can't use routing option.
-        /*Database.updateDocument("MtgDecks", id, deck).then(()=>{
+        Database.updateDocument("MtgDecks", id, deck).then(()=>{
             alert("Success");
         }).catch(e=>{
             throw e;
-        });*/
-        console.log(deck);
-        alert("Success");
+        });
 
     } catch (e){
         console.error(e);

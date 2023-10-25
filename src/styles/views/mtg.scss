@@ -55,19 +55,9 @@
 .colorless {background-position: -46em 0em;}
 
 #deckEditor {
-    .group{
-        width: 100%;
-        display: flex;
-        flex-flow: column nowrap;
-
-        label, input, textarea{
-            resize: none;
-            margin: 2px;
-        }
-
-        #deckList {
-            height: 50vh;
-        }
+    label, input, textarea{
+        resize: none;
+        margin: 2px;
     }
 
     #submit {
@@ -77,25 +67,25 @@
     }
 
     deck-editor{
-        .category {
-            width: 50%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
 
-            .card-input{
-                display: flex;
-                flex-flow: row nowrap;
 
-                span {
-                    flex-grow: 1;
+        .card-input{
+            display: flex;
+            flex-flow: row nowrap;
 
-                    input {
-                        width: 100%;
-                    }
+            span {
+                flex-grow: 1;
+
+                input {
+                    width: 100%;
                 }
+            }
 
-                select {
-                    width: 120px;
+            select {
+                width: 120px;
 
-                }
             }
         }
     }
@@ -221,8 +211,8 @@
         width: 50%;
     }
 
-    #deckEditor deck-editor .category {
-        width: 33%;
+    #deckEditor deck-editor {
+        grid-template-columns: 1fr 1fr 1fr;
     }
 }
 
@@ -237,5 +227,9 @@
 
     .card figure.doubleFace .foil {
         width: 100%;
+    }
+
+    #deckEditor deck-editor {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
     }
 }

@@ -64,20 +64,23 @@ export default class CardElement extends HTMLLIElement {
      * 
      */
     get card():Card{
-
-        return {
-            name: this._value.name,
-            count: this._value.count,
-            set: this._value.set,
-            collector_number: this._value.collector_number,
-            foil: this._value.foil,
-            image: this._value.image || [],
-            art: this._value.art || "",
-            typeLine: this._value.typeLine || "Error",
-            oracle: this._value.oracle || "Not Found",
-            manaValue: this._value.manaValue? this._value.manaValue: -1,
-            manaCost: this._value.manaCost || ""
-        };
+        if(this._value){
+            return {
+                name: this._value.name,
+                count: this._value.count,
+                set: this._value.set,
+                collector_number: this._value.collector_number,
+                foil: this._value.foil,
+                image: this._value.image || [],
+                art: this._value.art || "",
+                typeLine: this._value.typeLine || "Error",
+                oracle: this._value.oracle || "Not Found",
+                manaValue: this._value.manaValue? this._value.manaValue: -1,
+                manaCost: this._value.manaCost || ""
+            };
+        } else {
+            return null;
+        }
     }
 
     /** Create and Populate Select.
@@ -171,6 +174,16 @@ export default class CardElement extends HTMLLIElement {
 
                 this._value.count = number;
             });
+
+            const foilInput = document.createElement("input");
+            foilInput.type = "checkbox";
+            foilInput.addEventListener("change", ()=>{
+                this._value.foil = foilInput.checked;
+            });
+            foilInput.checked = this._value.foil;
+            foilInput.style.width = "auto";
+            nameElement.appendChild(foilInput);
+            nameElement.className = "name";
 
             const btnDelete = document.createElement("button");
             btnDelete.textContent = "X";

@@ -34,7 +34,7 @@ export default class Category extends HTMLElement {
         this._list.childNodes.forEach((element:CardElement)=>{
             const value:Card = element.card;
 
-            if(typeof value !== "undefined"){
+            if(value !== null){
                 output.push(element.card);
             }
         });

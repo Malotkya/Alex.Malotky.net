@@ -8,11 +8,16 @@
     } else {
         link = "/Decks/" + deck.id;
     }
+
+    let image = `<img src="/media/missing.jpg" alt="Missing Deck Art">`;
+    if(typeof deck.art === "string" && deck.art !== ""){
+        image = `<img src="{{ deck.art }}" alt="Deck Art" >`;
+    }
 %}
 <li>
     <a href="{{ link }}">
         <figure class="deck-art">
-            <img src="{{ deck.art }}" alt="deck art" >
+            {{ image }}
         </figure>
         <h2>{{ deck.name }}</h2>
         <p>

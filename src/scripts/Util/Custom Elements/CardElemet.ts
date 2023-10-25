@@ -17,7 +17,7 @@ export interface Card {
     sets?: any,
     art?: string,
     manaCost?: string,
-    manaValue?: string,
+    manaValue?: number,
     typeLine?:string,
     oracle?: string
 }
@@ -64,7 +64,20 @@ export default class CardElement extends HTMLLIElement {
      * 
      */
     get card():Card{
-        return this._value;
+
+        return {
+            name: this._value.name,
+            count: this._value.count,
+            set: this._value.set,
+            collector_number: this._value.collector_number,
+            foil: this._value.foil,
+            image: this._value.image || [],
+            art: this._value.art || "",
+            typeLine: this._value.typeLine || "Error",
+            oracle: this._value.oracle || "Not Found",
+            manaValue: this._value.manaValue? this._value.manaValue: -1,
+            manaCost: this._value.manaCost || ""
+        };
     }
 
     /** Create and Populate Select.
@@ -115,120 +128,17 @@ export default class CardElement extends HTMLLIElement {
      * @param cardName 
      */
     private find(cardName:string){
-        queryForCard(cardName).then((card:Card)=>{
+        createCardFromString(cardName).then((card:Card)=>{
+            console.debug(card);
             this.parentElement.insertBefore(new CardElement(card), this);
         });
     }
 
-    /** Set Card From String
-     * 
-     * Takes a single line and attempts to create a card from it.
-     * Assums the Following Format.
-     * 
-     * ## Card Name [set] F
-     * 
-     * Where:        ## - is the number of card in the deck (optional)
-     *        Card Name - name of the card
-     *              set - is the set code in brackets (optional)
-     *                F - the card is foil (optional)
-     * 
-     * Originally from: https://github.com/Malotkya/CapstoneProject/blob/main/backend/deckList.js
-     * 
-     * @param {string} string
-     */
+    
     private set(string:string){
-        //get count from string
-        let buffer = string.match(/^\d*[Xx]?/gm)[0];
-        string = string.substring(buffer.length);
-
-        //Remove possible x from count
-        if(buffer.toUpperCase().indexOf("X") > -1){
-            buffer = buffer.substring(0, buffer.length-1);
-        }
-
-        //Set count
-        let count:number = Number(buffer);
-        if(isNaN(count))
-            count = 1;
-
-        //Get possible set;
-        
-        let set = "";
-        let setTest =string.indexOf("[");
-        if( setTest > -1){
-            set = string.substring(setTest)
-            string = string.substring(0, setTest);
-        }
-
-        //Additonal Information from the set.
-        let foil = false;
-        let number:string = "";
-        if(set.length > 0){
-
-            // Get if foil
-            let foilTest = set.toUpperCase().lastIndexOf("F");
-            if(foilTest >= 4){
-                foil = true;
-                set = set.substring(0, foilTest).trim();
-            }
-
-            //Remove brackets from setname
-            set = set.substring(1, set.length-1);
-
-            //Get possible collector number
-            let collector = set.indexOf(":");
-            if(collector > -1){
-                number = set.substring(collector+1);
-                set = set.substring(0, collector);
-            }
-        }
-
-        // Get cardname from string
-        let cardName = string.trim();
-
-        //Get and Add info already aquired.
-        queryForCard(cardName).then( (card:Card)=>{
-            if(card === null){
-                card = {
-                    name: cardName,
-                    count: count,
-                    foil: foil,
-                    collector_number: number,
-                    set: set
-                };
-                console.warn("'" + cardName + "' not found!");
-            } else {
-                card.count = count;
-                card.set = set;
-                card.foil = foil;
-                card.collector_number = number;
-            }
-
-            //Get possible missing information.
-            if(card.sets) {
-                if(card.set.length === 0){
-                    const buffer = Object.keys(card.sets)
-                    const newSet = buffer[buffer.length-1].split(":");
-                    card.set = newSet[0];
-                    card.collector_number = newSet[1];
-            
-                } else if(card.collector_number.length === 0){
-                    for(let set in card.sets){
-                        const buffer = set.split(":")
-                        if(buffer[0] === card.set){
-                            card.collector_number = buffer[1];
-                            break;
-                        }
-                    }
-                }
-    
-                //Get image from sets and delete sets.
-                card.image = card.sets[card.set + ":" + card.collector_number];
-                    
-            }
-    
+        createCardFromString(string).then(card=>{
             this._value = card;
-        });
+        })
     }
 
     /** Connected Callback
@@ -302,3 +212,113 @@ function sleep(timeout:number = 5){
 }
 
 customElements.define("card-list-element", CardElement, { extends: "li" });
+
+/** Set Card From String
+     * 
+     * Takes a single line and attempts to create a card from it.
+     * Assums the Following Format.
+     * 
+     * ## Card Name [set] F
+     * 
+     * Where:        ## - is the number of card in the deck (optional)
+     *        Card Name - name of the card
+     *              set - is the set code in brackets (optional)
+     *                F - the card is foil (optional)
+     * 
+     * Originally from: https://github.com/Malotkya/CapstoneProject/blob/main/backend/deckList.js
+     * 
+     * @param {string} string
+     */
+async function createCardFromString(string:string):Promise<Card>{
+    //get count from string
+    let buffer = string.match(/^\d*[Xx]?/gm)[0];
+    string = string.substring(buffer.length);
+
+    //Remove possible x from count
+    if(buffer.toUpperCase().indexOf("X") > -1){
+        buffer = buffer.substring(0, buffer.length-1);
+    }
+
+    //Set count
+    let count:number = Number(buffer);
+    if(isNaN(count) || buffer === "")
+        count = 1;
+
+    //Get possible set;
+    
+    let set = "";
+    let setTest =string.indexOf("[");
+    if( setTest > -1){
+        set = string.substring(setTest)
+        string = string.substring(0, setTest);
+    }
+
+    //Additonal Information from the set.
+    let foil = false;
+    let number:string = "";
+    if(set.length > 0){
+
+        // Get if foil
+        let foilTest = set.toUpperCase().lastIndexOf("F");
+        if(foilTest >= 4){
+            foil = true;
+            set = set.substring(0, foilTest).trim();
+        }
+
+        //Remove brackets from setname
+        set = set.substring(1, set.length-1);
+
+        //Get possible collector number
+        let collector = set.indexOf(":");
+        if(collector > -1){
+            number = set.substring(collector+1);
+            set = set.substring(0, collector);
+        }
+    }
+
+    // Get cardname from string
+    let cardName = string.trim();
+
+    //Get and Add info already aquired.
+    let card:Card = await queryForCard(cardName)
+    if(card === null){
+        card = {
+            name: cardName,
+            count: count,
+            foil: foil,
+            collector_number: number,
+            set: set
+        };
+        console.warn("'" + cardName + "' not found!");
+    } else {
+        card.count = count;
+        card.set = set;
+        card.foil = foil;
+        card.collector_number = number;
+    }
+
+    //Get possible missing information.
+    if(card.sets) {
+        if(card.set.length === 0){
+            const buffer = Object.keys(card.sets)
+            const newSet = buffer[buffer.length-1].split(":");
+            card.set = newSet[0];
+            card.collector_number = newSet[1];
+     
+        } else if(card.collector_number.length === 0){
+            for(let set in card.sets){
+                const buffer = set.split(":")
+                if(buffer[0] === card.set){
+                    card.collector_number = buffer[1];
+                    break;
+                }
+            }
+        }
+
+        //Get image from sets and delete sets.
+        card.image = card.sets[card.set + ":" + card.collector_number];
+                
+    }
+
+    return card;
+}

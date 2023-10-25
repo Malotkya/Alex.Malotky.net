@@ -35,19 +35,15 @@ export default class Category extends HTMLElement {
             const value:Card = element.card;
 
             if(typeof value !== "undefined"){
-                //Clone what we need
-                output.push({
-                    name: value.name,
-                    count: value.count,
-                    set: value.set,
-                    collector_number: value.collector_number,
-                    foil: value.foil,
-                    image: value.image
-                });
+                output.push(element.card);
             }
         });
 
         return output;
+    }
+
+    private create(name:string){
+        this.parentElement.insertBefore(new Category(name), this);
     }
 
     public connectedCallback(){
@@ -61,11 +57,15 @@ export default class Category extends HTMLElement {
 
             const btnAdd = document.createElement("button");
             btnAdd.textContent = "Create Category";
-            btnAdd.addEventListener("click", ()=>alert("Click!")); //TODO: Create new category!!
+            btnAdd.addEventListener("click", ()=>{
+                this.create(input.value);
+                input.value = "";
+            }); 
 
             const li = document.createElement("li");
             li.appendChild(btnAdd);
             this._list.appendChild(li);
+            this._list.removeChild(this._input);
         }
 
         this.appendChild(header);

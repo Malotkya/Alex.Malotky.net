@@ -75,6 +75,30 @@
         margin: 0 auto;
         margin-top: 5px;
     }
+
+    deck-editor{
+        .category {
+            width: 50%;
+
+            .card-input{
+                display: flex;
+                flex-flow: row nowrap;
+
+                span {
+                    flex-grow: 1;
+
+                    input {
+                        width: 100%;
+                    }
+                }
+
+                select {
+                    width: 120px;
+
+                }
+            }
+        }
+    }
 }
 
 #commanders {
@@ -195,6 +219,10 @@
     
     .category {
         width: 50%;
+    }
+
+    #deckEditor deck-editor .category {
+        width: 33%;
     }
 }
 

@@ -22,13 +22,21 @@ export interface Card {
     oracle?: string
 }
 
+const BLANK_CARD:Card = {
+    count: -1,
+    name: "",
+    set: "",
+    collector_number: "",
+    foil: true,
+}
+
 /** CardElement Class
  * 
  * Html Representation of the Card Interface.
  * 
  */
 export default class CardElement extends HTMLLIElement {
-    private _value:Card;
+    private _value:Card
 
     /** Constructor
      * 
@@ -36,6 +44,7 @@ export default class CardElement extends HTMLLIElement {
      */
     constructor(card?:Card|string){
         super();
+        this.className = "card-input"
         this.card = card;
     }
 
@@ -44,6 +53,7 @@ export default class CardElement extends HTMLLIElement {
      */
     set card(card:Card|string){
         if(typeof card === "string") {
+            this._value = BLANK_CARD;
             this.set(card);
         } else if(typeof card !== "undefined"){
             this._value = card;
@@ -75,11 +85,18 @@ export default class CardElement extends HTMLLIElement {
             return select;
         }
 
-        for(let name of sets){
+        for(let name in sets){
             let option = document.createElement("option");
             option.textContent = name;
-        }
+            option.value = JSON.stringify(sets[name]);
 
+            select.appendChild(option);
+        }
+        select.value = JSON.stringify(this._value.image);
+
+        select.addEventListener("change", event=>{
+            this._value.image = JSON.parse(select.value);
+        });
 
         return select;
     }
@@ -207,6 +224,7 @@ export default class CardElement extends HTMLLIElement {
     
                 //Get image from sets and delete sets.
                 card.image = card.sets[card.set + ":" + card.collector_number];
+                    
             }
     
             this._value = card;
@@ -217,11 +235,14 @@ export default class CardElement extends HTMLLIElement {
      * 
      * If there is no value, then it creates an input.
      */
-    public connectedCallback(){
+    public async connectedCallback(){
         const nameElement = document.createElement("span");
         this.appendChild(nameElement)
-            
-        if(this.card){
+
+        while(this._value === BLANK_CARD)
+            await sleep();
+
+        if(this._value){
             nameElement.textContent = this._value.name;
             const btnDelete = document.createElement("button");
             btnDelete.textContent = "X";
@@ -230,7 +251,10 @@ export default class CardElement extends HTMLLIElement {
             //Select Options
             if(typeof this._value.sets === "undefined") {
                 queryForCard(this._value.name).then( (buffer:Card)=>{
-                    this.appendChild(this.populate(buffer.sets));
+                    if(buffer !== null)
+                        this.appendChild(this.populate(buffer.sets));
+                    else
+                        this.appendChild(this.populate(this._value.sets));
                     this.appendChild(btnDelete);
                 });
             } else {
@@ -249,8 +273,16 @@ export default class CardElement extends HTMLLIElement {
                 this.find(input.value);
                 input.value = "";
             });
+
+            this.appendChild(btnFind);
         }
     }
+}
+
+function sleep(timeout:number = 5){
+    return new Promise((res,rej)=>{
+        window.setTimeout(res, timeout);
+    })
 }
 
 customElements.define("card-list-element", CardElement, { extends: "li" });

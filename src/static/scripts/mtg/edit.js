@@ -27,18 +27,18 @@ function performEdit(event){
         deck.name = document.querySelector("#name").value;
         deck.description = document.querySelector("#description").value;
 
-        for(let card of output.commanders){
+         //Remove bloat from deck
+        for(let card of deck.commanders){
             for(let att of REMOVE_FROM_CARDS) {
                 delete card[att]
             }
         }
 
-        //Remove bloat from deck
-        for(let cat in output.main_deck){
-            const list = output.main_deck[cat];
+        for(let cat in deck.main_deck){
+            const list = deck.main_deck[cat];
 
             if(list.length === 0){
-                delete output.main_deck[cat];
+                delete deck.main_deck[cat];
             } else {
                 for(let card of list){
                     for(let att of REMOVE_FROM_CARDS){

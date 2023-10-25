@@ -27,9 +27,9 @@
         <figure {{ double }}>
             <div class="figure">
                 {% if(image.length === 0){ %}
-                    <div>
-                        <pre>{{ typeLine }}</pre>
-                        <pre>{{ oracle }}</pre>
+                    <div class="oracle">
+                        <p>{{ typeLine }}</p>
+                        <p>{{ oracle }}</p>
                     </div>
                 {% } else { for(let side in image){ %}
                     <img src="{{ image[side] }}" alt="{{ name }} {{ side }}">

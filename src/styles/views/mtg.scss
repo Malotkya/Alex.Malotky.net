@@ -197,6 +197,17 @@
         width: 55%;
         user-select: none;
     }
+
+    .oracle{
+        font-size: 0.7em;
+        background-color: lightgoldenrodyellow;
+        padding: 0 5px;
+        border-radius: 5px;
+        
+        p{
+            white-space: pre-wrap;
+        }
+    }
 }
 
 #deck-list {

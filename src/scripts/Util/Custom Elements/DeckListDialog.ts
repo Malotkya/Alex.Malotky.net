@@ -1,7 +1,18 @@
+/** /Util/Custom Elements/DeckListDialog.ts
+ * 
+ * @author Alex Malotky
+ */
+
+/** Deck List Dialog Element
+ * 
+ */
 export default class DeckListDialog extends HTMLDialogElement {
     private _input: HTMLTextAreaElement;
     private _submit: EventListener;
 
+    /** Constructor
+     * 
+     */
     constructor() {
         super();
 
@@ -9,18 +20,31 @@ export default class DeckListDialog extends HTMLDialogElement {
         this.style.top = "100px";
     }
 
+    /** Value Getter
+     * 
+     */
     get value():string{
         return this._input.value;
     }
 
+    /** Value Setter
+     * 
+     */
     set value(value:string){
         this._input.value = value;
     }
     
+    /** Prompt Event Listener
+     * 
+     * @param {EventListener} listener 
+     */
     public promptEvent(listener:EventListener){
         this._submit = listener;
     }
 
+    /** Connected Callback
+     * 
+     */
     public connectedCallback(){
         const btnSubmit = document.createElement("button");
         btnSubmit.textContent = "Submit";

@@ -1,3 +1,7 @@
+/** /Util/Authentication.ts
+ * 
+ * @author Alex Malotky
+ */
 import { User } from "../firebase";
 export { User } from "../firebase";
 

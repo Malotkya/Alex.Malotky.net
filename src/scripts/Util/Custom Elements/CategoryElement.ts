@@ -1,10 +1,22 @@
+/** /Util/Custom Elements/CategoryElement.ts
+ * 
+ * @author Alex Malotky
+ */
 import CardElement, {Card} from "./CardElemet";
 
-export default class Category extends HTMLElement {
+/** Category Element
+ * 
+ */
+export default class CategoryElement extends HTMLElement {
     _input: CardElement;
     _list: HTMLUListElement;
     _name: string;
 
+    /** Constructor
+     * 
+     * @param {string} name 
+     * @param {string|Array} list 
+     */
     constructor(name?:string, list:string|Array<string> = []){
         super();
         this._name = name;
@@ -21,6 +33,10 @@ export default class Category extends HTMLElement {
         this._list.appendChild(this._input);
     }
 
+    /** Add Card
+     * 
+     * @param {string|CardElement} card 
+     */
     public add(card:string|CardElement){
         if(typeof card === "string")
             card = new CardElement(card);
@@ -28,6 +44,10 @@ export default class Category extends HTMLElement {
         this._list.insertBefore(card, this._input);
     }
 
+    /** Value Getter
+     * 
+     * List of cards in category;
+     */
     get value():Array<Card>{
         const output: Array<Card> = [];
 
@@ -42,10 +62,17 @@ export default class Category extends HTMLElement {
         return output;
     }
 
+    /** Create New Category
+     * 
+     * @param {string} name 
+     */
     private create(name:string){
-        this.parentElement.insertBefore(new Category(name), this);
+        this.parentElement.insertBefore(new CategoryElement(name), this);
     }
 
+    /** Connected Callback
+     * 
+     */
     public connectedCallback(){
         const header = document.createElement("h3");
         
@@ -73,4 +100,4 @@ export default class Category extends HTMLElement {
     }
 }
 
-customElements.define("category-section", Category, {extends: "section"});
+customElements.define("category-section", CategoryElement, {extends: "section"});

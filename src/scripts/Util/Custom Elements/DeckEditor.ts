@@ -1,7 +1,14 @@
+/** /Util/Custom Elements/DeckEditor.ts
+ * 
+ * @author Alex Malotky
+ */
 import CategoryElement from "./CategoryElement";
 import DeckListDialog from "./DeckListDialog";
 import CardElement, {Card} from "./CardElemet";
 
+/** Deck Interface
+ * 
+ */
 export interface Deck {
     commanders: Array<Card>,
     main_deck: any,
@@ -9,8 +16,10 @@ export interface Deck {
     art: string
 }
 
+// Default Section Name
 const DEFAULT_SECTION = "main_deck";
 
+//Priority of Card Types and Categories
 const CARD_TYPE_PRIORITY = [
     "Commanders",
     "Creature",
@@ -25,6 +34,7 @@ const CARD_TYPE_PRIORITY = [
     "Unknown"
 ];
 
+//Possible Commander Sections Names
 const POSSIBLE_COMMANDERS = [
     "COMMANDER",
     "COMMANDERS"
@@ -74,11 +84,17 @@ export function isCommanderCategory(category:string):boolean{
     return false;
 }
 
+/** Deck Editor Element
+ * 
+ */
 export default class DeckEditor extends HTMLElement {
     private _dialog: DeckListDialog;
     private _categories:Map<string, CategoryElement>;
     private _input: CategoryElement;
 
+    /** Constructor
+     * 
+     */
     constructor(){
         super();
         this._categories = new Map();
@@ -88,20 +104,35 @@ export default class DeckEditor extends HTMLElement {
         this._input = new CategoryElement();
     }
 
+    /** Observed Attributes Getter
+     * 
+     */
     static get observedAttributes(){
         return ["value"];
     }
 
+    /** Attribute Changed Callback
+     * 
+     * @param {string} name 
+     * @param {string} oldValue 
+     * @param {string} newValue 
+     */
     public attributeChangedCallback(name:string, oldValue:string, newValue:string){
         if(name === "value"){
             this.value = newValue;
         }
     }
 
+    /** Value Setter
+     * 
+     */
     set value(value:string){
         this._dialog.value = value;
     }
 
+    /** Value Getter
+     * 
+     */
     get value():string{
         return this._dialog.value;
     }
@@ -154,6 +185,10 @@ export default class DeckEditor extends HTMLElement {
         }
     }
 
+    /** Get Deck Object
+     * 
+     * @returns {Deck}
+     */
     public getDeckObject():Deck {
         const output:Deck = {
             commanders: [],
@@ -198,7 +233,7 @@ export default class DeckEditor extends HTMLElement {
         });
         output.color_identity = [...identity];
 
-        //Get art from commander
+        //Get art from top commander
         if(output.commanders.length > 0){
             if(output.commanders[0].art)
                 output.art = output.commanders[0].art;
@@ -207,6 +242,9 @@ export default class DeckEditor extends HTMLElement {
         return output;
     }
 
+    /** Connected Callback
+     * 
+     */
     public connectedCallback(){
         this.appendChild(this._dialog);
         const btnShowDialog = document.createElement("button");

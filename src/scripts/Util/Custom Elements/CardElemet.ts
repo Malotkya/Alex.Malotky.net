@@ -1,4 +1,9 @@
+/** /Util/Custom Elements/CardElement.ts
+ * 
+ * @author Alex Malotky
+ */
 import { queryForCard } from "../../scryfall";
+import AutoComplete from "./AutoComplete";
 
 /** Card Interface
  * 
@@ -137,7 +142,10 @@ export default class CardElement extends HTMLLIElement {
         });
     }
 
-    
+    /** Set new Card
+     * 
+     * @param {string} string 
+     */
     private set(string:string){
         createCardFromString(string).then(card=>{
             this._value = card;
@@ -148,21 +156,18 @@ export default class CardElement extends HTMLLIElement {
      * 
      * If there is no value, then it creates an input.
      */
-    public async connectedCallback(){
+    public connectedCallback(){
         const nameElement = document.createElement("div");
-        this.appendChild(nameElement)
-
         const input = document.createElement("input");
-        
 
-        while(this._value === BLANK_CARD)
-            await sleep();
-        if(this._value){
-            nameElement.appendChild(input);
-            const span = document.createElement("span");
-            span.textContent = this._value.name;
-            nameElement.appendChild(span);
+        if(this._value === BLANK_CARD) {
+            //Loop back if card isn't ready.
+            window.setTimeout(()=>this.connectedCallback(), 5);
+        }else if(this._value){
+            this.appendChild(nameElement);
+            nameElement.className = "name";
 
+            //Card Coutn Input
             input.value = String(this._value.count);
             input.style.width = "3ch";
             input.addEventListener("change", ()=>{
@@ -174,7 +179,14 @@ export default class CardElement extends HTMLLIElement {
 
                 this._value.count = number;
             });
+            nameElement.appendChild(input);
 
+            //Card Name
+            const span = document.createElement("span");
+            span.textContent = this._value.name;
+            nameElement.appendChild(span);
+
+            //Is Foil Input
             const foilInput = document.createElement("input");
             foilInput.type = "checkbox";
             foilInput.addEventListener("change", ()=>{
@@ -183,8 +195,8 @@ export default class CardElement extends HTMLLIElement {
             foilInput.checked = this._value.foil;
             foilInput.style.width = "auto";
             nameElement.appendChild(foilInput);
-            nameElement.className = "name";
-
+            
+            //Delete Button
             const btnDelete = document.createElement("button");
             btnDelete.textContent = "X";
             btnDelete.addEventListener("click", ()=>this.delete() );
@@ -204,7 +216,15 @@ export default class CardElement extends HTMLLIElement {
             }
 
         } else {
-            nameElement.appendChild(input);
+            this.appendChild(nameElement);
+
+            //Name Input
+            nameElement.appendChild(new AutoComplete(input, ()=>{
+                this.find(input.value);
+                input.value = "";
+            }));
+
+            //Submit Name Button
             const btnFind = document.createElement("button");
             btnFind.textContent = "+";
 
@@ -216,12 +236,6 @@ export default class CardElement extends HTMLLIElement {
             this.appendChild(btnFind);
         }
     }
-}
-
-function sleep(timeout:number = 5){
-    return new Promise((res,rej)=>{
-        window.setTimeout(res, timeout);
-    })
 }
 
 customElements.define("card-list-element", CardElement, { extends: "li" });

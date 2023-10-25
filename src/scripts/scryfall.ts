@@ -1,3 +1,9 @@
+/** Scryfall.ts
+ * 
+ * Interacts with shards created by "npm run scryfall"
+ * 
+ * @author Alex Malotky
+ */
 import DeckEditor from "./Util/Custom Elements/DeckEditor";
 import {Card} from "./Util/Custom Elements/CardElemet";
 export {DeckEditor};
@@ -57,7 +63,7 @@ function compareNames(lhs:string, rhs:string):number{
  * @param {string} shard 
  * @returns {string}
  */
-async function getShard(shard:string):Promise<string>{
+export async function getShard(shard:string):Promise<string>{
     const response = await fetch("/cards/"+shard);
 
     if(response.status !== 200)
@@ -66,7 +72,7 @@ async function getShard(shard:string):Promise<string>{
     const fileText = await response.text();
 
     if(fileText.match("<!DOCTYPE html>"))
-        return null;
+        throw new Error("Unable to find Shard!");
 
     return fileText;
 }

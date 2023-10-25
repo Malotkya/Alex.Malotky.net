@@ -1,6 +1,11 @@
 import * as Scryfall from "/scryfall.js";
 import {Database} from "/firebase.js";
 
+const REMOVE_FROM_CARDS = [
+    "manaCost",
+    "art"
+];
+
 export default function Edit(){
     document.querySelector("#submit").addEventListener("click", performEdit);
     document.querySelector("#btnView").addEventListener("click", ()=>{
@@ -18,45 +23,31 @@ function performEdit(event){
             throw new Error("Unable to find id or invalid id!");
         }
 
-        const name = document.querySelector("#name").value;
-        const description = document.querySelector("#description").value;
-
         const deck = document.querySelector("#deckList").getDeckObject();
+        deck.name = document.querySelector("#name").value;
+        deck.description = document.querySelector("#description").value;
 
-        deck.name = name;
-        deck.description = description;
-                
-        const identity = new Set();
-        deck.commanders.forEach(card=>{
-            const buffer = JSON.stringify(card);
-
-            //White
-            if(buffer.match(/{.{0,4}W{1}.{0,4}}/g))
-                identity.add("white");
-
-            //Blue
-            if(buffer.match(/{.{0,4}U{1}.{0,4}}/g))
-                identity.add("blue");
-
-            //Black
-            if(buffer.match(/{.{0,4}B{1}.{0,4}}/g))
-                identity.add("black");
-
-            //Red
-            if(buffer.match(/{.{0,4}R{1}.{0,4}}/g))
-                identity.add("red");
-
-            //Green
-            if(buffer.match(/{.{0,4}G{1}.{0,4}}/g))
-                identity.add("green");
-        });
-
-        deck.color_identity = [...identity];
-        if(deck.commanders.length > 0){
-            if(deck.commanders[0].art)
-                deck.art = deck.commanders[0].art;
+        for(let card of output.commanders){
+            for(let att of REMOVE_FROM_CARDS) {
+                delete card[att]
+            }
         }
-            
+
+        //Remove bloat from deck
+        for(let cat in output.main_deck){
+            const list = output.main_deck[cat];
+
+            if(list.length === 0){
+                delete output.main_deck[cat];
+            } else {
+                for(let card of list){
+                    for(let att of REMOVE_FROM_CARDS){
+                        delete card[att];
+                    }
+                }
+            }
+        }
+
 
         //Submit here instead becasue can't use routing option.
         /*Database.updateDocument("MtgDecks", id, deck).then(()=>{

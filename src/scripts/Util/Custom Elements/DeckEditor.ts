@@ -4,7 +4,9 @@ import CardElement, {Card} from "./CardElemet";
 
 export interface Deck {
     commanders: Array<Card>,
-    main_deck: any
+    main_deck: any,
+    color_identity: Array<string>,
+    art: string
 }
 
 const DEFAULT_SECTION = "main_deck";
@@ -155,15 +157,51 @@ export default class DeckEditor extends HTMLElement {
     public getDeckObject():Deck {
         const output:Deck = {
             commanders: [],
-            main_deck:{}
+            main_deck:{},
+            color_identity: [],
+            art: ""
         }
 
+        //Add all categories
         for(let [name, element] of this._categories){
             if(name === CARD_TYPE_PRIORITY[0]){
                 output.commanders = element.value;
             } else {
                 output.main_deck[name] = element.value;
             }
+        }
+
+        //Get color identity
+        const identity:Set<string> = new Set();
+        output.commanders.forEach(card=>{
+            const buffer = JSON.stringify(card);
+
+            //White
+            if(buffer.match(/{.{0,4}W{1}.{0,4}}/g))
+                identity.add("white");
+
+            //Blue
+            if(buffer.match(/{.{0,4}U{1}.{0,4}}/g))
+                identity.add("blue");
+
+            //Black
+            if(buffer.match(/{.{0,4}B{1}.{0,4}}/g))
+                identity.add("black");
+
+            //Red
+            if(buffer.match(/{.{0,4}R{1}.{0,4}}/g))
+                identity.add("red");
+
+            //Green
+            if(buffer.match(/{.{0,4}G{1}.{0,4}}/g))
+                identity.add("green");
+        });
+        output.color_identity = [...identity];
+
+        //Get art from commander
+        if(output.commanders.length > 0){
+            if(output.commanders[0].art)
+                output.art = output.commanders[0].art;
         }
 
         return output;

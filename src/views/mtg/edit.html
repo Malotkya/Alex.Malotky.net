@@ -40,18 +40,21 @@
         decklist += "\n\n//" + cat + "\n" + list.map(cardToString).join("\n");
     }
 %}
-<a href="/Decks/Editor" class="btn">Back</a>
-<a href="/Decks/{{ id }}" id="btnView" class="btn">View</a>
-<h1>Deck Editor</h1>
-<div class="group">
-    <label for="name">Deck Name</label>
-    <input id="name" value="{{ name }}" />
-    <label for="description">Description</label>
-    <textarea id="description">{{description}}</textarea>
-</div>
+<article id="deckEditor">
+    <a href="/Decks/Editor" class="btn">Back</a>
+    <a href="/Decks/{{ id }}" id="btnView" class="btn">View</a>
+    <h1>Deck Editor</h1>
+    <div class="group">
+        <label for="name">Deck Name</label>
+        <input id="name" value="{{ name }}" />
+        <label for="description">Description</label>
+        <textarea id="description">{{description}}</textarea>
+    </div>
+    
+    <div class="group">
+        <label for="deckList">Deck List:</label>
+        <deck-editor id="deckList" value="{{decklist}}"></deck-editor>
+    </div>
+    <button target="{{ id }}" id="submit">Save Changes</button>
+</article>
 
-<div class="group">
-    <label for="deckList">Deck List:</label>
-    <deck-editor id="deckList" value="{{decklist}}"></deck-editor>
-</div>
-<button target="{{ id }}" id="submit">Save Changes</button>

@@ -19,6 +19,9 @@ export default class CategoryElement extends HTMLElement {
      */
     constructor(name?:string, list:string|Array<string> = []){
         super();
+        
+        if(name)
+            this.id = name;
         this._name = name;
 
         if(typeof list === "string")
@@ -70,6 +73,15 @@ export default class CategoryElement extends HTMLElement {
         this.parentElement.insertBefore(new CategoryElement(name), this);
     }
 
+    /** Delete Category
+     * 
+     */
+    private delete(){
+        if(window.confirm(`Are you sure you want to remove ${this._name}?`)){
+            this.parentElement.removeChild(this);
+        }
+    }
+
     /** Connected Callback
      * 
      */
@@ -77,7 +89,16 @@ export default class CategoryElement extends HTMLElement {
         const header = document.createElement("h3");
         
         if(this._name){
-            header.textContent = this._name;
+            const name = document.createElement("span");
+            name.textContent = this._name;
+
+            const btnDelete = document.createElement("button");
+            btnDelete.textContent = "Delete Category";
+            btnDelete.addEventListener("click", ()=>this.delete());
+
+            header.appendChild(name);
+            header.appendChild(btnDelete);
+            
         } else {
             const input = document.createElement("input");
             header.appendChild(input);
@@ -93,6 +114,9 @@ export default class CategoryElement extends HTMLElement {
             li.appendChild(btnAdd);
             this._list.appendChild(li);
             this._list.removeChild(this._input);
+
+            this.appendChild(header);
+            this.appendChild(this._list);
         }
 
         this.appendChild(header);

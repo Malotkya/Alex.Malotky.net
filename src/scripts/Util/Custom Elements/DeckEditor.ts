@@ -99,7 +99,12 @@ export default class DeckEditor extends HTMLElement {
         super();
         this._categories = new Map();
         this._dialog = new DeckListDialog();
-        this._dialog.promptEvent(()=>this.propagete());
+        this._dialog.promptEvent(()=>{
+            this._categories.clear();
+            this.propagete();
+            this.innerHTML = "";
+            this.connectedCallback();
+        });
 
         this._input = new CategoryElement();
     }
@@ -198,11 +203,14 @@ export default class DeckEditor extends HTMLElement {
         }
 
         //Add all categories
+
         for(let [name, element] of this._categories){
-            if(name === CARD_TYPE_PRIORITY[0]){
-                output.commanders = element.value;
-            } else {
-                output.main_deck[name] = element.value;
+            if(this.querySelector(`#${name}`)){
+                if(name === CARD_TYPE_PRIORITY[0]){
+                    output.commanders = element.value;
+                } else {
+                    output.main_deck[name] = element.value;
+                }
             }
         }
 
@@ -242,14 +250,30 @@ export default class DeckEditor extends HTMLElement {
         return output;
     }
 
+    private getDeckList():string{
+        const cardToString = (card:Card):string =>`${card.count} ${card.name} [${card.set}:${card.collector_number}] ${card.foil?"F":""}`;
+
+        const deck = this.getDeckObject();
+        let output:string = "//Commanders\n" + deck.commanders.map(cardToString).join("\n");
+
+        for(let cat in deck.main_deck){
+            output += `\n//${cat}\n` + deck.main_deck[cat].map(cardToString).join("\n");
+        }
+
+        return output;
+    }
+
     /** Connected Callback
      * 
      */
     public connectedCallback(){
         this.appendChild(this._dialog);
         const btnShowDialog = document.createElement("button");
-        btnShowDialog.addEventListener("click", ()=>this._dialog.show());
-        btnShowDialog.textContent = "Deck List";
+        btnShowDialog.addEventListener("click", ()=>{
+            this.value = this.getDeckList();
+            this._dialog.show();
+        });
+        btnShowDialog.textContent = "Edit Deck List";
         this.parentElement.insertBefore(btnShowDialog, this);
 
         this.propagete();

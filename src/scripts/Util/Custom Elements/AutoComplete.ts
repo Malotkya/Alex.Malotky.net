@@ -51,16 +51,7 @@ export default class AutoComplete extends HTMLElement {
      * 
      */
     private closeList(){
-        try {
-            this._autocompleteItems.childNodes.forEach(child=>{
-                this._autocompleteItems.removeChild(child);
-            });
-            this.removeChild(this._autocompleteItems);
-        } catch (e){
-            //Do nothing
-            //Thorwn if item is already removed.
-        }
-        
+        this._autocompleteItems.innerHTML = "";
     }
 
     /** Updates list of strings for the autocomplete list based on shard filename.
@@ -68,7 +59,8 @@ export default class AutoComplete extends HTMLElement {
      * @param shard 
      */
     private async updateList(shard:string){
-        shard = shard.toUpperCase();
+        if(shard === "")
+            shard = "?";
 
         try {
             if(shard !== this._currentShard){
@@ -111,6 +103,13 @@ export default class AutoComplete extends HTMLElement {
      * 
      */
     get current():number{
+        if(this.items.length > 0){
+            if(this._currentIndex < 0)
+                this._currentIndex = 0;
+        } else {
+            this._currentIndex = -1;
+        }
+
         return this._currentIndex;
     }
 
@@ -126,19 +125,19 @@ export default class AutoComplete extends HTMLElement {
      */
     public connectedCallback(){
         this.appendChild(this._input);
+        this.appendChild(this._autocompleteItems);
 
         this._input.addEventListener("input", (event)=>{
-            const value = this._input.value;
-            
+            const value = this._input.value.toUpperCase();
             this.closeList();
-            this.updateList(value.match(/[a-zA-Z0-9_]/)[0]).then(()=>{
-                if(value === "")
-                return false;
 
-                this.appendChild(this._autocompleteItems);
+            if(value.trim() === "")
+                return;
+            
+            this.updateList(value.match(/[A-Z0-9_]/)[0]).then(()=>{
                 for(let name of this._list){
 
-                    if(name.match(new RegExp(value, "i"))) {
+                    if(name.substring(0, value.length).toUpperCase() === value) {
 
                         const item = document.createElement("div");
                         item.innerHTML = `<strong>${name.substring(0, value.length)}</strong>${name.substring(value.length)}`;
@@ -157,7 +156,7 @@ export default class AutoComplete extends HTMLElement {
             });
         });
 
-        this._input.addEventListener("keypressed", (event:KeyboardEvent)=>{
+        this._input.addEventListener("keydown", (event:KeyboardEvent)=>{
             const keyCode = event.which || event.keyCode;
 
             //Arrow Down
@@ -180,7 +179,7 @@ export default class AutoComplete extends HTMLElement {
 
         this._input.addEventListener("blur", ()=>{
             this.closeList();
-        })
+        });
     }
 }
 

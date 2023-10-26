@@ -124,6 +124,8 @@ export default class AutoComplete extends HTMLElement {
      * 
      */
     public connectedCallback(){
+        this.innerHTML = "";
+
         this.appendChild(this._input);
         this.appendChild(this._autocompleteItems);
 
@@ -141,14 +143,16 @@ export default class AutoComplete extends HTMLElement {
 
                         const item = document.createElement("div");
                         item.innerHTML = `<strong>${name.substring(0, value.length)}</strong>${name.substring(value.length)}`;
-
-                        item.addEventListener("click", ()=>{
+                        const clickEvent = () => {
                             this._input.value = name;
                             this.closeList();
                             if(this._submit) {
                                 this._submit(event);
                             }
-                        });
+                        };
+
+                        item.addEventListener("mousedown", clickEvent);
+                        item.addEventListener("click", clickEvent);
 
                         this._autocompleteItems.appendChild(item);
                     }

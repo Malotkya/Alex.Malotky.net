@@ -50,6 +50,24 @@ footer{
     }
 }
 
+.btn:visited, .btn:link, .btn,
+button{
+    size: 1.25em;
+    text-decoration: none;
+    background-color: $light-grey;
+    color: $dark;
+    padding: 2px 6px;
+    display: inline-block;
+    border: $dark solid 1px;
+    border-radius: 5px;
+    margin: 2px;
+}
+
+.btn:hover, button:hover {
+    background-color: $grey;
+    cursor: pointer;
+}
+
 auto-complete {
     position: relative;
     display: inline-block;

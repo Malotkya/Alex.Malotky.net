@@ -101,6 +101,7 @@ export default class CardElement extends HTMLLIElement {
             option.textContent = "Card Not Found!";
             option.value = "undefined";
             select.disabled = true;
+            select.className = "disabled";
             select.appendChild(option);
             select.value = "undefined";
             return select;

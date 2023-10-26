@@ -15,6 +15,7 @@ export default function Edit(){
 
 function performEdit(event){
     event.preventDefault();
+    disableAll();
 
     try {
         const id = document.querySelector("#submit").getAttribute("target").trim();
@@ -51,6 +52,7 @@ function performEdit(event){
 
         //Submit here instead becasue can't use routing option.
         Database.updateDocument("MtgDecks", id, deck).then(()=>{
+            enableAll();
             alert("Success");
         }).catch(e=>{
             throw e;
@@ -62,4 +64,17 @@ function performEdit(event){
     }
 
     return false;
+}
+
+function disableAll(){
+    for(let node of Array.from(document.querySelector("#deckEditor").children)){
+        node.disabled = true;
+    }
+}
+
+function enableAll(){
+    for(let node of Array.from(document.querySelector("#deckEditor").children)){
+        if(!node.classList.contains('disabled'))
+            node.disabled = false;
+    }
 }

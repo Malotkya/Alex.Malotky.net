@@ -18,6 +18,7 @@ export default class DeckListDialog extends HTMLDialogElement {
 
         this._input = document.createElement("textarea");
         this.style.top = "100px";
+        this.style.zIndex = "100";
     }
 
     /** Value Getter
@@ -46,6 +47,8 @@ export default class DeckListDialog extends HTMLDialogElement {
      * 
      */
     public connectedCallback(){
+        this.innerHTML = "";
+
         const btnSubmit = document.createElement("button");
         btnSubmit.textContent = "Submit";
         btnSubmit.addEventListener("click", event=>{

@@ -86,6 +86,8 @@ export default class CategoryElement extends HTMLElement {
      * 
      */
     public connectedCallback(){
+        this.innerHTML = "";
+
         const header = document.createElement("h3");
         
         if(this._name){
@@ -93,7 +95,7 @@ export default class CategoryElement extends HTMLElement {
             name.textContent = this._name;
 
             const btnDelete = document.createElement("button");
-            btnDelete.textContent = "Delete Category";
+            btnDelete.textContent = "Delete";
             btnDelete.addEventListener("click", ()=>this.delete());
 
             header.appendChild(name);
@@ -105,12 +107,15 @@ export default class CategoryElement extends HTMLElement {
 
             const btnAdd = document.createElement("button");
             btnAdd.textContent = "Create Category";
+            btnAdd.style.margin = "0 auto";
+            btnAdd.style.display = "block";
             btnAdd.addEventListener("click", ()=>{
                 this.create(input.value);
                 input.value = "";
             }); 
 
             const li = document.createElement("li");
+            li.style.listStyle = "none";
             li.appendChild(btnAdd);
             this._list.appendChild(li);
             this._list.removeChild(this._input);

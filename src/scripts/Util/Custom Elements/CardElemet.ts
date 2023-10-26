@@ -157,14 +157,16 @@ export default class CardElement extends HTMLLIElement {
      * If there is no value, then it creates an input.
      */
     public connectedCallback(){
+        this.innerHTML = "";
+
         const nameElement = document.createElement("div");
         const input = document.createElement("input");
+        this.appendChild(nameElement);
 
         if(this._value === BLANK_CARD) {
             //Loop back if card isn't ready.
             window.setTimeout(()=>this.connectedCallback(), 5);
         }else if(this._value){
-            this.appendChild(nameElement);
             nameElement.className = "name";
 
             //Card Coutn Input
@@ -194,6 +196,7 @@ export default class CardElement extends HTMLLIElement {
             });
             foilInput.checked = this._value.foil;
             foilInput.style.width = "auto";
+            foilInput.style.margin = "2px";
             nameElement.appendChild(foilInput);
             
             //Delete Button
@@ -216,8 +219,6 @@ export default class CardElement extends HTMLLIElement {
             }
 
         } else {
-            this.appendChild(nameElement);
-
             //Name Input
             nameElement.appendChild(new AutoComplete(input, ()=>{
                 this.find(input.value);

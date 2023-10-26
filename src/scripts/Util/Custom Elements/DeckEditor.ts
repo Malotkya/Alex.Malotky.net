@@ -102,7 +102,6 @@ export default class DeckEditor extends HTMLElement {
         this._dialog.promptEvent(()=>{
             this._categories.clear();
             this.propagete();
-            this.innerHTML = "";
             this.connectedCallback();
         });
 
@@ -203,14 +202,15 @@ export default class DeckEditor extends HTMLElement {
         }
 
         //Add all categories
-
-        for(let [name, element] of this._categories){
-            if(this.querySelector(`#${name}`)){
-                if(name === CARD_TYPE_PRIORITY[0]){
-                    output.commanders = element.value;
-                } else {
-                    output.main_deck[name] = element.value;
+        for(let list of Array.from(this.querySelectorAll("section"))){
+            if(list instanceof CategoryElement){
+                const name = list.id;
+                if(name === CARD_TYPE_PRIORITY[0]) {
+                    output.commanders = list.value;
+                } else if(name !== ""){
+                    output.main_deck[name] = list.value;
                 }
+
             }
         }
 
@@ -267,6 +267,8 @@ export default class DeckEditor extends HTMLElement {
      * 
      */
     public connectedCallback(){
+        this.innerHTML = "";
+        
         this.appendChild(this._dialog);
         const btnShowDialog = document.createElement("button");
         btnShowDialog.addEventListener("click", ()=>{

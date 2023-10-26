@@ -257,7 +257,7 @@ export default class DeckEditor extends HTMLElement {
         let output:string = "//Commanders\n" + deck.commanders.map(cardToString).join("\n");
 
         for(let cat in deck.main_deck){
-            output += `\n//${cat}\n` + deck.main_deck[cat].map(cardToString).join("\n");
+            output += `\n\n//${cat}\n` + deck.main_deck[cat].map(cardToString).join("\n");
         }
 
         return output;

@@ -96,6 +96,7 @@ export default class CategoryElement extends HTMLElement {
 
             const btnDelete = document.createElement("button");
             btnDelete.textContent = "Delete";
+            btnDelete.style.fontSize = "0.8em";
             btnDelete.addEventListener("click", ()=>this.delete());
 
             header.appendChild(name);
@@ -103,6 +104,7 @@ export default class CategoryElement extends HTMLElement {
             
         } else {
             const input = document.createElement("input");
+            input.placeholder = "Category Name";
             header.appendChild(input);
 
             const btnAdd = document.createElement("button");

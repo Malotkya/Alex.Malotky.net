@@ -224,6 +224,7 @@ export default class CardElement extends HTMLLIElement {
                 this.find(input.value);
                 input.value = "";
             }));
+            input.placeholder = "Card Name";
 
             //Submit Name Button
             const btnFind = document.createElement("button");

@@ -113,6 +113,7 @@
 
                 span{
                     flex-grow: 1;
+                    padding: 2px;
                 }
             }
 
@@ -120,6 +121,15 @@
                 width: 120px;
 
             }
+        }
+    }
+
+    h3 {
+        display: flex;
+        flex-flow: row nowrap;
+
+        span {
+            flex-grow: 1;
         }
     }
 }

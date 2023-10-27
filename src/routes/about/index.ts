@@ -2,7 +2,7 @@
  * 
  * @author Alex Malotky
  */
-import {Router, Context, render} from "../App"
+import {Router, Context, render} from "../../backend/App";
 
 /** About Me Router
  * 

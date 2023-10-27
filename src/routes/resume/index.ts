@@ -1,9 +1,9 @@
 /** /Routes/Resume.ts
  * 
  */
-import {Context, Router, render, HtmlError} from "../App";
-import Database from "../Util/Database";
-import { cache } from "../Util/Memory";
+import {Context, Router, render, HtmlError} from "../../backend/App";
+import Database from "../../util/Database";
+import { cache } from "../../util/Memory";
 
 
 

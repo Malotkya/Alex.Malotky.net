@@ -3,6 +3,7 @@ const TerserPlugin = require("terser-webpack-plugin");
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlMinimizerPlugin = require("html-minimizer-webpack-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const SpliceWebpackPlugin = require("./util/SpliceWebpackPlugin.js");
 
 //directories used multiple times
 const build_directory = path.resolve(__dirname, 'build');
@@ -62,7 +63,6 @@ module.exports = {
   output: {
     filename: '[name].js',
     path: build_directory,
-    clean: prod,
     library: {
       type: 'module'
   }
@@ -84,14 +84,7 @@ module.exports = {
         }
       ]
     }),
-    new CopyWebpackPlugin({
-      patterns:[
-        {
-          to: path.join(build_directory, 'cards'),
-          from: path.join(__dirname, "cards")
-        }
-      ]
-    })
+    new SpliceWebpackPlugin()
   ],
   optimization: minify,
 };

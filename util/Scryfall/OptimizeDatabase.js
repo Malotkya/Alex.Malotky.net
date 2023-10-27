@@ -7,11 +7,11 @@ const fs_1 = __importDefault(require("fs"));
 function OptimizeDatabase(filename) {
     return new Promise((resolve, reject) => {
         const sections = {};
-        let count = 0;
+        //let count = 0;
         const update = (refresh = true) => {
-            console.log("Cards Seperated: " + count);
-            if (refresh)
-                process.stdout.moveCursor(-100, -1);
+            //console.log("Cards Seperated: " + count);
+            //if (refresh)
+            //    process.stdout.moveCursor(-100, -1);
         };
         const file = fs_1.default.createReadStream(filename);
         let buffer = "";
@@ -28,8 +28,8 @@ function OptimizeDatabase(filename) {
                 if (typeof sections[s] === "undefined")
                     sections[s] = [];
                 sections[s].push(card);
-                count++;
-                update();
+                //count++;
+                //update();
                 buffer = buffer.slice(index + 1);
                 index = buffer.indexOf("\n");
             }
@@ -38,7 +38,7 @@ function OptimizeDatabase(filename) {
             reject(err);
         });
         file.on('close', () => {
-            update(false);
+            //update(false);
             resolve(sections);
         });
     });

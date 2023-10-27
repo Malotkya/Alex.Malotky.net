@@ -22,7 +22,7 @@ export default class CardElement extends HTMLLIElement {
     private get name():HTMLElement {
         const span = document.createElement("span");
         span.className = "name";
-        span.textContent = this._title;
+        span.innerHTML = this._title;
         return span;
     }
 

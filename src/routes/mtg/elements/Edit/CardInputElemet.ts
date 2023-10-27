@@ -3,7 +3,7 @@
  * @author Alex Malotky
  */
 import { queryForCard } from "../../../../scryfall";
-import AutoComplete from "../../AutoComplete";
+import AutoComplete from "./AutoComplete";
 
 /** Card Interface
  * 

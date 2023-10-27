@@ -1,8 +1,8 @@
-/** /Util/Custom Elements/CategoryElement.ts
+/** /Util/Custom Elements/Mtg/Edit/CategoryElement.ts
  * 
  * @author Alex Malotky
  */
-import CardElement, {Card} from "./CardElemet";
+import CardElement, {Card} from "./CardInputElemet";
 
 /** Category Element
  * 

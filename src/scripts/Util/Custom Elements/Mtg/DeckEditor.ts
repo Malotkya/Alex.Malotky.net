@@ -1,10 +1,10 @@
-/** /Util/Custom Elements/DeckEditor.ts
+/** /Util/Custom Elements/Mtg/DeckEditor.ts
  * 
  * @author Alex Malotky
  */
-import CategoryElement from "./CategoryElement";
-import DeckListDialog from "./DeckListDialog";
-import CardElement, {Card} from "./CardElemet";
+import CategoryElement from "./Edit/CategoryElement";
+import DeckListDialog from "./Edit/DeckListDialog";
+import CardElement, {Card} from "./Edit/CardInputElemet";
 
 /** Deck Interface
  * 

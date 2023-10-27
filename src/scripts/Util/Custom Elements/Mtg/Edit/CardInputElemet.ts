@@ -1,9 +1,9 @@
-/** /Util/Custom Elements/CardElement.ts
+/** /Util/Custom Elements/Mtg/Edit/CardInputElement.ts
  * 
  * @author Alex Malotky
  */
-import { queryForCard } from "../../scryfall";
-import AutoComplete from "./AutoComplete";
+import { queryForCard } from "../../../../scryfall";
+import AutoComplete from "../../AutoComplete";
 
 /** Card Interface
  * 
@@ -40,7 +40,7 @@ const BLANK_CARD:Card = {
  * Html Representation of the Card Interface.
  * 
  */
-export default class CardElement extends HTMLLIElement {
+export default class CardInputElement extends HTMLLIElement {
     private _value:Card
 
     /** Constructor
@@ -139,7 +139,7 @@ export default class CardElement extends HTMLLIElement {
     private find(cardName:string){
         createCardFromString(cardName).then((card:Card)=>{
             console.debug(card);
-            this.parentElement.insertBefore(new CardElement(card), this);
+            this.parentElement.insertBefore(new CardInputElement(card), this);
         });
     }
 
@@ -241,7 +241,7 @@ export default class CardElement extends HTMLLIElement {
     }
 }
 
-customElements.define("card-list-element", CardElement, { extends: "li" });
+customElements.define("card-list-element", CardInputElement, { extends: "li" });
 
 /** Set Card From String
      * 

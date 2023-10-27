@@ -2,7 +2,7 @@
  * 
  * @author Alex Malotky
  */
-import {Context, Router, render, execute} from "../App"
+import {Context, Router, render, execute} from "../../backend/App";
 
 /** Home Module
  *

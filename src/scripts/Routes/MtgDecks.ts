@@ -17,8 +17,7 @@ Editor.use("*", async(ctx: Context)=>{
     const auth = await Authentication();
 
     if(!(await auth.getCurrentUser())){
-        ctx.connected = await execute("login.js");
-        ctx.body = await render("login.html");
+        ctx.reRoute("/Login");
     }
 });
 

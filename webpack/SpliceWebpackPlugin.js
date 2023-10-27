@@ -1,7 +1,7 @@
 "use strict";
 const path = require("path");
 const fs = require("fs");
-const OptimizeDatabase = require("./Scryfall/OptimizeDatabase");
+const OptimizeDatabase = require("../util/Scryfall/OptimizeDatabase");
 
 const src = path.join(process.cwd(), "cards.db");
 const dest = path.join(process.cwd(), "build", "cards");

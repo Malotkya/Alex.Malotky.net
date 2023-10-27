@@ -1,9 +1,9 @@
-@import "normalize.scss";
+@import "backend/normalize.scss";
 
 /*! Alex Malotky.com */
-@import "app/colors.scss";
-@import "app/responsive.scss";
-@import "app/navbar.scss";
+@import "backend/styles/colors.scss";
+@import "backend/styles/responsive.scss";
+@import "backend/styles/navbar.scss";
 
 *{
     box-sizing: border-box;
@@ -104,8 +104,8 @@ auto-complete {
     }
 }
 
-@import "views/resume.scss";
-@import "views/portfolio.scss";
-@import "views/home.scss";
-@import "views/login.scss";
-@import "views/mtg.scss";
+@import "routes/home/style.scss";
+@import "routes/login/style.scss";
+@import "routes/mtg/style.scss";
+@import "routes/portfolio/style.scss";
+@import "routes/resume/style.scss";

@@ -1,5 +1,5 @@
-import { Router, Context, execute, render } from "../App"
-import Authentication from "../Util/Authentication";
+import { Router, Context, execute, render } from "../../backend/App";
+import Authentication from "../../util/Authentication";
 
 export const Login = new Router("Login");
 

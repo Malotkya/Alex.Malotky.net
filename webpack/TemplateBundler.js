@@ -18,7 +18,7 @@ function TemplateBundler(build, source){
                     case "views":
                     case "view":
                         output.push({
-                            to: path.join(build, "templates"),
+                            to: path.join(build, "templates", module),
                             from: path.join(directory, file)
                         });
                         break;

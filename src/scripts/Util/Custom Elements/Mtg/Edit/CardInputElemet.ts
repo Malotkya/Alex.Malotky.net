@@ -241,7 +241,7 @@ export default class CardInputElement extends HTMLLIElement {
     }
 }
 
-customElements.define("card-list-element", CardInputElement, { extends: "li" });
+customElements.define("card-input-list-element", CardInputElement, { extends: "li" });
 
 /** Set Card From String
      * 

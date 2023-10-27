@@ -30,8 +30,18 @@ Editor.use("/Delete/:id", async(ctx:Context)=>{
     ctx.reRoute("/Decks/Editor");
 });
 
-Editor.use("/Update/:id", (ctx:Context)=>{
-    throw new HtmlError(410, "Update is outdate!");
+Editor.use("/Update/:id", async(ctx:Context)=>{
+    const database = await Database();
+
+    try {
+        const deck = ctx.params.get("deck");
+        const id = ctx.params.get("id");
+
+        await database.updateDocument("MtgDecks", id, JSON.parse(deck));
+        ctx.reRoute(`/Decks/Editor/${id}`, {deck: deck});
+    } catch (e){
+        throw new Error("There was a problem updating the deck!");
+    }
 });
 
 Editor.use("/New", async(ctx:Context)=>{
@@ -46,7 +56,14 @@ Editor.use("/:id", async(ctx:Context)=>{
     const database = await Database();
 
     const id = ctx.params.get("id");
-    const results = await database.getDocument("MtgDecks", id);
+    let results:any = ctx.params.get("deck");
+
+    if(results){
+        results = JSON.parse(results);
+        results.id = id;
+    } else {
+        results = await database.getDocument("MtgDecks", id);
+    }
 
     if(typeof results === "undefined")
         throw new Error("Unable to find id: " + id);

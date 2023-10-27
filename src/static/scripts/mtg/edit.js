@@ -1,5 +1,4 @@
 import * as Scryfall from "/scryfall.js";
-import {Database} from "/firebase.js";
 
 const REMOVE_FROM_CARDS = [
     "manaCost",
@@ -15,7 +14,6 @@ export default function Edit(){
 
 function performEdit(event){
     event.preventDefault();
-    disableAll();
 
     try {
         const id = document.querySelector("#submit").getAttribute("target").trim();
@@ -48,15 +46,7 @@ function performEdit(event){
                 }
             }
         }
-
-
-        //Submit here instead becasue can't use routing option.
-        Database.updateDocument("MtgDecks", id, deck).then(()=>{
-            enableAll();
-            alert("Success");
-        }).catch(e=>{
-            throw e;
-        });
+        window.route("/Decks/Editor/Update/" + id, {deck: JSON.stringify(deck)});
 
     } catch (e){
         console.error(e);
@@ -64,17 +54,4 @@ function performEdit(event){
     }
 
     return false;
-}
-
-function disableAll(){
-    for(let node of Array.from(document.querySelector("#deckEditor").children)){
-        node.disabled = true;
-    }
-}
-
-function enableAll(){
-    for(let node of Array.from(document.querySelector("#deckEditor").children)){
-        if(!node.classList.contains('disabled'))
-            node.disabled = false;
-    }
 }

@@ -2,7 +2,7 @@ const path = require('path');
 const TerserPlugin = require("terser-webpack-plugin");
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlMinimizerPlugin = require("html-minimizer-webpack-plugin");
-const CssMinimizerPlugin = require("css-minimizer-webpack-plugin")
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 
 //directories used multiple times
 const build_directory = path.resolve(__dirname, 'build');
@@ -30,7 +30,6 @@ module.exports = {
       path.join(source_directory, 'styles', 'index.scss')
     ],
     firebase: path.join(source_directory, "scripts", "firebase.ts"),
-    masonry: path.join(source_directory, "scripts", "masonry.ts"),
     scryfall: path.join(source_directory, "scripts", "scryfall.ts")
   },
   devtool: prod? undefined: 'source-map',

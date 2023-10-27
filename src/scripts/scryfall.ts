@@ -4,9 +4,10 @@
  * 
  * @author Alex Malotky
  */
-import DeckEditor from "./Util/Custom Elements/DeckEditor";
-import {Card} from "./Util/Custom Elements/CardElemet";
-export {DeckEditor};
+import DeckEditor from "./Util/Custom Elements/Mtg/DeckEditor";
+import DeckView from "./Util/Custom Elements/Mtg/DeckView";
+import {Card} from "./Util/Custom Elements/Mtg/Edit/CardInputElemet";
+export {DeckEditor, DeckView};
 
 /** Query For Card
  * 

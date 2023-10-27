@@ -17,6 +17,7 @@ export default class Core extends Route{
     private _defaultContent: string;
     private _routing: boolean;
     private _loadingError: Array<any>;
+    private _history: Array<string>;
 
     //HTML elements
     private _title: HTMLElement;
@@ -31,10 +32,9 @@ export default class Core extends Route{
         
         window.onpopstate = () => this.handler();
         window.onload = () => this.start();
-        (window as any).route = (event:Event) => this.route(event);
+        (window as any).route = (href:Event|string, body?:FormData) => this.route(href, body);
 
         this._loadingError = [];
-
         this._routing = false;
     }
 
@@ -42,19 +42,22 @@ export default class Core extends Route{
      * 
      * Loads content, title, and description.
      */
-    private handler(timeout:number = CSS_TRANSITION_TIME): void{
+    private handler(timeout:number = CSS_TRANSITION_TIME, body?:FormData): void{
         this._routing = true;
 
-        const context = new Context(window.location);
+        const context = new Context(window.location, body);
         this._target.style.opacity = "0";
 
         window.setTimeout(() => {
             this._target.ontransitionend = undefined;
 
             //Wait for routing & rendering to finish
-            context.onDone(async (newPath?:string)=>{
+            context.onDone(async (newPath:string, body:any)=>{
                 if(newPath) {
-                    this.go(newPath, 0);
+                    if(newPath === "back")
+                        newPath = this.back;
+
+                    this.go(newPath, 0, body);
                 } else {
                     await this.display(context);
                 }
@@ -84,22 +87,36 @@ export default class Core extends Route{
      * 
      * @param {Event} event 
      */
-    protected route(event?: any): void{
+    protected route(event?: Event|string, body?:FormData): void{
         event = event || window.event;
         if(event instanceof Event){
             event.preventDefault();
             event = (event.target as HTMLAnchorElement).href;
         }
-        
 
         if(!this._routing && this._loadingError.length === 0){
-            this.go(event)
+            this.go(event, undefined, body);
         }
     }
 
-    public go(path: string, timeout?: number){
+    public go(path: string, timeout?: number, body?:FormData){
+        this.back = path;
         window.history.pushState({}, "", path);
-        this.handler(timeout);
+        this.handler(timeout, body);
+    }
+
+    public get back():string{
+        for(let i = this._history.length-1; i>=0; i--){
+            if(this._history[i] !== this.pathname)
+                return this._history[i];
+        }
+
+        return "/";
+    }
+
+    public set back(value:string) {
+        if(value !== this._history[this._history.length-1])
+            this._history.push(value);
     }
 
     /** Start App Function
@@ -119,6 +136,8 @@ export default class Core extends Route{
         if(this._defaultContent === null){
             this._defaultContent = "";
         }
+
+        this._history = [this.pathname];
 
         if(this._loadingError.length > 0){
             this._target.innerHTML = makeErrorMessage("App Failed to Load!");
@@ -251,6 +270,13 @@ export default class Core extends Route{
      */
     public get hostname(): string{
         return window.location.hostname;
+    }
+
+    /** Pathname Getter
+     * 
+     */
+    public get pathname():string{
+        return window.location.pathname;
     }
 }
 

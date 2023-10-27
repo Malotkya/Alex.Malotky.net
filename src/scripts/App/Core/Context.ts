@@ -4,6 +4,11 @@
  */
 export type Executable = (context?:Context)=>Promise<void>|void;
 
+interface route {
+    path: string,
+    body: any
+}
+
 /** Context Class
  * 
  * Contains information that can be modified by middleware.
@@ -23,7 +28,7 @@ export default class Context{
     private _title: string;
     private _info: string;
     private _connected: Executable;
-    private _newRoute: string|undefined;
+    private _newRoute: route|undefined;
 
     //app
     private _done: boolean|Function|undefined;
@@ -32,7 +37,7 @@ export default class Context{
      * 
      * @param {Location} l 
      */
-    constructor(l: Location){
+    constructor(l: Location, body?:FormData|any){
         this._port = l.port;
         this._host = l.hostname;
         this._path = l.pathname;
@@ -45,6 +50,15 @@ export default class Context{
         for(let args of location.search.substring(1).split('&')){
             let buffer = decodeURIComponent(args).split("=");
             this._gets.set(buffer[0], buffer[1]);
+        }
+        if(typeof body !== "undefined"){
+            if( body instanceof FormData ) {
+                for(let [name, value] of body.entries())
+                    this._gets.set(name, value.toString());
+            } else {
+                for(let name in body)
+                    this._gets.set(name, String(body[name]));
+            }
         }
     }
 
@@ -149,8 +163,11 @@ export default class Context{
         return this._connected;
     }
 
-    public reRoute(path: string){
-        this._newRoute = path;
+    public reRoute(path: string, body?:any){
+        this._newRoute = {
+            path: path,
+            body: body
+        };
         this.done();
     }
 
@@ -161,19 +178,19 @@ export default class Context{
                 break;
 
             case "function":
-                this._done(this._newRoute);
+                this._done(this._newRoute?.path, this._newRoute?.body);
 
             default:
                 this._done = true;
         }
     }
 
-    public onDone(callback:(s?:string)=>Promise<void>){
+    public onDone(callback:(s?:string, b?:any)=>Promise<void>){
         if(typeof callback !== "function")
             throw new TypeError(`Unknown type '${typeof callback}' for done Event!`);
 
         if(typeof this._done === "boolean") {
-            callback(this._newRoute);
+            callback(this._newRoute?.path, this._newRoute?.body);
             this._done = true;
         } else {
             this._done = callback;

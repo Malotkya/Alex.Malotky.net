@@ -2,16 +2,16 @@
  * 
  * @author Alex Malotky
  */
-import App, { Context, HtmlError } from "./App";
+import App, { Context, HtmlError } from "./backend/App";
 
-import {Home} from "./Routes/Home";
-import {Resume} from "./Routes/Resume";
-import {Portfolio} from "./Routes/Portfolio";
-import {AboutMe} from "./Routes/AboutMe";
-import { MtgDecks } from "./Routes/MtgDecks";
-import { Login } from "./Routes/Login";
+import {Home} from "./routes/home";
+import {Resume} from "./routes/resume";
+import {Portfolio} from "./routes/portfolio";
+import {AboutMe} from "./routes/about";
+import { MtgDecks } from "./routes/mtg";
+import { Login } from "./routes/login";
 
-const pkg:any = require("../../package.json");
+const pkg:any = require("../package.json");
 const app:App = new App();
 
 app.add("/", Home);

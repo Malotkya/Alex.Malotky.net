@@ -11,6 +11,6 @@ export const Home = new Router("Home");
 
 
 Home.use(async(ctx:Context)=>{
-    ctx.body = await render("home.html");
     ctx.connected = await execute("home.js");
+    ctx.body = await render("home.html");
 });

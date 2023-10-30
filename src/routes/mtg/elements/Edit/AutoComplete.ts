@@ -5,7 +5,7 @@
  * 
  * @author Alex Malotky
  */
-import {getShard} from "../../../../scryfall";
+import {getShard} from "../../../../util/Scryfall";
 
 /** Auto Complete Element
  * 

@@ -1,4 +1,4 @@
-import { Card } from "./Edit/CardInputElemet";
+import {Card} from "../../../util/Scryfall";
 import CategoryView from "./View/Category";
 import Masonry from "masonry-layout";
 

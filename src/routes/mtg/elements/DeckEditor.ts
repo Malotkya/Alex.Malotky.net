@@ -4,7 +4,8 @@
  */
 import CategoryElement from "./Edit/CategoryElement";
 import DeckListDialog from "./Edit/DeckListDialog";
-import CardElement, {Card} from "./Edit/CardInputElemet";
+import CardElement from "./Edit/CardInputElemet";
+import {Card} from "../../../util/Scryfall";
 
 /** Deck Interface
  * 

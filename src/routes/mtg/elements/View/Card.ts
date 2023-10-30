@@ -1,4 +1,4 @@
-import { Card } from "../Edit/CardInputElemet";
+import { Card } from "../../../../util/Scryfall";
 
 export default class CardElement extends HTMLLIElement {
     private _name:string;

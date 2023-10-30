@@ -2,7 +2,8 @@
  * 
  * @author Alex Malotky
  */
-import CardElement, {Card} from "./CardInputElemet";
+import CardElement from "./CardInputElemet";
+import {Card} from "../../../../util/Scryfall";
 
 /** Category Element
  * 

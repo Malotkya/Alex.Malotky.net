@@ -1,5 +1,3 @@
-import * as Scryfall from "/scryfall.js";
-
 const REMOVE_FROM_CARDS = [
     "manaCost",
     "art"

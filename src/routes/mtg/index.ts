@@ -7,6 +7,10 @@ import Database from "../../util/Database";
 import {cache} from "../../util/Memory";
 import Authentication from "../../util/Authentication";
 
+import DeckEditor from "./elements/DeckEditor";
+import DeckView from "./elements/DeckView";
+export {DeckEditor, DeckView};
+
 /** Mtg Module
  * 
  */

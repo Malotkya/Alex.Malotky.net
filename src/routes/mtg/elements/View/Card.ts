@@ -38,11 +38,12 @@ export default class CardElement extends HTMLLIElement {
         const list: Array<HTMLElement> = [];
 
         if(this._images.length !== 0){
+            const altText = split(this._name);
 
-            for(let side in this._images){
+            for(let i=0; i<this._images.length; i++){
                 const img = document.createElement("img");
-                img.alt = `${this._name} ${side}`;
-                img.src = this._images[side];
+                img.alt = `${altText(i)} ${side(i)}`;
+                img.src = this._images[i];
                 list.push(img);
             }
 
@@ -82,6 +83,36 @@ export default class CardElement extends HTMLLIElement {
         this.innerHTML = "";
         this.appendChild(this.name);
         this.appendChild(this.figure);
+    }
+}
+
+/** Side Text
+ * 
+ * @param {number} s 
+ * @returns {string}
+ */
+function side(s:number):string {
+    if(s === 0)
+        return "Front";
+
+    if(s === 1)
+        return "Back";
+
+    return "Side " + s;
+}
+
+/** Split Names into Sides
+ * 
+ * @param {string} name 
+ * @returns {Function}
+ */
+function split(name:string):(i:number)=>string{
+    const array: Array<string> = name.split("//");
+    return (s:number):string =>{
+        if(s >= array.length)
+            s = array.length - 1;
+
+        return array[s];
     }
 }
 

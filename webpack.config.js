@@ -34,7 +34,6 @@ module.exports = {
       path.join(source_directory, 'index.scss')
     ],
     firebase: path.join(source_directory, "firebase.ts"),
-    scryfall: path.join(source_directory, "scryfall.ts")
   },
   devtool: prod? undefined: 'source-map',
   module: {

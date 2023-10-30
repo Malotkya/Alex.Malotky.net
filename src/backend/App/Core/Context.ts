@@ -37,7 +37,7 @@ export default class Context{
      * 
      * @param {Location} l 
      */
-    constructor(l: Location, body?:FormData|any){
+    constructor(l: Location, body?:FormData|Map<any, any>|any){
         this._port = l.port;
         this._host = l.hostname;
         this._path = l.pathname;
@@ -51,10 +51,13 @@ export default class Context{
             let buffer = decodeURIComponent(args).split("=");
             this._gets.set(buffer[0], buffer[1]);
         }
-        if(typeof body !== "undefined"){
-            if( body instanceof FormData ) {
+        if(typeof body !== "undefined") {
+            if(body instanceof FormData){
                 for(let [name, value] of body.entries())
                     this._gets.set(name, value.toString());
+            } else if(body instanceof Map) {
+                for(let [name, value] of body.values())
+                    this._gets.set(String(name), String(value));
             } else {
                 for(let name in body)
                     this._gets.set(name, String(body[name]));
@@ -143,14 +146,16 @@ export default class Context{
      * 
      */
     set title(value: string){
-        this._title = String(value);
+        if(value !== "")
+            this._title = String(value);
     }
 
     /** HTML Description Setter
      * 
      */
     set info(value: string){
-        this._info = String(value);
+        if(value !== "")
+            this._info = String(value);
     }
 
     set connected(value: Executable){

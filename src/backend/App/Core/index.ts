@@ -32,8 +32,9 @@ export default class Core extends Route{
         
         window.onpopstate = () => this.handler();
         window.onload = () => this.start();
-        (window as any).route = (href:Event|string, body?:FormData) => this.route(href, body);
+        (window as any).route = (href:Event|string, body?:any) => this.route(href, body);
 
+        this._history = [];
         this._loadingError = [];
         this._routing = false;
     }
@@ -42,7 +43,7 @@ export default class Core extends Route{
      * 
      * Loads content, title, and description.
      */
-    private handler(timeout:number = CSS_TRANSITION_TIME, body?:FormData): void{
+    private handler(timeout:number = CSS_TRANSITION_TIME, body?:any): void{
         this._routing = true;
 
         const context = new Context(window.location, body);
@@ -52,7 +53,7 @@ export default class Core extends Route{
             this._target.ontransitionend = undefined;
 
             //Wait for routing & rendering to finish
-            context.onDone(async (newPath:string, body:any)=>{
+            context.onDone(async (newPath?:string, body?:any)=>{
                 if(newPath) {
                     if(newPath === "back")
                         newPath = this.back;
@@ -87,7 +88,7 @@ export default class Core extends Route{
      * 
      * @param {Event} event 
      */
-    protected route(event?: Event|string, body?:FormData): void{
+    protected route(event?: Event|string, body?:any): void{
         event = event || window.event;
         if(event instanceof Event){
             event.preventDefault();
@@ -99,7 +100,7 @@ export default class Core extends Route{
         }
     }
 
-    public go(path: string, timeout?: number, body?:FormData){
+    public go(path: string, timeout?: number, body?:any){
         this.back = path;
         window.history.pushState({}, "", path);
         this.handler(timeout, body);
@@ -137,7 +138,7 @@ export default class Core extends Route{
             this._defaultContent = "";
         }
 
-        this._history = [this.pathname];
+        this._history.push(this.pathname);
 
         if(this._loadingError.length > 0){
             this._target.innerHTML = makeErrorMessage("App Failed to Load!");
@@ -219,7 +220,7 @@ export default class Core extends Route{
      */
     private display(context: Context): Promise<void>{
         return new Promise((resolve, reject)=>{
-            this._target.ontransitionend = async() => {
+            this._target.ontransitionend = () => {
                 this._target.ontransitionend = undefined
                 context.connected(context);
                 resolve();
@@ -382,14 +383,17 @@ export function findOrCreateNode(name?:string, ...parents:Array<string>): HTMLEl
     let newNode = document.createElement(name);
     if(id)
         newNode.id = id;
+    
     if(className)
         newNode.className = className;
 
-    for(let string of attributes){
-        string = string.trim();
-        if(string.length > 3){
-            const buffer = string.split("=");
-            newNode.setAttribute(buffer[0], buffer[1]);
+    if(attributes){
+        for(let string of attributes){
+            string = string.trim();
+            if(string.length > 3){
+                const buffer = string.split("=");
+                newNode.setAttribute(buffer[0], buffer[1]);
+            }
         }
     }
 

@@ -1,13 +1,31 @@
-/** Scryfall.ts
+/** /util/Scryfall.ts
  * 
  * Interacts with shards created by "npm run scryfall"
  * 
  * @author Alex Malotky
  */
-import DeckEditor from "./routes/mtg/elements/DeckEditor";
-import DeckView from "./routes/mtg/elements/DeckView";
-import {Card} from "./routes/mtg/elements/Edit/CardInputElemet";
-export {DeckEditor, DeckView};
+
+/** Card Interface
+ * 
+ * Information of a card and optional information from
+ * scryfall.
+ */
+export interface Card {
+    count: number,
+    name: string,
+    set: string,
+    collector_number: string,
+    foil: boolean,
+    image?: Array<string>,
+
+    //Possible Data from Scryfall
+    sets?: any,
+    art?: string,
+    manaCost?: string,
+    manaValue?: number,
+    typeLine?:string,
+    oracle?: string
+}
 
 /** Query For Card
  * 

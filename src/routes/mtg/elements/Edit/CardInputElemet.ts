@@ -2,30 +2,8 @@
  * 
  * @author Alex Malotky
  */
-import { queryForCard } from "../../../../scryfall";
+import { queryForCard, Card } from "../../../../scryfall";
 import AutoComplete from "./AutoComplete";
-
-/** Card Interface
- * 
- * Information of a card and optional information from
- * scryfall.
- */
-export interface Card {
-    count: number,
-    name: string,
-    set: string,
-    collector_number: string,
-    foil: boolean,
-    image?: Array<string>,
-
-    //Possible Data from Scryfall
-    sets?: any,
-    art?: string,
-    manaCost?: string,
-    manaValue?: number,
-    typeLine?:string,
-    oracle?: string
-}
 
 const BLANK_CARD:Card = {
     count: -1,

@@ -14,7 +14,7 @@ Login.use("/Login", async(ctx: Context)=>{
     const username:string = ctx.params.get("username") || "";
     const password:string = ctx.params.get("password") || "";
 
-    if(username !== "" || password !== ""){
+    if(username !== "" && password !== ""){
         try {
             if(await auth.signInUser(username, password)) {
                 return ctx.reRoute("back");

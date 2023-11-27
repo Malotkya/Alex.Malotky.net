@@ -97,7 +97,6 @@ export function render(filename: string, args?: any): Promise<string>{
  * @param {string} filename
  */
 export async function execute(filename: string): Promise<Executable>{
-    //@ts-ignore
     let module: any;
     try{
         module = (await import(/*webpackIgnore: true*/ "/scripts/"+filename));

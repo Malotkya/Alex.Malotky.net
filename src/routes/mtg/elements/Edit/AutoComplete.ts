@@ -7,6 +7,8 @@
  */
 import {getShard} from "../../../../util/Scryfall";
 
+const MAX_LIST_LENGTH:number = 10;
+
 /** Auto Complete Element
  * 
  * Wraps around an already created input element.
@@ -136,10 +138,16 @@ export default class AutoComplete extends HTMLElement {
             if(value.trim() === "")
                 return;
             
-            this.updateList(value.match(/[A-Z0-9_]/)[0]).then(()=>{
-                for(let name of this._list){
+            const match = value.match(/[A-Z0-9_]/);
+            this.updateList(match? match[0]: "?").then(()=>{
+                let count:number = 0;
+                for(let index:number = 0; index < this._list.length; index++){
+                    const name = this._list[index];
 
                     if(name.substring(0, value.length).toUpperCase() === value) {
+
+                        if(++count >= MAX_LIST_LENGTH)
+                            index = this._list.length;
 
                         const item = document.createElement("div");
                         item.innerHTML = `<strong>${name.substring(0, value.length)}</strong>${name.substring(value.length)}`;

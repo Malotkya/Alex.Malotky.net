@@ -133,10 +133,7 @@ export default class Core extends Route{
         }
 
         this._defaultTitle = this._title.textContent;
-        this._defaultContent = this._description.getAttribute("content");
-        if(this._defaultContent === null){
-            this._defaultContent = "";
-        }
+        this._defaultContent = this._description.getAttribute("content") || "";
 
         this._history.push(this.pathname);
 
@@ -221,9 +218,14 @@ export default class Core extends Route{
     private display(context: Context): Promise<void>{
         return new Promise((resolve, reject)=>{
             this._target.ontransitionend = () => {
-                this._target.ontransitionend = undefined
-                context.connected(context);
-                resolve();
+                try {
+                    this._target.ontransitionend = undefined
+                    context.connected(context);
+                    resolve();
+                } catch (e){
+                    reject(e);
+                }
+                
             }
     
             this.body = context.body;
@@ -239,7 +241,7 @@ export default class Core extends Route{
      * 
      */
     protected set body(value: string){
-        this._target.innerHTML = value;
+            this._target.innerHTML = value;
     }
 
     /** Title Setter

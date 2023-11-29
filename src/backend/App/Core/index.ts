@@ -50,8 +50,6 @@ export default class Core extends Route{
         this._target.style.opacity = "0";
 
         window.setTimeout(() => {
-            this._target.ontransitionend = undefined;
-
             //Wait for routing & rendering to finish
             context.onDone(async (newPath?:string, body?:any)=>{
                 if(newPath) {
@@ -218,8 +216,9 @@ export default class Core extends Route{
     private display(context: Context): Promise<void>{
         return new Promise((resolve, reject)=>{
             this._target.ontransitionend = () => {
+                this._target.ontransitionend = undefined
+                
                 try {
-                    this._target.ontransitionend = undefined
                     context.connected(context);
                     resolve();
                 } catch (e){

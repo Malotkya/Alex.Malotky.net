@@ -166,7 +166,7 @@ export default class Core extends Route{
      * @param {string} href 
      */
     protected link(href:string):void{
-        window.open(href, '_blank').focus();
+        window.open(href, '_blank' , 'noopener,noreferrer');
     }
 
     /** App Loading Failed

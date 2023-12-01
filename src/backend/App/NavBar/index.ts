@@ -78,11 +78,11 @@ export default class NavBar{
         link.textContent = router.title;
         item.appendChild(link);
 
-        const subRouters = router.subRouters();
+        /*const subRouters = router.subRouters();
         if(subRouters.length > 0){
             //TODO: create drop down if router has sub-routes. 
             console.log(subRouters);
-        }
+        }*/
 
         this._list.appendChild(item);
     }

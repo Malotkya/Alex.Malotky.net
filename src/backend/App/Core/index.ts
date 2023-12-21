@@ -131,7 +131,7 @@ export default class Core extends Route{
             this.failed(err);
         }
 
-        this._defaultTitle = this._title.textContent;
+        this._defaultTitle = this._title.textContent || "";
         this._defaultContent = this._description.getAttribute("content") || "";
 
         this._history.push(this.pathname);
@@ -215,10 +215,14 @@ export default class Core extends Route{
      * @param {Context} context  
      */
     private display(context: Context): Promise<void>{
-        return new Promise((resolve, reject)=>{
-            this._target.ontransitionend = () => {
-                this._target.ontransitionend = undefined
-                
+        return new Promise((resolve, reject)=>{   
+            //Set all values.
+            this.body = context.body;
+            this.title = context.title;
+            this.description = context.info;
+
+            //Run code after transition.
+            window.setTimeout(() => {              
                 try {
                     context.connected(context);
                     resolve();
@@ -226,11 +230,7 @@ export default class Core extends Route{
                     reject(e);
                 }
                 
-            }
-    
-            this.body = context.body;
-            this.title = context.title;
-            this.description = context.info;
+            }, CSS_TRANSITION_TIME);
     
             //Start Transition In
             this._target.style.opacity = "";
@@ -350,24 +350,21 @@ export function findOrCreateNode(name?:string, ...parents:Array<string>): HTMLEl
         throw new TypeError(`Unknown type '${typeof name}' for query string`);
     }
 
-    let node:HTMLElement = document.querySelector(name);
+    let node:HTMLElement | null = document.querySelector(name);
     if(node)
         return node;
 
     node = findOrCreateNode(...parents);
 
-    let attributes: Array<string>;
+    let attributes: Array<string>|undefined;
     let index = name.indexOf("[");
     if(index > 0){
-        attributes = name.replace(/.*?\[(.*?)='(.*?)'\]?/gm, "$1=$2 ").split(/\s+/gm);
-        if(attributes === null){
-            attributes = [];
-        }
+        attributes = name.replace(/.*?\[(.*?)='(.*?)'\]?/gm, "$1=$2 ").split(/\s+/gm) || [];
         name = name.substring(0, index);
     }
 
-    let id:string;
-    let className:string;
+    let id:string|undefined;
+    let className:string|undefined;
 
     index = name.indexOf("#");
     if(index >= 0) {

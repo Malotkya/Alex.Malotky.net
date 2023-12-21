@@ -87,7 +87,8 @@ export default class Core extends Route{
      * @param {Event} event 
      */
     protected route(event?: Event|string, body?:any): void{
-        event = event || window.event;
+        event = event || window.event || "/";
+        
         if(event instanceof Event){
             event.preventDefault();
             event = (event.target as HTMLAnchorElement).href;
@@ -239,8 +240,11 @@ export default class Core extends Route{
     /** Body Setter
      * 
      */
-    protected set body(value: string){
-            this._target.innerHTML = value;
+    protected set body(value: HTMLElement){
+        this._target.innerHTML = "";
+
+        for(let child of value.childNodes)
+            this._target.appendChild(child);
     }
 
     /** Title Setter

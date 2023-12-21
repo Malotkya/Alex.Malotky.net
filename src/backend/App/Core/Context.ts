@@ -9,6 +9,13 @@ interface route {
     body: any
 }
 
+class HTMLBodyElement extends HTMLElement{
+    public connectedCallback(){
+        throw new Error("This Element should never be rendered!");
+    }
+};
+customElements.define("body-element", HTMLBodyElement, {extends: "main"});
+
 /** Context Class
  * 
  * Contains information that can be modified by middleware.
@@ -24,7 +31,7 @@ export default class Context{
     private _params: Map<string, string>;
 
     //Information gnerated by users.
-    private _body: string;
+    private _body: HTMLBodyElement;
     private _title: string;
     private _info: string;
     private _connected: Executable;
@@ -41,7 +48,7 @@ export default class Context{
         this._port = l.port;
         this._host = l.hostname;
         this._path = l.pathname;
-        this._body = "";
+        this._body = new HTMLBodyElement;
         this._title = "";
         this._info = "";
         this._connected = ()=>undefined;
@@ -89,7 +96,7 @@ export default class Context{
     /** HTML Body Getter
      * 
      */
-    get body(): string{
+    get body(): HTMLBodyElement{
         return this._body;
     }
 
@@ -119,9 +126,9 @@ export default class Context{
      */
     set body(value:string|HTMLElement){
         if(value instanceof HTMLElement)
-            this._body = value.outerHTML;
+            this._body.appendChild(value)
         else 
-            this._body = String(value);
+            this._body.innerHTML = String(value);
         this.done();
     }
 

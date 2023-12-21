@@ -4,6 +4,7 @@
  */
 import {Router, Context, render} from "../../backend/App";
 
+
 /** Portfolio Router
  * 
  */
@@ -12,5 +13,5 @@ export const Portfolio = new Router("Portfolio",
     );
 
 Portfolio.use(async(ctx:Context)=>{
-    ctx.body = await render("portfolio.html");
+    ctx.body = require("./index.html");
 });

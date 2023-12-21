@@ -53,11 +53,16 @@ module.exports = {
           },
           'sass-loader'
         ]
-      }
+      },
+      {
+        test: /.html$/i,
+        type:'asset/source',
+        exclude: /node_modules/,
+    }
     ],
   },
   resolve: {
-    extensions: ['.tsx', '.ts', '.js'],
+    extensions: ['.tsx', '.ts', '.js', '.html'],
   },
   experiments: {
     outputModule: true

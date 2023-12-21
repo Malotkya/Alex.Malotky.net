@@ -5,12 +5,14 @@ const HtmlMinimizerPlugin = require("html-minimizer-webpack-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const SpliceWebpackPlugin = require("./webpack/SpliceWebpackPlugin.js");
 const TemplateBuilder = require("./webpack/TemplateBundler.js");
+const ModuleBundler = require("./webpack/ModuleBunder.js");
 
 //directories used multiple times
 const build_directory = path.resolve(__dirname, 'build');
 const source_directory = path.resolve(__dirname, "src");
 
-const bundleTemplates = TemplateBuilder(build_directory, source_directory);;
+const bundleTemplates = TemplateBuilder(build_directory, source_directory);
+const buildModule = ModuleBundler(build_directory, source_directory);
 
 //test if in production environment
 const prod = process.argv.includes('prod');
@@ -34,6 +36,7 @@ module.exports = {
       path.join(source_directory, 'index.scss')
     ],
     firebase: path.join(source_directory, "firebase.ts"),
+    ...buildModule("routes")
   },
   devtool: prod? undefined: 'source-map',
   module: {

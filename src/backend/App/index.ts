@@ -42,7 +42,7 @@ export default class App extends Core {
      */
     private checkRoute(event: Event){
         const target:HTMLElement = event.target as HTMLElement;
-        const link:HTMLAnchorElement = target.closest("a");
+        const link:HTMLAnchorElement|null = target.closest("a");
         
         if(link){
             event.preventDefault();

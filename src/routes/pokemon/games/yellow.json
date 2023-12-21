@@ -1,0 +1,155 @@
+
+{
+    "game": "Pokemon Yellow Version",
+    "generation": 1,
+    "region": "Kanto",
+    "team": [
+        {   "name": "Pikachu",
+            "level": 48,
+            "moves": [
+                "Thunderbolt",
+                "Body Slam",
+                "Submission",
+                "Thunder Wave"
+            ],
+            "stats": {
+                "attack": 73,
+                "defense": 48,
+                "speed": 117,
+                "special": 76,
+                "health": 119
+            },
+            "types": [
+                "Electric"
+            ]
+        },
+        {   "name": "Nidoking",
+            "level": 48,
+            "moves": [
+                "Toxic",
+                "Rock Slide",
+                "Earthquake",
+                "Ice Beam"
+            ],
+            "stats": {
+                "attack": 105,
+                "defense": 91,
+                "speed": 108,
+                "special": 100,
+                "health": 152
+            },
+            "types": [
+                "Poison",
+                "Ground"
+            ]
+        },
+        {   "name": "Venusaur",
+            "level": 46,
+            "moves": [
+                "Cut",
+                "Poison Powder",
+                "Leech Seed",
+                "Razor Leaf"
+            ],
+            "stats": {
+                "attack": 104,
+                "defense": 106,
+                "speed": 101,
+                "special": 116,
+                "health": 145
+            },
+            "types": [
+                "Grass",
+                "Poison"
+            ]
+        },
+        {   "name": "Charzard",
+            "level": 46,
+            "moves": [
+                "Strength",
+                "Swords Dance",
+                "Flamethrower",
+                "Dig"
+            ],
+            "stats": {
+                "attack": 92,
+                "defense": 102,
+                "speed": 108,
+                "special": 98,
+                "health": 142
+            },
+            "types": [
+                "Fire",
+                "Flying"
+            ]
+        },
+        {   "name": "Blastoise",
+            "level": 46,
+            "moves": [
+                "Take Down",
+                "Withdraw",
+                "Blizard",
+                "Surf"
+            ],
+            "stats": {
+                "attack": 104,
+                "defense": 123,
+                "speed": 87,
+                "special": 100,
+                "health": 143
+            },
+            "types": [
+                "Water"
+            ]
+        },
+        {   "name": "Mew",
+            "level": 50,
+            "moves": [
+                "Psychic",
+                "Fly",
+                "Thunderbolt",
+                "Swift"
+            ],
+            "stats": {
+                "attack": 128,
+                "defense": 120,
+                "speed": 131,
+                "special": 123,
+                "health": 172
+            },
+            "types": [
+                "Psychic"
+            ]
+        }
+    ],
+    "others": [
+        {   "name": "Buterfree",
+            "level": 15,
+            "moves": [
+                "Tackle",
+                "Flash",
+                "Sleep Powder",
+                "Confusion"
+            ],
+            "stats":{
+                "attack": 21,
+                "defense": 24,
+                "speed": 28,
+                "special": 32,
+                "health": 44
+            },
+            "types":[
+                "Bug",
+                "Flying"
+            ]
+        }
+    ],
+    "comments": [
+        "Fun fact: Pokemon yellow was the first Gameboy Color game that I ever had!",
+        "Generation one is more rough then I remember, sleep, paralysis, and confusion are much more brutal then they are in later games.",
+        "I also think that my team could have been better if I had planned a little better.  Maybe gone with Haunter instead of Nidoking would have given me a better type coverage (looking at you Alakazam).  I also think giving Blastoise body slam would have been smarter than giving it to Pikachu.  Then Pikachu could have used swift and Mew could have kept tri attack.",
+        "For the moves that everyone does have, it is mostly for type coverage or so that I don't have to keep swapping out Pokemon to use HM's.  I wanted to make sure I had a psychic type, something that knows earthquake, and swift for when my opponents had minimized into oblivion. I was also hopping to get Venusaur to learn sleep powder, but never got to a high enough level",
+        "I used the glitch at Nugget Bridge to catch mew.",
+        "Lastly, I used Buterfree for flash in Rock Tunnel and to put Mew to sleep to make it easier to catch."
+    ]
+}

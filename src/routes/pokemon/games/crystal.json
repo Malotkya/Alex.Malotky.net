@@ -1,0 +1,188 @@
+
+{
+    "game": "Pokemon Crystal Version",
+    "generation": 2,
+    "region": "Johto // Kanto",
+    "team": [
+        {   "name": "Typhlosion",
+            "level": 60,
+            "moves": [
+                "Flamethrower",
+                "Thunder Punch",
+                "Dynamic Punch",
+                "Iron Tail"
+            ],
+            "stats":{
+                "attack": 127,
+                "defense": 124,
+                "specialAttack": 158,
+                "specialDefence": 129,
+                "speed": 156,
+                "health": 198
+            },
+            "types":[
+                "Fire"
+            ],
+            "item": "Leftovers"
+        },
+        {   "name": "Victreebel",
+            "level": 60,
+            "moves": [
+                "Razor Leaf",
+                "Sludge Bomb",
+                "Growth",
+                "Sleep Powder"
+            ],
+            "stats":{
+                "attack": 165,
+                "defense": 102,
+                "specialAttack": 156,
+                "specialDefence": 108,
+                "speed": 116,
+                "health": 194
+            },
+            "types":[
+                "Grass",
+                "Poison"
+            ],
+            "item": "Miracle Seed"
+        },
+        {   "name": "Gyarados",
+            "level": 60,
+            "moves": [
+                "Waterfall",
+                "Thunderbolt",
+                "Icy Wind",
+                "Surf"
+            ],
+            "stats":{
+                "attack": 177,
+                "defense": 137,
+                "specialAttack": 98,
+                "specialDefence": 146,
+                "speed": 128,
+                "health": 210
+            },
+            "types":[
+                "Water",
+                "Flying"
+            ],
+            "item": "Never Melt Ice"
+        },
+        {   "name": "Espeon",
+            "level": 60,
+            "moves": [
+                "Psychic",
+                "Shadow Ball",
+                "Swift",
+                "Bite"
+            ],
+            "stats":{
+                "attack": 116,
+                "defense": 104,
+                "specialAttack": 182,
+                "specialDefence": 140,
+                "speed": 165,
+                "health": 181
+            },
+            "types":[
+                "Psychic"
+            ],
+            "item": "Black Glasses"
+        },
+        {   "name": "Togatic",
+            "level": 60,
+            "moves": [
+                "Psychic",
+                "Steel Wing",
+                "Toxic",
+                "Fly"
+            ],
+            "stats":{
+                "attack": 82,
+                "defense": 125,
+                "specialAttack": 128,
+                "specialDefence": 158,
+                "speed": 86,
+                "health": 170
+            },
+            "types":[
+                "Normal",
+                "Flying"
+            ],
+            "item": "Sharp Beak"
+        },
+        {   "name": "Piloswine",
+            "level": 60,
+            "moves": [
+                "Ice Beam",
+                "Earthquake",
+                "Strength",
+                "Rock Smash"
+            ],
+            "stats":{
+                "attack": 144,
+                "defense": 134,
+                "specialAttack": 104,
+                "specialDefence": 104,
+                "speed": 92,
+                "health": 216
+            },
+            "types":[
+                "Ice",
+                "Ground"
+            ],
+            "item": "Soft Sand"
+        }
+    ],
+    "others": [
+        {   "name": "Bellsprout",
+            "level": 5,
+            "moves": [
+                "Vine Whip",
+                "Flash",
+                "Cut"
+            ],
+            "stats":{
+                "attack": 13,
+                "defense": 9,
+                "specialAttack": 13,
+                "specialDefence": 9,
+                "speed": 9,
+                "health": 20
+            },
+            "types":[
+                "Grass",
+                "Poison"
+            ]
+        },
+        {   "name": "Tentacruel",
+            "level": 22,
+            "moves": [
+                "Poison Sting",
+                "Supersonic",
+                "Whirlpool",
+                "Acid"
+            ],
+            "stats":{
+                "attack": 37,
+                "defense": 40,
+                "specialAttack": 41,
+                "specialDefence": 58,
+                "speed": 55,
+                "health": 72
+            },
+            "types":[
+                "Water",
+                "Poison"
+            ]
+        }
+    ],
+    "comments": [
+        "So many quality of life upgrades from Generation 1.",
+        "The team you see above is the team that I used to defeat Red.  I had a hard counter for everything on his team except for his Snorlax, ended up relying on the confusion from Dynamic Punch.",
+        "This is the same team that I used to defeat the elite four, except I only really used Typhlosion, Victreebel, Gyarados, and Espeon there.",
+        "Similarly to yellow, I wish I had palnned a little better and had a fighting type to really close the coverage gap of normal types.",
+        "Lastyly, Bellsprout and Tentacruel are there for the HM moves Cut, Flash, and Whirlpool."
+    ]
+}

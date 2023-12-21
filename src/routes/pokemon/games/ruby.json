@@ -1,0 +1,226 @@
+
+{
+    "game": "Pokemon Ruby",
+    "generation": 3,
+    "region": "Hoenn",
+    "team": [
+        {   "name": "Marshtomp",
+            "level": 47,
+            "types":[
+                "Water",
+                "Ground"
+            ],
+            "item": "Sea Incense",
+            "nature": "Lonely",
+            "ability": "Torrent",
+            "stats":{
+                "health": 166,
+                "attack": 127,
+                "defense": 88,
+                "specialAttack": 99,
+                "specialDefence": 103,
+                "speed": 78
+            },
+            "moves": [
+                "Ice Beam",
+                "Brick Break",
+                "Earthquake",
+                "Surf"
+            ]
+            
+        },
+        {   "name": "Shiftry",
+            "level": 45,
+            "types":[
+                "Grass",
+                "Dark"
+            ],
+            "item": "Miracle Seed",
+            "nature": "Bashful",
+            "ability": "Early Bird",
+            "stats":{
+                "health": 156,
+                "attack": 110,
+                "defense": 65,
+                "specialAttack": 104,
+                "specialDefence": 67,
+                "speed": 92
+            },
+            "moves": [
+                "Faint Attack",
+                "Toxic",
+                "Growth",
+                "Bullet Seed"
+            ]
+        },
+        {   "name": "Crobat",
+            "level": 45,
+            "types":[
+                "Poison",
+                "Flying"
+            ],
+            "item": "",
+            "nature": "Relaxed",
+            "ability": "Inner Focus",
+            "stats":{
+                "health": 147,
+                "attack": 100,
+                "defense": 99,
+                "specialAttack": 82,
+                "specialDefence": 89,
+                "speed": 124
+            },
+            "moves": [ 
+                "Aerial Ace",
+                "Sludge Bomb",
+                "Steel Wing",
+                "Shadow Ball"
+            ]
+        },
+        {   "name": "Aggron",
+            "level": 45,
+            "types":[
+                "Steel",
+                "Rock"
+            ],
+            "item": "Hard Stone",
+            "nature": "Adamant",
+            "ability": "Sturdy",
+            "stats":{
+                "health": 133,
+                "attack": 123,
+                "defense": 182,
+                "specialAttack": 66,
+                "specialDefence": 67,
+                "speed": 65
+            },
+            "moves": [
+                "Iron Tail",
+                "Rock Tomb",
+                "Shock Wave",
+                "Dragon Claw"
+            ]
+        },
+        {   "name": "Alakazam",
+            "level": 46,
+            "types":[
+                "Psychic"
+            ],
+            "item": "Lax Incense",
+            "nature": "Docile",
+            "ability": "Inner Focus",
+            "stats":{
+                "health": 122,
+                "attack": 61,
+                "defense": 52,
+                "specialAttack": 141,
+                "specialDefence": 89,
+                "speed": 130
+            },
+            "moves": [
+                "Psychic",
+                "Ice Punch",
+                "Thunder Punch",
+                "Fire Punch"
+            ]
+        },
+        {   "name": "Groudon",
+            "level": 46,
+            "types":[
+                "Ground"
+            ],
+            "item": "Soft Sand",
+            "nature": "Docile",
+            "ability": "Drought",
+            "stats":{
+                "health": 160,
+                "attack": 150,
+                "defense": 141,
+                "specialAttack": 111,
+                "specialDefence": 95,
+                "speed": 93
+            },
+            "moves": [
+                "Slash",
+                "Solarbeam",
+                "Earthquake",
+                "Flamethrower"
+            ]
+        }
+    ],
+    "others": [
+        {   "name": "Linoone",
+            "level": 20,
+            "moves": [
+                "Strength",
+                "Secret Power",
+                "Rock Smash",
+                "Cut"
+            ],
+            "stats":{
+                "health": 66,
+                "attack": 34,
+                "defense": 33,
+                "specialAttack": 34,
+                "specialDefence": 34,
+                "speed": 48
+                
+            },
+            "types":[
+                "Normal"
+            ],
+            "nature": "Modest", 
+            "ability": "Pickup"
+        },
+        {   "name": "Tropius",
+            "level": 26,
+            "moves": [
+                "Fly",
+                "Razor Leaf",
+                "Strength",
+                "Cut"
+            ],
+            "stats":{
+                "health": 89,
+                "attack": 44,
+                "defense": 55,
+                "specialAttack": 48,
+                "specialDefence": 53,
+                "speed": 31
+            },
+            "types":[
+                "Grass",
+                "Flying"
+            ],
+            "nature": "Quiet", 
+            "ability": "Chlorophyll"
+        },
+        {   "name": "Gyarados",
+            "level": 24,
+            "types":[
+                "Water",
+                "Flying"
+            ],
+            "item": "",
+            "nature": "Docile",
+            "ability": "Intimidate",
+            "stats":{
+                "health": 85,
+                "attack": 71,
+                "defense": 45,
+                "specialAttack": 35,
+                "specialDefence": 59,
+                "speed": 47
+            },
+            "moves": [
+                "Waterfall",
+                "Surf",
+                "Bite",
+                "Dive"
+            ]
+        }
+    ],
+    "comments": [
+        "Besides the upgrade to using the PC/Boxes and Pokemon Natures, there aren't that many changes between Gen 2 and Gen 3 pokemon.  That said, its cool to see the graphical upgrades from a Gameboy Color to a Gameboy Advance."
+    ]
+}

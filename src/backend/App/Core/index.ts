@@ -243,8 +243,10 @@ export default class Core extends Route{
     protected set body(value: HTMLElement){
         this._target.innerHTML = "";
 
-        for(let child of value.childNodes)
-            this._target.appendChild(child);
+        while(value.firstChild) {
+            this._target.appendChild(value.firstChild);
+        }
+            
     }
 
     /** Title Setter

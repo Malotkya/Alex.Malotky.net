@@ -124,12 +124,14 @@ export default class Context{
     /** HTML Body Setter
      * 
      */
-    set body(value:string|HTMLElement){
-        if(value instanceof HTMLElement)
+    set body(value:string|HTMLElement|Array<HTMLElement>){
+        if(Array.isArray(value)){
+            for(let e of value)
+                this.body = e;
+        } else if(value instanceof HTMLElement)
             this._body.appendChild(value)
         else 
-            this._body.innerHTML = String(value);
-        this.done();
+            this._body.innerHTML += String(value);
     }
 
     /** Paramters Setter

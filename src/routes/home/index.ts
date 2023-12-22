@@ -11,5 +11,5 @@ export const Home = new Router("Home");
 
 
 Home.use(async(ctx:Context)=>{
-    ctx.module = await importModule("./home.js");
+    ctx.module = await importModule("home");
 });

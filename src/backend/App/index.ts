@@ -8,7 +8,7 @@ import NavBar from "./NavBar";
 import Router from "./Core/Router";
 
 //Export Classes and Functions
-import Context, { Executable } from "./Core/Context";
+import Context, { Content, Executable, Module } from "./Core/Context";
 export {Router, Context};
 export {makeErrorMessage, HtmlError} from "./Core";
 
@@ -110,4 +110,58 @@ export async function execute(filename: string): Promise<Executable>{
     
     
     return module.default;
+}
+
+export async function importModule(filename:string, args?:any): Promise<Module>{
+    let module: any;
+
+    try{
+        module = (await import(/*webpackIgnore: true*/ filename));
+    } catch(err){
+        console.error(err);
+        throw new Error(`There was a problem importing module at ${filename}!`);
+    }
+    let main:Executable|undefined;
+    let content: Content;
+    let defaultType = typeof module.default;
+
+    switch(typeof module.content){
+        case "undefined":
+            if(defaultType === "object" || defaultType === "string") {
+                content = module.default;
+            } else if(defaultType === "function"){
+                content = module.default(args);
+                defaultType = "undefined";
+            } else {
+                throw new Error(`No content found within module ${filename}!`);
+            }
+            break;
+
+        case "function":
+            content = module.content(args);
+            break;
+
+        default:
+            content = module.content;
+    }
+
+    switch (typeof module.main){
+        case "undefined":
+            if(defaultType === "function"){
+                main = module.default;
+            }
+        break;
+
+        case "function":
+            main = module.main;
+        break;
+
+        default:
+            throw new TypeError(`Unknown type ${typeof module.main} for exported Function in module ${filename}!`);
+    }
+
+    return {
+        content: content,
+        main: main
+    };
 }

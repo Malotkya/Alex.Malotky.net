@@ -3,8 +3,8 @@
  * 
  * @author Alex Malotky
  */
-import {Router} from "..";
-import { findOrCreateElement, createElement } from "../../../util/Elements";
+import {Router} from ".";
+import { findOrCreateElement, createElement } from "../../util/Elements";
 
 /** Navigation Bar Class
  * 

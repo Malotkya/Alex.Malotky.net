@@ -1,10 +1,9 @@
-import { createElement } from "../../backend/App";
+import { createElement } from "../../util/Elements";
 
 export default function Login(args:any) {
     let error:HTMLElement|null = null;
     if(args.error){
-        error = createElement("div", {class: "error"});
-        error.textContent = String(args.error);
+        error = createElement("div", {class: "error"}, String(args.error));
     }
 
     const form = createElement("form", {id: "login"},

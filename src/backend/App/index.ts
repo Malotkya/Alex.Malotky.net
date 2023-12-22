@@ -10,7 +10,7 @@ import Router from "./Core/Router";
 //Export Classes and Functions
 import Context, { Content, Executable, Module } from "./Core/Context";
 export {Router, Context};
-export {makeErrorMessage, HtmlError, createElement} from "./Core";
+export {makeErrorMessage, HtmlError} from "./Core";
 
 
 /** App Class
@@ -112,14 +112,15 @@ export async function execute(filename: string): Promise<Executable>{
     return module.default;
 }
 
-export async function importModule(filename:string, args?:any): Promise<Module>{
+export async function importModule(name:string, args?:any): Promise<Module>{
+    const filename:string = `./module/${name}.js`;
     let module: any;
 
     try{
         module = (await import(/*webpackIgnore: true*/ filename));
     } catch(err){
         console.error(err);
-        throw new Error(`There was a problem importing module at ${filename}!`);
+        throw new Error(`There was a problem importing module at ${name}!`);
     }
     let main:Executable|undefined;
     let content: Content;
@@ -133,7 +134,7 @@ export async function importModule(filename:string, args?:any): Promise<Module>{
                 content = module.default(args);
                 defaultType = "undefined";
             } else {
-                throw new Error(`No content found within module ${filename}!`);
+                throw new Error(`No content found within module ${name}!`);
             }
             break;
 
@@ -157,7 +158,7 @@ export async function importModule(filename:string, args?:any): Promise<Module>{
         break;
 
         default:
-            throw new TypeError(`Unknown type ${typeof module.main} for exported Function in module ${filename}!`);
+            throw new TypeError(`Unknown type ${typeof module.main} for exported Function in module ${name}!`);
     }
 
     return {

@@ -1,4 +1,4 @@
-import { createElement } from "../../backend/App";
+import { createElement } from "../../util/Elements";
 import AnimatedText from "./content/AnimatedText";
 
 const TEXT = "Hello,\r\nMy name is Alex Malotky.";

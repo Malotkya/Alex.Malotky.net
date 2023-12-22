@@ -4,8 +4,7 @@
  * @author Alex Malotky
  */
 import {Router} from "..";
-import { findOrCreateNode } from "../Core";
-import { createHambergerButton, createMenuList, createNavTitle } from "./html";
+import { findOrCreateElement, createElement } from "../../../util/Elements";
 
 /** Navigation Bar Class
  * 
@@ -21,15 +20,23 @@ export default class NavBar{
      */
     constructor(){
 
-        this._nav = findOrCreateNode("nav", "header");
+        this._nav = findOrCreateElement("nav", "header");
         
-        this._home = createNavTitle("Alex.Malotky.net");
+        this._home = createElement("a", {
+            id: "top-nav-title",
+            class: "top-nav-item",
+            href: "/"
+        }, "Alex.Malotky.net");
         this._nav.appendChild(this._home);
 
-        let button = createHambergerButton();
+        let button = createElement("button", {id: "top-nav-button"}, 
+            createElement("div"),
+            createElement("div"),
+            createElement("div")
+        );
         this._nav.appendChild(button);
 
-        this._list = createMenuList();
+        this._list = createElement("ul", {id: "top-nav-menu"});
         this._nav.appendChild(this._list);
         
         //Toggle the list display

@@ -1,16 +1,17 @@
 {
   "name": "alexmalotky.com",
-  "version": "2.1.0",
-  "description": "",
-  "main": "index.js",
+  "version": "2.5.0",
+  "description": "Personal / Portfolio Website",
   "scripts": {
     "build:dev": "npx webpack-cli --env dev",
     "build:prod": "npx webpack-cli --env prod",
     "build:watch": "npx webpack-cli --watch",
-    "build:clean": "rm -r build && npm run build",
+    "build:clean": "rm -r build && npm run build:prod",
+
     "serve:dev": "npm run build:dev && firebase serve",
     "serve:prod": "npm run build:prod && firebase serve",
-    "deploy": "npm run clean && firebase deploy",
+
+    "deploy": "npm run build:clean && firebase deploy",
     "scryfall": "node ./util/scryfall.js"
   },
   "author": "Alex Malotky",

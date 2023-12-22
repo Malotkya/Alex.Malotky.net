@@ -3,6 +3,12 @@
  * @author Alex Malotky
  */
 export type Executable = (context?:Context)=>Promise<void>|void;
+export type Content = string|HTMLElement|Array<HTMLElement|string>;
+
+export interface Module {
+    main?: Executable,
+    content: Content
+}
 
 interface route {
     path: string,
@@ -124,12 +130,15 @@ export default class Context{
     /** HTML Body Setter
      * 
      */
-    set body(value:string|HTMLElement|Array<HTMLElement>){
+    set body(value:Content){
         if(Array.isArray(value)){
             for(let e of value)
                 this.body = e;
         } else if(value instanceof HTMLElement)
-            this._body.appendChild(value)
+            if(value.nodeName === "BODY-ELEMENT")
+                this._body = value as HTMLBodyElement;
+            else
+                this._body.appendChild(value)
         else 
             this._body.innerHTML += String(value);
     }
@@ -182,6 +191,13 @@ export default class Context{
             path: path,
             body: body
         };
+        this.done();
+    }
+
+    set module(value: Module){
+        this.body = value.content;
+        if(value.main)
+            this.connected = value.main;
         this.done();
     }
 

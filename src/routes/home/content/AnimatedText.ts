@@ -19,7 +19,7 @@ export default class AnimatedText extends HTMLElement {
             if(index < this._text.length)
                 window.setTimeout(placeChar, TEXT_DELAY);
         }
-        placeChar();
+        window.setTimeout(placeChar, 500);
     }
 }
 

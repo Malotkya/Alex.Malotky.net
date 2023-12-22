@@ -10,7 +10,7 @@ import Router from "./Core/Router";
 //Export Classes and Functions
 import Context, { Content, Executable, Module } from "./Core/Context";
 export {Router, Context};
-export {makeErrorMessage, HtmlError} from "./Core";
+export {makeErrorMessage, HtmlError, createElement} from "./Core";
 
 
 /** App Class

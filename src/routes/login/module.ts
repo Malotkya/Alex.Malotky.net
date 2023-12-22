@@ -1,28 +1,6 @@
-export function createElement(name:string, attributes?:any, ...children:Array<HTMLElement|string|null>): HTMLElement{
-    if(typeof attributes === "string" || attributes instanceof HTMLElement) {
-        children.unshift(attributes);
-        attributes = {};
-    }
-    
-    const element = document.createElement(name);
+import { createElement } from "../../backend/App";
 
-    for(let name in attributes){
-        element.setAttribute(name, String(attributes[name]));
-    }
-
-    for(let child of children){
-        if(typeof child === "string") {
-            element.textContent += child;
-        } else {
-            if(child !== null)
-                element.appendChild(child);
-        }
-    }
-
-    return element;
-}
-
-export const content = (args:any) => {
+export default function Login(args:any) {
     let error:HTMLElement|null = null;
     if(args.error){
         error = createElement("div", {class: "error"});

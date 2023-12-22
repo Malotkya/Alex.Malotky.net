@@ -405,3 +405,41 @@ export function findOrCreateNode(name?:string, ...parents:Array<string>): HTMLEl
 
     return newNode;
 }
+
+/** Creates HTML Element
+ * 
+ * Streamlines creating an HTML element, assigning attributes, and adding children.
+ * 
+ * @param {string} name 
+ * @param {any} attributes 
+ * @param {Array} children 
+ * @returns 
+ */
+export function createElement(name:string, attributes?:any, ...children:Array<HTMLElement|string|null|Array<any>>): HTMLElement{
+    if(typeof attributes === "string" || attributes instanceof HTMLElement || Array.isArray(attributes)) {
+        children.unshift(attributes);
+        attributes = {};
+    } else if(typeof attributes !== "object"){
+        throw new TypeError("Attributes must be an object!");
+    }
+    
+    const element = document.createElement(name);
+    for(let name in attributes){
+        element.setAttribute(name, String(attributes[name]));
+    }
+
+    const insertChildren = (list:Array<HTMLElement|string|null|Array<any>>) => {
+        for(let child of list){
+            if(typeof child === "string") {
+                element.textContent += child;
+            } else if(Array.isArray(child)){
+                insertChildren(child);
+            } else if(child !== null && child !== undefined) {
+                element.appendChild(child);
+            }
+        }
+    }
+    insertChildren(children);
+
+    return element;
+}

@@ -139,7 +139,7 @@ export default class Context{
      */
     set body(value:Content){
         this.add(value);
-        this.isDone();
+        this.done();
     }
 
     /** Add to body

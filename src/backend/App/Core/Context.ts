@@ -138,16 +138,27 @@ export default class Context{
      * 
      */
     set body(value:Content){
-        if(Array.isArray(value)){
-            for(let e of value)
-                this.body = e;
-        } else if(value instanceof HTMLElement)
-            if(value.nodeName === "BODY-ELEMENT")
-                this._body = value as HTMLBodyElement;
+        this.add(value);
+        this.isDone();
+    }
+
+    /** Add to body
+     * 
+     * Recursively called if array is passed.
+     * 
+     * @param {Content} c 
+     */
+    private add(c:Content){
+        if(Array.isArray(c)){
+            for(let e of c)
+                this.add(e);
+        } else if(c instanceof HTMLElement)
+            if(c.nodeName === "BODY-ELEMENT")
+                this._body = c as HTMLBodyElement;
             else
-                this._body.appendChild(value)
+                this._body.appendChild(c)
         else 
-            this._body.innerHTML += String(value);
+            this._body.innerHTML += String(c);
     }
 
     /** Paramters Setter
@@ -202,7 +213,7 @@ export default class Context{
     }
 
     set module(value: Module){
-        this.body = value.content;
+        this.add(value.content);
         if(value.main)
             this.connected = value.main;
         this.done();

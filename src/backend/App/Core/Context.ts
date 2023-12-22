@@ -3,7 +3,7 @@
  * @author Alex Malotky
  */
 export type Executable = (context?:Context)=>Promise<void>|void;
-export type Content = string|HTMLElement|Array<HTMLElement|string>;
+export type Content = string|HTMLElement|Array<Content>;
 
 export interface Module {
     main?: Executable,

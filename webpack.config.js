@@ -15,21 +15,11 @@ const bundleTemplates = TemplateBuilder(build_directory, source_directory);
 const buildModule = ModuleBundler(build_directory, source_directory);
 
 //test if in production environment
-const prod = process.argv.includes('prod');
-
-//create minify requirements if in production
-const minify = prod ? {
-  minimize: true,
-  minimizer:[
-    new HtmlMinimizerPlugin(),
-    new CssMinimizerPlugin(),
-    new TerserPlugin()
-  ]
-} : undefined;
+const inProduction = process.argv.includes('prod');
 
 //export config
 module.exports = {
-  mode: prod? "production": "development",
+  mode: "production",
   entry: {
     script: [
       path.join(source_directory, 'index.ts'),
@@ -38,7 +28,7 @@ module.exports = {
     firebase: path.join(source_directory, "firebase.ts"),
     ...buildModule("routes")
   },
-  devtool: prod? undefined: 'source-map',
+  devtool: inProduction? undefined: 'source-map',
   module: {
     rules: [
       {
@@ -88,5 +78,15 @@ module.exports = {
     }),
     new SpliceWebpackPlugin()
   ],
-  optimization: minify,
+  optimization: {
+    minimize: inProduction,
+    minimizer: inProduction? [
+      new HtmlMinimizerPlugin(),
+      new CssMinimizerPlugin(),
+      new TerserPlugin()
+    ]: [
+      new TerserPlugin()
+    ],
+    usedExports: true
+  },
 };

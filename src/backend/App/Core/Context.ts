@@ -106,11 +106,18 @@ export default class Context{
         return this._body;
     }
 
-    /** Paramters Getter
+    /** Paramters Getter Wrapper
      * 
      */
     get(key:string):string {
         return this._params.get(key) || "undefined";
+    }
+
+    /** Paramters Getter
+     * 
+     */
+    get params():Map<string, string> {
+        return this._params;
     }
 
     /** HTML Title Getter

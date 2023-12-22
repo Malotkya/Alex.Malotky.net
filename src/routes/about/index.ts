@@ -10,5 +10,5 @@ import {Router, Context, render} from "../../backend/App";
 export const AboutMe = new Router("About Me", "More about Alex.");
 
 AboutMe.use(async(ctx:Context)=>{
-    ctx.body = await render("about.html");
+    ctx.body = require("./index.html");
 });

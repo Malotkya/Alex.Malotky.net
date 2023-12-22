@@ -1,8 +1,0 @@
-{%
-    if(typeof list === "undefined")
-        list = [];
-%}
-<h1>Skills:</h1>
-<ul class="resume-card-list">
-    {{ forEach(list, s=>include("resume/skill.html", s), "<li>Empty Results!</li>") }}
-</ul>

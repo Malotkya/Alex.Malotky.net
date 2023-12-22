@@ -109,8 +109,8 @@ export default class Context{
     /** Paramters Getter
      * 
      */
-    get params(): Map<string, string>{
-        return this._params;
+    get(key:string):string {
+        return this._params.get(key) || "undefined";
     }
 
     /** HTML Title Getter

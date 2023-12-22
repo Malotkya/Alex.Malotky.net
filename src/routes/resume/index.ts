@@ -16,7 +16,7 @@ export const Resume = new Router("Resume", "Alex's resume and other skills.");
 Resume.use("/:page", async(ctx: Context)=>{
     const database = await Database();
 
-    let page:string = ctx.params.get("page");
+    let page:string= ctx.get("page");
     let file:string;
 
     switch(page){
@@ -44,8 +44,8 @@ Resume.use("/:page", async(ctx: Context)=>{
 Resume.use("/:page/:id", async(ctx: Context)=>{
     const database = await Database();
 
-    let page:string = ctx.params.get("page");
-    let id:string = ctx.params.get("id");
+    let page:string = ctx.get("page");
+    let id:string = ctx.get("id");
     let file:string;
 
     switch(page){

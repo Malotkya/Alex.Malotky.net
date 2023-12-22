@@ -28,7 +28,7 @@ Editor.use("*", async(ctx: Context)=>{
 Editor.use("/Delete/:id", async(ctx:Context)=>{
     const database = await Database();
     
-    const id = ctx.params.get("id");
+    const id = ctx.get("id");
     database.deleteDocument("MtgDecks", id);
 
     ctx.reRoute("/Decks/Editor");
@@ -38,8 +38,8 @@ Editor.use("/Update/:id", async(ctx:Context)=>{
     const database = await Database();
 
     try {
-        const deck = ctx.params.get("deck");
-        const id = ctx.params.get("id");
+        const deck = ctx.get("deck");
+        const id = ctx.get("id");
 
         await database.updateDocument("MtgDecks", id, JSON.parse(deck));
         ctx.reRoute(`/Decks/Editor/${id}`, {deck: deck});
@@ -59,8 +59,8 @@ Editor.use("/New", async(ctx:Context)=>{
 Editor.use("/:id", async(ctx:Context)=>{
     const database = await Database();
 
-    const id = ctx.params.get("id");
-    let results:any = ctx.params.get("deck");
+    const id = ctx.get("id");
+    let results:any = ctx.get("deck");
 
     if(results){
         results = JSON.parse(results);
@@ -93,7 +93,7 @@ MtgDecks.use("/Editor", Editor);
 MtgDecks.use("/:id", async(ctx:Context)=>{
     const database = await Database();
 
-    const id = ctx.params.get("id");
+    const id = ctx.get("id");
     const results = await cache(`MtgDeck(${id})`, ()=>database.getDocument("MtgDecks", id));
     
     if(typeof results === "undefined"){

@@ -1,4 +1,4 @@
-import { Router, Context, execute, render } from "../../backend/App";
+import { Router, Context, importModule } from "../../backend/App";
 import Authentication from "../../util/Authentication";
 
 export const Login = new Router("Login");
@@ -26,12 +26,11 @@ Login.use("/Login", async(ctx: Context)=>{
         }
     }
 
-    ctx.connected = await execute("login.js");
-    ctx.body = await render("login.html", {
+    ctx.module = await importModule("./login.js", {
         username: username,
         password: password,
         error: error
-    }); 
+    });
 });
 
 Login.use("/Logout", async(ctx:Context)=>{

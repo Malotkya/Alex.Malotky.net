@@ -1,0 +1,180 @@
+
+{
+    "game": "Platinum",
+    "generation": 4,
+    "region": "Sinnoh",
+    "team": [
+        {   "name": "Torterra",
+            "level": 36,
+            "types":[
+                "Grass",
+                "Ground"
+            ],
+            "item": "",
+            "nature": "Brave",
+            "ability": "Overgrow",
+            "stats":{
+                "health": 128,
+                "attack": 110,
+                "defense": 95,
+                "specialAttack": 69,
+                "specialDefence": 77,
+                "speed": 54
+            },
+            "moves": [
+                "Razor Leaf",
+                "Earthquake",
+                "Bite",
+                "Sword Dance"
+            ]
+            
+        },
+        {   "name": "Floatzel",
+            "level": 37,
+            "types":[
+                "Water"
+            ],
+            "item": "Hard Stone",
+            "nature": "Lax",
+            "ability": "Swift Swim",
+            "stats":{
+                "health": 120,
+                "attack": 90,
+                "defense": 58,
+                "specialAttack": 71,
+                "specialDefence": 44,
+                "speed": 101
+            },
+            "moves": [
+                "Rock Tomb",
+                "Ice Fang",
+                "Aqua Jet",
+                "Crunch"
+            ]
+        },
+        {   "name": "Staraptor",
+            "level": 36,
+            "types":[
+                "Normal",
+                "Flying"
+            ],
+            "item": "Smoke Ball",
+            "nature": "Modest",
+            "ability": "Intimidate",
+            "stats":{
+                "health": 115,
+                "attack": 94,
+                "defense": 63,
+                "specialAttack": 53,
+                "specialDefence": 48,
+                "speed": 82
+            },
+            "moves": [ 
+                "Aerial Ace",
+                "Close Combat",
+                "Steel Wing",
+                "Fly"
+            ]
+        },
+        {   "name": "Rotom",
+            "level": 36,
+            "types":[
+                "Electric",
+                "Ghost"
+            ],
+            "item": "",
+            "nature": "Bold",
+            "ability": "Levitate",
+            "stats":{
+                "health": 88,
+                "attack": 50,
+                "defense": 73,
+                "specialAttack": 85,
+                "specialDefence": 68,
+                "speed": 75
+            },
+            "moves": [
+                "Thunderbolt",
+                "Shadow Ball",
+                "Schock Wave",
+                "Double Team"
+            ]
+        },
+        {   "name": "Houndoom",
+            "level": 39,
+            "types":[
+                "Dark",
+                "Fire"
+            ],
+            "item": "",
+            "nature": "Mild",
+            "ability": "Early Bird",
+            "stats":{
+                "health": 108,
+                "attack": 77,
+                "defense": 50,
+                "specialAttack": 107,
+                "specialDefence": 73,
+                "speed": 93
+            },
+            "moves": [
+                "Fire Fang",
+                "Faint Attack",
+                "Iron Tail",
+                "Fire Blast"
+            ]
+        },
+        {   "name": "Gallade",
+            "level": 37,
+            "types":[
+                "Psychic",
+                "Fighting"
+            ],
+            "item": "",
+            "nature": "Serious",
+            "ability": "Steadfast",
+            "stats":{
+                "health": 103,
+                "attack": 108,
+                "defense": 63,
+                "specialAttack": 65,
+                "specialDefence": 96,
+                "speed": 73
+            },
+            "moves": [
+                "Psycho Cut",
+                "Slash",
+                "Swords Dance",
+                "Brick Break"
+            ]
+        }
+    ],
+    "others": [
+        {   "name": "Bibarel",
+            "level": 19,
+            "types":[
+                "Normal",
+                "Water"
+            ],
+            "item": "",
+            "nature": "Bashful",
+            "ability": "Unaware",
+            "stats":{
+                "health": 62,
+                "attack": 37,
+                "defense": 30,
+                "specialAttack": 26,
+                "specialDefence": 32,
+                "speed": 32
+            },
+            "moves": [
+                "Cut",
+                "Rock Smash",
+                "Surf",
+                "Headbutt"
+            ]
+        }
+    ],
+    "comments": [
+    ]
+}

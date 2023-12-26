@@ -1,24 +1,24 @@
-import { createElement } from "../../util/Elements";
+import { createElement as _ } from "../../util/Elements";
 import AnimatedText from "./content/AnimatedText";
 
 const TEXT = "Hello,\r\nMy name is Alex Malotky.";
 
 export default function Home() {
 
-    return createElement("body-element", 
-        createElement("h1", "Welcome!"),
-        createElement("div", {id: "home-container"}),
-        new AnimatedText(TEXT),
-        createElement("article", 
-            createElement("h2", "Project Spotlight:"),
-            createElement("div", {id: "spotlight"},
-                Spotlight()
-            )
-        ),
-        createElement("article", 
-            createElement("p", "My website is still under construction, and I will be continually working on it over the summer.")
+    return [ 
+        _("h1", "Welcome!"),
+            _("div", {id: "home-container"}),
+                new AnimatedText(TEXT),
+                _("article", 
+                _("h2", "Project Spotlight:"),
+                _("div", {id: "spotlight"},
+                    Spotlight()
+                )
+            ),
+            _("article", 
+            _("p", "My website is still under construction, and I will be continually working on it over the summer.")
         )
-    );
+    ];
 }
 
 export function main() {
@@ -31,21 +31,21 @@ export function main() {
 
 function Spotlight(){
     return [
-        createElement("h3", "Phasmophobia Helper"),
-        createElement("figure", 
-            createElement("img", {src: "/media/Phasmo-Screenshot.png", alt: "Screenshot"})
+        _("h3", "Phasmophobia Helper"),
+        _("figure", 
+            _("img", {src: "/media/Phasmo-Screenshot.png", alt: "Screenshot"})
         ),
-        createElement("section",
-            createElement("p", 
+        _("section",
+            _("p", 
                 "It is currently hosted on firebase at ",
-                createElement("a", {href: "https://phasmophobiahelper.web.app/"},
+                _("a", {href: "https://phasmophobiahelper.web.app/"},
                     "Phasmophobiahelper.web.app"
                 ),
                 "."
             ),
-            createElement("p", 
+            _("p", 
                 "This project came about while playing the game",
-                createElement("a", {href: "https://store.steampowered.com/app/739630/Phasmophobia/"},
+                _("a", {href: "https://store.steampowered.com/app/739630/Phasmophobia/"},
                     "Phasmophobia"
                 ),
                 `with my brother.  Phasmophobia is a game where you have to figure out the type of ghost haunting a house by
@@ -53,7 +53,7 @@ function Spotlight(){
                 will not present, so ruling out ghosts becomes more complicated.  We wanted to be able to cross of evidence that we didn't find 
                 but not necisarly cross off ghosts that have those evidence.`
             ),
-            createElement("p", 
+            _("p", 
                 "This project focused on manipulting a web page using javascript to make the lists of evidence and ghosts easy to understand.",
             )
         )

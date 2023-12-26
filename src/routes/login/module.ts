@@ -1,17 +1,17 @@
-import { createElement } from "../../util/Elements";
+import { createElement as _} from "../../util/Elements";
 
 export default function Login(args:any) {
     let error:HTMLElement|null = null;
     if(args.error){
-        error = createElement("div", {class: "error"}, String(args.error));
+        error = _("div", {class: "error"}, String(args.error));
     }
 
-    const form = createElement("form", {id: "login"},
-        createElement("label", {for:"username"}),
-        createElement("input", {id: "username", name:"username", value:args.username}),
-        createElement("label", {for:"password"}),
-        createElement("input", {id: "password", name:"password",type:"password", value:args.password}),
-        createElement("button", "Log In")
+    const form = _("form", {id: "login"},
+        _("label", {for:"username"}),
+        _("input", {id: "username", name:"username", value:args.username}),
+        _("label", {for:"password"}),
+        _("input", {id: "password", name:"password",type:"password", value:args.password}),
+        _("button", "Log In")
     );
 
     form.addEventListener("submit", (event)=>{
@@ -20,9 +20,9 @@ export default function Login(args:any) {
         return false;
     });
 
-    return createElement("body-element", 
-        createElement("h1", "Login"),
+    return[ 
+        _("h1", "Login"),
         error,
         form
-    );
+    ];
 }

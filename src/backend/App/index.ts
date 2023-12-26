@@ -3,12 +3,12 @@
  * @author Alex Malotky
  */
 import Core from "./Core";
-import templateEngine from "./TemplateEngine";
 import NavBar from "./NavBar";
 import Router from "./Core/Router";
 
 //Export Classes and Functions
-import Context, { Content, Executable, Module } from "./Core/Context";
+import { Content } from "../../util/Elements";
+import Context, { Executable, Module } from "./Core/Context";
 export {Router, Context};
 export {makeErrorMessage, HtmlError} from "./Core";
 
@@ -80,36 +80,6 @@ export default class App extends Core {
         
         return this;
     }
-}
-
-/** Render Template File
- * 
- * @param {string} filename 
- * @param {any} args 
- * @returns {Promise<string>}
- */
-export function render(filename: string, args?: any): Promise<string>{
-    return templateEngine(filename, args);
-}
-
-/** Execute Javascript File
- * 
- * @param {string} filename
- */
-export async function execute(filename: string): Promise<Executable>{
-    let module: any;
-    try{
-        module = (await import(/*webpackIgnore: true*/ "/scripts/"+filename));
-    } catch(err){
-        console.error(err);
-        throw new Error(`There was a problem importing module at ${filename}!`);
-    }
-     
-    if(typeof module.default !== "function")
-        throw new Error(`Unknown type '${typeof module.default}' for default export in module at ${filename}!`);
-    
-    
-    return module.default;
 }
 
 export async function importModule(name:string, args?:any): Promise<Module>{

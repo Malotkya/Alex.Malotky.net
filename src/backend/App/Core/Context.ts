@@ -152,13 +152,15 @@ export default class Context{
         if(Array.isArray(c)){
             for(let e of c)
                 this.add(e);
-        } else if(c instanceof HTMLElement)
+        } else if(c instanceof HTMLElement) {
             if(c.nodeName === "BODY-ELEMENT")
                 this._body = c as HTMLBodyElement;
             else
                 this._body.appendChild(c)
-        else 
+        } else if(c !== null && c !== undefined) {
             this._body.innerHTML += String(c);
+        }
+            
     }
 
     /** Paramters Setter

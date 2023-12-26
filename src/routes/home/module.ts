@@ -37,7 +37,7 @@ function Spotlight(){
         ),
         createElement("section",
             createElement("p", 
-                "It is currently hosted on firebase at",
+                "It is currently hosted on firebase at ",
                 createElement("a", {href: "https://phasmophobiahelper.web.app/"},
                     "Phasmophobiahelper.web.app"
                 ),

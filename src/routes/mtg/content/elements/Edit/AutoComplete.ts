@@ -5,7 +5,7 @@
  * 
  * @author Alex Malotky
  */
-import {getShard} from "../../../../util/Scryfall";
+import {getShard} from "../../../../../util/Scryfall";
 
 const MAX_LIST_LENGTH:number = 10;
 

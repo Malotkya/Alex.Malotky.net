@@ -2,7 +2,7 @@
  * 
  * @author Alex Malotky
  */
-import { queryForCard, Card } from "../../../../util/Scryfall";
+import { queryForCard, Card } from "../../../../../util/Scryfall";
 import AutoComplete from "./AutoComplete";
 
 const BLANK_CARD:Card = {

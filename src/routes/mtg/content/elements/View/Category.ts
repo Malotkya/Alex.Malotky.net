@@ -1,4 +1,4 @@
-import {Card} from "../../../../util/Scryfall";
+import {Card} from "../../../../../util/Scryfall";
 import CardElement from "./Card";
 
 export default class CategoryView extends HTMLElement {

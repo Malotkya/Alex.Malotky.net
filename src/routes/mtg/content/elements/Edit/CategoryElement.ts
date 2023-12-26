@@ -3,7 +3,7 @@
  * @author Alex Malotky
  */
 import CardElement from "./CardInputElemet";
-import {Card} from "../../../../util/Scryfall";
+import {Card} from "../../../../../util/Scryfall";
 
 /** Category Element
  * 
@@ -23,7 +23,7 @@ export default class CategoryElement extends HTMLElement {
         
         if(name)
             this.id = name;
-        this._name = name;
+        this._name = name || "";
 
         if(typeof list === "string")
             list = list.split("\n");

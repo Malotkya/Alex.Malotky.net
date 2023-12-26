@@ -1,4 +1,4 @@
-import { Card } from "../../../../util/Scryfall";
+import { Card } from "../../../../../util/Scryfall";
 
 export default class CardElement extends HTMLLIElement {
     private _name:string;
@@ -17,6 +17,9 @@ export default class CardElement extends HTMLLIElement {
         this._type = card.typeLine || "Type Line";
         this._oracle = card.oracle || "Oracle Text";
         this._foil = card.foil;
+
+        //Needed for apple devices
+        this.addEventListener("click", ()=>this.focus());
     }
 
     private get name():HTMLElement {
@@ -26,7 +29,7 @@ export default class CardElement extends HTMLLIElement {
         return span;
     }
 
-    private get foil():HTMLElement {
+    private get foil():HTMLElement|undefined {
         if(this._foil) {
             const div = document.createElement("div");
             div.className = "foil";

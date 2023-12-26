@@ -5,14 +5,18 @@
 import CategoryElement from "./Edit/CategoryElement";
 import DeckListDialog from "./Edit/DeckListDialog";
 import CardElement from "./Edit/CardInputElemet";
-import {Card} from "../../../util/Scryfall";
+import {Card} from "../../../../util/Scryfall";
+
+interface categories {
+    [name:string]: Array<Card>
+}
 
 /** Deck Interface
  * 
  */
 export interface Deck {
     commanders: Array<Card>,
-    main_deck: any,
+    main_deck: categories,
     color_identity: Array<string>,
     art: string
 }
@@ -50,7 +54,7 @@ const POSSIBLE_COMMANDERS = [
  * @param {String} typeLine
  * @return {String} Card Type
  */
-function getTypeFromLine(typeLine:string):string{
+function getTypeFromLine(typeLine:string|undefined):string{
     if(typeof typeLine === "string"){
         for(let i=0; i<CARD_TYPE_PRIORITY.length; i++){
             if(typeLine.indexOf(CARD_TYPE_PRIORITY[i]) >= 0) {
@@ -85,6 +89,25 @@ export function isCommanderCategory(category:string):boolean{
     return false;
 }
 
+function cardToString(card:Card):string {
+    let output = card.count + " " + card.name;
+
+    if(typeof card.set !== "undefined" && card.set !== ""){
+        output += " [" + card.set;
+
+        if(typeof card.collector_number !== "undefined")
+            output += ":" + card.collector_number;
+
+        output += "]";
+    }
+
+    if(typeof card.foil !== "undefined" && card.foil){
+        output += " F";
+    }
+
+    return output;
+};
+
 /** Deck Editor Element
  * 
  */
@@ -96,7 +119,7 @@ export default class DeckEditor extends HTMLElement {
     /** Constructor
      * 
      */
-    constructor(){
+    constructor(commanders: Array<Card> = [], mainDeck:categories = {}){
         super();
         this._categories = new Map();
         this._dialog = new DeckListDialog();
@@ -107,6 +130,13 @@ export default class DeckEditor extends HTMLElement {
         });
 
         this._input = new CategoryElement();
+
+        let temp:string = "//Commander\n" + commanders.map(cardToString).join("\n");
+        for(let cat in mainDeck){
+            temp += "\n\n//" + cat + "\n" + mainDeck[cat].map(cardToString).join("\n");
+        }
+
+        this.value = temp;
     }
 
     /** Observed Attributes Getter
@@ -277,7 +307,7 @@ export default class DeckEditor extends HTMLElement {
             this._dialog.show();
         });
         btnShowDialog.textContent = "Edit Deck List";
-        this.parentElement.insertBefore(btnShowDialog, this);
+        this.parentElement?.insertBefore(btnShowDialog, this);
 
         this.propagete();
         const order: Array<string> = Array.from(this._categories.keys()).sort((lhs:string, rhs:string):number=>{

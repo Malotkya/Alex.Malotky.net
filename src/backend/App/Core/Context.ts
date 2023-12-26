@@ -2,8 +2,9 @@
  * 
  * @author Alex Malotky
  */
+import { Content } from "../../../util/Elements";
+
 export type Executable = (context?:Context)=>Promise<void>|void;
-export type Content = string|HTMLElement|Array<Content>;
 
 export interface Module {
     main?: Executable,

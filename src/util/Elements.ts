@@ -1,3 +1,5 @@
+export type Content = string|HTMLElement|null|Array<Content>;
+
 /** Creates HTML Element
  * 
  * Streamlines creating an HTML element, assigning attributes, and adding children.
@@ -7,7 +9,7 @@
  * @param {Array} children 
  * @returns 
  */
-export function createElement(name:string, attributes:any = {}, ...children:Array<HTMLElement|string|null|Array<any>>): HTMLElement{
+export function createElement(name:string, attributes:any = {}, ...children:Array<Content>): HTMLElement{
     if(typeof attributes === "string" || attributes instanceof HTMLElement || Array.isArray(attributes)) {
         children.unshift(attributes);
         attributes = {};
@@ -20,7 +22,7 @@ export function createElement(name:string, attributes:any = {}, ...children:Arra
         element.setAttribute(name, String(attributes[name]));
     }
 
-    const insertChildren = (list:Array<HTMLElement|string|null|Array<any>>) => {
+    const insertChildren = (list:Array<Content>) => {
         for(let child of list){
             if(typeof child === "string") {
                 element.innerHTML += child;

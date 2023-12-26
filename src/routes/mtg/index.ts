@@ -2,14 +2,10 @@
  * 
  * @author Alex Malotky
  */
-import {Context, Router, render, execute} from "../../backend/App";
+import {Context, Router, importModule} from "../../backend/App";
 import Database from "../../util/Database";
 import {cache} from "../../util/Memory";
 import Authentication from "../../util/Authentication";
-
-import DeckEditor from "./elements/DeckEditor";
-import DeckView from "./elements/DeckView";
-export {DeckEditor, DeckView};
 
 /** Mtg Module
  * 
@@ -38,8 +34,11 @@ Editor.use("/Update/:id", async(ctx:Context)=>{
     const database = await Database();
 
     try {
-        const deck = ctx.get("deck");
+        const deck = ctx.params.get("deck");
         const id = ctx.get("id");
+
+        if(deck === undefined)
+            throw new Error("Update information not in body!");
 
         await database.updateDocument("MtgDecks", id, JSON.parse(deck));
         ctx.reRoute(`/Decks/Editor/${id}`, {deck: deck});
@@ -72,8 +71,10 @@ Editor.use("/:id", async(ctx:Context)=>{
     if(typeof results === "undefined")
         throw new Error("Unable to find id: " + id);
 
-    ctx.connected = await execute("mtg/edit.js");
-    ctx.body = await render("mtg/edit.html", results);
+    ctx.module = await importModule("mtg", {
+        arr: results,
+        edit: true
+    })
 });
 
 Editor.use(async(ctx: Context)=>{
@@ -81,9 +82,8 @@ Editor.use(async(ctx: Context)=>{
 
     const results = await database.queryCollection("MtgDecks");
 
-    ctx.connected = await execute("mtg/delete.js");
-    ctx.body = await render("mtg.html", {
-        list: results,
+    ctx.module = await importModule("mtg", {
+        arr: results,
         edit: true
     });
 });
@@ -100,8 +100,7 @@ MtgDecks.use("/:id", async(ctx:Context)=>{
         throw new Error("Unable to find id: " + id);
     }
 
-    ctx.connected = await execute("mtg/deck.js");
-    ctx.body = await render("mtg/deck.html", results);
+    ctx.module = await importModule("mtg", {arr: results});
 })
 
 MtgDecks.use(async(ctx:Context)=>{
@@ -109,5 +108,5 @@ MtgDecks.use(async(ctx:Context)=>{
 
     const results = await cache("MtgDecks", ()=>database.queryCollection("MtgDecks"));
 
-    ctx.body = await render("mtg.html", { list: results });
+    ctx.module = await importModule("mtg", {arr: results});
 });

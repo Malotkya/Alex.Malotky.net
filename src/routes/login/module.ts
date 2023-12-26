@@ -1,6 +1,6 @@
-import { createElement as _} from "../../util/Elements";
+import { createElement as _, Content} from "../../util/Elements";
 
-export default function Login(args:any) {
+export default function Login(args:any):Content {
     let error:HTMLElement|null = null;
     if(args.error){
         error = _("div", {class: "error"}, String(args.error));
@@ -13,7 +13,6 @@ export default function Login(args:any) {
         _("input", {id: "password", name:"password",type:"password", value:args.password}),
         _("button", "Log In")
     );
-
     form.addEventListener("submit", (event)=>{
         event.preventDefault();
         (window as any).route(location.pathname, new FormData(event.target as HTMLFormElement));

@@ -1,7 +1,7 @@
-import { createElement as _ } from "../../util/Elements";
+import { createElement as _, Content } from "../../util/Elements";
 import { DeckEdit, DeckView, DeckItem } from "./content/Deck";
 
-export default function Magic(args: any){
+export default function Magic(args: any): Content{
     if(Array.isArray(args.arr)){
         return [
             _("h1", "Magic the Gathering Decks!"),
@@ -17,7 +17,7 @@ export default function Magic(args: any){
     return DeckView(args.arr);
 }
 
-function Result(deck:DeckItem, edit: boolean){
+function Result(deck:DeckItem, edit: boolean): Content{
 
     const deleteButton = _("button", {class: "btn"}, "Delete");
     deleteButton.addEventListener("click", (event:Event)=>{

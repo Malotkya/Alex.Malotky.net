@@ -1,9 +1,9 @@
-import {createElement as _} from "../../util/Elements";
+import {createElement as _, Content} from "../../util/Elements";
 import {SkillItem, SkillCard, SkillDetailed} from "./content/SkillElements";
 import {JobItem, JobCard, JobDetailed} from "./content/JobElements";
 import {SchoolItem, SchoolCard, SchoolDetailed} from "./content/SchoolElements";
 
-export default function Resume(args?: any){
+export default function Resume(args?: any): Content{
     switch(args.type) {
         case "Jobs":
             return Jobs(args.arr);
@@ -44,7 +44,7 @@ export default function Resume(args?: any){
     ]
 }
 
-export function Skills(args:Array<SkillItem>|SkillItem){
+export function Skills(args:Array<SkillItem>|SkillItem): Content{
     if(Array.isArray(args)){
         return [
             _("h1", "Skills:"),
@@ -55,7 +55,7 @@ export function Skills(args:Array<SkillItem>|SkillItem){
     return SkillDetailed(args);
 }
 
-export function School(args:Array<SchoolItem>|SchoolItem){
+export function School(args:Array<SchoolItem>|SchoolItem): Content{
     if(Array.isArray(args)){
         return [
             _("h1", "Skills:"),
@@ -66,7 +66,7 @@ export function School(args:Array<SchoolItem>|SchoolItem){
     return SchoolDetailed(args);
 }
 
-export function Jobs(args:Array<JobItem>|JobItem){
+export function Jobs(args:Array<JobItem>|JobItem): Content{
     if(Array.isArray(args)){
         return [
             _("h1", "Skills:"),

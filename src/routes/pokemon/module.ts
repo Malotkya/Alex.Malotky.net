@@ -1,7 +1,7 @@
-import { createElement as _ } from "../../util/Elements";
+import { Content, createElement as _ } from "../../util/Elements";
 import PokemonGameElement from "./content/PokemonGameElement";
 
-export default function Pokemon() {
+export default function Pokemon():Content {
     return [ 
         _("h2", "Pokemon Game Marathon"),
         _("aside", {id:"about"},

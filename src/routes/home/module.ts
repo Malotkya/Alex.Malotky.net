@@ -1,9 +1,9 @@
-import { createElement as _ } from "../../util/Elements";
+import { createElement as _, Content } from "../../util/Elements";
 import AnimatedText from "./content/AnimatedText";
 
 const TEXT = "Hello,\r\nMy name is Alex Malotky.";
 
-export default function Home() {
+export default function Home():Content {
 
     return [ 
         _("h1", "Welcome!"),
@@ -29,7 +29,7 @@ export function main() {
     }
 }
 
-function Spotlight(){
+function Spotlight(): Content{
     return [
         _("h3", "Phasmophobia Helper"),
         _("figure", 

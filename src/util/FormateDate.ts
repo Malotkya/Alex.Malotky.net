@@ -37,17 +37,12 @@ export interface firebaseDate{
  * 
  * @returns {string}
  */
-export function formatDate(date: Date|firebaseDate|string|undefined, format: string, ifUndefined:string = "undefined"): string{
+export function formatDate(date: Date|firebaseDate|undefined, format: string, ifUndefined:string = "undefined"): string{
     if(date === undefined)
         return ifUndefined;
 
     if(!(date instanceof Date)) {
-        if(typeof date === "string")
-            //For some reasone sometimes the date format is remembered rather then being refreshed,
-            //we will just return it.
-            return date;
-        else
-            date = new Date(date.seconds*1000 + date.nanoseconds/100000);
+        date = new Date(date.seconds*1000 + date.nanoseconds/100000);
     }
         
     return format

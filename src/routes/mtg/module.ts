@@ -32,7 +32,7 @@ function Result(deck:DeckItem, edit: boolean){
     if(deck.art) {
         image = _("img", {src: deck.art, alt: "Deck Art"});
     } else {
-        image = _("img", {src: "/media/missing.jpb", alt: "Missing Deck Art"});
+        image = _("img", {src: "/media/missing.jpg", alt: "Missing Deck Art"});
     }
 
     const colorIdentity: Array<HTMLElement> = deck.color_identity.length === 0
@@ -40,7 +40,7 @@ function Result(deck:DeckItem, edit: boolean){
         :deck.color_identity.map((color:string)=>_("span", {class: `mana-symbol ${color}`}));
 
     return _("li", 
-        _("a", {href: edit? `/decks/Editor/${deck.id}`: `/decks/${deck.id}`},
+        _("a", {href: edit? `/decks/Editor/${deck.id}`: `/Decks/${deck.id}`},
             _("figure", {class: "deck-art"},
                 image
             ),

@@ -23,7 +23,7 @@ export function createElement(name:string, attributes:any = {}, ...children:Arra
     const insertChildren = (list:Array<HTMLElement|string|null|Array<any>>) => {
         for(let child of list){
             if(typeof child === "string") {
-                element.textContent += child;
+                element.innerHTML += child;
             } else if(Array.isArray(child)){
                 insertChildren(child);
             } else if(child !== null && child !== undefined) {

@@ -4,15 +4,13 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlMinimizerPlugin = require("html-minimizer-webpack-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const SpliceWebpackPlugin = require("./webpack/SpliceWebpackPlugin.js");
-const TemplateBuilder = require("./webpack/TemplateBundler.js");
 const ModuleBundler = require("./webpack/ModuleBunder.js");
 
 //directories used multiple times
 const build_directory = path.resolve(__dirname, 'build');
 const source_directory = path.resolve(__dirname, "src");
 
-const bundleTemplates = TemplateBuilder(build_directory, source_directory);
-const buildModule = ModuleBundler(build_directory, source_directory);
+const [modules, files] = ModuleBundler(build_directory, source_directory)("routes");
 
 //test if in production environment
 const inProduction = process.argv.includes('prod');
@@ -26,7 +24,7 @@ module.exports = {
       path.join(source_directory, 'index.scss')
     ],
     firebase: path.join(source_directory, "firebase.ts"),
-    ...buildModule("routes")
+    ...modules
   },
   devtool: inProduction? undefined: 'source-map',
   module: {
@@ -69,7 +67,7 @@ module.exports = {
   },
   plugins: [
     new CopyWebpackPlugin({
-      patterns: bundleTemplates("routes") .concat([
+      patterns: files.concat([
         {
           to: build_directory,
           from: path.join(source_directory, 'static')

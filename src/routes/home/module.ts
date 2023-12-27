@@ -7,15 +7,15 @@ export default function Home():Content {
 
     return [ 
         _("h1", "Welcome!"),
-            _("div", {id: "home-container"}),
-                new AnimatedText(TEXT),
-                _("article", 
-                _("h2", "Project Spotlight:"),
-                _("div", {id: "spotlight"},
-                    Spotlight()
-                )
-            ),
+        _("div", {id: "home-container"}),
+            new AnimatedText(TEXT),
             _("article", 
+            _("h2", "Project Spotlight:"),
+            _("div", {id: "spotlight"},
+                Spotlight()
+            )
+        ),
+        _("article", 
             _("p", "My website is still under construction, and I will be continually working on it over the summer.")
         )
     ];

@@ -15,7 +15,7 @@ export default function Login(args:any):Content {
     );
     form.addEventListener("submit", (event)=>{
         event.preventDefault();
-        (window as any).route(location.pathname, new FormData(event.target as HTMLFormElement));
+        window.route(location.pathname, new FormData(event.target as HTMLFormElement));
         return false;
     });
 

@@ -24,30 +24,21 @@ function Result(deck:DeckItem, edit: boolean): Content{
         event.preventDefault();
         event.stopPropagation();
         if( confirm("Are you sure you want to delete the deck?") ){
-            (window as any).route("/Decks/Editor/Delete/" + deck.id);
+            window.route("/Decks/Editor/Delete/" + deck.id);
         }
     });
-
-    let image:HTMLElement;
-    if(deck.art) {
-        image = _("img", {src: deck.art, alt: "Deck Art"});
-    } else {
-        image = _("img", {src: "/media/missing.jpg", alt: "Missing Deck Art"});
-    }
-
-    const colorIdentity: Array<HTMLElement> = deck.color_identity.length === 0
-        ?[_("span", {class: "mana-symbol colorless"})]
-        :deck.color_identity.map((color:string)=>_("span", {class: `mana-symbol ${color}`}));
 
     return _("li", 
         _("a", {href: edit? `/decks/Editor/${deck.id}`: `/Decks/${deck.id}`},
             _("figure", {class: "deck-art"},
-                image
+                deck.art? _("img", {src: deck.art, alt: "Deck Art"})
+                        : _("img", {src: "/media/missing.jpg", alt: "Missing Deck Art"})
             ),
             _("h2", deck.name),
             _("p", edit? deleteButton: null),
             _("p", {class: "color_identity"},
-                colorIdentity
+                deck.color_identity.length === 0? _("span", {class: "mana-symbol colorless"})
+                                                : deck.color_identity.map((color:string)=>_("span", {class: `mana-symbol ${color}`}))
             )
         )
     );

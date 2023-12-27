@@ -3,6 +3,11 @@ declare module '*.html' {
     export default content;
 }
 
+interface StringIndex {
+    [index:string]:string
+}
+declare type BodyData = StringIndex|FormData|Map<string, string>
+
 declare interface Window { 
-    route: (href:string, body?:any)=>void; 
+    route: (href:string, body?:BodyData)=>void; 
 }

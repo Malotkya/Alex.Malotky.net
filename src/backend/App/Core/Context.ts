@@ -51,7 +51,7 @@ export default class Context{
      * 
      * @param {Location} l 
      */
-    constructor(l: Location, body?:FormData|Map<any, any>|any){
+    constructor(l: Location, body?:BodyData){
         this._port = l.port;
         this._host = l.hostname;
         this._path = l.pathname;
@@ -71,7 +71,7 @@ export default class Context{
                     this._gets.set(name, value.toString());
             } else if(body instanceof Map) {
                 for(let [name, value] of body.values())
-                    this._gets.set(String(name), String(value));
+                    this._gets.set(name, String(value));
             } else {
                 for(let name in body)
                     this._gets.set(name, String(body[name]));

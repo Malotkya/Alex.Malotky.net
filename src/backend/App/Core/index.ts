@@ -33,7 +33,7 @@ export default class Core extends Route{
         
         window.onpopstate = () => this.handler();
         window.onload = () => this.start();
-        (window as any).route = (href:Event|string, body?:any) => this.route(href, body);
+        (window as any).route = (href:Event|string, body?:BodyData) => this.route(href, body);
 
         this._history = [];
         this._loadingError = [];
@@ -44,7 +44,7 @@ export default class Core extends Route{
      * 
      * Loads content, title, and description.
      */
-    private handler(timeout:number = CSS_TRANSITION_TIME, body?:any): void{
+    private handler(timeout:number = CSS_TRANSITION_TIME, body?:BodyData): void{
         this._routing = true;
 
         const context = new Context(window.location, body);
@@ -87,7 +87,7 @@ export default class Core extends Route{
      * 
      * @param {Event} event 
      */
-    protected route(event?: Event|string, body?:any): void{
+    protected route(event?: Event|string, body?:BodyData): void{
         event = event || window.event || "/";
         
         if(event instanceof Event){
@@ -100,7 +100,7 @@ export default class Core extends Route{
         }
     }
 
-    public go(path: string, timeout?: number, body?:any){
+    public go(path: string, timeout?: number, body?:BodyData){
         this.back = path;
         window.history.pushState({}, "", path);
         this.handler(timeout, body);

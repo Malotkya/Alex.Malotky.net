@@ -67,4 +67,5 @@ build
 .env
 
 *.db 
+pokemon.json
 cards/*

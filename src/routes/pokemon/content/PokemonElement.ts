@@ -28,7 +28,7 @@ function createGenerIcon(gender?:boolean): HTMLElement|null {
     if(gender === null || gender === undefined)
         return null;
 
-    return _("span", {class: "pokemon-gender"}, gender? '♂': '♀');
+    return _("span", {class: "pokemon-gender"}, gender? ' ♂': ' ♀');
 }
 
 function statsListItem(name:string, value:number): HTMLElement{
@@ -49,25 +49,22 @@ function getNumber(name:string):number{
     return MASTER_POKEMON_LIST.indexOf(name) + 1;
 }
 
-function formatURI(version:string|undefined, shiney:boolean, number:number): string{
+function formatURI(version:StringIndex|undefined, shiney:boolean, number:number): string{
+    let baseUri:string = "pokemon/art/";
     if(version){
         if(shiney){
-            version = "Shiny/" + version.charAt(0).toUpperCase() + version.slice(1);
+            baseUri = version["shiney"] + "/";
         } else {
-            version = "pokearth/sprites/" + version;
+            baseUri = version["normal"] + "/";
         }
-    } else {
-        version = "pokemon/art"
     }
 
-    let value:string;
-    if(number > 1000){
-        value = number.toString();
-    } else {
+    let value:string = number.toString();
+    if(number < 1000){
         value = `00${number}`.slice(-3);
     }
 
-    return SEREBII_URI + version + `/${value}.png`;
+    return SEREBII_URI + baseUri + value + '.png';
 }
 
 export default class PokemonElement extends HTMLElement {
@@ -78,12 +75,13 @@ export default class PokemonElement extends HTMLElement {
     private _moves: HTMLElement;
     private _optionals: HTMLElement;
 
-    constructor(data:PokemonType, version?:string){
+    constructor(data:PokemonType, version?:StringIndex){
         super();
         
         this._title = _("h4", {class: "pokemon-title"}, 
-            _("span", {class: "pokemon-name"}, data.name),
-            createGenerIcon(data.gender),
+            _("span", {class: "pokemon-name"}, data.name,
+                createGenerIcon(data.gender)
+            ),
             _("span", {class: "pokemon-level"}, `Level: ${data.level}`)
         );
 

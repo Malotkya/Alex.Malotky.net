@@ -4,7 +4,7 @@ import { createElement as _ } from "../../../util/Elements";
 
 export interface PokemonGameType {
     game: string,
-    version: string,
+    version: StringIndex,
     generation: number,
     region: string,
     team: Array<PokemonType>,

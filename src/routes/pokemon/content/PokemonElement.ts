@@ -9,6 +9,7 @@ export interface PokemonType {
     types: Array<string>,
     item?: string,
     nature?: string,
+    ability?: string,
     gender?: boolean, //true: ♂, false: ♀
     shiney?:boolean,
     stats: {
@@ -108,6 +109,9 @@ export default class PokemonElement extends HTMLElement {
         );
 
         this._optionals = _("ul", {class: "pokmeon-optional-list"});
+        if(data.ability)
+            this._optionals.appendChild(optionalListItem("Nature:", data.ability));
+        
         if(data.nature)
             this._optionals.appendChild(optionalListItem("Nature:", data.nature));
 

@@ -1,0 +1,11 @@
+.pokemon-view {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+
+    pokemon-element {
+        width: 33.33%;
+
+        
+    }
+}

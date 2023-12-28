@@ -2,9 +2,13 @@
 {
     "game": "Pokemon Ruby",
     "generation": 3,
+    "version":{
+        "normal": "emerald/pokemon",
+        "shiney": "Shiny/Em"
+    },
     "region": "Hoenn",
     "team": [
-        {   "name": "Marshtomp",
+        {   "name": "Swampert",
             "level": 47,
             "types":[
                 "Water",

@@ -1,10 +1,15 @@
 
 {
     "game": "Pokemon Crystal Version",
+    "version": {
+        "normal": "pokearth/sprites/crystal",
+        "shiney": "Shiny/Crystal"
+    },
     "generation": 2,
     "region": "Johto // Kanto",
     "team": [
         {   "name": "Typhlosion",
+            "gender": true,
             "level": 60,
             "moves": [
                 "Flamethrower",
@@ -27,6 +32,7 @@
         },
         {   "name": "Victreebel",
             "level": 60,
+            "gender": true,
             "moves": [
                 "Razor Leaf",
                 "Sludge Bomb",
@@ -49,6 +55,8 @@
         },
         {   "name": "Gyarados",
             "level": 60,
+            "gender": true,
+            "shiney": true,
             "moves": [
                 "Waterfall",
                 "Thunderbolt",
@@ -71,6 +79,7 @@
         },
         {   "name": "Espeon",
             "level": 60,
+            "gender": true,
             "moves": [
                 "Psychic",
                 "Shadow Ball",
@@ -90,8 +99,9 @@
             ],
             "item": "Black Glasses"
         },
-        {   "name": "Togatic",
+        {   "name": "Togetic",
             "level": 60,
+            "gender": true,
             "moves": [
                 "Psychic",
                 "Steel Wing",
@@ -114,6 +124,7 @@
         },
         {   "name": "Piloswine",
             "level": 60,
+            "gender": false,
             "moves": [
                 "Ice Beam",
                 "Earthquake",
@@ -137,6 +148,7 @@
     ],
     "others": [
         {   "name": "Bellsprout",
+            "gender": false,
             "level": 5,
             "moves": [
                 "Vine Whip",
@@ -157,6 +169,7 @@
             ]
         },
         {   "name": "Tentacruel",
+            "gender": false,
             "level": 22,
             "moves": [
                 "Poison Sting",

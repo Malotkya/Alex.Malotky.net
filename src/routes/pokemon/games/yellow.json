@@ -1,7 +1,9 @@
 
 {
     "game": "Pokemon Yellow Version",
-    "version": "yellow",
+    "version": {
+        "normal": "pokearth/sprites/yellow"
+    },
     "generation": 1,
     "region": "Kanto",
     "team": [
@@ -124,7 +126,7 @@
         }
     ],
     "others": [
-        {   "name": "Buterfree",
+        {   "name": "Butterfree",
             "level": 15,
             "moves": [
                 "Tackle",

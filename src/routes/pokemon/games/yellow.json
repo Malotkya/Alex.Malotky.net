@@ -1,6 +1,7 @@
 
 {
     "game": "Pokemon Yellow Version",
+    "version": "yellow",
     "generation": 1,
     "region": "Kanto",
     "team": [
@@ -63,7 +64,7 @@
                 "Poison"
             ]
         },
-        {   "name": "Charzard",
+        {   "name": "Charizard",
             "level": 46,
             "moves": [
                 "Strength",

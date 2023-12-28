@@ -4,8 +4,83 @@
     justify-content: space-around;
 
     pokemon-element {
-        width: 33.33%;
+        width: 33%;
+        padding: 0 5px;
+        display: flex;
+        flex-flow: row wrap;
 
-        
+        .pokemon-title {
+            display: flex;
+            flex-flow: row nowrap;
+            width: 100%;
+            
+
+            .pokemon-name {
+                flex-grow: 1
+            }
+
+            .pokmeon-gender {
+                font-weight: bold;
+            }
+        }
+
+        .pokemon-types-list {
+            display: flex;
+            flex-flow: row nowrap;
+            justify-content: space-around;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+
+            li {
+                list-style: none;
+            }
+        }
+
+        .pokemon-image {
+            width: 50%;
+            margin: 0;
+        }
+
+        .pokemon-stats-list {
+            width: 50%;
+            padding: 0;
+
+            .pokemon-stat-item {
+                list-style: none;
+                display: flex;
+                flex-flow: row nowrap;
+                justify-content: space-between;
+
+            }
+        }
+
+        .pokmeon-moves-list {
+            width: 100%;
+            padding: 0;
+            display: flex;
+            flex-flow: row wrap;
+
+            li {
+                list-style: none;
+                width: 50%;
+                text-align: center;
+            }
+        }
+
+        .pokmeon-optional-list {
+            width: 100%;
+            padding: 0 20px;
+
+            li {
+                list-style: none;
+                display: flex;
+                flex-flow: row nowrap;
+
+                .pokemon-optional-name {
+                    flex-grow: 1;
+                }
+            }
+        }
     }
 }

@@ -110,8 +110,8 @@ export default class PokemonElement extends HTMLElement {
 
         this._optionals = _("ul", {class: "pokmeon-optional-list"});
         if(data.ability)
-            this._optionals.appendChild(optionalListItem("Nature:", data.ability));
-        
+            this._optionals.appendChild(optionalListItem("Ability:", data.ability));
+
         if(data.nature)
             this._optionals.appendChild(optionalListItem("Nature:", data.nature));
 

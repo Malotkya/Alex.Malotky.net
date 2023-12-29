@@ -117,6 +117,8 @@ export default class PokemonElement extends HTMLElement {
 
         if(data.item)
             this._optionals.appendChild(optionalListItem("Item:", data.item));
+        else if(data.item === "")
+            this._optionals.appendChild(optionalListItem("Item:", "<i>none</i>"));
     }
 
     connectedCallback(){

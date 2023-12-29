@@ -10,6 +10,7 @@
     "team": [
         {   "name": "Swampert",
             "level": 47,
+            "gender": true,
             "types":[
                 "Water",
                 "Ground"
@@ -35,6 +36,7 @@
         },
         {   "name": "Shiftry",
             "level": 45,
+            "gender": true,
             "types":[
                 "Grass",
                 "Dark"
@@ -59,6 +61,7 @@
         },
         {   "name": "Crobat",
             "level": 45,
+            "gender": false,
             "types":[
                 "Poison",
                 "Flying"
@@ -82,6 +85,7 @@
             ]
         },
         {   "name": "Aggron",
+            "gender": true,
             "level": 45,
             "types":[
                 "Steel",
@@ -107,6 +111,7 @@
         },
         {   "name": "Alakazam",
             "level": 46,
+            "gender": true,
             "types":[
                 "Psychic"
             ],
@@ -155,6 +160,7 @@
     "others": [
         {   "name": "Linoone",
             "level": 20,
+            "gender": false,
             "moves": [
                 "Strength",
                 "Secret Power",
@@ -178,6 +184,7 @@
         },
         {   "name": "Tropius",
             "level": 26,
+            "gender": true,
             "moves": [
                 "Fly",
                 "Razor Leaf",
@@ -201,6 +208,7 @@
         },
         {   "name": "Gyarados",
             "level": 24,
+            "gender": false,
             "types":[
                 "Water",
                 "Flying"

@@ -2,10 +2,15 @@
 {
     "game": "Platinum",
     "generation": 4,
+    "version": {
+        "normal": "pokearth/sprites/dp",
+        "shiney": "Shiny/DP"
+    },
     "region": "Sinnoh",
     "team": [
         {   "name": "Torterra",
-            "level": 36,
+            "level": 52,
+            "gender": true,
             "types":[
                 "Grass",
                 "Ground"
@@ -14,144 +19,150 @@
             "nature": "Brave",
             "ability": "Overgrow",
             "stats":{
-                "health": 128,
-                "attack": 110,
-                "defense": 95,
-                "specialAttack": 69,
-                "specialDefence": 77,
-                "speed": 54
+                "health": 174,
+                "attack": 155,
+                "defense": 133,
+                "specialAttack": 96,
+                "specialDefence": 106,
+                "speed": 81
             },
             "moves": [
-                "Razor Leaf",
                 "Earthquake",
-                "Bite",
+                "Wood Hammer",
+                "Crunch",
                 "Sword Dance"
             ]
             
         },
         {   "name": "Floatzel",
-            "level": 37,
+            "gender": true,
+            "level": 58,
             "types":[
                 "Water"
             ],
-            "item": "Hard Stone",
+            "item": "Splash Plate",
             "nature": "Lax",
             "ability": "Swift Swim",
             "stats":{
-                "health": 120,
-                "attack": 90,
-                "defense": 58,
-                "specialAttack": 71,
-                "specialDefence": 44,
-                "speed": 101
+                "health": 184,
+                "attack": 151,
+                "defense": 100,
+                "specialAttack": 114,
+                "specialDefence": 68,
+                "speed": 163
             },
             "moves": [
-                "Rock Tomb",
-                "Ice Fang",
-                "Aqua Jet",
-                "Crunch"
+                "Waterfall",
+                "Ice Punch",
+                "Crunch",
+                "Dig"
             ]
         },
         {   "name": "Staraptor",
-            "level": 36,
+            "level": 50,
+            "gender": false,
             "types":[
                 "Normal",
                 "Flying"
             ],
-            "item": "Smoke Ball",
+            "item": "Razor Claw",
             "nature": "Modest",
             "ability": "Intimidate",
             "stats":{
-                "health": 115,
-                "attack": 94,
-                "defense": 63,
-                "specialAttack": 53,
-                "specialDefence": 48,
-                "speed": 82
+                "health": 156,
+                "attack": 135,
+                "defense": 86,
+                "specialAttack": 74,
+                "specialDefence": 67,
+                "speed": 118
             },
             "moves": [ 
-                "Aerial Ace",
+                "Brave Bird",
                 "Close Combat",
-                "Steel Wing",
+                "U-Turn",
                 "Fly"
             ]
         },
         {   "name": "Rotom",
-            "level": 36,
+            "level": 52,
             "types":[
                 "Electric",
                 "Ghost"
             ],
-            "item": "",
+            "item": "Spell Tag // Magnet",
             "nature": "Bold",
             "ability": "Levitate",
             "stats":{
-                "health": 88,
-                "attack": 50,
-                "defense": 73,
-                "specialAttack": 85,
-                "specialDefence": 68,
-                "speed": 75
+                "health": 128,
+                "attack": 75,
+                "defense": 105,
+                "specialAttack": 125,
+                "specialDefence": 99,
+                "speed": 116
             },
             "moves": [
                 "Thunderbolt",
                 "Shadow Ball",
-                "Schock Wave",
-                "Double Team"
+                "Toxic",
+                "Thunder Wave"
             ]
         },
         {   "name": "Houndoom",
-            "level": 39,
+            "gender": true,
+            "level": 54,
             "types":[
                 "Dark",
                 "Fire"
             ],
-            "item": "",
+            "item": "Dread Plate",
             "nature": "Mild",
             "ability": "Early Bird",
             "stats":{
-                "health": 108,
-                "attack": 77,
-                "defense": 50,
-                "specialAttack": 107,
-                "specialDefence": 73,
-                "speed": 93
+                "health": 148,
+                "attack": 113,
+                "defense": 71,
+                "specialAttack": 155,
+                "specialDefence": 102,
+                "speed": 135
             },
             "moves": [
-                "Fire Fang",
-                "Faint Attack",
-                "Iron Tail",
-                "Fire Blast"
+                "Flamethrower",
+                "Dark Pulsek",
+                "Sludge Bomb",
+                "Iron Tail"
             ]
         },
         {   "name": "Gallade",
-            "level": 37,
+            "gender": true,
+            "level": 52,
             "types":[
                 "Psychic",
                 "Fighting"
             ],
-            "item": "",
+            "item": "Odd Incense",
             "nature": "Serious",
             "ability": "Steadfast",
             "stats":{
-                "health": 103,
-                "attack": 108,
-                "defense": 63,
-                "specialAttack": 65,
-                "specialDefence": 96,
-                "speed": 73
+                "health": 144,
+                "attack": 156,
+                "defense": 89,
+                "specialAttack": 93,
+                "specialDefence": 137,
+                "speed": 110
             },
             "moves": [
                 "Psycho Cut",
-                "Slash",
-                "Swords Dance",
-                "Brick Break"
+                "Brick Break",
+                "X-Scissor",
+                "Swords Dance"
+                
             ]
         }
     ],
     "others": [
         {   "name": "Bibarel",
             "level": 19,
+            "gender": false,
             "types":[
                 "Normal",
                 "Water"
@@ -168,7 +179,7 @@
                 "speed": 32
             },
             "moves": [
-                "Cut",
+                "Strength",
                 "Rock Smash",
                 "Surf",
                 "Headbutt"
@@ -176,5 +187,10 @@
         }
     ],
     "comments": [
+        "This is almost a first for me, its the first pokemon game that I have played on the DS, but I have already played brilliant diamond.",
+        "Staraptor was a real champion for gyms 2 - 4, I feal almost guilty that it turned into the pokemon that takes a hit so I can heal in the elite four.",
+        "Floatzel was the other champion of the team being able to almost single handely taken on the elite four by himself.",
+        "I find that I am starting to get tired of HM's now that pokemon are able to learn a real variaty of moves, and as typing feels more important.  I ended up with a whole fleat of Bibarels knowing a variaty of HM moves, I reocorded just the one I used to get through Victory Road.",
+        "Platinum might be one of my favorite pokemon games, with a real variaty of moves and pokemon to choose from."
     ]
 }

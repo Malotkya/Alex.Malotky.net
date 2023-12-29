@@ -10,6 +10,7 @@ export default function Pokemon():Content {
         ),
         new PokemonGameElement(require("./games/yellow.json")),
         new PokemonGameElement(require("./games/crystal.json")),
-        new PokemonGameElement(require("./games/ruby.json"))
+        new PokemonGameElement(require("./games/ruby.json")),
+        new PokemonGameElement(require("./games/platinum.json"))
     ];
 };

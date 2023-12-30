@@ -29,7 +29,7 @@ function Result(deck:DeckItem, edit: boolean): Content{
     });
 
     return _("li", 
-        _("a", {href: edit? `/decks/Editor/${deck.id}`: `/Decks/${deck.id}`},
+        _("a", {href: edit? `/Decks/Editor/${deck.id}`: `/Decks/${deck.id}`},
             _("figure", {class: "deck-art"},
                 deck.art? _("img", {src: deck.art, alt: "Deck Art"})
                         : _("img", {src: "/media/missing.jpg", alt: "Missing Deck Art"})

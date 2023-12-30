@@ -59,7 +59,7 @@ Editor.use("/:id", async(ctx:Context)=>{
     const database = await Database();
 
     const id = ctx.get("id");
-    let results:any = ctx.get("deck");
+    let results:any = ctx.params.get("deck");
 
     if(results){
         results = JSON.parse(results);

@@ -70,27 +70,31 @@ function formatURI(version:StringIndex|undefined, shiney:boolean, number:number)
 
 export default class PokemonElement extends HTMLElement {
     private _title: HTMLElement;
+    private _level: HTMLElement;
     private _types: HTMLElement;
     private _image: HTMLElement;
     private _stats: HTMLElement;
     private _moves: HTMLElement;
     private _optionals: HTMLElement;
 
-    constructor(data:PokemonType, version?:StringIndex){
+    constructor(data:PokemonType, version?:StringIndex, gameName:String = ""){
         super();
         
         this._title = _("h4", {class: "pokemon-title"}, 
-            _("span", {class: "pokemon-name"}, data.name,
-                createGenerIcon(data.gender)
-            ),
-            _("span", {class: "pokemon-level"}, `Level: ${data.level}`)
+            _("span", {class: "pokemon-name"}, data.name),
+            createGenerIcon(data.gender)
         );
+
+        this._level = _("p", {class: "pokemon-level"}, `Level: ${data.level}`);
 
         this._types = _("ul", {class: "pokemon-types-list"},
-            data.types.map(type=>_("li", {class: "pokemon-type-item"}, type))
+            data.types.map(type=>_("li", {class: `pokemon-type-item ${type.toLocaleLowerCase()}`}, type))
         );
 
-        this._image = _("figure", {class: "pokemon-image"}, _("img", {src: formatURI(version, data.shiney, getNumber(data.name)), alt: data.name}));
+        this._image = _("figure", {class: "pokemon-image"},
+            _("img", {src: formatURI(version, data.shiney, getNumber(data.name)), alt: `${data.name} ${gameName} Sprite`}),
+            _("figcaption", data.name)
+        );
 
         this._stats = _("ol", {class: "pokemon-stats-list"});
         this._stats.appendChild(statsListItem("Health:", data.stats.health));
@@ -124,10 +128,12 @@ export default class PokemonElement extends HTMLElement {
     connectedCallback(){
         this.appendChild(this._title);
         this.appendChild(this._types);
+        this.appendChild(this._level);
         this.appendChild(this._image);
         this.appendChild(this._stats);
         this.appendChild(this._moves);
-        this.appendChild(this._optionals);
+        if(this._optionals.childNodes.length > 0)
+            this.appendChild(this._optionals);
     }
 }
 

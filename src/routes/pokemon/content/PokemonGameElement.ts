@@ -25,8 +25,8 @@ export default class PokemonGameElement extends HTMLElement {
         this._info = _("p", {class: "game-info"}, `Generation: ${data.generation}<br/> Region: ${data.region}`);
         this._comments = _("p", {class: "game-comments"}, Array.isArray(data.comments)? data.comments.join(): data.comments);
         this._team = new PokemonTeamViewElement(
-            data.team.map(pokemon=>new PokemonElement(pokemon, data.version)),
-            data.others.map(pokemon=> new PokemonElement(pokemon, data.version))
+            data.team.map(pokemon=>new PokemonElement(pokemon, data.version, data.game)),
+            data.others.map(pokemon=> new PokemonElement(pokemon, data.version, data.game))
         );
     }
 

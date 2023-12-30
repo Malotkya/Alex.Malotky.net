@@ -108,6 +108,14 @@ export default class PokemonElement extends HTMLElement {
         }
         this._stats.appendChild(statsListItem("Speed:", data.stats.speed));
 
+        while(data.moves.length < 4){
+            data.moves.push("");
+        }
+
+        while(data.moves.length > 4){
+            data.moves.pop();
+        }
+
         this._moves = _("ol", {class: "pokmeon-moves-list"}, 
             data.moves.map(move=>_("li", {class:"pokmeon-move-item"}, move))
         );

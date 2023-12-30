@@ -6,6 +6,7 @@
     pokemon-element {
         width: 33%;
         min-width: 300px;
+        max-width: 400px;
         padding: 0.5em 0.3em;
         display: flex;
         flex-flow: row wrap;
@@ -143,4 +144,21 @@
             }
         }
     }
+}
+
+pokemon-game-element {
+    display: flex;
+    flex-flow: row wrap;
+
+    .game-name, .game-info {
+        width: 50%;
+    }
+
+    game-team-view, .game-comments {
+        width: 100%;
+    }
+}
+
+#pokemon-game-view {
+    width: 100%;
 }

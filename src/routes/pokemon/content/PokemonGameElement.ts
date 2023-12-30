@@ -33,8 +33,8 @@ export default class PokemonGameElement extends HTMLElement {
     connectedCallback(){
         this.appendChild(this._name);
         this.appendChild(this._info);
-        this.appendChild(this._team);
         this.appendChild(this._comments);
+        this.appendChild(this._team);
     }
 }
 

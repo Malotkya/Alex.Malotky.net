@@ -10,16 +10,29 @@
         {   "name": "Pikachu",
             "level": 48,
             "moves": [
-                {
-                    "name": "Thunderbolt",
+                {   "name": "Thunderbolt",
                     "type": "Electric",
                     "category": "special",
-                    "power": 90,
+                    "power": 95,
                     "accuracy": 100
                 },
-                "Body Slam",
-                "Submission",
-                "Thunder Wave"
+                {   "name": "Body Slam",
+                    "type": "Normal",
+                    "category": "physical",
+                    "power": 85,
+                    "accuracy": 100
+                },
+                {   "name": "Submission",
+                    "type": "Fighting",
+                    "category": "physical",
+                    "power": 80,
+                    "accuracy": 80
+                },
+                {   "name": "Thunder Wave",
+                    "type": "Electric",
+                    "category": "status",
+                    "accuracy": 100
+                }
             ],
             "stats": {
                 "attack": 73,
@@ -35,10 +48,29 @@
         {   "name": "Nidoking",
             "level": 48,
             "moves": [
-                "Toxic",
-                "Rock Slide",
-                "Earthquake",
-                "Ice Beam"
+                {   "name": "Toxic",
+                    "type": "Poison",
+                    "category": "status",
+                    "accuracy": 85
+                },
+                {   "name": "Rock Slide",
+                    "type": "Rock",
+                    "category": "physical",
+                    "accuracy": 90,
+                    "power": 75
+                },
+                {   "name": "Earthquake",
+                    "type": "Ground",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 100
+                },
+                {   "name": "Ice Beam",
+                    "type": "Ice",
+                    "category": "special",
+                    "accuracy": 95,
+                    "power": 100
+                }
             ],
             "stats": {
                 "attack": 105,
@@ -55,10 +87,28 @@
         {   "name": "Venusaur",
             "level": 46,
             "moves": [
-                "Cut",
-                "Poison Powder",
-                "Leech Seed",
-                "Razor Leaf"
+                {   "name": "Cut",
+                    "type": "Normal",
+                    "category": "physical",
+                    "accuracy": 95,
+                    "power": 50
+                },
+                {   "name": "Poison Powder",
+                    "type": "Poison",
+                    "category": "status",
+                    "accuracy": 95
+                },
+                {   "name": "Leech Seed",
+                    "type": "Grass",
+                    "category": "status",
+                    "accuracy": 90
+                },
+                {   "name": "Razor Leaf",
+                    "type": "Grass",
+                    "category": "special",
+                    "accuracy": 95,
+                    "power": 55
+                }
             ],
             "stats": {
                 "attack": 104,
@@ -75,10 +125,29 @@
         {   "name": "Charizard",
             "level": 46,
             "moves": [
-                "Strength",
-                "Swords Dance",
-                "Flamethrower",
-                "Dig"
+                {   "name": "Strength",
+                    "type": "Normal",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 80
+                },
+                {   "name": "Swords Dance",
+                    "type": "Normal",
+                    "category": "status",
+                    "accuracy": 0
+                },
+                {   "name": "Flamethrower",
+                    "type": "Fire",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 95
+                },
+                {   "name": "Dig",
+                    "type": "Ground",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 100
+                }
             ],
             "stats": {
                 "attack": 92,
@@ -95,10 +164,29 @@
         {   "name": "Blastoise",
             "level": 46,
             "moves": [
-                "Take Down",
-                "Withdraw",
-                "Blizard",
-                "Surf"
+                {   "name": "Take Down",
+                    "type": "Normal",
+                    "category": "physical",
+                    "accuracy": 85,
+                    "power": 90
+                },
+                {   "name": "Withdraw",
+                    "type": "Water",
+                    "category": "status",
+                    "accuracy": 0
+                },
+                {   "name": "Blizard",
+                    "type": "Ice",
+                    "category": "special",
+                    "accuracy": 90,
+                    "power": 120
+                },
+                {   "name": "Surf",
+                    "type": "Water",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 95
+                }
             ],
             "stats": {
                 "attack": 104,
@@ -114,10 +202,30 @@
         {   "name": "Mew",
             "level": 50,
             "moves": [
-                "Psychic",
-                "Fly",
-                "Thunderbolt",
-                "Swift"
+                {   "name": "Psychic",
+                    "type": "Psychic",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 90
+                },
+                {   "name": "Fly",
+                    "type": "Flying",
+                    "category": "physical",
+                    "accuracy": 95,
+                    "power": 70
+                },
+                {   "name": "Thunderbolt",
+                    "type": "Electric",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 95
+                },
+                {   "name": "Swift",
+                    "type": "Normal",
+                    "category": "physical",
+                    "accuracy": 0,
+                    "power": 60
+                }
             ],
             "stats": {
                 "attack": 128,
@@ -135,10 +243,28 @@
         {   "name": "Butterfree",
             "level": 15,
             "moves": [
-                "Tackle",
-                "Flash",
-                "Sleep Powder",
-                "Confusion"
+                {   "name": "Tackle",
+                    "type": "Normal",
+                    "category": "physical",
+                    "accuracy": 95,
+                    "power": 35
+                },
+                {   "name": "Flash",
+                    "type": "Normal",
+                    "category": "status",
+                    "accuracy": 70
+                },
+                {   "name": "Sleep Powder",
+                    "type": "Grass",
+                    "category": "status",
+                    "accuracy": 75
+                },
+                {   "name": "Confusion",
+                    "type": "Psychic",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 50
+                }
             ],
             "stats":{
                 "attack": 21,

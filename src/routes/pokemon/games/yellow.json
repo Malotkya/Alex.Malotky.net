@@ -10,7 +10,13 @@
         {   "name": "Pikachu",
             "level": 48,
             "moves": [
-                "Thunderbolt",
+                {
+                    "name": "Thunderbolt",
+                    "type": "Electric",
+                    "category": "special",
+                    "power": 90,
+                    "accuracy": 100
+                },
                 "Body Slam",
                 "Submission",
                 "Thunder Wave"

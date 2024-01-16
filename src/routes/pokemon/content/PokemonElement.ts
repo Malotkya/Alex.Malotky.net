@@ -1,11 +1,12 @@
 import { createElement as _ } from "../../../util/Elements";
+import MoveElement, { MoveData } from "./MoveElement";
 const MASTER_POKEMON_LIST: Array<string> = require("../../../../pokemon.json");
 
 export interface PokemonType {
     name: string,
     number: number,
     level: number,
-    moves: Array<string>,
+    moves: Array<string|MoveData>,
     types: Array<string>,
     item?: string,
     nature?: string,
@@ -117,7 +118,7 @@ export default class PokemonElement extends HTMLElement {
         }
 
         this._moves = _("ol", {class: "pokmeon-moves-list"}, 
-            data.moves.map(move=>_("li", {class:"pokmeon-move-item"}, move))
+            data.moves.map(move=>new MoveElement(move))
         );
 
         this._optionals = _("ul", {class: "pokmeon-optional-list"});

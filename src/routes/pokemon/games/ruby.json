@@ -27,10 +27,30 @@
                 "speed": 78
             },
             "moves": [
-                "Ice Beam",
-                "Brick Break",
-                "Earthquake",
-                "Surf"
+                {   "name": "Surf",
+                    "type": "Water",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 95
+                },
+                {   "name": "Brick Break",
+                    "type": "Fighting",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 75
+                },
+                {   "name": "Earthquake",
+                    "type": "Ground",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 100
+                },
+                {   "name": "Ice Beam",
+                    "type": "Ice",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 95
+                }
             ]
             
         },
@@ -53,10 +73,28 @@
                 "speed": 92
             },
             "moves": [
-                "Faint Attack",
-                "Toxic",
-                "Growth",
-                "Bullet Seed"
+                {   "name": "Faint Attack",
+                    "type": "Dark",
+                    "category": "special",
+                    "accuracy": 0,
+                    "power": 60
+                },
+                {   "name": "Toxic",
+                    "type": "Poison",
+                    "category": "status",
+                    "accuracy": 85
+                },
+                {   "name": "Growth",
+                    "type": "Normal",
+                    "category": "status",
+                    "accuracy": 0
+                },
+                {   "name": "Giga Drain",
+                    "type": "Grass",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 60
+                }
             ]
         },
         {   "name": "Crobat",
@@ -77,11 +115,31 @@
                 "specialDefence": 89,
                 "speed": 124
             },
-            "moves": [ 
-                "Aerial Ace",
-                "Sludge Bomb",
-                "Steel Wing",
-                "Shadow Ball"
+            "moves": [
+                {   "name": "Aerial Ace",
+                    "type": "Flying",
+                    "category": "physical",
+                    "accuracy": 0,
+                    "power": 60
+                }, 
+                {   "name": "Sludge Bomb",
+                    "type": "Poison",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 90
+                },
+                {   "name": "Steel Wing",
+                    "type": "Steel",
+                    "category": "physical",
+                    "accuracy": 90,
+                    "power": 70
+                },
+                {   "name": "Shadow Ball",
+                    "type": "Ghost",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 80
+                }
             ]
         },
         {   "name": "Aggron",
@@ -103,10 +161,30 @@
                 "speed": 65
             },
             "moves": [
-                "Iron Tail",
-                "Rock Tomb",
-                "Shock Wave",
-                "Dragon Claw"
+                {   "name": "Iron Tail",
+                    "type": "Steel",
+                    "category": "physical",
+                    "accuracy": 75,
+                    "power": 100
+                },
+                {   "name": "Rock Tomb",
+                    "type": "Rock",
+                    "category": "physical",
+                    "accuracy": 80,
+                    "power": 50
+                },
+                {   "name": "Shock Wave",
+                    "type": "Electric",
+                    "category": "special",
+                    "accuracy": 0,
+                    "power": 60
+                },
+                {   "name": "Dragon Claw",
+                    "type": "Dragon",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 80
+                }
             ]
         },
         {   "name": "Alakazam",
@@ -127,10 +205,30 @@
                 "speed": 130
             },
             "moves": [
-                "Psychic",
-                "Ice Punch",
-                "Thunder Punch",
-                "Fire Punch"
+                {   "name": "Psychic",
+                    "type": "Psychic",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 90
+                },
+                {   "name": "Ice Punch",
+                    "type": "Ice",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 75
+                },
+                {   "name": "Thunder Punch",
+                    "type": "Electric",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 75
+                },
+                {   "name": "Fire Punch",
+                    "type": "Fire",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 75
+                }
             ]
         },
         {   "name": "Groudon",
@@ -150,10 +248,30 @@
                 "speed": 93
             },
             "moves": [
-                "Slash",
-                "Solarbeam",
-                "Earthquake",
-                "Flamethrower"
+                {   "name": "Slash",
+                    "type": "Normal",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 70
+                },
+                {   "name": "Solarbeam",
+                    "type": "Grass",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 120
+                },
+                {   "name": "Earthquake",
+                    "type": "Ground",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 100
+                },
+                {   "name": "Flamethrower",
+                    "type": "Fire",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 95
+                }
             ]
         }
     ],
@@ -162,10 +280,30 @@
             "level": 20,
             "gender": false,
             "moves": [
-                "Strength",
-                "Secret Power",
-                "Rock Smash",
-                "Cut"
+                {   "name": "Strength",
+                    "type": "Normal",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 80
+                },
+                {   "name": "Secret Power",
+                    "type": "Normal",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 70
+                },
+                {   "name": "Rock Smash",
+                    "type": "Fighting",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 20
+                },
+                {   "name": "Cut",
+                    "type": "Normal",
+                    "category": "physical",
+                    "accuracy": 95,
+                    "power": 50
+                }
             ],
             "stats":{
                 "health": 66,
@@ -186,10 +324,30 @@
             "level": 26,
             "gender": true,
             "moves": [
-                "Fly",
-                "Razor Leaf",
-                "Strength",
-                "Cut"
+                {   "name": "Fly",
+                    "type": "Flying",
+                    "category": "physical",
+                    "accuracy": 95,
+                    "power": 75
+                },
+                {   "name": "Razor Leaf",
+                    "type": "Grass",
+                    "category": "special",
+                    "accuracy": 95,
+                    "power": 55
+                },
+                {   "name": "Strength",
+                    "type": "Normal",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 80
+                },
+                {   "name": "Cut",
+                    "type": "Normal",
+                    "category": "physical",
+                    "accuracy": 95,
+                    "power": 50
+                }
             ],
             "stats":{
                 "health": 89,
@@ -225,10 +383,30 @@
                 "speed": 47
             },
             "moves": [
-                "Waterfall",
-                "Surf",
-                "Bite",
-                "Dive"
+                {   "name": "Waterfall",
+                    "type": "Water",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 80
+                },
+                {   "name": "Surf",
+                    "type": "Water",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 95
+                },
+                {   "name": "Bite",
+                    "type": "Dark",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 60
+                },
+                {   "name": "Dive",
+                    "type": "Water",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 60
+                }
             ]
         }
     ],

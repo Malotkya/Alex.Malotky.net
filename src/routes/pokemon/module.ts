@@ -36,7 +36,9 @@ export default function Pokemon():Content {
             require("./games/yellow.json"),
             require("./games/crystal.json"),
             require("./games/ruby.json"),
-            require("./games/platinum.json")
+            require("./games/platinum.json"),
+            require("./games/white.json"),
+            require("./games/x.json")
         )
     ];
 };

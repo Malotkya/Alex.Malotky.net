@@ -4,6 +4,7 @@ const MASTER_POKEMON_LIST: Array<string> = require("../../../../pokemon.json");
 
 export interface PokemonType {
     name: string,
+    modifier?: string,
     number: number,
     level: number,
     moves: Array<string|MoveData>,
@@ -51,7 +52,7 @@ function getNumber(name:string):number{
     return MASTER_POKEMON_LIST.indexOf(name) + 1;
 }
 
-function formatURI(version:StringIndex|undefined, shiney:boolean, number:number): string{
+function formatURI(version:StringIndex|undefined, shiney:boolean, number:number, modifier:string = ""): string{
     let baseUri:string = "pokemon/art/";
     if(version){
         if(shiney){
@@ -66,7 +67,7 @@ function formatURI(version:StringIndex|undefined, shiney:boolean, number:number)
         value = `00${number}`.slice(-3);
     }
 
-    return SEREBII_URI + baseUri + value + '.png';
+    return SEREBII_URI + baseUri + value + modifier + '.png';
 }
 
 export default class PokemonElement extends HTMLElement {
@@ -93,7 +94,7 @@ export default class PokemonElement extends HTMLElement {
         );
 
         this._image = _("figure", {class: "pokemon-image"},
-            _("img", {src: formatURI(version, data.shiney, getNumber(data.name)), alt: `${data.name} ${gameName} Sprite`}),
+            _("img", {src: formatURI(version, data.shiney, getNumber(data.name), data.modifier), alt: `${data.name} ${gameName} Sprite`}),
             _("figcaption", data.name)
         );
 

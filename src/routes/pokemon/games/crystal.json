@@ -12,10 +12,30 @@
             "gender": true,
             "level": 60,
             "moves": [
-                "Flamethrower",
-                "Thunder Punch",
-                "Dynamic Punch",
-                "Iron Tail"
+                {   "name": "Flamethrower",
+                    "type": "Fire",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 95
+                },
+                {   "name": "Thunder Punch",
+                    "type": "Electric",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 75
+                },
+                {   "name": "Dynamic Punch",
+                    "type": "Fighting",
+                    "category": "physical",
+                    "accuracy": 50,
+                    "power": 100
+                },
+                {   "name": "Iron Tail",
+                    "type": "Steel",
+                    "category": "physical",
+                    "accuracy": 75,
+                    "power": 100
+                }
             ],
             "stats":{
                 "attack": 127,
@@ -34,10 +54,28 @@
             "level": 60,
             "gender": true,
             "moves": [
-                "Razor Leaf",
-                "Sludge Bomb",
-                "Growth",
-                "Sleep Powder"
+                {   "name": "Razor Leaf",
+                    "type": "Grass",
+                    "category": "special",
+                    "accuracy": 95,
+                    "power": 55
+                },
+                {   "name": "Sludge Bomb",
+                    "type": "Poison",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 90
+                },
+                {   "name": "Growth",
+                    "type": "Normal",
+                    "category": "status",
+                    "accuracy": 0
+                },
+                {   "name": "Sleep Powder",
+                    "type": "Grass",
+                    "category": "status",
+                    "accuracy": 75
+                }
             ],
             "stats":{
                 "attack": 165,
@@ -58,10 +96,30 @@
             "gender": true,
             "shiney": true,
             "moves": [
-                "Waterfall",
-                "Thunderbolt",
-                "Icy Wind",
-                "Surf"
+                {   "name": "Waterfall",
+                    "type": "Water",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 80
+                },
+                {   "name": "Tunderbolt",
+                    "type": "Electric",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 95
+                },
+                {   "name": "Icy Wind",
+                    "type": "Ice",
+                    "category": "special",
+                    "accuracy": 95,
+                    "power": 55
+                },
+                {   "name": "Surf",
+                    "type": "Water",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 95
+                }
             ],
             "stats":{
                 "attack": 177,
@@ -81,10 +139,30 @@
             "level": 60,
             "gender": true,
             "moves": [
-                "Psychic",
-                "Shadow Ball",
-                "Swift",
-                "Bite"
+                {   "name": "Psychic",
+                    "type": "Psychic",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 90
+                },
+                {   "name": "Shadow Ball",
+                    "type": "Ghost",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 80
+                },
+                {   "name": "Swift",
+                    "type": "Normal",
+                    "category": "physical",
+                    "accuracy": 0,
+                    "power": 60
+                },
+                {   "name": "Bite",
+                    "type": "Dark",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 60
+                }
             ],
             "stats":{
                 "attack": 116,
@@ -103,10 +181,29 @@
             "level": 60,
             "gender": true,
             "moves": [
-                "Psychic",
-                "Steel Wing",
-                "Toxic",
-                "Fly"
+                {   "name": "Psychic",
+                    "type": "Psychic",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 90
+                },
+                {   "name": "Steel Wing",
+                    "type": "Steel",
+                    "category": "physical",
+                    "accuracy": 90,
+                    "power": 70
+                },
+                {   "name": "Toxic",
+                    "type": "Poison",
+                    "category": "status",
+                    "accuracy": 85
+                },
+                {   "name": "Fly",
+                    "type": "Flying",
+                    "category": "physical",
+                    "accuracy": 95,
+                    "power": 70
+                }
             ],
             "stats":{
                 "attack": 82,
@@ -126,10 +223,30 @@
             "level": 60,
             "gender": false,
             "moves": [
-                "Ice Beam",
-                "Earthquake",
-                "Strength",
-                "Rock Smash"
+                {   "name": "Ice Beam",
+                    "type": "Ice",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 95
+                },
+                {   "name": "Earthquake",
+                    "type": "Ground",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 100
+                },
+                {   "name": "Strength",
+                    "type": "Normal",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 80
+                },
+                {   "name": "Rock Smash",
+                    "type": "Fighting",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 20
+                }
             ],
             "stats":{
                 "attack": 144,
@@ -151,9 +268,23 @@
             "gender": false,
             "level": 5,
             "moves": [
-                "Vine Whip",
-                "Flash",
-                "Cut"
+                {   "name": "Vine Whip",
+                    "type": "Grass",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 35
+                },
+                {   "name": "Flash",
+                    "type": "Normal",
+                    "category": "special",
+                    "accuracy": 70
+                },
+                {   "name": "Cut",
+                    "type": "Normal",
+                    "category": "physical",
+                    "accuracy": 95,
+                    "power": 50
+                }
             ],
             "stats":{
                 "attack": 13,
@@ -172,10 +303,29 @@
             "gender": false,
             "level": 22,
             "moves": [
-                "Poison Sting",
-                "Supersonic",
-                "Whirlpool",
-                "Acid"
+                {   "name": "Poison Sting",
+                    "type": "Poison",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 15
+                },
+                {   "name": "Supersonic",
+                    "type": "Normal",
+                    "category": "status",
+                    "accuracy": 55
+                },
+                {   "name": "Whirlpool",
+                    "type": "Water",
+                    "category": "special",
+                    "accuracy": 70,
+                    "power": 15
+                },
+                {   "name": "Acid",
+                    "type": "Poison",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 40
+                }
             ],
             "stats":{
                 "attack": 37,

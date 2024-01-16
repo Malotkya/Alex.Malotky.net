@@ -57,8 +57,8 @@ export default class MoveElement extends HTMLLIElement{
 
         this.addEventListener("mousemove", (event:MouseEvent)=>{
             if(this._info){
-                this._info.style.top = `${event.clientY}px`;
-                this._info.style.left = `${event.clientX}px`;
+                this._info.style.top = `${event.pageY}px`;
+                this._info.style.left = `${event.pageX}px`;
             }
         })
 

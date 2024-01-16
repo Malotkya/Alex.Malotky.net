@@ -125,6 +125,10 @@
             }
         }
 
+        .pokemon-move-info {
+            position: absolute;
+        }
+
         .pokmeon-optional-list {
             width: 100%;
             margin-left: 20px;
@@ -151,7 +155,7 @@ pokemon-game-element {
     flex-flow: row wrap;
 
     .game-name, .game-info {
-        width: 50%;
+        width: 100%;
     }
 
     game-team-view, .game-comments {

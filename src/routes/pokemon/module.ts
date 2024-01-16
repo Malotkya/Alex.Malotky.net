@@ -20,6 +20,11 @@ function gameSelect(init:string, list:dataList): Content {
 
         const button = _("button", list[name].game);
         button.addEventListener("click", ()=>{
+            //@ts-ignore
+            const url = new URL(window.location);
+            url.searchParams.set("game", name);
+            window.history.pushState({}, "", url);
+
             target.innerHTML = "";
             target.appendChild(games[name]);
         });

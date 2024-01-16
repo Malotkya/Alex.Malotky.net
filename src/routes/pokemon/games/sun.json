@@ -1,0 +1,369 @@
+
+{
+    "game": "Pokemon Ultra Sun",
+    "generation": 7,
+    "version": {
+        "normal": "sunmoon/pokemon",
+        "shiney": "Shiny/SM"
+    },
+    "region": "Alola",
+    "team": [
+        {   "name": "Decidueye",
+            "level": 65,
+            "gender": false,
+            "types":[
+                "Grass",
+                "Ghost"
+            ],
+            "item": "Decidium Z",
+            "nature": "Adamant",
+            "ability": "Overgrow",
+            "stats":{
+                "health": 197,
+                "attack": 203,
+                "defense": 122,
+                "specialAttack": 135,
+                "specialDefence": 159,
+                "speed": 123
+            },
+            "moves": [
+                {   "name": "Spirit Shackle",
+                    "type": "Ghost",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 80
+                },
+                {   "name": "Leaf Blade",
+                    "type": "Grass",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 90
+                },
+                {   "name": "Sucker Punch",
+                    "type": "Dark",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 70
+                },
+                {   "name": "Brave Bird",
+                    "type": "Flying",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 120
+                }
+            ]
+        },
+        {   "name": "Vikavolt",
+            "level": 63,
+            "gender": false,
+            "types":[
+                "Bug",
+                "Electric"
+            ],
+            "item": "Electrium Z",
+            "nature": "Timid",
+            "ability": "Levitate",
+            "stats":{
+                "health": 183,
+                "attack": 104,
+                "defense": 128,
+                "specialAttack": 210,
+                "specialDefence": 128,
+                "speed": 108
+            },
+            "moves": [
+                {   "name": "Thunderbolt",
+                    "type": "Electric",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 90
+                },
+                {   "name": "Bug Buzz",
+                    "type": "Bug",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 90
+                },
+                {   "name": "Flash Cannon",
+                    "type": "Steel",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 80
+                },
+                {   "name": "Thunder Wave",
+                    "type": "Electric",
+                    "category": "status",
+                    "accuracy": 90
+                }
+            ]
+        },
+        {   "name": "Slowbro",
+            "level": 63,
+            "gender": false,
+            "types":[
+                "Water",
+                "Psychic"
+            ],
+            "item": "Waterium Z",
+            "nature": "Serious",
+            "ability": "Own Tempo",
+            "stats":{
+                "health": 209,
+                "attack": 140,
+                "defense": 173,
+                "specialAttack": 138,
+                "specialDefence": 125,
+                "speed": 79
+            },
+            "moves": [
+                {   "name": "Psyshock",
+                    "type": "Psychic",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 80
+                },
+                {   "name": "Scald",
+                    "type": "Water",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 80
+                },
+                {   "name": "Yawn",
+                    "type": "Normal",
+                    "category": "status",
+                    "accuracy": 0
+                },
+                {   "name": "Calm Mind",
+                    "type": "Psychic",
+                    "category": "status",
+                    "accuracy": 0
+                }
+            ]
+            
+        },
+        {   "name": "Mudsdale",
+            "level": 62,
+            "gender": true,
+            "types":[
+                "Ground"
+            ],
+            "item": "Fightinium Z",
+            "nature": "Careful",
+            "ability": "Own Tempo",
+            "stats":{
+                "health": 202,
+                "attack": 184,
+                "defense": 157,
+                "specialAttack": 79,
+                "specialDefence": 147,
+                "speed": 73
+            },
+            "moves": [
+                {   "name": "Earthquake",
+                    "type": "Ground",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 100
+                },
+                {   "name": "Superpower",
+                    "type": "Fighting",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 120
+                },
+                {   "name": "Heavy Slam",
+                    "type": "Steel",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 0
+                },
+                {   "name": "Rock Slide",
+                    "type": "Rock",
+                    "category": "physical",
+                    "accuracy": 90,
+                    "power": 75
+                }
+            ]
+            
+        },
+        {   "name": "Salazzle",
+            "level": 63,
+            "gender": false,
+            "types":[
+                "Poison",
+                "Fire"
+            ],
+            "item": "Firium Z",
+            "nature": "Lonely",
+            "ability": "Corrosion",
+            "stats":{
+                "health": 168,
+                "attack": 123,
+                "defense": 97,
+                "specialAttack": 171,
+                "specialDefence": 90,
+                "speed": 182
+            },
+            "moves": [
+                {   "name": "Flamethrower",
+                    "type": "Fire",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 90
+                },
+                {   "name": "Sludge Wave",
+                    "type": "Poison",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 95
+                },
+                {   "name": "Dragon Pulse",
+                    "type": "Dragon",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 85
+                },
+                {   "name": "Toxic",
+                    "type": "Poison",
+                    "category": "status",
+                    "accuracy": 90
+                }
+            ]
+        },
+        {   "name": "Ninetales",
+            "modifier": "-a",
+            "level": 62,
+            "gender": true,
+            "types":[
+                "Ice",
+                "Fairy"
+            ],
+            "item": "Fairium Z",
+            "nature": "Naive",
+            "ability": "Snow Cloak",
+            "stats":{
+                "health": 174,
+                "attack": 119,
+                "defense": 120,
+                "specialAttack": 133,
+                "specialDefence": 126,
+                "speed": 184
+            },
+            "moves": [
+                {   "name": "Dazzling Gleam",
+                    "type": "Fairy",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 80
+                },
+                {   "name": "Ice Beam",
+                    "type": "Ice",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 90
+                },
+                {   "name": "Extrasensory",
+                    "type": "Psychic",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 80
+                },
+                {   "name": "Nasty Plot",
+                    "type": "Dark",
+                    "category": "status",
+                    "accuracy": 0
+                }
+            ]
+            
+        }
+    ],
+    "others": [
+        {   "name": "Zorua",
+            "level": 27,
+            "gender": true,
+            "types":[
+                "Dark"
+            ],
+            "item": "",
+            "nature": "Calm",
+            "ability": "Illusion",
+            "stats":{
+                "health": 58,
+                "attack": 40,
+                "defense": 30,
+                "specialAttack": 55,
+                "specialDefence": 29,
+                "speed": 44
+            },
+            "moves": [
+                {   "name": "Fury Swipes",
+                    "type": "Normal",
+                    "category": "physical",
+                    "accuracy": 80,
+                    "power": 18
+                },
+                {   "name": "Thief",
+                    "type": "Dark",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 60
+                },
+                {   "name": "Feint Attack",
+                    "type": "Dark",
+                    "category": "physical",
+                    "accuracy": 0,
+                    "power": 60
+                },
+                {   "name": "Toxic",
+                    "type": "Poison",
+                    "category": "status",
+                    "accuracy": 80
+                }
+            ]
+        },
+        {   "name": "Furfrou",
+            "level": 40,
+            "gender": true,
+            "types":[
+                "Normal"
+            ],
+            "item": "",
+            "nature": "Hardy",
+            "ability": "Fur Coat",
+            "stats":{
+                "health": 120,
+                "attack": 90,
+                "defense": 66,
+                "specialAttack": 73,
+                "specialDefence": 83,
+                "speed": 109
+            },
+            "moves": [
+                {   "name": "Headbutt",
+                    "type": "Normal",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 70
+                },
+                {   "name": "Retaliate",
+                    "type": "Normal",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 70
+                },
+                {   "name": "Bite",
+                    "type": "Dark",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 60
+                },
+                {   "name": "Baby-Doll Eyes",
+                    "type": "Fairy",
+                    "category": "status",
+                    "accuracy": 100
+                }
+            ]
+        }
+    ],
+    "comments": ""
+}

@@ -27,10 +27,29 @@
                 "speed": 81
             },
             "moves": [
-                "Earthquake",
-                "Wood Hammer",
-                "Crunch",
-                "Sword Dance"
+                {   "name": "Earthquake",
+                    "type": "Ground",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 100
+                },
+                {   "name": "Wood Hammer",
+                    "type": "Grass",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 120
+                },
+                {   "name": "Crunch",
+                    "type": "Dark",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 80
+                },
+                {   "name": "Sword Dance",
+                    "type": "Normal",
+                    "category": "status",
+                    "accuracy": 0
+                }
             ]
             
         },
@@ -52,10 +71,30 @@
                 "speed": 163
             },
             "moves": [
-                "Waterfall",
-                "Ice Punch",
-                "Crunch",
-                "Dig"
+                {   "name": "Waterfall",
+                    "type": "Water",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 80
+                },
+                {   "name": "Ice Punch",
+                    "type": "Ice",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 75
+                },
+                {   "name": "Crunch",
+                    "type": "Dark",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 80
+                },
+                {   "name": "Dig",
+                    "type": "Ground",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 80
+                }
             ]
         },
         {   "name": "Staraptor",
@@ -77,10 +116,30 @@
                 "speed": 118
             },
             "moves": [ 
-                "Brave Bird",
-                "Close Combat",
-                "U-Turn",
-                "Fly"
+                {   "name": "Brave Bird",
+                    "type": "Flying",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 120
+                },
+                {   "name": "Close Combat",
+                    "type": "Fighting",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 120
+                },
+                {   "name": "U-Turn",
+                    "type": "Bug",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 70
+                },
+                {   "name": "Fly",
+                    "type": "Flying",
+                    "category": "physical",
+                    "accuracy": 95,
+                    "power": 90
+                }
             ]
         },
         {   "name": "Rotom",
@@ -101,10 +160,28 @@
                 "speed": 116
             },
             "moves": [
-                "Thunderbolt",
-                "Shadow Ball",
-                "Toxic",
-                "Thunder Wave"
+                {   "name": "Thunderbolt",
+                    "type": "Electric",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 95
+                },
+                {   "name": "Shadow Ball",
+                    "type": "Ghost",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 80
+                },
+                {   "name": "Toxic",
+                    "type": "Poison",
+                    "category": "status",
+                    "accuracy": 85
+                },
+                {   "name": "Thunder Wave",
+                    "type": "Electric",
+                    "category": "status",
+                    "accuracy": 100
+                }
             ]
         },
         {   "name": "Houndoom",
@@ -126,10 +203,30 @@
                 "speed": 135
             },
             "moves": [
-                "Flamethrower",
-                "Dark Pulsek",
-                "Sludge Bomb",
-                "Iron Tail"
+                {   "name": "Flamethrower",
+                    "type": "Fire",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 95
+                },
+                {   "name": "Dark Pulse",
+                    "type": "Dark",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 80
+                },
+                {   "name": "Sludge Bomb",
+                    "type": "Poison",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 90
+                },
+                {   "name": "Iron Tail",
+                    "type": "Steel",
+                    "category": "special",
+                    "accuracy": 75,
+                    "power": 100
+                }
             ]
         },
         {   "name": "Gallade",
@@ -151,11 +248,29 @@
                 "speed": 110
             },
             "moves": [
-                "Psycho Cut",
-                "Brick Break",
-                "X-Scissor",
-                "Swords Dance"
-                
+                {   "name": "Psycho Cut",
+                    "type": "Psychic",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 70
+                },
+                {   "name": "Brick Break",
+                    "type": "Fighting",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 75
+                },
+                {   "name": "X-Scissor",
+                    "type": "Bug",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 80
+                },
+                {   "name": "Swords Dance",
+                    "type": "Normal",
+                    "category": "status",
+                    "accuracy": 0
+                }
             ]
         }
     ],
@@ -179,10 +294,30 @@
                 "speed": 32
             },
             "moves": [
-                "Strength",
-                "Rock Smash",
-                "Surf",
-                "Headbutt"
+                {   "name": "Strength",
+                    "type": "Normal",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 80
+                },
+                {   "name": "Rock Smash",
+                    "type": "Fighting",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 40
+                },
+                {   "name": "Surf",
+                    "type": "Water",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 80
+                },
+                {   "name": "Rock Climb",
+                    "type": "Normal",
+                    "category": "physical",
+                    "accuracy": 85,
+                    "power": 90
+                }
             ]
         }
     ],

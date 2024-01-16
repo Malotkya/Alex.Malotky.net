@@ -34,7 +34,7 @@ export default class MoveElement extends HTMLLIElement{
                 ),
                 _("div", 
                     _("span", "Accuracy:"),
-                    _("span", data.accuracy.toString())
+                    _("span", data.accuracy === 0? "—": data.accuracy.toString())
                 ),
 
                 data.power?
@@ -56,9 +56,16 @@ export default class MoveElement extends HTMLLIElement{
         });
 
         this.addEventListener("mousemove", (event:MouseEvent)=>{
+            const width:number = window.innerWidth || screen.width;
             if(this._info){
+                if(event.pageX + this._info.offsetWidth > width) {
+                    this._info.style.left = `${width - this._info.offsetWidth}px`;
+                } else {
+                    this._info.style.left = `${event.pageX}px`;
+                }
+                
                 this._info.style.top = `${event.pageY}px`;
-                this._info.style.left = `${event.pageX}px`;
+                
             }
         })
 

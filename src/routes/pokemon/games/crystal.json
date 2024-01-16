@@ -159,7 +159,7 @@
                 },
                 {   "name": "Bite",
                     "type": "Dark",
-                    "category": "physical",
+                    "category": "special",
                     "accuracy": 100,
                     "power": 60
                 }

@@ -33,10 +33,6 @@ export default class MoveElement extends HTMLLIElement{
                 _("figure", {class: "pokmeon-move-category"},
                     _("img", {src: `/${data.category}.png`, alt: data.category})
                 ),
-                _("div", 
-                    _("span", "Accuracy:"),
-                    _("span", data.accuracy === 0? "—": data.accuracy.toString())
-                ),
 
                 data.power?
                 _("div", 
@@ -44,6 +40,11 @@ export default class MoveElement extends HTMLLIElement{
                     _("span", data.power === 0? "—": data.power.toString())
                 ): null,
 
+                _("div", 
+                    _("span", "Accuracy:"),
+                    _("span", data.accuracy === 0? "—": data.accuracy.toString())
+                ),
+                
                 data.effect? _("p", data.effect): null
             );
         }

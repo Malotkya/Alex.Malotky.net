@@ -31,4 +31,7 @@ app.use("*", async(ctx: Context)=>{
 
 app.onReady(()=>{
     console.info(`App v${pkg.version} loaded successfully!`);
-})
+});
+
+import MarkDownElement from "./util/MarkDownElement";
+customElements.define("mark-down", MarkDownElement);

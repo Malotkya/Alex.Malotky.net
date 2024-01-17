@@ -104,6 +104,23 @@ auto-complete {
     }
 }
 
+mark-down {
+    font-size: 1rem;
+
+    h3, h4, h5, h6 {
+        margin: 1rem 0;
+    }
+
+    h3 {
+        font-size: 1.5rem;
+        padding-bottom: 5px;
+        border-bottom: solid 2px;
+    }
+    h4 { font-size: 1.25rem }
+    h5 { font-size: 1.15rem}
+    h6 { font-size: 1.0rem}
+}
+
 @import "routes/home/style.scss";
 @import "routes/login/style.scss";
 @import "routes/mtg/style.scss";

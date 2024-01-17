@@ -4,8 +4,9 @@ export interface MoveData {
     name: string,
     type: string,
     category: "status"|"special"|"physical",
-    power: number,
-    accuracy: number
+    power?: number,
+    accuracy: number,
+    effect?: string
 }
 
 
@@ -41,7 +42,9 @@ export default class MoveElement extends HTMLLIElement{
                 _("div", 
                     _("span", "Power:"),
                     _("span", data.power === 0? "—": data.power.toString())
-                ): null
+                ): null,
+
+                data.effect? _("p", data.effect): null
             );
         }
     }
@@ -56,7 +59,7 @@ export default class MoveElement extends HTMLLIElement{
         });
 
         this.addEventListener("mousemove", (event:MouseEvent)=>{
-            const width:number = window.innerWidth || screen.width;
+            const width:number = document.body.clientWidth;
             if(this._info){
                 if(event.pageX + this._info.offsetWidth > width) {
                     this._info.style.left = `${width - this._info.offsetWidth}px`;

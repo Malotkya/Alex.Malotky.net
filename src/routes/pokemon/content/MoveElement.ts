@@ -40,7 +40,7 @@ export default class MoveElement extends HTMLLIElement{
                 data.power?
                 _("div", 
                     _("span", "Power:"),
-                    _("span", data.power.toString())
+                    _("span", data.power === 0? "—": data.power.toString())
                 ): null
             );
         }

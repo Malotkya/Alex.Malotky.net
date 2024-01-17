@@ -31,7 +31,8 @@
                     "type": "Ghost",
                     "category": "physical",
                     "accuracy": 100,
-                    "power": 80
+                    "power": 80,
+                    "effect": "Prevents the target from switching out."
                 },
                 {   "name": "Leaf Blade",
                     "type": "Grass",
@@ -43,13 +44,15 @@
                     "type": "Dark",
                     "category": "physical",
                     "accuracy": 100,
-                    "power": 70
+                    "power": 70,
+                    "effect": "Has a priority of +1.<br/>Fails if target is not attacking."
                 },
                 {   "name": "Brave Bird",
                     "type": "Flying",
                     "category": "physical",
                     "accuracy": 100,
-                    "power": 120
+                    "power": 120,
+                    "effect": "User takes 33% recoil of damage delt."
                 }
             ]
         },
@@ -76,24 +79,28 @@
                     "type": "Electric",
                     "category": "special",
                     "accuracy": 100,
-                    "power": 90
+                    "power": 90,
+                    "effect": "10% chance to paralyze target."
                 },
                 {   "name": "Bug Buzz",
                     "type": "Bug",
                     "category": "special",
                     "accuracy": 100,
-                    "power": 90
+                    "power": 90,
+                    "effect": "10% chance of lowering the target's Special Defense by one stage."
                 },
                 {   "name": "Flash Cannon",
                     "type": "Steel",
                     "category": "special",
                     "accuracy": 100,
-                    "power": 80
+                    "power": 80,
+                    "effect": "10% chance of lowering the target's Special Defense by one stage."
                 },
                 {   "name": "Thunder Wave",
                     "type": "Electric",
                     "category": "status",
-                    "accuracy": 90
+                    "accuracy": 90,
+                    "effect": "Paralyzes opponent."
                 }
             ]
         },
@@ -120,23 +127,27 @@
                     "type": "Psychic",
                     "category": "special",
                     "accuracy": 100,
-                    "power": 80
+                    "power": 80,
+                    "effect": "Damage is based on targets Defense."
                 },
                 {   "name": "Scald",
                     "type": "Water",
                     "category": "special",
                     "accuracy": 100,
-                    "power": 80
+                    "power": 80,
+                    "effect": "30% chance to burn target."
                 },
                 {   "name": "Yawn",
                     "type": "Normal",
                     "category": "status",
-                    "accuracy": 0
+                    "accuracy": 0,
+                    "effect": "Puts opponent to sleep on the next turn."
                 },
                 {   "name": "Calm Mind",
                     "type": "Psychic",
                     "category": "status",
-                    "accuracy": 0
+                    "accuracy": 0,
+                    "effect": "Raises both Special Attack and Special Defense by one stage."
                 }
             ]
             
@@ -163,25 +174,29 @@
                     "type": "Ground",
                     "category": "physical",
                     "accuracy": 100,
-                    "power": 100
+                    "power": 100,
+                    "effect": "Power is doubled if the opponent is underground."
                 },
                 {   "name": "Superpower",
                     "type": "Fighting",
                     "category": "physical",
                     "accuracy": 100,
-                    "power": 120
+                    "power": 120,
+                    "effect": "Lowers the user's Attack and Defense by one stage."
                 },
                 {   "name": "Heavy Slam",
                     "type": "Steel",
                     "category": "physical",
                     "accuracy": 100,
-                    "power": 0
+                    "power": 0,
+                    "effect": "Inflicts greater damage the more heavy the user is to the target."
                 },
                 {   "name": "Rock Slide",
                     "type": "Rock",
                     "category": "physical",
                     "accuracy": 90,
-                    "power": 75
+                    "power": 75,
+                    "effect": "30% chance to cause flinching."
                 }
             ]
             
@@ -209,13 +224,15 @@
                     "type": "Fire",
                     "category": "special",
                     "accuracy": 100,
-                    "power": 90
+                    "power": 90,
+                    "effect": "10% chance to burn target."
                 },
                 {   "name": "Sludge Wave",
                     "type": "Poison",
                     "category": "special",
                     "accuracy": 100,
-                    "power": 95
+                    "power": 95,
+                    "effect": "10% chance of poisoning target."
                 },
                 {   "name": "Dragon Pulse",
                     "type": "Dragon",
@@ -226,7 +243,8 @@
                 {   "name": "Toxic",
                     "type": "Poison",
                     "category": "status",
-                    "accuracy": 90
+                    "accuracy": 90,
+                    "effect": "Badly poisons opponent."
                 }
             ]
         },
@@ -260,18 +278,21 @@
                     "type": "Ice",
                     "category": "special",
                     "accuracy": 100,
-                    "power": 90
+                    "power": 90,
+                    "effect": "10% chance of freezing target."
                 },
                 {   "name": "Extrasensory",
                     "type": "Psychic",
                     "category": "special",
                     "accuracy": 100,
-                    "power": 80
+                    "power": 80,
+                    "effect": "10% chance to cause flinching."
                 },
                 {   "name": "Nasty Plot",
                     "type": "Dark",
                     "category": "status",
-                    "accuracy": 0
+                    "accuracy": 0,
+                    "effect": "Raises the user's Special Attack by two stages."
                 }
             ]
             
@@ -300,24 +321,28 @@
                     "type": "Normal",
                     "category": "physical",
                     "accuracy": 80,
-                    "power": 18
+                    "power": 18,
+                    "effect": "Hits 2-5 times in one turn."
                 },
                 {   "name": "Thief",
                     "type": "Dark",
                     "category": "physical",
                     "accuracy": 100,
-                    "power": 60
+                    "power": 60,
+                    "effect": "Steals opponent's held item."
                 },
                 {   "name": "Feint Attack",
                     "type": "Dark",
                     "category": "physical",
                     "accuracy": 0,
-                    "power": 60
+                    "power": 60,
+                    "effect": "Does not miss."
                 },
                 {   "name": "Toxic",
                     "type": "Poison",
                     "category": "status",
-                    "accuracy": 80
+                    "accuracy": 80,
+                    "effect": "Badly poisons opponent."
                 }
             ]
         },
@@ -343,24 +368,28 @@
                     "type": "Normal",
                     "category": "physical",
                     "accuracy": 100,
-                    "power": 70
+                    "power": 70,
+                    "effect": "30% chance to cause flinching."
                 },
                 {   "name": "Retaliate",
                     "type": "Normal",
                     "category": "physical",
                     "accuracy": 100,
-                    "power": 70
+                    "power": 70,
+                    "effect": "Doubles the damage if a teammate fainted on the last turn."
                 },
                 {   "name": "Bite",
                     "type": "Dark",
                     "category": "physical",
                     "accuracy": 100,
-                    "power": 60
+                    "power": 60,
+                    "effect": "30% chance to cause flinching."
                 },
                 {   "name": "Baby-Doll Eyes",
                     "type": "Fairy",
                     "category": "status",
-                    "accuracy": 100
+                    "accuracy": 100,
+                    "effect": "Lowers the target's Attack by one stage.<br/>Has priority of +1"
                 }
             ]
         }

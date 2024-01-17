@@ -37,19 +37,22 @@
                     "type": "Psychic",
                     "category": "special",
                     "accuracy": 100,
-                    "power": 80
+                    "power": 80,
+                    "effect": "10% chance of causing flinching"
                 },
                 {   "name": "Ice Beam",
                     "type": "Ice",
                     "category": "special",
                     "accuracy": 100,
-                    "power": 90
+                    "power": 90,
+                    "effect": "10% chance of freezing target."
                 },
                 {   "name": "Dark Pulse",
                     "type": "Dark",
                     "category": "special",
                     "accuracy": 100,
-                    "power": 80
+                    "power": 80,
+                    "effect": "20% chance of causing flinching"
                 }
             ]
             
@@ -77,24 +80,28 @@
                     "type": "Psychic",
                     "category": "special",
                     "accuracy": 100,
-                    "power": 90
+                    "power": 90,
+                    "effect": "10% chance of lowering the target's Sp. Defense by one stage."
                 },
                 {   "name": "Moonblast",
                     "type": "Fairy",
                     "category": "special",
                     "accuracy": 100,
-                    "power": 95
+                    "power": 95,
+                    "effect": "30% chance of lowering the target's Sp. Attack"
                 },
                 {   "name": "Thunderbolt",
                     "type": "Electric",
                     "category": "special",
                     "accuracy": 100,
-                    "power": 90
+                    "power": 90,
+                    "effect": "10% chance of paralyzing target."
                 },
                 {   "name": "Calm Mind",
                     "type": "Psychic",
                     "category": "status",
-                    "accuracy": 0
+                    "accuracy": 0,
+                    "effect": "Raises both Special Attack and Special Defense by one stage."
                 }
             ]
         },
@@ -121,19 +128,22 @@
                     "type": "Fire",
                     "category": "special",
                     "accuracy": 100,
-                    "power": 90
+                    "power": 90,
+                    "effect": "10% chance of burning target."
                 },
                 {   "name": "Air Slash",
                     "type": "Flying",
                     "category": "special",
                     "accuracy": 95,
-                    "power": 75
+                    "power": 75,
+                    "effect": "30% chance of causing flinching."
                 },
                 {   "name": "Flare Blitz",
                     "type": "Fire",
                     "category": "physical",
                     "accuracy": 100,
-                    "power": 120
+                    "power": 120,
+                    "effect": "User takes 33% recoil of damage delt.<br/>10% chance of burning target."
                 },
                 {   "name": "Dragon Claw",
                     "type": "Dragon",
@@ -166,23 +176,27 @@
                     "type": "Grass",
                     "category": "special",
                     "accuracy": 100,
-                    "power": 90
+                    "power": 90,
+                    "effect": "10% chance of lowering the target's Sp. Defense by one stage."
                 },
                 {   "name": "Sludge Bomb",
                     "type": "Poison",
                     "category": "special",
                     "accuracy": 100,
-                    "power": 90
+                    "power": 90,
+                    "effect": "30% chance of poisoning the target."
                 },
                 {   "name": "Grass Whistle",
                     "type": "Grass",
                     "category": "status",
-                    "accuracy": 55
+                    "accuracy": 55,
+                    "effect": "Puts opponent to sleep."
                 },
                 {   "name": "Growth",
                     "type": "Normal",
                     "category": "status",
-                    "accuracy": 0
+                    "accuracy": 0,
+                    "effect": "Raises both Attack and Sp. Attack by one stage."
                 }
             ]
         },
@@ -209,19 +223,22 @@
                     "type": "Rock",
                     "category": "physical",
                     "accuracy": 80,
-                    "power": 150
+                    "power": 150,
+                    "effect": "User takes 50% recoil of damage delt."
                 },
                 {   "name": "Crunch",
                     "type": "Dark",
                     "category": "physical",
                     "accuracy": 100,
-                    "power": 80
+                    "power": 80,
+                    "effect": "20% chance of lowering the target's Defense by one stage."
                 },
                 {   "name": "Earthquake",
                     "type": "Ground",
                     "category": "physical",
                     "accuracy": 100,
-                    "power": 100
+                    "power": 100,
+                    "effect": "Power is doubled if the opponent is underground."
                 },
                 {   "name": "Dragon Claw",
                     "type": "Dragon",
@@ -254,24 +271,28 @@
                     "type": "Fighting",
                     "category": "physical",
                     "accuracy": 100,
-                    "power": 120
+                    "power": 120,
+                    "effect": "Lowers the user's Defense and Special Defense by one stage."
                 },
                 {   "name": "Extreme Speed",
                     "type": "Normal",
                     "category": "physical",
                     "accuracy": 100,
-                    "power": 80
+                    "power": 80,
+                    "effect": "Has priority of +2"
                 },
                 {   "name": "Bulldoze",
                     "type": "Ground",
                     "category": "physical",
                     "accuracy": 100,
-                    "power": 60
+                    "power": 60,
+                    "effect": "Lowers the target's Speed by one stage."
                 },
                 {   "name": "Swords Dance",
                     "type": "Normal",
                     "category": "status",
-                    "accuracy": 0
+                    "accuracy": 0,
+                    "effect": "Raises Attack by two stages."
                 }
             ]
         }
@@ -300,7 +321,8 @@
                     "type": "Water",
                     "category": "physical",
                     "accuracy": 100,
-                    "power": 80
+                    "power": 80,
+                    "effect": "20% chance of causing the target to flinch."
                 },
                 {   "name": "Streangth",
                     "type": "Normal",
@@ -318,7 +340,8 @@
                     "type": "Fighting",
                     "category": "physical",
                     "accuracy": 100,
-                    "power": 40
+                    "power": 40,
+                    "effect": "50% chance of lowering the target's Defense by one stage."
                 }
             ]
         },
@@ -350,19 +373,22 @@
                 {   "name": "Growl",
                     "type": "Normal",
                     "category": "status",
-                    "accuracy": 100
+                    "accuracy": 100,
+                    "effect": "Lowers the target's Attack by one stage."
                 },
                 {   "name": "Fly",
                     "type": "Flying",
                     "category": "physical",
                     "accuracy": 95,
-                    "power": 90
+                    "power": 90,
+                    "effect": "User goes into the sky on the first turn."
                 },
                 {   "name": "Quick Attack",
                     "type": "Normal",
                     "category": "physical",
                     "accuracy": 100,
-                    "power": 40
+                    "power": 40,
+                    "effect": "Has priority of +1"
                 }
             ]
         }

@@ -145,7 +145,7 @@
                     "type": "Normal",
                     "category": "status",
                     "accuracy": 0,
-                    "effect": "Raises Attacl by two stages."
+                    "effect": "Raises Attack by two stages."
                 },
                 {   "name": "Flamethrower",
                     "type": "Fire",

@@ -31,24 +31,28 @@
                     "type": "Ground",
                     "category": "physical",
                     "accuracy": 100,
-                    "power": 100
+                    "power": 100,
+                    "effect": "Power is doubled if the opponent is underground."
                 },
                 {   "name": "Wood Hammer",
                     "type": "Grass",
                     "category": "physical",
                     "accuracy": 100,
-                    "power": 120
+                    "power": 120,
+                    "effect": "User takes 33% recoil of damage delt."
                 },
                 {   "name": "Crunch",
                     "type": "Dark",
                     "category": "physical",
                     "accuracy": 100,
-                    "power": 80
+                    "power": 80,
+                    "effect": "20% chance of lowering the target's Defense by one stage."
                 },
-                {   "name": "Sword Dance",
+                {   "name": "Swords Dance",
                     "type": "Normal",
                     "category": "status",
-                    "accuracy": 0
+                    "accuracy": 0,
+                    "effect": "Raises Attack by two stages."
                 }
             ]
             
@@ -75,25 +79,29 @@
                     "type": "Water",
                     "category": "physical",
                     "accuracy": 100,
-                    "power": 80
+                    "power": 80,
+                    "effect": "20% chance of causing flinching."
                 },
                 {   "name": "Ice Punch",
                     "type": "Ice",
                     "category": "physical",
                     "accuracy": 100,
-                    "power": 75
+                    "power": 75,
+                    "effect": "10% chance of freezing target."
                 },
                 {   "name": "Crunch",
                     "type": "Dark",
                     "category": "physical",
                     "accuracy": 100,
-                    "power": 80
+                    "power": 80,
+                    "effect": "20% chance of lowering the target's Defense by one stage."
                 },
                 {   "name": "Dig",
                     "type": "Ground",
                     "category": "physical",
                     "accuracy": 100,
-                    "power": 80
+                    "power": 80,
+                    "effect": "User goes underground on the first turn."
                 }
             ]
         },
@@ -120,25 +128,29 @@
                     "type": "Flying",
                     "category": "physical",
                     "accuracy": 100,
-                    "power": 120
+                    "power": 120,
+                    "effect": "User takes 33% recoil of damage delt."
                 },
                 {   "name": "Close Combat",
                     "type": "Fighting",
                     "category": "physical",
                     "accuracy": 100,
-                    "power": 120
+                    "power": 120,
+                    "effect": "Lowers the user's Defense and Special Defense by one stage."
                 },
                 {   "name": "U-Turn",
                     "type": "Bug",
                     "category": "physical",
                     "accuracy": 100,
-                    "power": 70
+                    "power": 70,
+                    "effect": "User returns to it's pokeball after attacking."
                 },
                 {   "name": "Fly",
                     "type": "Flying",
                     "category": "physical",
                     "accuracy": 95,
-                    "power": 90
+                    "power": 90,
+                    "effect": "User goes into the sky on the first turn."
                 }
             ]
         },
@@ -164,23 +176,27 @@
                     "type": "Electric",
                     "category": "special",
                     "accuracy": 100,
-                    "power": 95
+                    "power": 95,
+                    "effect": "10% chance of paralyzing target."
                 },
                 {   "name": "Shadow Ball",
                     "type": "Ghost",
                     "category": "special",
                     "accuracy": 100,
-                    "power": 80
+                    "power": 80,
+                    "effect": "20% chance of lowering the target's Special Defense by one stage"
                 },
                 {   "name": "Toxic",
                     "type": "Poison",
                     "category": "status",
-                    "accuracy": 85
+                    "accuracy": 85,
+                    "effect": "Badly poisons opponent."
                 },
                 {   "name": "Thunder Wave",
                     "type": "Electric",
                     "category": "status",
-                    "accuracy": 100
+                    "accuracy": 100,
+                    "effect": "Paralyzes opponenet."
                 }
             ]
         },
@@ -207,25 +223,29 @@
                     "type": "Fire",
                     "category": "special",
                     "accuracy": 100,
-                    "power": 95
+                    "power": 95,
+                    "effect": "10% chance of burning target."
                 },
                 {   "name": "Dark Pulse",
                     "type": "Dark",
                     "category": "special",
                     "accuracy": 100,
-                    "power": 80
+                    "power": 80,
+                    "effect": "20% chance of causing the target to flinch."
                 },
                 {   "name": "Sludge Bomb",
                     "type": "Poison",
                     "category": "special",
                     "accuracy": 100,
-                    "power": 90
+                    "power": 90,
+                    "effect": "30% chance of poisoning the target."
                 },
                 {   "name": "Iron Tail",
                     "type": "Steel",
-                    "category": "special",
+                    "category": "physical",
                     "accuracy": 75,
-                    "power": 100
+                    "power": 100,
+                    "effect": "30% chance of lowering the target's Defense by one stage."
                 }
             ]
         },
@@ -258,7 +278,8 @@
                     "type": "Fighting",
                     "category": "physical",
                     "accuracy": 100,
-                    "power": 75
+                    "power": 75,
+                    "effect": "Removes effects of Reflect and Light Screen."
                 },
                 {   "name": "X-Scissor",
                     "type": "Bug",
@@ -269,7 +290,8 @@
                 {   "name": "Swords Dance",
                     "type": "Normal",
                     "category": "status",
-                    "accuracy": 0
+                    "accuracy": 0,
+                    "effect": "Raises Attack by two stages."
                 }
             ]
         }
@@ -304,7 +326,8 @@
                     "type": "Fighting",
                     "category": "physical",
                     "accuracy": 100,
-                    "power": 40
+                    "power": 40,
+                    "effect": "50% chance of lowering the target's Defense by one stage."
                 },
                 {   "name": "Surf",
                     "type": "Water",
@@ -316,7 +339,8 @@
                     "type": "Normal",
                     "category": "physical",
                     "accuracy": 85,
-                    "power": 90
+                    "power": 90,
+                    "effect": "20% chance of confusing the target."
                 }
             ]
         }

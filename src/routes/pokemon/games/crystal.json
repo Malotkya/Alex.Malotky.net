@@ -16,25 +16,29 @@
                     "type": "Fire",
                     "category": "special",
                     "accuracy": 100,
-                    "power": 95
+                    "power": 95,
+                    "effect": "10% chance to burn target."
                 },
                 {   "name": "Thunder Punch",
                     "type": "Electric",
                     "category": "special",
                     "accuracy": 100,
-                    "power": 75
+                    "power": 75,
+                    "effect": "10% chance to paralize target."
                 },
                 {   "name": "Dynamic Punch",
                     "type": "Fighting",
                     "category": "physical",
                     "accuracy": 50,
-                    "power": 100
+                    "power": 100,
+                    "effect": "Confuses target."
                 },
                 {   "name": "Iron Tail",
                     "type": "Steel",
                     "category": "physical",
                     "accuracy": 75,
-                    "power": 100
+                    "power": 100,
+                    "effect": "30% chance of lowering the target's defense."
                 }
             ],
             "stats":{
@@ -64,17 +68,20 @@
                     "type": "Poison",
                     "category": "physical",
                     "accuracy": 100,
-                    "power": 90
+                    "power": 90,
+                    "effect": "30% chance of poisoning the target."
                 },
                 {   "name": "Growth",
                     "type": "Normal",
                     "category": "status",
-                    "accuracy": 0
+                    "accuracy": 0,
+                    "effect": "Raises both Attack and Sp. Attack by one stage."
                 },
                 {   "name": "Sleep Powder",
                     "type": "Grass",
                     "category": "status",
-                    "accuracy": 75
+                    "accuracy": 75,
+                    "effect": "Puts target to sleep."
                 }
             ],
             "stats":{
@@ -100,19 +107,22 @@
                     "type": "Water",
                     "category": "special",
                     "accuracy": 100,
-                    "power": 80
+                    "power": 80,
+                    "effect": "20% chance to cause flinching."
                 },
                 {   "name": "Tunderbolt",
                     "type": "Electric",
                     "category": "special",
                     "accuracy": 100,
-                    "power": 95
+                    "power": 95,
+                    "effect": "10% chance to paralize target."
                 },
                 {   "name": "Icy Wind",
                     "type": "Ice",
                     "category": "special",
                     "accuracy": 95,
-                    "power": 55
+                    "power": 55,
+                    "effect": "Lowers target's Speed by one stage."
                 },
                 {   "name": "Surf",
                     "type": "Water",
@@ -143,25 +153,29 @@
                     "type": "Psychic",
                     "category": "special",
                     "accuracy": 100,
-                    "power": 90
+                    "power": 90,
+                    "effect": "10% chance of lowering the target's Sp. Defense by one stage."
                 },
                 {   "name": "Shadow Ball",
                     "type": "Ghost",
                     "category": "physical",
                     "accuracy": 100,
-                    "power": 80
+                    "power": 80,
+                    "effect": "20% chance of lowering the target's Sp. Defense by one stage."
                 },
                 {   "name": "Swift",
                     "type": "Normal",
                     "category": "physical",
                     "accuracy": 0,
-                    "power": 60
+                    "power": 60,
+                    "effect": "Does not miss."
                 },
                 {   "name": "Bite",
                     "type": "Dark",
                     "category": "special",
                     "accuracy": 100,
-                    "power": 60
+                    "power": 60,
+                    "effect": "30% chance to cause flinching."
                 }
             ],
             "stats":{
@@ -185,24 +199,28 @@
                     "type": "Psychic",
                     "category": "special",
                     "accuracy": 100,
-                    "power": 90
+                    "power": 90,
+                    "effect": "10% chance of lowering the target's Sp. Defense by one stage."
                 },
                 {   "name": "Steel Wing",
                     "type": "Steel",
                     "category": "physical",
                     "accuracy": 90,
-                    "power": 70
+                    "power": 70,
+                    "effect": "10% chance of raising the user's Defense by one stage."
                 },
                 {   "name": "Toxic",
                     "type": "Poison",
                     "category": "status",
-                    "accuracy": 85
+                    "accuracy": 85,
+                    "effect": "Badly poisons opponent."
                 },
                 {   "name": "Fly",
                     "type": "Flying",
                     "category": "physical",
                     "accuracy": 95,
-                    "power": 70
+                    "power": 70,
+                    "effect": "User goes into the sky on the first turn."
                 }
             ],
             "stats":{
@@ -227,13 +245,15 @@
                     "type": "Ice",
                     "category": "special",
                     "accuracy": 100,
-                    "power": 95
+                    "power": 95,
+                    "effect":"10% chance to freeze target."
                 },
                 {   "name": "Earthquake",
                     "type": "Ground",
                     "category": "physical",
                     "accuracy": 100,
-                    "power": 100
+                    "power": 100,
+                    "effect": "Power is doubled if opponenet is underground."
                 },
                 {   "name": "Strength",
                     "type": "Normal",
@@ -245,7 +265,8 @@
                     "type": "Fighting",
                     "category": "physical",
                     "accuracy": 100,
-                    "power": 20
+                    "power": 20,
+                    "effect": "50% chance of lowering the target's Defense by one stage."
                 }
             ],
             "stats":{
@@ -277,7 +298,8 @@
                 {   "name": "Flash",
                     "type": "Normal",
                     "category": "special",
-                    "accuracy": 70
+                    "accuracy": 70,
+                    "effect": "Lowers the target's Accuracy by one stage."
                 },
                 {   "name": "Cut",
                     "type": "Normal",
@@ -307,24 +329,28 @@
                     "type": "Poison",
                     "category": "physical",
                     "accuracy": 100,
-                    "power": 15
+                    "power": 15,
+                    "effect": "30% chance of poisoning the target."
                 },
                 {   "name": "Supersonic",
                     "type": "Normal",
                     "category": "status",
-                    "accuracy": 55
+                    "accuracy": 55,
+                    "effect": "Confuses target."
                 },
                 {   "name": "Whirlpool",
                     "type": "Water",
                     "category": "special",
                     "accuracy": 70,
-                    "power": 15
+                    "power": 15,
+                    "effect": "Traps and damages target for 4-5 turns."
                 },
                 {   "name": "Acid",
                     "type": "Poison",
                     "category": "physical",
                     "accuracy": 100,
-                    "power": 40
+                    "power": 40,
+                    "effect": "10% chance of lowering the target's Sp. Defense by one stage."
                 }
             ],
             "stats":{

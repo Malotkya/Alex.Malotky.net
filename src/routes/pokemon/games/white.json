@@ -26,10 +26,29 @@
                 "speed": 82
             },
             "moves": [
-                "Surf",
-                "Focus Energy",
-                "Megahorn",
-                "Grass Knot"
+                {   "name": "Surf",
+                    "type": "Water",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 95
+                },
+                {   "name": "Focus Energy",
+                    "type": "Normal",
+                    "category": "status",
+                    "accuracy": 0
+                },
+                {   "name": "Megahorn",
+                    "type": "Bug",
+                    "category": "physical",
+                    "accuracy": 85,
+                    "power": 120
+                },
+                {   "name": "Grass Knot",
+                    "type": "Grass",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 0
+                }
             ]
             
         },
@@ -51,10 +70,28 @@
                 "speed": 120
             },
             "moves": [
-                "Quiver Dance",
-                "Petal Dance",
-                "Sleep Powder",
-                "Hidden Power (Psychic)"
+                {   "name": "Quiver Dance",
+                    "type": "Bug",
+                    "category": "status",
+                    "accuracy": 0
+                },
+                {   "name": "Petal Dance",
+                    "type": "Grass",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 120
+                },
+                {   "name": "Sleep Powder",
+                    "type": "Grass",
+                    "category": "status",
+                    "accuracy": 75
+                },
+                {   "name": "Hidden Power",
+                    "type": "Psychic",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 60
+                }
             ]
         },
         {   "name": "Victini",
@@ -75,10 +112,30 @@
                 "speed": 119
             },
             "moves": [ 
-                "Zen Headbutt",
-                "Searing Shot",
-                "Shadow Ball",
-                "Thunderbolt"
+                {   "name": "Zen Headbutt",
+                    "type": "Psychic",
+                    "category": "physical",
+                    "accuracy": 90,
+                    "power": 80
+                },
+                {   "name": "Searing Shot",
+                    "type": "Fire",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 100
+                },
+                {   "name": "Shadow Ball",
+                    "type": "Ghost",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 80
+                },
+                {   "name": "Thunderbolt",
+                    "type": "Electric",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 95
+                }
             ]
         },
         {   "name": "Krookodile",
@@ -100,10 +157,30 @@
                 "speed": 116
             },
             "moves": [
-                "Earthquake",
-                "Brick Break",
-                "Dragon Claw",
-                "Crunch"
+                {   "name": "Earthquake",
+                    "type": "Ground",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 100
+                },
+                {   "name": "Brick Break",
+                    "type": "Fighting",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 75
+                },
+                {   "name": "Dragon Claw",
+                    "type": "Dragon",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 80
+                },
+                {   "name": "Crunch",
+                    "type": "Dark",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 80
+                }
             ]
         },
         {   "name": "Archeops",
@@ -125,10 +202,31 @@
                 "speed": 141
             },
             "moves": [
-                "Acrobatics",
-                "Rock Slide",
-                "Dragon Claw",
-                "U-turn"
+                {   "name": "Acrobatics",
+                    "type": "Flying",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 55,
+                    "effect": "Power is doubled if pokemon is not holding an item."
+                },
+                {   "name": "Rock Slide",
+                    "type": "Rock",
+                    "category": "physical",
+                    "accuracy": 90,
+                    "power": 75
+                },
+                {   "name": "Dragon Claw",
+                    "type": "Dragon",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 80
+                },
+                {   "name": "U-turn",
+                    "type": "Bug",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 70
+                }
             ]
         },
         {   "name": "Zekrom",
@@ -149,10 +247,30 @@
                 "speed": 119
             },
             "moves": [
-                "Dragon Breath",
-                "Slash",
-                "Zen Headbutt",
-                "Fusion Bolt"
+                {   "name": "Dragon Breath",
+                    "type": "Dragon",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 60
+                },
+                {   "name": "Slash",
+                    "type": "Normal",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 70
+                },
+                {   "name": "Zen Headbutt",
+                    "type": "Psychic",
+                    "category": "physical",
+                    "accuracy": 90,
+                    "power": 80
+                },
+                {   "name": "Fusion Bolt",
+                    "type": "Electric",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 100
+                }
             ]
         }
     ],
@@ -175,10 +293,29 @@
                 "speed": 10
             },
             "moves": [
-                "Tackle",
-                "Leer",
-                "Cut",
-                "Bite"
+                {   "name": "Tackle",
+                    "type": "Normal",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 50
+                },
+                {   "name": "Leer",
+                    "type": "Normal",
+                    "category": "status",
+                    "accuracy": 100
+                },
+                {   "name": "Cut",
+                    "type": "Normal",
+                    "category": "physical",
+                    "accuracy": 95,
+                    "power": 50
+                },
+                {   "name": "Bite",
+                    "type": "Dark",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 60
+                }
             ]
         },
         {   "name": "Tranquill",
@@ -200,13 +337,30 @@
                 "speed": 49
             },
             "moves": [
-                "Roost",
-                "Detect",
-                "Fly",
-                "Air Slash"
+                {   "name": "Roost",
+                    "type": "Flying",
+                    "category": "status",
+                    "accuracy": 0
+                },
+                {   "name": "Detect",
+                    "type": "Fighting",
+                    "category": "status",
+                    "accuracy": 0
+                },
+                {   "name": "Fly",
+                    "type": "Flying",
+                    "category": "physical",
+                    "accuracy": 95,
+                    "power": 90
+                },
+                {   "name": "Air Slash",
+                    "type": "Flying",
+                    "category": "physical",
+                    "accuracy": 95,
+                    "power": 75
+                }
             ]
         }
     ],
-    "comments": [
-    ]
+    "comments": ""
 }

@@ -27,10 +27,30 @@
                 "speed": 203
             },
             "moves": [
-                "Surf",
-                "Extrasensory",
-                "Ice Beam",
-                "Dark Pulse"
+                {   "name": "Surf",
+                    "type": "Water",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 95
+                },
+                {   "name": "Extrasensory",
+                    "type": "Psychic",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 80
+                },
+                {   "name": "Ice Beam",
+                    "type": "Ice",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 90
+                },
+                {   "name": "Dark Pulse",
+                    "type": "Dark",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 80
+                }
             ]
             
         },
@@ -53,10 +73,29 @@
                 "speed": 147
             },
             "moves": [
-                "Psychic",
-                "Moonblast",
-                "Thunderbolt",
-                "Calm Mind"
+                {   "name": "Psychic",
+                    "type": "Psychic",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 90
+                },
+                {   "name": "Moonblast",
+                    "type": "Fairy",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 95
+                },
+                {   "name": "Thunderbolt",
+                    "type": "Electric",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 90
+                },
+                {   "name": "Calm Mind",
+                    "type": "Psychic",
+                    "category": "status",
+                    "accuracy": 0
+                }
             ]
         },
         {   "name": "Charizard",
@@ -78,10 +117,30 @@
                 "speed": 165
             },
             "moves": [ 
-                "Flanethrower",
-                "Air Slash",
-                "Flare Blitz",
-                "Dragon Claw"
+                {   "name": "Flanethrower",
+                    "type": "Fire",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 90
+                },
+                {   "name": "Air Slash",
+                    "type": "Flying",
+                    "category": "special",
+                    "accuracy": 95,
+                    "power": 75
+                },
+                {   "name": "Flare Blitz",
+                    "type": "Fire",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 120
+                },
+                {   "name": "Dragon Claw",
+                    "type": "Dragon",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 80
+                }
             ]
         },
         {   "name": "Roserade",
@@ -103,10 +162,28 @@
                 "speed": 158
             },
             "moves": [
-                "Energy Ball",
-                "Sludge Bomb",
-                "Grass Whistle",
-                "Growth"
+                {   "name": "Energy Ball",
+                    "type": "Grass",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 90
+                },
+                {   "name": "Sludge Bomb",
+                    "type": "Poison",
+                    "category": "special",
+                    "accuracy": 100,
+                    "power": 90
+                },
+                {   "name": "Grass Whistle",
+                    "type": "Grass",
+                    "category": "status",
+                    "accuracy": 55
+                },
+                {   "name": "Growth",
+                    "type": "Normal",
+                    "category": "status",
+                    "accuracy": 0
+                }
             ]
         },
         {   "name": "Tyrantrum",
@@ -128,10 +205,30 @@
                 "speed": 140
             },
             "moves": [
-                "Head Smash",
-                "Crunch",
-                "Earthquake",
-                "Dragon Claw"
+                {   "name": "Head Smash",
+                    "type": "Rock",
+                    "category": "physical",
+                    "accuracy": 80,
+                    "power": 150
+                },
+                {   "name": "Crunch",
+                    "type": "Dark",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 80
+                },
+                {   "name": "Earthquake",
+                    "type": "Ground",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 100
+                },
+                {   "name": "Dragon Claw",
+                    "type": "Dragon",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 80
+                }
             ]
         },
         {   "name": "Lucario",
@@ -153,10 +250,29 @@
                 "speed": 190
             },
             "moves": [
-                "Close Combat",
-                "Extreme Speed",
-                "Bulldoze",
-                "Swords Dance"
+                {   "name": "Close Combat",
+                    "type": "Fighting",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 120
+                },
+                {   "name": "Extreme Speed",
+                    "type": "Normal",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 80
+                },
+                {   "name": "Bulldoze",
+                    "type": "Ground",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 60
+                },
+                {   "name": "Swords Dance",
+                    "type": "Normal",
+                    "category": "status",
+                    "accuracy": 0
+                }
             ]
         }
     ],
@@ -180,10 +296,30 @@
                 "speed": 35
             },
             "moves": [
-                "Waterfall",
-                "Streangth",
-                "Cut",
-                "Rock Smash"
+                {   "name": "Waterfall",
+                    "type": "Water",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 80
+                },
+                {   "name": "Streangth",
+                    "type": "Normal",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 80
+                },
+                {   "name": "Cut",
+                    "type": "Normal",
+                    "category": "physical",
+                    "accuracy": 95,
+                    "power": 50
+                },
+                {   "name": "Rock Smash",
+                    "type": "Fighting",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 40
+                }
             ]
         },
         {   "name": "Fletchinder",
@@ -205,10 +341,29 @@
                 "speed": 48
             },
             "moves": [
-                "Peck",
-                "Growl",
-                "Fly",
-                "Quick Attack"
+                {   "name": "Peck",
+                    "type": "Flying",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 35
+                },
+                {   "name": "Growl",
+                    "type": "Normal",
+                    "category": "status",
+                    "accuracy": 100
+                },
+                {   "name": "Fly",
+                    "type": "Flying",
+                    "category": "physical",
+                    "accuracy": 95,
+                    "power": 90
+                },
+                {   "name": "Quick Attack",
+                    "type": "Normal",
+                    "category": "physical",
+                    "accuracy": 100,
+                    "power": 40
+                }
             ]
         }
     ],

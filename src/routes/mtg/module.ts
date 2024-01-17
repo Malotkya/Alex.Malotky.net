@@ -38,7 +38,7 @@ function Result(deck:DeckItem, edit: boolean): Content{
             _("p", edit? deleteButton: null),
             _("p", {class: "color_identity"},
                 deck.color_identity.length === 0? _("span", {class: "mana-symbol colorless"})
-                                                : deck.color_identity.map((color:string)=>_("span", {class: `mana-symbol ${color}`}))
+                                                : deck.color_identity.map((color:string)=>_("span", {class: `mana-symbol ${color}`, "aria-label": `${color} mana symbol`}))
             )
         )
     );

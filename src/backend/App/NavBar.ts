@@ -29,7 +29,7 @@ export default class NavBar{
         }, "Alex.Malotky.net");
         this._nav.appendChild(this._home);
 
-        let button = createElement("button", {id: "top-nav-button"}, 
+        let button = createElement("button", {id: "top-nav-button", "aria-label": "Show/Hide Navigation", "aria-haspopup": "menu"}, 
             createElement("div"),
             createElement("div"),
             createElement("div")

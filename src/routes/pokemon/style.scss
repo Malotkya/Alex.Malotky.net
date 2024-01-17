@@ -202,3 +202,42 @@ pokemon-game-element {
 #pokemon-game-view {
     width: 100%;
 }
+
+.pokemon-game-select {
+    padding: 0;
+    width: 100%;
+    text-align: center;
+
+    ul {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+    }
+
+    > ul {
+        display: flex;
+        flex-wrap: wrap; 
+
+        li {
+            list-style: none;
+        }
+
+        > li {
+            min-width: 125px;
+            flex: 1 1 0;
+
+            ul {
+                display: none;
+            }
+
+            &:hover > ul,
+            &:focus-within > ul{
+                display: block;
+            }
+        }
+    }
+
+    button {
+        width: 100%;
+    }
+}

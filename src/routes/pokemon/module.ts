@@ -9,16 +9,44 @@ interface elementList {
     [name:string]: PokemonGameElement
 }
 
-function gameSelect(init:string, list:dataList): Content {
+interface menuList {
+    [name:string]: HTMLElement
+}
+
+function createMenuListElement(name:string):Array<HTMLElement> {
+    const list = _("ul", {"aria-haspopup": true, id: name});
+    const button = _("button", name);
+    button.addEventListener("mouseover", ()=>button.focus());
+    button.addEventListener("mouseleave", ()=>button.blur());
+    return [_("li", {},
+        button,
+        list
+    ),
+    list
+    ];
+}
+
+function gameSelect(init:string, list:dataList): Content{
     const target: HTMLElement = _("section", {id: "pokemon-game-view"});
 
     const games: elementList = {};
-    const buttons: Array<HTMLElement> = [];
+    const menu: menuList = {};
+    const buffer: Array<HTMLElement> = [];
 
     for(let name in list){
         games[name] = new PokemonGameElement(list[name]);
-
+        const region: string = list[name].region;
         const button = _("button", list[name].game);
+
+        if(typeof menu[region] === "undefined") {
+            const [regionItem, menuItem] = createMenuListElement(region);
+            menu[region] = menuItem;
+            buffer.push(regionItem);
+        }
+            
+        menu[region].appendChild(_("li", button));
+
+        
         button.addEventListener("click", ()=>{
             //@ts-ignore
             const url = new URL(window.location);
@@ -27,14 +55,17 @@ function gameSelect(init:string, list:dataList): Content {
 
             target.innerHTML = "";
             target.appendChild(games[name]);
+
+            button.blur();
         });
-        buttons.push(button);
     }
 
     target.appendChild(games[init] || _("h2", {class: "error"}, `Error: ${init}' is not an option!`));
 
     return [
-        _("nav", {class: "pokemon-select"}, buttons),
+        _("nav", {class: "pokemon-game-select"}, 
+            _("ul", buffer)
+        ),
         target
     ]
 }

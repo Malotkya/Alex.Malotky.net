@@ -31,7 +31,7 @@ function gameSelect(init:string, list:dataList): Content {
         buttons.push(button);
     }
 
-    target.appendChild(games[init]);
+    target.appendChild(games[init] || _("h2", {class: "error"}, `Error: ${init}' is not an option!`));
 
     return [
         _("nav", {class: "pokemon-select"}, buttons),

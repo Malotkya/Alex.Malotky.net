@@ -31,7 +31,7 @@ function createGenerIcon(gender?:boolean): HTMLElement|null {
     if(gender === null || gender === undefined)
         return null;
 
-    return _("span", {class: "pokemon-gender"}, gender? ' ♂': ' ♀');
+    return _("span", {class: "pokemon-gender", "aria-label": gender? "male": "female"}, gender? ' ♂': ' ♀');
 }
 
 function statsListItem(name:string, value:number): HTMLElement{
@@ -85,8 +85,7 @@ export default class PokemonElement extends HTMLElement {
         super();
         
         this._title = _("h4", {class: "pokemon-title"}, 
-            _("span", {class: "pokemon-name"}, data.name),
-            createGenerIcon(data.gender)
+            _("span", {class: "pokemon-name"}, data.name)
         );
 
         this._level = _("p", {class: "pokemon-level"}, `Level: ${data.level}`);
@@ -97,7 +96,7 @@ export default class PokemonElement extends HTMLElement {
 
         this._image = _("figure", {class: "pokemon-image"},
             _("img", {src: formatURI(version, data.shiney, getNumber(data.name), data.modifier), alt: `${data.name} ${gameName} Sprite`}),
-            _("figcaption", data.name)
+            _("figcaption", data.name, createGenerIcon(data.gender))
         );
 
         this._stats = _("ol", {class: "pokemon-stats-list"});

@@ -71,7 +71,7 @@ Editor.use("/:id", async(ctx:Context)=>{
     if(typeof results === "undefined")
         throw new Error("Unable to find id: " + id);
 
-    ctx.module = await importModule("mtg", {
+    ctx.body = await importModule("mtg", {
         arr: results,
         edit: true
     })
@@ -82,7 +82,7 @@ Editor.use(async(ctx: Context)=>{
 
     const results = await database.queryCollection("MtgDecks");
 
-    ctx.module = await importModule("mtg", {
+    ctx.body = await importModule("mtg", {
         arr: results,
         edit: true
     });
@@ -100,7 +100,7 @@ MtgDecks.use("/:id", async(ctx:Context)=>{
         throw new Error("Unable to find id: " + id);
     }
 
-    ctx.module = await importModule("mtg", {arr: results});
+    ctx.body = await importModule("mtg", {arr: results});
 })
 
 MtgDecks.use(async(ctx:Context)=>{
@@ -108,5 +108,5 @@ MtgDecks.use(async(ctx:Context)=>{
 
     const results = await cache("MtgDecks", ()=>database.queryCollection("MtgDecks"));
 
-    ctx.module = await importModule("mtg", {arr: results});
+    ctx.body = await importModule("mtg", {arr: results});
 });

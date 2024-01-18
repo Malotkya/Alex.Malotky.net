@@ -26,7 +26,7 @@ Login.use("/Login", async(ctx: Context)=>{
         }
     }
 
-    ctx.module = await importModule("login", {
+    ctx.body = await importModule("login", {
         username: username,
         password: password,
         error: error

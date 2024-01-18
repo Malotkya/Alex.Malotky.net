@@ -11,5 +11,5 @@ export const Pokemon = new Router("Pokemon Games",
 "Pokemon teams accross the different pokemon games Alex has played.");
 
 Pokemon.use(async(ctx:Context)=>{
-    ctx.module = await importModule("pokemon", ctx.params.get("game"));
+    ctx.body = await importModule("pokemon", ctx.params.get("game"));
 });

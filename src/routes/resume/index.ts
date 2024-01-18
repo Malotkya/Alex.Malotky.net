@@ -24,7 +24,7 @@ Resume.use("/:page", async(ctx: Context)=>{
     if(typeof results === "undefined")
         throw new HtmlError(404, `Unknown page ${page} in Resume!`);
 
-    ctx.module = await importModule("resume", {
+    ctx.body = await importModule("resume", {
         type: page,
         result: results
     });
@@ -42,7 +42,7 @@ Resume.use("/:page/:id", async(ctx: Context)=>{
     if(typeof result === "undefined")
         throw new HtmlError(404, `Unknown page id '${id}' on page ${page} in Resume!`);
            
-    ctx.module = await importModule("resume", {
+    ctx.body = await importModule("resume", {
         type: page,
         result: result
     });
@@ -65,5 +65,5 @@ Resume.use("/", async(ctx: Context)=>{
         };
     });
 
-    ctx.module = await importModule("resume", results);
+    ctx.body = await importModule("resume", results);
 });

@@ -67,7 +67,9 @@ function formatURI(version:StringIndex|undefined, shiney:boolean, number:number,
         value = `00${number}`.slice(-3);
     }
 
-    return SEREBII_URI + baseUri + value + modifier + '.png';
+    const fileType = version["override"] || ".png"
+
+    return SEREBII_URI + baseUri + value + modifier + fileType;
 }
 
 export default class PokemonElement extends HTMLElement {

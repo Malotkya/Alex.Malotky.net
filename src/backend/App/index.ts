@@ -8,7 +8,7 @@ import Router from "./Core/Router";
 
 //Export Classes and Functions
 import { Content } from "../../util/Elements";
-import Context, { Executable, Module } from "./Core/Context";
+import Context, { Executable } from "./Core/Context";
 export {Router, Context};
 export {makeErrorMessage, HtmlError} from "./Core";
 
@@ -82,7 +82,7 @@ export default class App extends Core {
     }
 }
 
-export async function importModule(name:string, args?:any): Promise<Module>{
+export async function importModule(name:string, args?:any): Promise<Content>{
     const filename:string = `./module/${name}.js`;
     let module: any;
 
@@ -92,47 +92,16 @@ export async function importModule(name:string, args?:any): Promise<Module>{
         console.error(err);
         throw new Error(`There was a problem importing module at ${name}!`);
     }
-    let main:Executable|undefined;
-    let content: Content;
     let defaultType = typeof module.default;
 
-    switch(typeof module.content){
-        case "undefined":
-            if(defaultType === "object" || defaultType === "string") {
-                content = module.default;
-            } else if(defaultType === "function"){
-                content = module.default(args);
-                defaultType = "undefined";
-            } else {
-                throw new Error(`No content found within module ${name}!`);
-            }
-            break;
-
-        case "function":
-            content = module.content(args);
-            break;
-
-        default:
-            content = module.content;
+    if(defaultType === "function"){
+        return module.default(args);
+    } else if (defaultType === "object" || defaultType === "string") {
+        return module.default;
+    } else if (defaultType === "undefined"){
+        console.warn(`No content was returned from module '${name}'.`);
+        return null;
     }
 
-    switch (typeof module.main){
-        case "undefined":
-            if(defaultType === "function"){
-                main = module.default;
-            }
-        break;
-
-        case "function":
-            main = module.main;
-        break;
-
-        default:
-            throw new TypeError(`Unknown type ${typeof module.main} for exported Function in module ${name}!`);
-    }
-
-    return {
-        content: content,
-        main: main
-    };
+    throw new TypeError(`Unknown content type '${defaultType}' for module '${name}'!`);
 }

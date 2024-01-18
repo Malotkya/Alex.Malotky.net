@@ -4,6 +4,11 @@ import AnimatedText from "./content/AnimatedText";
 const TEXT = "Hello,\r\nMy name is Alex Malotky.";
 
 export default function Home():Content {
+    if(typeof (window as any).visited === "undefined"){
+        (window as any).visited = true;
+        console.log("Welcome to Alex.Malotky.net!");
+        console.log("This is being printed from a file that is being loaded and executed dynamically!")
+    }
 
     return [ 
         _("h1", "Welcome!"),
@@ -19,14 +24,6 @@ export default function Home():Content {
             _("p", "My website is still under construction, and I will be continually working on it over the summer.")
         )
     ];
-}
-
-export function main() {
-    if(typeof (window as any).visited === "undefined"){
-        (window as any).visited = true;
-        console.log("Welcome to Alex.Malotky.net!");
-        console.log("This is being printed from a file that is being loaded and executed dynamically!")
-    }
 }
 
 function Spotlight(): Content{

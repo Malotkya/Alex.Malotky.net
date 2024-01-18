@@ -12,7 +12,7 @@ export interface JobItem {
 
 export function JobCard(item: JobItem){
     const startDate: string = formatDate(item.startDate, "%m, %Y");
-    const endDate: string   = formatDate(item.startDate, "%m, %Y", "Current");
+    const endDate: string   = formatDate(item.endDate, "%m, %Y", "Current");
 
     return _("li", {class: "resume-card"},
         _("h3", {class: "resume-title"},
@@ -27,7 +27,7 @@ export function JobCard(item: JobItem){
 
 export function JobDetailed(item: JobItem){
     const startDate: string = formatDate(item.startDate, "%M, %Y");
-    const endDate: string   = formatDate(item.startDate, "%M, %Y", "Currently Employed");
+    const endDate: string   = formatDate(item.endDate, "%M, %Y", "Currently Employed");
 
     const about: Array<string> = item.about || [];
 

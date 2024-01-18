@@ -1,5 +1,9 @@
 import { createElement as _ } from "../../../util/Elements";
 
+/** Pokmeon Move Data Type
+ * 
+ * Format of Move Data in Json files.
+ */
 export interface MoveData {
     name: string,
     type: string,
@@ -9,8 +13,9 @@ export interface MoveData {
     effect?: string
 }
 
-
-
+/** Pokemon-Move-Element
+ * 
+ */
 export default class MoveElement extends HTMLLIElement{
     private _name: string;
     private _info: HTMLElement|null;
@@ -81,4 +86,4 @@ export default class MoveElement extends HTMLLIElement{
     }
 }
 
-customElements.define("move-element", MoveElement, {extends: "li"});
+customElements.define("pokemon-move-element", MoveElement, {extends: "li"});

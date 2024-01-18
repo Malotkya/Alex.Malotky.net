@@ -1,7 +1,11 @@
-import { createElement as _ } from "../../../util/Elements";
+import { createElement as _, Content } from "../../../util/Elements";
 import MoveElement, { MoveData } from "./MoveElement";
 const MASTER_POKEMON_LIST: Array<string> = require("../../../../pokemon.json");
 
+/** Pokemon Data Type
+ * 
+ * Format of Pokemon Data in Json files.
+ */
 export interface PokemonType {
     name: string,
     modifier?: string,
@@ -25,15 +29,27 @@ export interface PokemonType {
     }
 }
 
+//URI for images.
 const SEREBII_URI = "https://www.serebii.net/";
 
-function createGenerIcon(gender?:boolean): HTMLElement|null {
+/** Creates (or Doesn't) icon based on gender identifier.
+ * 
+ * @param {boolean} gender 
+ * @returns {Content}
+ */
+function createGenerIcon(gender?:boolean): Content {
     if(gender === null || gender === undefined)
         return null;
 
     return _("span", {class: "pokemon-gender", "aria-label": gender? "male": "female"}, gender? ' ♂': ' ♀');
 }
 
+/** Create Stats List Item
+ * 
+ * @param {string} name 
+ * @param {number} value 
+ * @returns {HTMLElement}
+ */
 function statsListItem(name:string, value:number): HTMLElement{
     return _("li", {class: "pokemon-stat-item"}, 
         _("span", {class: "pokemon-stat-name"}, name),
@@ -41,6 +57,12 @@ function statsListItem(name:string, value:number): HTMLElement{
     );
 }
 
+/** Create Optional List Item
+ * 
+ * @param {string} name 
+ * @param {string} value 
+ * @returns {HTMLElement}
+ */
 function optionalListItem(name:string, value:string): HTMLElement{
     return _("li", {class: "pokemon-optional-item"}, 
         _("span", {class: "pokemon-optional-name"}, name),
@@ -48,10 +70,23 @@ function optionalListItem(name:string, value:string): HTMLElement{
     );
 }
 
+/** Get Pokemon Number from Name
+ * 
+ * @param {string} name 
+ * @returns {number}
+ */
 function getNumber(name:string):number{
     return MASTER_POKEMON_LIST.indexOf(name) + 1;
 }
 
+/** Format Image URI
+ * 
+ * @param {StringIndex} version - Game Version Information
+ * @param {boolean} shiney 
+ * @param {number} number - Pokedex number
+ * @param {string} modifier - pokemon form modifier
+ * @returns {string}
+ */
 function formatURI(version:StringIndex|undefined, shiney:boolean, number:number, modifier:string = ""): string{
     let baseUri:string = "pokemon/art/";
     if(version){
@@ -72,6 +107,9 @@ function formatURI(version:StringIndex|undefined, shiney:boolean, number:number,
     return SEREBII_URI + baseUri + value + modifier + fileType;
 }
 
+/** Pokemon-Element
+ * 
+ */
 export default class PokemonElement extends HTMLElement {
     private _title: HTMLElement;
     private _level: HTMLElement;

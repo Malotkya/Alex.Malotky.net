@@ -2,6 +2,10 @@ import PokemonElement, {PokemonType} from "./PokemonElement";
 import PokemonTeamViewElement from "./PokemonTeamViewElement";
 import { createElement as _ } from "../../../util/Elements";
 
+/** Pokmeon Game Data Type
+ * 
+ * Format of Game Data in Json files.
+ */
 export interface PokemonGameType {
     game: string,
     version: StringIndex,

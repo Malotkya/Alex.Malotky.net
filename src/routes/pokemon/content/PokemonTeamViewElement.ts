@@ -1,6 +1,9 @@
 import { createElement as _ } from "../../../util/Elements";
 import PokemonElement from "./PokemonElement";
 
+/** Pokemon-Team-View
+ * 
+ */
 export default class PokemonTeamViewElement extends HTMLElement {
     private _main: Array<PokemonElement>;
     private _other: Array<PokemonElement>;

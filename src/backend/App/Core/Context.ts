@@ -6,11 +6,6 @@ import { Content } from "../../../util/Elements";
 
 export type Executable = (context?:Context)=>Promise<void>|void;
 
-export interface Module {
-    main?: Executable,
-    content: Content
-}
-
 interface route {
     path: string,
     body: any
@@ -41,7 +36,6 @@ export default class Context{
     private _body: HTMLBodyElement;
     private _title: string;
     private _info: string;
-    private _connected: Executable;
     private _newRoute: route|undefined;
 
     //app
@@ -58,7 +52,6 @@ export default class Context{
         this._body = new HTMLBodyElement;
         this._title = "";
         this._info = "";
-        this._connected = ()=>undefined;
         this._params = new Map<string, string>();
         this._gets = new Map<string, string>();
         for(let args of location.search.substring(1).split('&')){
@@ -197,28 +190,11 @@ export default class Context{
             this._info = String(value);
     }
 
-    set connected(value: Executable){
-        if(typeof value !== "function")
-            throw new TypeError(`Unknown type '${typeof value}' for Executable!`);
-        this._connected = value;
-    }
-
-    get connected(){
-        return this._connected;
-    }
-
     public reRoute(path: string, body?:any){
         this._newRoute = {
             path: path,
             body: body
         };
-        this.done();
-    }
-
-    set module(value: Module){
-        this.add(value.content);
-        if(value.main)
-            this.connected = value.main;
         this.done();
     }
 

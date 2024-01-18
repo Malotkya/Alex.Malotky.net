@@ -13,24 +13,25 @@ interface menuList {
     [name:string]: HTMLElement
 }
 
-function createMenuListElement(name:string):Array<HTMLElement> {
+function createMenuListElement(name:string):{menuElement:HTMLElement, menuTarget:HTMLElement} {
     const list = _("ul", {"aria-haspopup": true, id: name});
     const button = _("button", name);
     button.addEventListener("mouseover", ()=>button.focus());
     button.addEventListener("mouseleave", ()=>button.blur());
-    return [_("li", {},
-        button,
-        list
-    ),
-    list
-    ];
+    return {
+        menuElement: _("li", {},
+            button,
+            list
+        ),
+        menuTarget: list
+    };
 }
 
 function gameSelect(init:string, list:dataList): Content{
     const target: HTMLElement = _("section", {id: "pokemon-game-view"});
 
     const games: elementList = {};
-    const menu: menuList = {};
+    const menuLists: menuList = {};
     const buffer: Array<HTMLElement> = [];
 
     for(let name in list){
@@ -38,15 +39,14 @@ function gameSelect(init:string, list:dataList): Content{
         const region: string = list[name].region;
         const button = _("button", list[name].game);
 
-        if(typeof menu[region] === "undefined") {
-            const [regionItem, menuItem] = createMenuListElement(region);
-            menu[region] = menuItem;
-            buffer.push(regionItem);
+        if(typeof menuLists[region] === "undefined") {
+            const {menuElement, menuTarget} = createMenuListElement(region);
+            menuLists[region] = menuTarget;
+            buffer.push(menuElement);
         }
             
-        menu[region].appendChild(_("li", button));
+        menuLists[region].appendChild(_("li", button));
 
-        
         button.addEventListener("click", ()=>{
             //@ts-ignore
             const url = new URL(window.location);
@@ -60,7 +60,7 @@ function gameSelect(init:string, list:dataList): Content{
         });
     }
 
-    target.appendChild(games[init] || _("h2", {class: "error"}, `Error: ${init}' is not an option!`));
+    target.appendChild(games[init] || _("h2", {class: "error"}, `Error: '${init}' is not an option!`));
 
     return [
         _("nav", {class: "pokemon-game-select"}, 
@@ -87,7 +87,8 @@ export default function Pokemon(init?:string):Content {
             "platinum": require("./games/platinum.json"),
             "white"   : require("./games/white.json"),
             "x"       : require("./games/x.json"),
-            "sun"     : require("./games/sun.json")
+            "sun"     : require("./games/sun.json"),
+            "red"     : require("./games/fireRed.json"),
         })
     ];
 };

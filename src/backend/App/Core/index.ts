@@ -225,7 +225,10 @@ export default class Core extends Route{
             //Run code after transition.
             window.setTimeout(() => {              
                 try {
-                    context.connected(context);
+                    this._target.querySelectorAll("*").forEach((node:HTMLElement)=>{
+                        if(node.readyCallback)
+                            node.readyCallback();
+                    });
                     resolve();
                 } catch (e){
                     reject(e);

@@ -9,7 +9,7 @@ export default class AnimatedText extends HTMLElement {
         this._text = text;
     }
 
-    connectedCallback(){
+    readyCallback(){
         this.innerText = "";
         let index:number = 0;
 
@@ -19,7 +19,8 @@ export default class AnimatedText extends HTMLElement {
             if(index < this._text.length)
                 window.setTimeout(placeChar, TEXT_DELAY);
         }
-        window.setTimeout(placeChar, 500);
+        //window.setTimeout(placeChar, 500);
+        placeChar();
     }
 }
 

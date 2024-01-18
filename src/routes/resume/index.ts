@@ -14,40 +14,44 @@ import { cache } from "../../util/Memory";
 export const Resume = new Router("Resume", "Alex's resume and other skills.");
 
 Resume.use("/:page", async(ctx: Context)=>{
-    const database = await Database();
-
     const page:string = ctx.get("page");
     
-    const results = await cache(page, ()=>database.queryCollection(page));
+    const results = await cache(page, async()=>{
+        const database = await Database();
+        return database.queryCollection(page)
+    });
+    
     if(typeof results === "undefined")
         throw new HtmlError(404, `Unknown page ${page} in Resume!`);
 
     ctx.module = await importModule("resume", {
         type: page,
-        arr: results
+        result: results
     });
 });
 
 Resume.use("/:page/:id", async(ctx: Context)=>{
-    const database = await Database();
-
     const page:string = ctx.get("page");
     const id:string = ctx.get("id");
 
-    const result:any = await cache(`${page}(${id})`, ()=>database.getDocument(page, id));
+    const result:any = await cache(`${page}(${id})`, async ()=>{
+        const database = await Database();
+        return database.getDocument(page, id)
+    });
+
     if(typeof result === "undefined")
         throw new HtmlError(404, `Unknown page id '${id}' on page ${page} in Resume!`);
            
     ctx.module = await importModule("resume", {
         type: page,
-        arr: result
+        result: result
     });
 });
 
 Resume.use("/", async(ctx: Context)=>{
-    const database = await Database();
-
     const results = await cache("Resume", async()=>{
+        const database = await Database();
+
         return {
             schools: await database.queryCollection("School", {
                 orderBy: ["graduated", "desc"],

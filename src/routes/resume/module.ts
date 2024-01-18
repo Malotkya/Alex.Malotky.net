@@ -95,7 +95,7 @@ export default function Resume(args?: any): Content{
         ),
         _("article",
             _("h2", 
-                _("a", {href: "/Resume/Jobs"}, "Skills:")
+                _("a", {href: "/Resume/Skills"}, "Skills:")
             ),
             _("ul", {class: "resume-card-list compact-resume"},
                 args.skills.map(SkillCard)

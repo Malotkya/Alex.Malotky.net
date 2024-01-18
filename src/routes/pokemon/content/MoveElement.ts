@@ -36,7 +36,7 @@ export default class MoveElement extends HTMLLIElement{
                     _("span", {class: `pokemon-type-item ${data.type.toLocaleLowerCase()}`}, data.type)
                 ),
                 _("figure", {class: "pokmeon-move-category"},
-                    _("img", {src: `/${data.category}.png`, alt: data.category})
+                    _("img", {src: `/media/${data.category}.png`, alt: data.category})
                 ),
 
                 data.power?

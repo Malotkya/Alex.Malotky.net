@@ -19,7 +19,7 @@ function createMenuListElement(name:string):{menuElement:HTMLElement, regionList
     button.addEventListener("mouseover", ()=>button.focus());
     button.addEventListener("mouseleave", ()=>button.blur());
     return {
-        menuElement: _("li", {},
+        menuElement: _("li", {class: "region"},
             button,
             list
         ),
@@ -89,6 +89,17 @@ export default class PokemonGameSelectElement extends HTMLElement{
                 target.blur();
             }
         })
+    }
+
+    readyCallback(): void {
+        this.querySelectorAll(".region").forEach(parrent=>{
+            const width = `${parrent.clientWidth}px`;
+
+            parrent.querySelectorAll("li").forEach(child=>{
+                child.style.maxWidth = width;
+            });
+        });
+
     }
 }
 

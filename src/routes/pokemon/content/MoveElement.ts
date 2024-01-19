@@ -1,4 +1,4 @@
-import { createElement as _ } from "../../../util/Elements";
+import { createElement as _, Content } from "../../../util/Elements";
 import { MoveData } from "./PokemonTypes";
 
 const className = "pokmeon-move-item";
@@ -6,7 +6,7 @@ const className = "pokmeon-move-item";
 /** Pokemon-Move-Element
  * 
  */
-export default function MoveElement(data: MoveData|string){
+export default function MoveElement(data: MoveData|string): Content{
     if(typeof data === "string") {
         return _("li", {class: className}, data );
     }

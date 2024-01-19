@@ -1,26 +1,14 @@
-import PokemonElement, {PokemonType} from "./PokemonElement";
+import PokemonElement from "./PokemonElement";
 import PokemonTeamViewElement from "./PokemonTeamViewElement";
 import { createElement as _ } from "../../../util/Elements";
-
-/** Pokmeon Game Data Type
- * 
- * Format of Game Data in Json files.
- */
-export interface PokemonGameType {
-    game: string,
-    version: StringIndex,
-    generation: number,
-    region: string,
-    team: Array<PokemonType>,
-    others: Array<PokemonType>,
-}
+import { Game } from "./PokemonTypes";
 
 export default class PokemonGameElement extends HTMLElement {
     private _name:HTMLHeadElement;
     private _info:HTMLElement;
     private _team: PokemonTeamViewElement;
 
-    constructor(data:PokemonGameType){
+    constructor(data:Game){
         super();
 
         this._name = _("h3", {class: "game-name"}, data.game);

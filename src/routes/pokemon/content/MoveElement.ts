@@ -1,17 +1,5 @@
 import { createElement as _ } from "../../../util/Elements";
-
-/** Pokmeon Move Data Type
- * 
- * Format of Move Data in Json files.
- */
-export interface MoveData {
-    name: string,
-    type: string,
-    category: "status"|"special"|"physical",
-    power?: number,
-    accuracy: number,
-    effect?: string
-}
+import { MoveData } from "./PokemonTypes";
 
 /** Pokemon-Move-Element
  * 

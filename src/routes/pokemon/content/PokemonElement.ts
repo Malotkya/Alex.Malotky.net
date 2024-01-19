@@ -1,36 +1,8 @@
 import { createElement as _, Content } from "../../../util/Elements";
-import MoveElement, { MoveData } from "./MoveElement";
-const MASTER_POKEMON_LIST: Array<string> = require("../../../../pokemon.json");
+import { Pokemon } from "./PokemonTypes";
+import { formatURI } from "./Serebii";
+import MoveElement from "./MoveElement";
 
-/** Pokemon Data Type
- * 
- * Format of Pokemon Data in Json files.
- */
-export interface PokemonType {
-    name: string,
-    modifier?: string,
-    number: number,
-    level: number,
-    moves: Array<string|MoveData>,
-    types: Array<string>,
-    item?: string,
-    nature?: string,
-    ability?: string,
-    gender?: boolean, //true: ♂, false: ♀
-    shiney?:boolean,
-    stats: {
-        attack: number,
-        defense: number,
-        speed:number,
-        health: number,
-        special?:number,
-        specialAttack?: number,
-        specialDefence?: number
-    }
-}
-
-//URI for images.
-const SEREBII_URI = "https://www.serebii.net/";
 
 /** Creates (or Doesn't) icon based on gender identifier.
  * 
@@ -70,43 +42,6 @@ function optionalListItem(name:string, value:string): HTMLElement{
     );
 }
 
-/** Get Pokemon Number from Name
- * 
- * @param {string} name 
- * @returns {number}
- */
-function getNumber(name:string):number{
-    return MASTER_POKEMON_LIST.indexOf(name) + 1;
-}
-
-/** Format Image URI
- * 
- * @param {StringIndex} version - Game Version Information
- * @param {boolean} shiney 
- * @param {number} number - Pokedex number
- * @param {string} modifier - pokemon form modifier
- * @returns {string}
- */
-function formatURI(version:StringIndex|undefined, shiney:boolean, number:number, modifier:string = ""): string{
-    let baseUri:string = "pokemon/art/";
-    if(version){
-        if(shiney){
-            baseUri = version["shiney"] + "/";
-        } else {
-            baseUri = version["normal"] + "/";
-        }
-    }
-
-    let value:string = number.toString();
-    if(number < 1000){
-        value = `00${number}`.slice(-3);
-    }
-
-    const fileType = version["override"] || ".png"
-
-    return SEREBII_URI + baseUri + value + modifier + fileType;
-}
-
 /** Pokemon-Element
  * 
  */
@@ -119,7 +54,7 @@ export default class PokemonElement extends HTMLElement {
     private _moves: HTMLElement;
     private _optionals: HTMLElement;
 
-    constructor(data:PokemonType, version?:StringIndex, gameName:String = ""){
+    constructor(data:Pokemon, version?:StringIndex, gameName:String = ""){
         super();
         
         this._title = _("h4", {class: "pokemon-title"}, 
@@ -133,7 +68,7 @@ export default class PokemonElement extends HTMLElement {
         );
 
         this._image = _("figure", {class: "pokemon-image"},
-            _("img", {src: formatURI(version, data.shiney, getNumber(data.name), data.modifier), alt: `${data.name} ${gameName} Sprite`}),
+            _("img", {src: formatURI(data, version), alt: `${data.name} ${gameName} Sprite`}),
             _("figcaption", data.name, createGenerIcon(data.gender))
         );
 

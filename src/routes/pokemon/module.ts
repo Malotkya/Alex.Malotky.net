@@ -1,9 +1,9 @@
 import { Content, createElement as _ } from "../../util/Elements";
-import PokemonGameElement, {PokemonGameType} from "./content/PokemonGameElement";
-
+import PokemonGameElement from "./content/PokemonGameElement";
+import { Game } from "./content/PokemonTypes";
 //String index interfaces used to easily access information.
 interface dataList {
-    [name:string]: PokemonGameType
+    [name:string]: Game
 }
 interface elementList {
     [name:string]: PokemonGameElement

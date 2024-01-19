@@ -1,6 +1,6 @@
 
 {
-    "game": "Pokemon Crystal Version",
+    "game": "Crystal Version",
     "version": {
         "normal": "pokearth/sprites/crystal",
         "shiney": "Shiny/Crystal"

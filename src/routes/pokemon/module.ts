@@ -24,6 +24,7 @@ export default function Pokemon(init?:string):Content {
             "x"       : require("./games/x.json"),
             "sun"     : require("./games/sun.json"),
             "red"     : require("./games/fireRed.json"),
+            "eevee"   : require("./games/eevee.json"),
         })
     ];
 };

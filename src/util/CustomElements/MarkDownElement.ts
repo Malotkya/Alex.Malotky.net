@@ -24,8 +24,8 @@ function createBlock(string:string, element:string, regex:RegExp, dilimiter?:str
         if(index === -1) {
             output += split[i] + '\n';
         } else {
-            output += split[i].substr(0, index) + `</${element}>`
-                + split[i].substr(index+1);
+            output += split[i].substring(0, index) + `</${element}>`
+                + split[i].substring(index+1);
             inBlock = false;
         }
     }

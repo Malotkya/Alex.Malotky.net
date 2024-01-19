@@ -1,9 +1,9 @@
-/** /routes/mtg/content/elements/Edit/CategoryElement.ts
+/** /routes/mtg/content/elements/CategoryElement.ts
  * 
  * @author Alex Malotky
  */
 import CardElement from "./CardInputElemet";
-import {Card} from "../../../../../util/Scryfall";
+import {Card} from "../../../../util/Scryfall";
 
 /** Category Element
  * 

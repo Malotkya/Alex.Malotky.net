@@ -1,8 +1,8 @@
-/** /routes/mtg/content/elements/Edit/CardInputElement.ts
+/** /routes/mtg/content/elements/CardInputElement.ts
  * 
  * @author Alex Malotky
  */
-import { queryForCard, Card } from "../../../../../util/Scryfall";
+import { queryForCard, Card } from "../../../../util/Scryfall";
 import AutoComplete from "./AutoComplete";
 
 const BLANK_CARD:Card = {

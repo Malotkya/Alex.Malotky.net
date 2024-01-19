@@ -1,11 +1,11 @@
-/** /routes/mtg/content/elements/Edit/AutoComplete.ts
+/** /routes/mtg/content/elements/AutoComplete.ts
  * 
  * Made following this tutorial:
  * https://www.w3schools.com/howto/howto_js_autocomplete.asp
  * 
  * @author Alex Malotky
  */
-import {getShard} from "../../../../../util/Scryfall";
+import {getShard} from "../../../../util/Scryfall";
 
 const MAX_LIST_LENGTH:number = 10;
 

@@ -2,9 +2,9 @@
  * 
  * @author Alex Malotky
  */
-import CategoryElement from "./Edit/CategoryElement";
-import DeckListDialog from "./Edit/DeckListDialog";
-import CardElement from "./Edit/CardInputElemet";
+import CategoryElement from "./CategoryElement";
+import DeckListDialog from "./DeckListDialog";
+import CardElement from "./CardInputElemet";
 import {Card} from "../../../../util/Scryfall";
 
 interface categories {

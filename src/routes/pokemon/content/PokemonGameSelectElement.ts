@@ -66,7 +66,7 @@ export default class PokemonGameSelectElement extends HTMLElement{
             others,
             version,
         } = this._list[name];
-        this._target.appendChild(_("h3", {class: "game-name"}, game));
+        this._target.appendChild(_("h3", {class: "game-name"}, `Pokemon ${game}`));
         this._target.appendChild(_("p", {class: "game-info"}, `Generation: ${generation}<br/> Region: ${region}`))
         this._target.appendChild(new PokemonTeamViewElement(  team, others, version, game ));
     }

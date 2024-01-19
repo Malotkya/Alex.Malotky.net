@@ -6,6 +6,31 @@ export default class ToolTip extends HTMLElement {
 
         if(text)
             this._text = new ToolTipText(text);
+
+        this.addEventListener("mouseover", (event:MouseEvent)=>{
+            if(this._text)
+                this.appendChild(this._text);
+        });
+
+        this.addEventListener("mousemove", (event:MouseEvent)=>{
+            if(this._text){
+                const width:number = document.body.clientWidth;
+                //const height:number = ???;
+    
+                if(event.pageX + this._text.offsetWidth > width) {
+                    this._text.style.left = `${width - this._text.offsetWidth}px`;
+                } else {
+                    this._text.style.left = `${event.pageX}px`;
+                }
+                
+                this._text.style.top = `${event.pageY}px`;
+            }
+        });
+
+        this.addEventListener("mouseleave", ()=>{
+            if (this._text)
+                this.removeChild(this._text);
+        });
     }
 
     static get observedAttributes(){
@@ -45,35 +70,16 @@ export default class ToolTip extends HTMLElement {
                 return;
             }
         }
-        
+
         if(this.getAttribute("aria-describedby") === null){
             if(this._text.id === "")
                 this._text.id = Math.random().toString().substring(2);
-
+    
             this.setAttribute("aria-describedby", this._text.id);
         }
-
-        this.addEventListener("mouseover", (event:MouseEvent)=>{
-            this.appendChild(this._text);
-        });
-
-        this.addEventListener("mousemove", (event:MouseEvent)=>{
-            const width:number = document.body.clientWidth;
-            //const height:number = ???;
-
-            if(event.pageX + this._text.offsetWidth > width) {
-                this._text.style.left = `${width - this._text.offsetWidth}px`;
-            } else {
-                this._text.style.left = `${event.pageX}px`;
-            }
-            
-            this._text.style.top = `${event.pageY}px`;
-        })
-
-        this.addEventListener("mouseleave", ()=>{
-            this.removeChild(this._text);
-        })
     }
+
+    
 }
 
 class ToolTipText extends HTMLElement {
@@ -81,11 +87,11 @@ class ToolTipText extends HTMLElement {
 
     constructor(text?:string){
         super();
-        this.setAttribute("role", "tooltip");
         this._text = text;
     }
 
     connectedCallback(){
+        this.setAttribute("role", "tooltip");
         if(this._text)
             this.textContent = this._text;
     }

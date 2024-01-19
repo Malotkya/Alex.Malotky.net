@@ -10,7 +10,7 @@
     "region": "Kanto",
     "team": [
         {   "name": "Charizard",
-            "level": 36,
+            "level": 53,
             "gender": true,
             "types":[
                 "Fire",
@@ -20,12 +20,12 @@
             "nature": "Hardy",
             "ability": "Blaze",
             "stats":{
-                "health": 114,
-                "attack": 77,
-                "defense": 70,
-                "specialAttack": 89,
-                "specialDefence": 66,
-                "speed": 83
+                "health": 166,
+                "attack": 117,
+                "defense": 106,
+                "specialAttack": 135,
+                "specialDefence": 98,
+                "speed": 127
             },
             "moves": [
                 {   "name": "Flamethrower",
@@ -58,7 +58,7 @@
             ]
         },
         {   "name": "Gyarados",
-            "level": 36,
+            "level": 52,
             "gender": true,
             "types":[
                 "Water",
@@ -68,12 +68,12 @@
             "nature": "Quiet",
             "ability": "Intimidate",
             "stats":{
-                "health": 119,
-                "attack": 100,
-                "defense": 70,
-                "specialAttack": 62,
-                "specialDefence": 83,
-                "speed": 59
+                "health": 179,
+                "attack": 149,
+                "defense": 105,
+                "specialAttack": 94,
+                "specialDefence": 119,
+                "speed": 92
             },
             "moves": [
                 {   "name": "Secret Power",
@@ -106,7 +106,7 @@
             ]
         },
         {   "name": "Fearow",
-            "level": 35,
+            "level": 51,
             "gender": true,
             "types":[
                 "Normal",
@@ -116,12 +116,12 @@
             "nature": "Gentle",
             "ability": "Keen Eye",
             "stats":{
-                "health": 95,
-                "attack": 75,
-                "defense": 54,
-                "specialAttack": 54,
-                "specialDefence": 62,
-                "speed": 87
+                "health": 139,
+                "attack": 114,
+                "defense": 82,
+                "specialAttack": 78,
+                "specialDefence": 93,
+                "speed": 113
             },
             "moves": [
                 {   "name": "Drill Peck",
@@ -154,7 +154,7 @@
             ]
         },
         {   "name": "Aerodactyl",
-            "level": 40,
+            "level": 52,
             "gender": true,
             "types":[
                 "Rock",
@@ -164,12 +164,12 @@
             "nature": "Hasty",
             "ability": "Rock Head",
             "stats":{
-                "health": 122,
-                "attack": 90,
-                "defense": 53,
-                "specialAttack": 61,
-                "specialDefence": 67,
-                "speed": 130
+                "health": 156,
+                "attack": 121,
+                "defense": 72,
+                "specialAttack": 80,
+                "specialDefence": 100,
+                "speed": 179
             },
             "moves": [
                 {   "name": "Ancient Power",
@@ -210,12 +210,12 @@
             "nature": "Hardy",
             "ability": "Preassure",
             "stats":{
-                "health": 159,
-                "attack": 103,
-                "defense": 99,
-                "specialAttack": 133,
-                "specialDefence": 102,
-                "speed": 112
+                "health": 166,
+                "attack": 107,
+                "defense": 103,
+                "specialAttack": 139,
+                "specialDefence": 107,
+                "speed": 116
             },
             "moves": [
                 {   "name": "Thunderbolt",
@@ -255,12 +255,12 @@
             "nature": "Naive",
             "ability": "Preassure",
             "stats":{
-                "health": 154,
-                "attack": 104,
-                "defense": 106,
-                "specialAttack": 114,
-                "specialDefence": 128,
-                "speed": 106
+                "health": 160,
+                "attack": 110,
+                "defense": 110,
+                "specialAttack": 119,
+                "specialDefence": 134,
+                "speed": 112
             },
             "moves": [
                 {   "name": "Ice Beam",

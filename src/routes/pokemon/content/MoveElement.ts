@@ -1,77 +1,48 @@
 import { createElement as _ } from "../../../util/Elements";
 import { MoveData } from "./PokemonTypes";
 
+const className = "pokmeon-move-item";
+
 /** Pokemon-Move-Element
  * 
  */
-export default class MoveElement extends HTMLLIElement{
-    private _name: string;
-    private _info: HTMLElement|null;
+export default function MoveElement(data: MoveData|string){
+    if(typeof data === "string") {
+        return _("li", {class: className}, data );
+    }
+    
+    const {
+        name = "Missing",
+        type = "Normal",
+        category = "special",
+        accuracy = 0,
+        power,
+        effect
+    } = data;
 
-    constructor(data: MoveData|string){
-        super();
-        this.className = "pokmeon-move-item";
-
-        if(typeof data === "string") {
-            this._name = data;
-            this._info = null;
-        } else if(typeof data !== "object"){
-            throw new TypeError("Unknown datatype for move!");
-        } else {
-            this._name = data.name;
-            this._info = _("div", {class: "pokemon-move-info"},
+    return _("li", {class: className},
+        _("tool-tip", name,
+            _("tool-tip-text", {class: "pokemon-move-info"},
                 _("span",
-                    _("span", {class: `pokemon-type-item ${data.type.toLocaleLowerCase()}`}, data.type)
+                    _("span", {class: `pokemon-type-item ${type.toLocaleLowerCase()}`}, type)
                 ),
                 _("figure", {class: "pokmeon-move-category"},
-                    _("img", {src: `/media/${data.category}.png`, alt: data.category})
+                    _("img", {src: `/media/${category}.png`, alt: category})
                 ),
 
-                data.power?
+                power?
                 _("div", 
                     _("span", "Power:"),
-                    _("span", data.power === 0? "—": data.power.toString())
+                    _("span", power === 0? "—": power.toString())
                 ): null,
 
                 _("div", 
                     _("span", "Accuracy:"),
-                    _("span", data.accuracy === 0? "—": data.accuracy.toString())
+                    _("span", accuracy === 0? "—": accuracy.toString())
                 ),
-                
-                data.effect? _("p", data.effect): null
-            );
-        }
-    }
-
-    connectedCallback(){
-        this.textContent = this._name;
         
-        this.addEventListener("mouseover", (event:MouseEvent)=>{
-            if(this._info) {
-                this.appendChild(this._info);
-            }
-        });
-
-        this.addEventListener("mousemove", (event:MouseEvent)=>{
-            const width:number = document.body.clientWidth;
-            if(this._info){
-                if(event.pageX + this._info.offsetWidth > width) {
-                    this._info.style.left = `${width - this._info.offsetWidth}px`;
-                } else {
-                    this._info.style.left = `${event.pageX}px`;
-                }
-                
-                this._info.style.top = `${event.pageY}px`;
-                
-            }
-        })
-
-        this.addEventListener("mouseleave", ()=>{
-            if(this._info){
-                this.removeChild(this._info);
-            }
-        })
-    }
+                effect? _("p", effect): null
+            )
+        )
+    );
 }
-
-customElements.define("pokemon-move-element", MoveElement, {extends: "li"});

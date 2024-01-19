@@ -76,10 +76,17 @@ export default class PokemonGameSelectElement extends HTMLElement{
         this.appendChild( this._target );
 
         this.addEventListener("click", (event:Event)=>{
-            const eventTarget:string|null = (event.target as HTMLElement).getAttribute("target");
+            const target: HTMLElement = event.target as HTMLElement;
+            const eventTarget:string|null = target.getAttribute("target");
 
             if(eventTarget){
+                //@ts-ignore
+                const url = new URL(window.location);
+                url.searchParams.set("game", eventTarget);
+                window.history.pushState({}, "", url);
+
                 this.display(eventTarget);
+                target.blur();
             }
         })
     }

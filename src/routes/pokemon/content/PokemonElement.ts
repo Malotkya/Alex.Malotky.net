@@ -85,7 +85,7 @@ function OptionalList(data:StringIndex): Content{
     for(let name in data){
         if(data[name] !== undefined)
         list.push(_("li", {class: "pokemon-optional-item"}, 
-            _("span", {class: "pokemon-optional-name"}, name),
+            _("span", {class: "pokemon-optional-name"}, name.charAt(0).toUpperCase() + name.slice(1)),
             _("span", {class: "pokemon-optional-value"}, data[name] === ""? "<i>none</i>": data[name])
         ));
     }
@@ -123,10 +123,10 @@ export default function PokemonElement(data:Pokemon, version?:StringIndex, gameN
         _("h4", {class: "pokemon-title"}, 
             _("span", {class: "pokemon-name"}, name)
         ),
-        _("p", {class: "pokemon-level"}, `Level: ${level}`),
         _("ul", {class: "pokemon-types-list"},
             types.map(type=>_("li", {class: `pokemon-type-item ${type.toLocaleLowerCase()}`}, type))
         ),
+        _("p", {class: "pokemon-level"}, `Level: ${level}`),
         _("figure", {class: "pokemon-image"},
             _("img", {src: formatURI(data, version), alt: `${name} ${gameName} Sprite`}),
             _("figcaption", data.name, GenerIcon(gender))

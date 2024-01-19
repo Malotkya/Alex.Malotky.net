@@ -1,7 +1,6 @@
 import { createElement as _, Content } from "../../../util/Elements";
-import { Pokemon } from "./PokemonTypes";
+import { Pokemon, MoveData } from "./PokemonTypes";
 import { formatURI } from "./Serebii";
-import MoveElement from "./MoveElement";
 
 /** Gender Icon Module
  * 
@@ -15,11 +14,11 @@ function GenerIcon(gender?:boolean): Content {
     return _("span", {class: "pokemon-gender", "aria-label": gender? "male": "female"}, gender? ' ♂': ' ♀');
 }
 
-/** Create Stats List Item
+/** Stats List Item Module
  * 
  * @param {string} name 
  * @param {number} value 
- * @returns {HTMLElement}
+ * @returns {Content}
  */
 function statsListItem(name:string, value:number = -1): Content{
     return _("li", {class: "pokemon-stat-item"}, 
@@ -28,17 +27,63 @@ function statsListItem(name:string, value:number = -1): Content{
     );
 }
 
+/** Pokemon Move Module
+ * 
+ * @param {MoveData|string} data 
+ * @returns {Content}
+ */
+function MoveElement(data: MoveData|string): Content{
+    if(typeof data === "string") {
+        return _("li", {class: MOVE_ELEMENT_CLASS_NAME}, data );
+    }
+    
+    const {
+        name = "Missing",
+        type = "Normal",
+        category = "special",
+        accuracy = 0,
+        power,
+        effect
+    } = data;
+
+    return _("li", {class: MOVE_ELEMENT_CLASS_NAME},
+        _("tool-tip", name,
+            _("tool-tip-text", {class: "pokemon-move-info"},
+                _("span",
+                    _("span", {class: `pokemon-type-item ${type.toLocaleLowerCase()}`}, type)
+                ),
+                _("figure", {class: "pokmeon-move-category"},
+                    _("img", {src: `/media/${category}.png`, alt: category})
+                ),
+
+                power?
+                _("div", 
+                    _("span", "Power:"),
+                    _("span", power === 0? "—": power.toString())
+                ): null,
+
+                _("div", 
+                    _("span", "Accuracy:"),
+                    _("span", accuracy === 0? "—": accuracy.toString())
+                ),
+        
+                effect? _("p", effect): null
+            )
+        )
+    );
+}
+const MOVE_ELEMENT_CLASS_NAME = "pokmeon-move-item";
+
 /** Create Optional List Item
  * 
- * @param {string} name 
- * @param {string} value 
- * @returns {HTMLElement}
+ * @param {StringIndex} data 
+ * @returns {Content}
  */
 function OptionalList(data:StringIndex): Content{
     const list:Content = [];
 
     for(let name in data){
-        if(data !== undefined)
+        if(data[name] !== undefined)
         list.push(_("li", {class: "pokemon-optional-item"}, 
             _("span", {class: "pokemon-optional-name"}, name),
             _("span", {class: "pokemon-optional-value"}, data[name] === ""? "<i>none</i>": data[name])
@@ -54,7 +99,7 @@ function OptionalList(data:StringIndex): Content{
 /** Pokemon-Element
  * 
  */
-export default function PokemonElement(data:Pokemon, version?:StringIndex, gameName:String = ""):Content {
+export default function PokemonElement(data:Pokemon, version?:StringIndex, gameName:string = ""):HTMLElement {
     const {
         name = "Misingno!",
         level = 0,

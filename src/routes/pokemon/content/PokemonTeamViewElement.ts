@@ -1,19 +1,20 @@
-import { createElement as _, Content } from "../../../util/Elements";
+import { createElement as _ } from "../../../util/Elements";
 import PokemonElement from "./PokemonElement";
+import { Pokemon } from "./PokemonTypes";
 
 /** Pokemon-Team-View
  * 
  */
 export default class PokemonTeamViewElement extends HTMLElement {
-    private _main: Array<Content>;
-    private _other: Array<Content>;
+    private _main: Array<HTMLElement>;
+    private _other: Array<HTMLElement>;
     private _select: HTMLElement;
     private _view: HTMLElement;
 
-    constructor(main: Array<Content>, other: Array<Content> = []){
+    constructor(main: Array<Pokemon>, other: Array<Pokemon> = [], version?:StringIndex, game?:string){
         super()
-        this._main = main;
-        this._other = other;
+        this._main  =  main.map(p=>PokemonElement(p, version, game));
+        this._other = other.map(p=>PokemonElement(p, version, game));;
 
         this._select = _("nav", {class: "pokemon-select"}, 
             _("button", {class: "pokemon-button", target: "main"}, "Main Pokemon"),
@@ -30,15 +31,15 @@ export default class PokemonTeamViewElement extends HTMLElement {
 
                 if(eventTarget === "main") {
                     for(let e of this._main)
-                        this._view.appendChild(e as HTMLElement);
+                        this._view.appendChild(e);
                 } else if (eventTarget === "other") {
                     for(let e of this._other)
-                        this._view.appendChild(e as HTMLElement);
+                        this._view.appendChild(e);
                 } else {
                     console.warn(`Unknown event target '${eventTarget}'!`);
                 }
             }
-        })
+        });
     }
 
     connectedCallback(){

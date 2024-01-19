@@ -1,4 +1,4 @@
-/** /Util/Custom Elements/Mtg/Edit/DeckListDialog.ts
+/** /routes/mtg/content/elements/Edit/DeckListDialog.ts
  * 
  * @author Alex Malotky
  */

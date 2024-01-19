@@ -1,4 +1,4 @@
-/** /Util/Custom Elements/Mtg/DeckEditor.ts
+/** /routes/mtg/content/elements/DeckEditor.ts
  * 
  * @author Alex Malotky
  */
@@ -89,6 +89,15 @@ export function isCommanderCategory(category:string):boolean{
     return false;
 }
 
+/** Card To String
+ * 
+ * Converts card object to readable string that can be easily converted back.
+ * 
+ * Originally from: https://github.com/Malotkya/CapstoneProject/blob/main/backend/deckList.js
+ *
+ * @param {Card} card
+ * @returns {string}
+ */
 function cardToString(card:Card):string {
     let output = card.count + " " + card.name;
 

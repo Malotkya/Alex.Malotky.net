@@ -1,4 +1,4 @@
-/** /Util/Custom Elements/Mtg/Edit/CardInputElement.ts
+/** /routes/mtg/content/elements/Edit/CardInputElement.ts
  * 
  * @author Alex Malotky
  */

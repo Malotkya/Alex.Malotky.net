@@ -1,4 +1,4 @@
-/** /Util/Custom Elements/AutoComlete.ts
+/** /routes/mtg/content/elements/Edit/AutoComplete.ts
  * 
  * Made following this tutorial:
  * https://www.w3schools.com/howto/howto_js_autocomplete.asp

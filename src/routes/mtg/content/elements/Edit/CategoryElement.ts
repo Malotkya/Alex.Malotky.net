@@ -1,4 +1,4 @@
-/** /Util/Custom Elements/Mtg/Edit/CategoryElement.ts
+/** /routes/mtg/content/elements/Edit/CategoryElement.ts
  * 
  * @author Alex Malotky
  */

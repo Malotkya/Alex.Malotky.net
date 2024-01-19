@@ -33,5 +33,8 @@ app.onReady(()=>{
     console.info(`App v${pkg.version} loaded successfully!`);
 });
 
-import MarkDownElement from "./util/MarkDownElement";
+//Global Custom Element Registry
+import MarkDownElement from "./util/CustomElements/MarkDownElement";
+import ToolTip from "./util/CustomElements/ToolTipElement";
 customElements.define("mark-down", MarkDownElement);
+customElements.define("tool-tip", ToolTip);

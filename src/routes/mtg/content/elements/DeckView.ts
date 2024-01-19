@@ -1,19 +1,39 @@
+/** /routes/mtg/content/element/DeckView.ts
+ * 
+ * @author Alex Malotky
+ */
+import { createElement as _, Content } from "../../../../util/Elements";
 import {Card} from "../../../../util/Scryfall";
-import CategoryView from "./View/Category";
 import Masonry from "masonry-layout";
 
+/** Deck-View-Element
+ * 
+ */
 export default class DeckView extends HTMLElement{
     private _list: Map<string, Array<Card>>;
 
+    /** Constructor
+     * 
+     * @param categories 
+     */
     constructor(categories?:any){
         super();
         this._list = new Map();
         this.style.display = "block";
 
-        if(typeof categories !== "undefined")
+        if(typeof categories !== "undefined") {
             this.categories = categories;
+        } else {
+            //Attempt to create categories from JSON text inside of object.
+            this.categories = JSON.parse(this.innerText);
+        }
     }
 
+    /** Catagories setter
+     * 
+     * Converts index object holding arrays to Map of Arrays
+     * ! ONLY CHECKS FOR AN ARRAY, DOSENT VERIFY CARD OBJECTS IN ARRAY !
+     */
     private set categories(value: any){
         for(let name in value){
             const list:Array<Card> = value[name];
@@ -24,15 +44,17 @@ export default class DeckView extends HTMLElement{
         }   
     }
 
+    /** Connected Callback
+     * 
+     */
     public connectedCallback(){
-        if(this._list.size === 0)
-            this.categories = JSON.parse(this.innerText);
-
         this.innerHTML = "";
-        const categories = Array.from(this._list.entries()).sort((a,b)=>a[0].localeCompare(b[0]));
-        for( let [name, list] of  categories) 
-            this.appendChild(new CategoryView(name, list));
+        
+        //Create Array sorted by alphabetically by catagory name.
+        for( let [name, list] of  Array.from(this._list.entries()).sort((a,b)=>a[0].localeCompare(b[0])) ) 
+            this.appendChild(CategoryElement(name, list));
 
+        //Masonry Black Magic
         new Masonry(this, {
             itemSelector: '.category',
             columnWidth: '.category',
@@ -42,3 +64,81 @@ export default class DeckView extends HTMLElement{
 }
 
 customElements.define("deck-view", DeckView);
+
+/** Category Element Module
+ * 
+ * @param {string} name 
+ * @param {Array<Card>} list 
+ * @returns {Content}
+ */
+function CategoryElement(name:string, list:Array<Card>):HTMLElement{
+    return _("section", {class: "category"},
+        _("h2", name),
+        _("ul", list.map( card=>CardElement(card)))
+    );
+}
+
+/** Card Element Module
+ * 
+ * @param {Card} card 
+ * @returns {Content}
+ */
+export function CardElement(card:Card): Content{
+    const {
+        name = "Missing Name",
+        count = 1,
+        image = [],
+        typeLine = "Type Line",
+        oracle = "Oracle Text",
+        foil = false
+    } = card;
+    const altText = altTextGenerator(name);
+    const images:Array<HTMLElement> = image.map((v, i)=>_("img", {src: v, alt: altText(i)}));
+
+    //Push backup if no image.
+    if(images.length === 0){
+        images.push(_("div", {class: "oracle"}, _("p", typeLine), _("p", oracle)))
+    }
+
+    const output = _("li", {class: "card"},
+        _("span", {class: "name"}, `${count} ${name.replace("//", "<br>&nbsp;&nbsp;")}`),
+        _("span", 
+            _("figure", {class: images.length>1?"doubleface":""},
+                images.map((img)=>_("div", {class: "figure"}, img)),
+                foil? _("div", {class: "foil"}): null
+            )
+        )
+    );
+
+    //Needed for apple devices
+    output.addEventListener("click", ()=>this.focus());
+
+    return output;
+}
+
+/** Alt Text Generator
+ * 
+ * Creates function that generates alt text based on sides of the card.
+ * 
+ * @param {string} name 
+ * @returns {Function}
+ */
+function altTextGenerator(name:string):(i:number)=>string{
+    const array: Array<string> = name.split("//");
+
+    return (s:number):string =>{
+        if(s >= array.length)
+            s = array.length - 1;
+
+        let text:string;
+        if(s === 0) {
+            text = "Front";
+        } else if(s === 1) {
+            text = "Back";
+        } else {
+            text = "Side " + s;
+        }
+
+        return `${array[s]} ${text}`;
+    }
+}

@@ -231,6 +231,7 @@ pokemon-game-element {
             ul {
                 display: none;
                 position: absolute;
+                background-color: $white;
             }
 
             &:hover > ul,
@@ -243,4 +244,8 @@ pokemon-game-element {
     button {
         width: 100%;
     }
+}
+
+#pokemon-about {
+    padding: .1em 1em;
 }

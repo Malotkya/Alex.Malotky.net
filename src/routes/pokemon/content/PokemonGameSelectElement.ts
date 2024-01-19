@@ -95,7 +95,7 @@ export default class PokemonGameSelectElement extends HTMLElement{
         this.querySelectorAll(".region").forEach(parrent=>{
             const width = `${parrent.clientWidth}px`;
 
-            parrent.querySelectorAll("li").forEach(child=>{
+            parrent.querySelectorAll("ul").forEach(child=>{
                 child.style.maxWidth = width;
             });
         });

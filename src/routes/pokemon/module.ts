@@ -11,7 +11,7 @@ export default function Pokemon(init?:string):Content {
 
     return [ 
         _("h1", "Pokemon Game Marathon"),
-        _("aside", {id:"about"},
+        _("aside", {id:"pokemon-about"},
             _("h2", "About:"),
             _("p", "I have recently got back into playing the mainline pokemon games.  I haven't played any of them sence Generation 3, so I have accquire all the games and have been playing them in order.  Bellow are the list of pokemon that I used in each games along with my thoughts about each game.")
         ),

@@ -35,6 +35,8 @@ export default class Core extends Route{
         window.onload = () => this.start();
         window.route = (href:Event|string, body?:BodyData) => this.route(href, body);
 
+        window.addEventListener("resize", ()=>this.fireChildReadyEvents());
+
         this._history = [];
         this._loadingError = [];
         this._routing = false;
@@ -128,6 +130,7 @@ export default class Core extends Route{
             this._title = findOrCreateElement("title", "head");
             this._target = findOrCreateElement("main");
             this._description = findOrCreateElement("meta[name='description'", "head");
+
         } catch (err){
             this.failed(err);
         }
@@ -136,6 +139,8 @@ export default class Core extends Route{
         this._defaultContent = this._description.getAttribute("content") || "";
 
         this._history.push(this.pathname);
+
+        
 
         if(this._loadingError.length > 0){
             this._target.innerHTML = makeErrorMessage("App Failed to Load!");
@@ -200,6 +205,16 @@ export default class Core extends Route{
         return this;
     }
 
+    /** Fire Ready Child Events
+     * 
+     */
+    private fireChildReadyEvents(): void{
+        this._target.querySelectorAll("*").forEach((node:HTMLElement)=>{
+            if(node.readyCallback)
+                node.readyCallback();
+        });
+    }
+
      /** On Ready Event Callback
      * 
      * @param {Function} callback
@@ -225,10 +240,7 @@ export default class Core extends Route{
             //Run code after transition.
             window.setTimeout(() => {              
                 try {
-                    this._target.querySelectorAll("*").forEach((node:HTMLElement)=>{
-                        if(node.readyCallback)
-                            node.readyCallback();
-                    });
+                    this.fireChildReadyEvents();
                     resolve();
                 } catch (e){
                     reject(e);

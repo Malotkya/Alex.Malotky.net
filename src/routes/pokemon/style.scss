@@ -220,6 +220,8 @@ pokemon-game-element {
 
         li {
             list-style: none;
+            min-width: 100px;
+            max-width: 200px;
         }
 
         > li {
@@ -228,6 +230,7 @@ pokemon-game-element {
 
             ul {
                 display: none;
+                position: absolute;
             }
 
             &:hover > ul,

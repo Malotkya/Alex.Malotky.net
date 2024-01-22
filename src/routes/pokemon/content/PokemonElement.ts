@@ -1,6 +1,9 @@
 import { createElement as _, Content } from "../../../util/Elements";
 import { Pokemon, MoveData, Nature } from "./PokemonTypes";
-import { formatURI, getNature } from "./Serebii";
+import { MASTER_NATURE_INDEX, MASTER_ITEM_INDEX, MASTER_ABILITY_INDEX} from "../data"
+import { formatURI } from "./Serebii";
+
+
 
 /** Gender Icon Module
  * 
@@ -55,7 +58,7 @@ function MoveElement(data: MoveData|string): Content{
     } = data;
 
     return _("li", {class: MOVE_ELEMENT_CLASS_NAME},
-        _("tool-tip", name,
+        _("tool-tip", {"fixed-width": "true"}, name,
             _("tool-tip-text", {class: "pokemon-move-info"},
                 _("span",
                     _("span", {class: `pokemon-type-item ${type.toLocaleLowerCase()}`}, type)
@@ -82,26 +85,107 @@ function MoveElement(data: MoveData|string): Content{
 }
 const MOVE_ELEMENT_CLASS_NAME = "pokmeon-move-item";
 
+interface ContentIndex {
+    [name:string]: Content
+}
 /** Create Optional List Item
  * 
  * @param {StringIndex} data 
  * @returns {Content}
  */
-function OptionalList(data:StringIndex): Content{
+function OptionalList(data:ContentIndex): Content{
     const list:Content = [];
 
     for(let name in data){
-        if(data[name] !== undefined)
-        list.push(_("li", {class: "pokemon-optional-item"}, 
-            _("span", {class: "pokemon-optional-name"}, name.charAt(0).toUpperCase() + name.slice(1)),
-            _("span", {class: "pokemon-optional-value"}, data[name] === ""? "<i>none</i>": data[name])
-        ));
+        if(data[name] !== null)
+            list.push(_("li", {class: "pokemon-optional-item"}, 
+                _("span", {class: "pokemon-optional-name"}, name+":"),
+                _("span", {class: "pokemon-optional-value"}, data[name])
+            ));
     }
 
     if(list.length === 0)
         return null;
 
     return _("ul", {class: "pokmeon-optional-list"}, list );
+}
+
+/** Get Nature
+ * 
+ * @param name 
+ * @returns 
+ */
+export function getNature(name:string = ""):Nature {
+    const temp:Nature = MASTER_NATURE_INDEX[name.toUpperCase()];
+    if(temp)
+        return temp;
+
+    return {inc: "", dec: ""};
+}
+
+/** Nature Description Tool Tip
+ * 
+ * @param {string} name 
+ * @returns {Content}
+ */
+function getNatureDescription(name?:string):Content {
+    if(name === undefined)
+        return null;
+
+    if(name === "")
+        return "<i>none</i>";
+
+    const temp:Nature = MASTER_NATURE_INDEX[name.toUpperCase()];
+    let tip:string;
+    if(temp) {
+        if(temp.inc === temp.dec)
+            tip = "Does nothing to adjust stats.";
+
+        tip =`Increases ${temp.inc}.<br/>Decreases ${temp.dec}.`;
+    } else {
+        tip = `Nature '${name}' not found!`;
+    }
+
+    return _("tool-tip",
+        name,
+        _("tool-tip-text", tip)
+    )
+}
+
+/** Item Description Tool Tip
+ * 
+ * @param {string} name 
+ * @returns {Content}
+ */
+function getItemDescription(name?:string):Content {
+    if(name === undefined)
+        return null;
+
+    if(name === "")
+        return "<i>none</i>";
+
+    return _("tool-tip",
+        name,
+        _("tool-tip-text", MASTER_ITEM_INDEX[name] || `Item '${name}' not found!`)
+    )
+}
+
+/** Ability Description Tool Tip
+ * 
+ * @param {string} name 
+ * @returns {Content}
+ */
+export function getAbilityDescription(name?:string):Content {
+    if(name === undefined)
+        return null;
+
+    if(name === "")
+        return "<i>none</i>";
+
+    return _("tool-tip",
+        name,
+        _("tool-tip-text", MASTER_ABILITY_INDEX[name] || `Ability '${name}' not found!`)
+    )
 }
 
 /** Pokemon-Element
@@ -155,6 +239,10 @@ export default function PokemonElement(data:Pokemon, version?:StringIndex, gameN
         _("ol", {class: "pokmeon-moves-list"}, 
             moves.map(move=>MoveElement(move))
         ),
-        OptionalList({ability, nature, item})
+        OptionalList({
+            "Ability": getAbilityDescription(ability),
+            "Nature":  getNatureDescription(nature),
+            "Item":    getItemDescription(item)
+        })
     );
 }

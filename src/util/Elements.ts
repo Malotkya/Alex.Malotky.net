@@ -24,12 +24,12 @@ export function createElement(name:string, attributes:any = {}, ...children:Arra
 
     const insertChildren = (list:Array<Content>) => {
         for(let child of list){
-            if(typeof child === "string") {
-                element.innerHTML += child;
+            if(child instanceof HTMLElement) {
+                element.appendChild(child);
             } else if(Array.isArray(child)){
                 insertChildren(child);
             } else if(child !== null && child !== undefined) {
-                element.appendChild(child);
+                element.innerHTML += String(child);
             }
         }
     }

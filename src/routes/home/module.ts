@@ -12,16 +12,17 @@ export default function Home():Content {
 
     return [ 
         _("h1", "Welcome!"),
-        _("div", {id: "home-container"}),
+        _("div", {id: "home-container"},
             new AnimatedText(TEXT),
+            _("article",
+                _("p", "I have just graduated from UW-Platteville, and I am excited to get into the programming field!")
+            ),
             _("article", 
-            _("h2", "Project Spotlight:"),
-            _("div", {id: "spotlight"},
-                Spotlight()
+                _("h2", "Project Spotlight:"),
+                _("div", {id: "spotlight"},
+                    Spotlight()
+                )
             )
-        ),
-        _("article", 
-            _("p", "My website is still under construction, and I will be continually working on it over the summer.")
         )
     ];
 }
@@ -41,11 +42,11 @@ function Spotlight(): Content{
                 "."
             ),
             _("p", 
-                "This project came about while playing the game",
+                "This project came about while playing the game ",
                 _("a", {href: "https://store.steampowered.com/app/739630/Phasmophobia/"},
                     "Phasmophobia"
                 ),
-                `with my brother.  Phasmophobia is a game where you have to figure out the type of ghost haunting a house by
+                ` with my brother.  Phasmophobia is a game where you have to figure out the type of ghost haunting a house by
                 gathering evidence left by the ghost. We were playing in a special mode where some of the evidence that a ghost has 
                 will not present, so ruling out ghosts becomes more complicated.  We wanted to be able to cross of evidence that we didn't find 
                 but not necisarly cross off ghosts that have those evidence.`

@@ -44,15 +44,29 @@ export default class DeckView extends HTMLElement{
         }   
     }
 
+    public checkImageHeights(list: Array<HTMLElement>){
+        const limit = this.getBoundingClientRect().bottom;
+
+        for(let figure of list){
+            const {bottom} = figure.getBoundingClientRect();
+            if(bottom > limit){
+                figure.style.top = `${limit-bottom}px`;
+            } else {
+                figure.style.top = "";
+            }
+        }
+    }
+
     /** Connected Callback
      * 
      */
     public connectedCallback(){
         this.innerHTML = "";
+        const promiseList: Array<Promise<HTMLElement>> = [];
         
         //Create Array sorted by alphabetically by catagory name.
         for( let [name, list] of  Array.from(this._list.entries()).sort((a,b)=>a[0].localeCompare(b[0])) ) 
-            this.appendChild(CategoryElement(name, list));
+            this.appendChild(CategoryElement(name, list, promiseList));
 
         //Masonry Black Magic
         new Masonry(this, {
@@ -60,6 +74,14 @@ export default class DeckView extends HTMLElement{
             columnWidth: '.category',
             percentPosition: true
         }).layout();
+
+        Promise.all(promiseList).then((list: Array<HTMLElement>)=>{
+            this.checkImageHeights(list);
+        });
+    }
+
+    public readyCallback(): void {
+        this.checkImageHeights(Array.from(this.querySelectorAll(".figure")));
     }
 }
 
@@ -71,10 +93,10 @@ customElements.define("deck-view", DeckView);
  * @param {Array<Card>} list 
  * @returns {Content}
  */
-function CategoryElement(name:string, list:Array<Card>):HTMLElement{
+function CategoryElement(name:string, list:Array<Card>, loadList:Array<Promise<HTMLElement>>):HTMLElement{
     return _("section", {class: "category"},
         _("h2", name),
-        _("ul", list.map( card=>CardElement(card)))
+        _("ul", list.map( card=>CardElement(card, loadList)))
     );
 }
 
@@ -83,7 +105,7 @@ function CategoryElement(name:string, list:Array<Card>):HTMLElement{
  * @param {Card} card 
  * @returns {Content}
  */
-export function CardElement(card:Card): Content{
+export function CardElement(card:Card, loadList?:Array<Promise<HTMLElement>>): Content{
     const {
         name = "Missing Name",
         count = 1,
@@ -93,7 +115,15 @@ export function CardElement(card:Card): Content{
         foil = false
     } = card;
     const altText = altTextGenerator(name);
-    const images:Array<HTMLElement> = image.map((v, i)=>_("img", {src: v, alt: altText(i)}));
+    const images:Array<HTMLElement> = image.map((v, i)=>{
+        const image = _("img", {src: v, alt: altText(i)});
+        if(loadList){
+             loadList.push(new Promise((res,rej)=>{
+                image.addEventListener("load", ()=>res(image.parentElement));
+            }));
+        }
+        return image;
+    });
 
     //Push backup if no image.
     if(images.length === 0){

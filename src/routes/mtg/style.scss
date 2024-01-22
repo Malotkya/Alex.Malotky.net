@@ -163,6 +163,8 @@
     .figure {
         display: flex;
         flex-flow: row nowrap;
+        position: absolute;
+        transform: translateY(-30%);
     }
 
     figure {
@@ -172,7 +174,6 @@
         position: absolute;
         top: auto;
         left: auto;
-        transform: translateY(-30%);
         z-index: 1;
 
         width: 40%;

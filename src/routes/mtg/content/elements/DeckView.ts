@@ -114,6 +114,7 @@ export function CardElement(card:Card, loadList?:Array<Promise<HTMLElement>>): C
         oracle = "Oracle Text",
         foil = false
     } = card;
+
     const altText = altTextGenerator(name);
     const images:Array<HTMLElement> = image.map((v, i)=>{
         const image = _("img", {src: v, alt: altText(i)});
@@ -134,8 +135,10 @@ export function CardElement(card:Card, loadList?:Array<Promise<HTMLElement>>): C
         _("span", {class: "name"}, `${count} ${name.replace("//", "<br>&nbsp;&nbsp;")}`),
         _("span", 
             _("figure", {class: images.length>1?"doubleface":""},
-                images.map((img)=>_("div", {class: "figure"}, img)),
-                foil? _("div", {class: "foil"}): null
+                _("div", {class: "figure"},
+                    images,
+                    foil? _("div", {class: "foil"}): null
+                )
             )
         )
     );

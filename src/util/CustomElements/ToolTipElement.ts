@@ -41,6 +41,20 @@ export default class ToolTip extends HTMLElement {
             if (this._text)
                 this.removeChild(this._text);
         });
+
+        this.addEventListener("focus", ()=>{
+            if(this._text) {
+                this._text.style.left = `${this.offsetLeft}px`;
+                this._text.style.top  = `${this.offsetTop + this.offsetHeight}px`;
+                this.appendChild(this._text);
+            }
+                
+        });
+
+        this.addEventListener("blur", ()=>{
+            if(this._text)
+                this.removeChild(this._text);
+        });
     }
 
     static get observedAttributes(){
@@ -97,6 +111,8 @@ export default class ToolTip extends HTMLElement {
     
             this.setAttribute("aria-describedby", this._text.id);
         }
+
+        this.tabIndex = 0;
     }
 
     

@@ -15,6 +15,10 @@
         border-radius: 5px;
         margin-bottom: 0.5em;
 
+        tool-tip-text {
+            border-color: black;
+        }
+
         ul, ol {
             margin-bottom: 0;
         }
@@ -131,13 +135,8 @@
         }
 
         .pokemon-move-info {
-            position: absolute;
             display: flex;
             flex-flow: row wrap;
-            padding: 0.5em;
-            background-color: $white;
-            border: black 0.5px solid;
-            border-radius: 5px;
             max-width: 150px;
 
             > span {

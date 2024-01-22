@@ -104,6 +104,14 @@ auto-complete {
     }
 }
 
+tool-tip-text {
+    position: absolute;
+    padding: 0.5em;
+    background-color: $white;
+    border: $accent-dark 0.5px solid;
+    border-radius: 5px;
+}
+
 mark-down {
     font-size: 1rem;
 

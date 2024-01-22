@@ -43,3 +43,8 @@ export interface Game {
     team: Array<Pokemon>,
     others: Array<Pokemon>,
 }
+
+export interface Nature {
+    inc: string,
+    dec: string
+}

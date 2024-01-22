@@ -1,6 +1,6 @@
 import { createElement as _, Content } from "../../../util/Elements";
-import { Pokemon, MoveData } from "./PokemonTypes";
-import { formatURI } from "./Serebii";
+import { Pokemon, MoveData, Nature } from "./PokemonTypes";
+import { formatURI, getNature } from "./Serebii";
 
 /** Gender Icon Module
  * 
@@ -20,10 +20,18 @@ function GenerIcon(gender?:boolean): Content {
  * @param {number} value 
  * @returns {Content}
  */
-function statsListItem(name:string, value:number = -1): Content{
+function statsListItem(name:string, nature:Nature, value:number = -1): Content{
+    let extra:string = "";
+    if(name === nature.inc){
+        extra += " inc";
+    }
+    if(name === nature.dec) {
+        extra += " dec"
+    }
+
     return _("li", {class: "pokemon-stat-item"}, 
-        _("span", {class: "pokemon-stat-name"}, name),
-        _("span", {class: "pokemon-stat-value"}, value.toString())
+        _("span", {class: "pokemon-stat-name"}, name+":"),
+        _("span", {class: "pokemon-stat-value"+extra}, value.toString())
     );
 }
 
@@ -119,6 +127,8 @@ export default function PokemonElement(data:Pokemon, version?:StringIndex, gameN
         moves.pop();
     }
 
+    const NATURE = getNature(nature);
+
     return _("div", {class: "pokemon"},
         _("h4", {class: "pokemon-title"}, 
             _("span", {class: "pokemon-name"}, name)
@@ -132,15 +142,15 @@ export default function PokemonElement(data:Pokemon, version?:StringIndex, gameN
             _("figcaption", data.name, GenerIcon(gender))
         ),
         _("ol", {class: "pokemon-stats-list"},
-            statsListItem("Health:",  stats.health),
-            statsListItem("Attack:",  stats.attack),
-            statsListItem("Defense:", stats.defense),
-            stats.special? statsListItem("Special:", stats.special):
+            statsListItem("Health" , NATURE, stats.health),
+            statsListItem("Attack" , NATURE, stats.attack),
+            statsListItem("Defense", NATURE, stats.defense),
+            stats.special? statsListItem("Special", NATURE, stats.special):
                 [
-                    statsListItem("Sp. Attack:"  , stats.specialAttack),
-                    statsListItem("Sp. Deffence:", stats.specialDefence)
+                    statsListItem("Sp. Attack"  , NATURE, stats.specialAttack),
+                    statsListItem("Sp. Defense", NATURE, stats.specialDefence)
                 ],
-            statsListItem("Speed:", stats.speed)
+            statsListItem("Speed", NATURE, stats.speed)
         ),
         _("ol", {class: "pokmeon-moves-list"}, 
             moves.map(move=>MoveElement(move))

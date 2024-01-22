@@ -108,6 +108,9 @@
                 flex-flow: row nowrap;
                 justify-content: space-between;
 
+                .inc { color: red }
+                .dec { color: blue }
+                .inc.dec { color: purple; }
             }
         }
 

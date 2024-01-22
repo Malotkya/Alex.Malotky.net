@@ -1,5 +1,6 @@
 export default class ToolTip extends HTMLElement {
     private _text: ToolTipText|undefined;
+    private _fixed: boolean;
 
     constructor(text?:string){
         super();
@@ -15,12 +16,21 @@ export default class ToolTip extends HTMLElement {
         this.addEventListener("mousemove", (event:MouseEvent)=>{
             if(this._text){
                 const width:number = document.body.clientWidth;
-                //const height:number = ???;
     
-                if(event.pageX + this._text.offsetWidth > width) {
-                    this._text.style.left = `${width - this._text.offsetWidth}px`;
+                if( this._fixed ){
+                    if(event.pageX + this._text.offsetWidth > width){
+                        this._text.style.left = `${width - this._text.offsetWidth}px`;
+                    } else {
+                        this._text.style.left = `${event.pageX}px`;
+                    }
                 } else {
                     this._text.style.left = `${event.pageX}px`;
+                    if(event.pageX + this._text.offsetWidth > width) {
+                        this._text.style.width = `${width - event.pageX}px`;
+                    } else {
+                        this._text.style.width = "";
+                    }
+                    
                 }
                 
                 this._text.style.top = `${event.pageY}px`;
@@ -34,12 +44,14 @@ export default class ToolTip extends HTMLElement {
     }
 
     static get observedAttributes(){
-        return ["text"]
+        return ["text", "fixed-width"]
     }
 
     attributeChangedCallback(name:string, oldValue:string, newValue:string){
         if(name === "text") {
             this.text = newValue;
+        } else if(name === "fixed-width") {
+            this.fixedWidth = Boolean(newValue);
         }
     }
 
@@ -57,6 +69,14 @@ export default class ToolTip extends HTMLElement {
         }
 
         return "";
+    }
+
+    set fixedWidth(value:boolean){
+        this._fixed = value;
+    }
+
+    get fixedWidth(){
+        return this._fixed || false;
     }
     
     connectedCallback(){

@@ -1,6 +1,5 @@
 import { Content, createElement as _ } from "../../util/Elements";
 import gameSelect from "./content/PokemonGameSelectElement";
-import { Game } from "./content/PokemonTypes";
 
 /** Pokemon Display Module
  * 
@@ -19,12 +18,18 @@ export default function Pokemon(init?:string):Content {
             "yellow"  : require("./games/yellow.json"),
             "crystal" : require("./games/crystal.json"),
             "ruby"    : require("./games/ruby.json"),
+            "red"     : require("./games/fireRed.json"),
             "platinum": require("./games/platinum.json"),
             "white"   : require("./games/white.json"),
             "x"       : require("./games/x.json"),
             "sun"     : require("./games/sun.json"),
-            "red"     : require("./games/fireRed.json"),
+            //"gold"    : require("./games/heartGold.json"),
+            //"saphire" : require("./games/alphaSaphire.json"),
+            //"black"   : require("./games/black2.json"),
             "eevee"   : require("./games/eevee.json"),
+            //"diamond" : require("./games/brilliantDiamond.json"),
+            //"shield"  : require("./games/shield.json"),
+            //"violet"  : require("./games/violet.json"),
         })
     ];
 };

@@ -44,6 +44,10 @@ export default class DeckView extends HTMLElement{
         }   
     }
 
+    /** Check Image Heights
+     * 
+     * @param {Array<HTMLElement> list 
+     */
     public checkImageHeights(list: Array<HTMLElement>){
         const limit = this.getBoundingClientRect().bottom;
 

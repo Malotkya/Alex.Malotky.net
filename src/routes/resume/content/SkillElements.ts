@@ -1,7 +1,7 @@
 import { createElement as _ } from "../../../util/Elements";
 
 export interface SkillItem{
-    [index: string]: string|undefined|Array<string>,
+    info: {[index: string]: string|undefined|Array<string>},
     id: string,
     name: string,
     list: Array<string>
@@ -12,7 +12,7 @@ export function SkillCard(item:SkillItem){
         _("h3", {class: "resume-title"},
             _("a", {href: `/Resume/Skills/${item.id}`}, item.name)
         ),
-        _("ul", {class: "resume-su-title"},
+        _("ul", {class: "resume-sub-title"},
             item.list.map(i=>_("li", i))
         )
     )
@@ -25,10 +25,10 @@ export function SkillDetailed(item:SkillItem){
             _("div", {class: "resume-about"}, 
                 _("ol", 
                     item.list.map((skill,index)=>{
-                        let about:string|Array<string> = item[skill] || "";
+                        let about:string|Array<string> = item.info[skill] || "";
 
                         if(Array.isArray(about))
-                            about = about.join("\n");
+                            about = about.join("<br/>");
                         
                         return _("li", 
                             _("h2", `${Number(index)+1}: ${skill}`),

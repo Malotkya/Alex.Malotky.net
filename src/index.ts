@@ -11,6 +11,7 @@ import {AboutMe} from "./routes/about";
 import { MtgDecks } from "./routes/mtg";
 import { Pokemon } from "./routes/pokemon";
 import { Login } from "./routes/login";
+import { Blog } from "./routes/blog";
 
 const pkg:any = require("../package.json");
 const app:App = new App();
@@ -19,6 +20,7 @@ app.add("/", Home);
 app.add("/Resume", Resume);
 app.add("/Portfolio", Portfolio);
 app.add("/About", AboutMe);
+app.add("/Blog", Blog);
 app.add("/Decks", MtgDecks);
 
 app.use("/Pokemon", Pokemon);

@@ -7,6 +7,8 @@ import Database from "../../util/Database";
 import {cache} from "../../util/Memory";
 import Authentication from "../../util/Authentication";
 
+const DATABASE_NAME = "MtgDecks";
+
 /** Mtg Module
  * 
  */
@@ -23,10 +25,7 @@ Editor.use("*", async(ctx: Context)=>{
 
 Editor.use("/Delete/:id", async(ctx:Context)=>{
     const database = await Database();
-    
-    const id = ctx.get("id");
-    database.deleteDocument("MtgDecks", id);
-
+    database.deleteDocument(DATABASE_NAME, ctx.get("id"));
     ctx.reRoute("/Decks/Editor");
 });
 
@@ -40,9 +39,10 @@ Editor.use("/Update/:id", async(ctx:Context)=>{
         if(deck === undefined)
             throw new Error("Update information not in body!");
 
-        await database.updateDocument("MtgDecks", id, JSON.parse(deck));
+        await database.updateDocument(DATABASE_NAME, id, JSON.parse(deck));
         ctx.reRoute(`/Decks/Editor/${id}`, {deck: deck});
     } catch (e){
+        console.error(e);
         throw new Error("There was a problem updating the deck!");
     }
 });
@@ -50,7 +50,7 @@ Editor.use("/Update/:id", async(ctx:Context)=>{
 Editor.use("/New", async(ctx:Context)=>{
     const database = await Database();
 
-    const id = await database.createDocument("MtgDecks", {publish: await database.now()});
+    const id = await database.createDocument(DATABASE_NAME, {publish: await database.now()});
 
     ctx.reRoute(`/Decks/Editor/${id}`);
 });
@@ -65,7 +65,7 @@ Editor.use("/:id", async(ctx:Context)=>{
         results = JSON.parse(results);
         results.id = id;
     } else {
-        results = await database.getDocument("MtgDecks", id);
+        results = await database.getDocument(DATABASE_NAME, id);
     }
 
     if(typeof results === "undefined")
@@ -80,7 +80,7 @@ Editor.use("/:id", async(ctx:Context)=>{
 Editor.use(async(ctx: Context)=>{
     const database = await Database();
 
-    const results = await database.queryCollection("MtgDecks");
+    const results = await database.queryCollection(DATABASE_NAME);
 
     ctx.body = await importModule("mtg", {
         arr: results,
@@ -95,7 +95,7 @@ MtgDecks.use("/:id", async(ctx:Context)=>{
 
     const results = await cache(`MtgDeck(${id})`, async()=>{
         const database = await Database();
-        return await database.getDocument("MtgDecks", id)
+        return await database.getDocument(DATABASE_NAME, id)
     });
     
     if(typeof results === "undefined"){
@@ -107,9 +107,9 @@ MtgDecks.use("/:id", async(ctx:Context)=>{
 
 MtgDecks.use(async(ctx:Context)=>{
     
-    const results = await cache("MtgDecks", async()=>{
+    const results = await cache(DATABASE_NAME, async()=>{
         const database = await Database();
-        return await database.queryCollection("MtgDecks")
+        return await database.queryCollection(DATABASE_NAME)
     });
 
     ctx.body = await importModule("mtg", {arr: results});

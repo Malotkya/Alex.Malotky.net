@@ -208,7 +208,7 @@
             ],
             "item": "",
             "nature": "Hardy",
-            "ability": "Preassure",
+            "ability": "Pressure",
             "stats":{
                 "health": 166,
                 "attack": 107,
@@ -253,7 +253,7 @@
             ],
             "item": "Mystic Water",
             "nature": "Naive",
-            "ability": "Preassure",
+            "ability": "Pressure",
             "stats":{
                 "health": 160,
                 "attack": 110,

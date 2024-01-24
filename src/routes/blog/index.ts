@@ -49,19 +49,27 @@ Editor.use("/Update/:id", async(ctx:Context)=>{
 });
 
 Editor.use("/New", async(ctx:Context)=>{
-    ctx.body = await importModule("blog", {edit: true});
+    const database = await Database();
+    const id = await database.createDocument(DATABASE_NAME, {date: await database.now()});
+    ctx.reRoute(`/Decks/Editor/${id}`);
 });
 
 Editor.use("/:id", async(ctx:Context)=>{
     const database = await Database();
 
     const id:string = ctx.get("id");
-    const result:any = database.getDocument(DATABASE_NAME, id);
+    const result:any = await database.getDocument(DATABASE_NAME, id);
     if(typeof result === "undefined")
         throw new Error("Unable to find id: " + id);
 
     ctx.body = await importModule("blog", {edit:true, item:result});
 });
+
+Editor.use(async(ctx: Context)=>{
+    const database = await Database();
+    const results = await database.queryCollection(DATABASE_NAME);
+    ctx.body = await importModule("blog", {edit: true, item: results});
+})
 
 Blog.use("/Edit", Editor);
 

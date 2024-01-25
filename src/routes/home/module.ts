@@ -10,7 +10,8 @@ export default function Home():Content {
         console.log("This is being printed from a file that is being loaded and executed dynamically!")
     }
 
-    return [ 
+    return [
+        _("style", require("./style.scss")),
         _("h1", "Welcome!"),
         _("div", {id: "home-container"},
             new AnimatedText(TEXT),

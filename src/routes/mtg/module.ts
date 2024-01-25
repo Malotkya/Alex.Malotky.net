@@ -4,6 +4,7 @@ import { DeckEdit, DeckView, DeckItem } from "./content/Deck";
 export default function Magic(args: any): Content{
     if(Array.isArray(args.arr)){
         return [
+            _("style", require("./style.scss")),
             _("h1", "Magic the Gathering Decks!"),
             args.edit? _("a",{class: "btn", href: "/Decks/Editor/New"}, "Create New Deck"): null,
             _("ul", {id: "deck-list"},
@@ -11,10 +12,16 @@ export default function Magic(args: any): Content{
             )
         ]
     } else if(args.edit) {
-        return DeckEdit(args.arr);
+        return [
+            _("style", require("./style.scss")),
+            DeckEdit(args.arr)
+        ];
     }
 
-    return DeckView(args.arr);
+    return [
+        _("style", require("./style.scss")),
+        DeckView(args.arr)
+    ];
 }
 
 function Result(deck:DeckItem, edit: boolean): Content{

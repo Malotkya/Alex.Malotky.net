@@ -2,7 +2,7 @@
 
 /*! Alex.Malotky.net */
 @import "styles/colors.scss";
-@import "styles/responsive.scss";
+@import "styles/breakpoints.scss";
 @import "styles/navbar.scss"; 
 
 
@@ -190,6 +190,5 @@ mark-down {
 }
 
 /*************** Import Other Styling ***************/
-@import "routes/mtg/style.scss";
 @import "routes/portfolio/style.scss";
 @import "routes/resume/style.scss";

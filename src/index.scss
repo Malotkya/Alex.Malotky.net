@@ -15,6 +15,7 @@ html {
     background-color: black;
 }
 
+/* Body Styling */
 body {
     background-color: $white;
     color: $dark;
@@ -30,6 +31,7 @@ body {
     }
 }
 
+/* Skip Link Styling */
 .skip {
     position: absolute;
     left: -999px;
@@ -42,6 +44,8 @@ body {
     }
 }
 
+
+/* Layout Styling */
 header {
     position: sticky;
     width: 100%;
@@ -56,8 +60,20 @@ main {
     flex-grow: 1;
 }
 
+footer{
+    text-align: center;
+    background-color: $medium;
+    color: $white;
+    flex-grow: 0;
+    
+    .icon{
+        width: 1.5em;
+        height: auto;
+        color: $white;
+    }
+}
 
-
+/* Main Element Stylings */
 h1{
     text-align: center;
 }
@@ -76,10 +92,6 @@ img, video {
     height: auto;
 }
 
-.error{
-    color: red !important;
-}
-
 aside {
     background-color: $medium;
     color: $white;
@@ -94,19 +106,12 @@ aside {
     }
 }
 
-footer{
-    text-align: center;
-    background-color: $medium;
-    color: $white;
-    flex-grow: 0;
-    
-    .icon{
-        width: 1.5em;
-        height: auto;
-        color: $white;
-    }
+/* Error Styling */
+.error{
+    color: red !important;
 }
 
+/* Button Styling */
 .btn:visited, .btn:link, .btn,
 button{
     size: 1.25em;

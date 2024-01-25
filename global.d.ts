@@ -3,6 +3,11 @@ declare module '*.html' {
     export default content;
 }
 
+declare module '*.scss' {
+    const content: any;
+    export default content;
+}
+
 interface StringIndex {
     [index:string]:string
 }

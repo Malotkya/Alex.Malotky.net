@@ -1,3 +1,5 @@
+import { Timestamp } from "./Database";
+
 // Constants used by the formatDate function.
 const LONG_MONTH = [
     "January", "Febuary", "March", "April", "May", "June",
@@ -12,12 +14,6 @@ const LONG_MONTH = [
     "Sun", "Mon", "Tue", "Wend",
     "Thur", "Fri", "Sat"
 ];
-
-//Interface for firebaseDate format.
-export interface firebaseDate{
-    seconds: number,
-    nanoseconds: number
-}
 
 /** Format Date Function
  * 
@@ -37,7 +33,7 @@ export interface firebaseDate{
  * 
  * @returns {string}
  */
-export function formatDate(date: Date|firebaseDate|undefined, format: string, ifUndefined:string = "undefined"): string{
+export function formatDate(date: Date|Timestamp|undefined, format: string, ifUndefined:string = "undefined"): string{
     if(date === undefined)
         return ifUndefined;
 

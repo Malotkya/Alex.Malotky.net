@@ -1,10 +1,11 @@
 import { createElement as _, Content } from "../../../util/Elements";
-import { formatDate, firebaseDate } from "../../../util/FormateDate";
+import { formatDate } from "../../../util/FormateDate";
+import { Timestamp } from "firebase/firestore";
 
 export interface Post {
     id: string,
     title: string,
-    date: firebaseDate,
+    date: Timestamp,
     content:string
 }
 
@@ -46,7 +47,7 @@ export default function EditPost(data:any = {}): Content {
     ) as HTMLFormElement;
 
     //Event Listeners.
-    input.addEventListener("input", (event)=>{
+    input.addEventListener("input", ()=>{
         target.innerHTML = "";
         target.appendChild(_("mark-down", input.value));
     });

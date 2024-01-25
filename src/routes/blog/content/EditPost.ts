@@ -12,24 +12,40 @@ export default function EditPost(data:any = {}): Content {
     const { id = "undefined", title = "", date, content = ""} = data;
     console.log(data);
 
+    //Elements used by form code.
     const input = _("textarea", {id: "post-content", name: "content"}, content) as HTMLTextAreaElement;
     const target = _("div", {id: "content-preview"}, _("mark-down", content));
+    const form = _("form", {id: "blog-post-form"},
+        _("div", {class: "row"},
+            _("label", {for: "post-title", class: "post-title"},
+                "Post Title:",
+                _("input", {id: "post-title", name: "title", value: title}),
+            ),
 
-    const form = _("form", 
-        _("label", {for: "post-title"}, "Post Title:"),
-        _("input", {id: "post-title", name: "title", value: title}),
+            _("p", {id: "post-date"}, formatDate(date, "%M %D, %Y", "")),
+        ),
+        
+        _("div", {class: "row main"},
+            _("label", {for: "post-content", class: "post-content"},
+                "Mark Down Editor:",
+                input
+            ),
+            
 
-        _("p", {id: "post-date"}, formatDate(date, "%M %D, %Y", "")),
+            _("label", {for: "content-preview", class: "content-preview"},
+                "Mark Down Preview",
+                target
+            ),
+        ),
 
-        _("lable", {for: "post-content"}, "Mark Down Editor:"),
-        input,
+        _("div", {class: "row"},
+            _("button", {id: "submit", class: "btn"}, "Submit")
+        ),
 
-        _("label", {for: "content-preview"}, "Mark Down Preview"),
-        target,
-
-        _("button", {id: "submit", class: "btn"}, "Submit")
+        
     ) as HTMLFormElement;
 
+    //Event Listeners.
     input.addEventListener("input", (event)=>{
         target.innerHTML = "";
         target.appendChild(_("mark-down", input.value));

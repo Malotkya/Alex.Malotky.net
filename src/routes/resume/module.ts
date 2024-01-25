@@ -65,17 +65,27 @@ export function Jobs(args:Array<JobItem>|JobItem): Content{
 export default function Resume(args?: any): Content{
     switch(args.type) {
         case "Jobs":
-            return Jobs(args.result);
+            return [
+                _("style", require("./style.scss")),
+                Jobs(args.result)
+            ];
 
         case "School":
-            return School(args.result);
+            return [
+                _("style", require("./style.scss")),
+                School(args.result)
+            ];
 
         case "Skills":
-            return Skills(args.result);
+            return [
+                _("style", require("./style.scss")),
+                Skills(args.result)
+            ];
     }
 
     //If no type then assume is default page.
     return [
+        _("style", require("./style.scss")),
         _("h1", "Resume"),
         _("article",
             _("h2", 

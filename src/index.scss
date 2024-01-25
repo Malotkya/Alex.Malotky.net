@@ -1,12 +1,33 @@
 @import "styles/normalize.scss";
 
-/*! Alex Malotky.com */
+/*! Alex.Malotky.net */
 @import "styles/colors.scss";
 @import "styles/responsive.scss";
-@import "styles/navbar.scss";
+@import "styles/navbar.scss"; 
 
+
+/*************** Global Styling ***************/
 *{
     box-sizing: border-box;
+}
+
+html {
+    background-color: black;
+}
+
+body {
+    background-color: $white;
+    color: $dark;
+    max-width: 100vw;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+@media (min-width: $desktop){
+    body{
+        max-width: 1600px;
+        margin: auto;
+    }
 }
 
 .skip {
@@ -26,27 +47,63 @@ header {
     width: 100%;
     top: 0;
     z-index: 100;
+    flex-grow: 0;
 }
 
 main {
     padding: 0 .2em;
     transition: opacity 500ms;
+    flex-grow: 1;
 }
+
+
 
 h1{
     text-align: center;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: $accent-dark;
+}
+
+a:link,
+a:visited {
+    color: $accent-dark;
+}
+
+img, video {
+    width: 100%;
+    height: auto;
 }
 
 .error{
     color: red !important;
 }
 
+aside {
+    background-color: $medium;
+    color: $white;
+
+    a:link,
+    a:visited {
+        color: $accent-light;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        color: $accent-light;
+    }
+}
+
 footer{
     text-align: center;
+    background-color: $medium;
+    color: $white;
+    flex-grow: 0;
     
     .icon{
         width: 1.5em;
         height: auto;
+        color: $white;
     }
 }
 
@@ -67,6 +124,8 @@ button{
     background-color: $grey;
     cursor: pointer;
 }
+
+/*************** Web Component Styling ***************/
 
 auto-complete {
     position: relative;
@@ -130,6 +189,7 @@ mark-down {
     h6 { font-size: 1.0rem}
 }
 
+/*************** Import Other Styling ***************/
 @import "routes/home/style.scss";
 @import "routes/login/style.scss";
 @import "routes/mtg/style.scss";

@@ -10,11 +10,15 @@ interface expectedArgs {
 export default function Blog(args:expectedArgs):Content {
 
     if(Array.isArray(args.item)) {
-        return ListResults(args.item, args.edit);
+        return [
+            _("style", require("./style.scss")),
+            ListResults(args.item, args.edit)
+        ];
     }
 
     if(args.edit) {
         return [
+            _("style", require("./style.scss")),
             _("h1", "Blog Post Editor!"),
             EditPost(args.item)
         ];
@@ -27,11 +31,12 @@ export default function Blog(args:expectedArgs):Content {
     } = args.item;
         
     return [
+        _("style", require("./style.scss")),
         _("h1", {id: "post-title"}, title),
         _("p", {id: "post-date"}, formatDate(date, "%M %D, %Y")),
         _("mark-down", {id: "post-content"}, content)
     ]
-} 
+}
 
 function ListResults(list:Array<Post>, edit:boolean):Content {
     return [

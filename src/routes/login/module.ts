@@ -20,6 +20,7 @@ export default function Login(args:any):Content {
     });
 
     return[ 
+        _("style", require("./style.scss")),
         _("h1", "Login"),
         error,
         form

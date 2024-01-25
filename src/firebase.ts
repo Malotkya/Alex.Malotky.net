@@ -5,13 +5,15 @@
  * 
  * @author Alex Malotky
  */
+import { initializeApp, FirebaseApp } from "firebase/app";
 
-//@ts-ignore
-import {initializeApp} from "https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js";
-import { FirebaseApp } from "firebase/app";
+import {getCountFromServer, getDoc, getDocs, query, collection, updateDoc, deleteDoc, addDoc, getFirestore, doc} from "firebase/firestore";
+import {where, orderBy, startAt, startAfter, endBefore, endAt, limit} from "firebase/firestore";
+import {QueryConstraint, QueryDocumentSnapshot, Firestore, Timestamp} from "firebase/firestore";
 
-import {QueryConstraint, QueryDocumentSnapshot, Firestore, Timestamp} from "firebase/firestore"
-import {User, Auth} from "firebase/auth";
+
+import {User, Auth, getAuth} from "firebase/auth";
+import {onAuthStateChanged, signOut, signInWithEmailAndPassword} from "firebase/auth";;
 
 export { User } from "firebase/auth";
 export {Timestamp} from "firebase/firestore";
@@ -33,24 +35,13 @@ export const firebaseConfig = {
 
 //Initalize Firebase App
 const app: FirebaseApp = initializeApp(firebaseConfig);
-let authentication: Auth;
-let database: Firestore;
 
-/** Initalize Firestore Database Connection
- * 
- * @returns {Firestore}
- */
-async function initDatabase(): Promise<any>{
-    //@ts-ignore
-    const firestore = await import(/*webpackIgnore: true*/ "https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js");
+export class Database {
+    private _conn: Firestore;
 
-    if(typeof database === "undefined")
-        database = firestore.getFirestore(app);
-
-    return firestore;
-}
-
-export const Database = {
+    constructor() {
+        this._conn = getFirestore(app);
+    }
 
     /** Count Collection
      * 
@@ -58,11 +49,10 @@ export const Database = {
      * @returns {number}
      */
     async countCollection(collectionName:string): Promise<number>{
-        const firestore = await initDatabase();
 
-        const response = await firestore.getCountFromServer(firestore.collection(database, collectionName));
+        const response = await getCountFromServer(collection(this._conn, collectionName));
         return response.data().count
-    },
+    }
 
     /** Get Document
      * 
@@ -71,16 +61,14 @@ export const Database = {
      * @returns {any}
      */
     async getDocument(collectionName:string, documentId:string): Promise<any>{
-        const firestore = await initDatabase();
-
-        const response = await firestore.getDoc(firestore.doc(database, collectionName, documentId));
+        const response = await getDoc(doc(this._conn, collectionName, documentId));
         const data:any = response.data();
         
         if(data)
             data.id = response.id;
     
         return data;
-    },
+    }
 
     /** Query Collection
      * 
@@ -89,8 +77,6 @@ export const Database = {
      * @returns {Array<any>}
      */
     async queryCollection(collectionName: string, opts?:any):Promise<Array<any>>{
-        const firestore = await initDatabase();
-
         const output: Array<any> = [];
         const options: Array<QueryConstraint> = [];
     
@@ -103,35 +89,31 @@ export const Database = {
         
                 switch(name){
                     case "where": //       field    operator  value
-                        options.push( firestore.where(args[0], args[1], args[2]) );
+                        options.push( where(args[0], args[1], args[2]) );
                         break;
         
                     case "orderBy": //       field     direction
-                        options.push( firestore.orderBy(args[0], args[1]) );
+                        options.push( orderBy(args[0], args[1]) );
                         break;
         
                     case "startAt": //        value (based on field in orderBy)
-                        options.push( firestore.startAt(args[0]) );
+                        options.push( startAt(args[0]) );
                         break;
         
                     case "startAfter": //        value (based on field in orderBy)
-                        options.push( firestore.startAfter(args[0]) );
+                        options.push( startAfter(args[0]) );
                         break;
         
                     case "endBefore": //        value (based on field in orderBy)
-                        options.push( firestore.endBefore(args[0]) );
+                        options.push( endBefore(args[0]) );
                         break;
         
                     case "endAt": //        value (based on field in orderBy)
-                        options.push( firestore.endAt(args[0]) );
+                        options.push( endAt(args[0]) );
                         break;
         
                     case "limit": //        value 
-                        options.push( firestore.limit(args[0]) );
-                        break;
-        
-                    case "limitToLast": //        value 
-                        options.push( firestore.limitToLast(args[0]) );
+                        options.push( limit(args[0]) );
                         break;
         
                     default:
@@ -140,14 +122,14 @@ export const Database = {
             }
         }
     
-        (await firestore.getDocs(firestore.query(firestore.collection(database, collectionName), ...options))).forEach((result:QueryDocumentSnapshot) =>{
+        (await getDocs(query(collection(this._conn, collectionName), ...options))).forEach((result:QueryDocumentSnapshot) =>{
             const data:any = result.data();
             data.id = result.id;
             output.push(data);
         });
     
         return output;
-    },
+    }
 
     /** Update Document
      * 
@@ -156,9 +138,8 @@ export const Database = {
      * @param {any} object 
      */
     async updateDocument(collectionName:string, documentId:string, object:any):Promise<void>{
-        const firestore = await initDatabase();
-        await firestore.updateDoc(firestore.doc(database, collectionName, documentId), object);
-    },
+        await updateDoc(doc(this._conn, collectionName, documentId), object);
+    }
 
     /** Delete Document
      * 
@@ -166,9 +147,8 @@ export const Database = {
      * @param {string} documentId 
      */
     async deleteDocument(collectionName:string, documentId:string):Promise<void>{
-        const firestore = await initDatabase();
-        await firestore.deleteDoc(firestore.doc(database, collectionName, documentId));
-    },
+        await deleteDoc(doc(this._conn, collectionName, documentId));
+    }
 
     /** Create Document
      * 
@@ -177,12 +157,9 @@ export const Database = {
      * @returns {any}
      */
     async createDocument(collectionName:string, object:any):Promise<string>{
-        const firestore = await initDatabase();
-
-        const response:QueryDocumentSnapshot = await firestore.addDoc(firestore.collection(database, collectionName), object);
-
+        const response = await addDoc(collection(this._conn, collectionName), object);
         return response.id;
-    },
+    }
 
     /** Get Now
      * 
@@ -190,27 +167,17 @@ export const Database = {
      * 
      * @returns {Timestamp}
      */
-    async now():Promise<Timestamp>{
-        const firestore = await initDatabase();
-        return firestore.Timestamp.now();
+    now():Timestamp{
+        return Timestamp.now();
     }
 }
 
-/** Initalize Authentication Connection
- * 
- * @returns {Authentication}
- */
-async function initAuthentication(): Promise<any>{
-    //@ts-ignore
-    const auth = await import(/*webpackIgnore: true*/ "https://www.gstatic.com/firebasejs/10.5.0/firebase-auth.js");
+export class Authentication {
+    private _conn: Auth;
 
-    if(typeof authentication === "undefined")
-        authentication = auth.getAuth(app);
-
-    return auth;
-}
-
-export const Authentication = {
+    constuctor() {
+        this._conn = getAuth(app);
+    }
 
     /** Sign User In
      * 
@@ -219,19 +186,15 @@ export const Authentication = {
      * @returns {User}
      */
     async signInUser(email:string, password:string): Promise<User>{
-        const auth = await initAuthentication();
-
-        return (await auth.signInWithEmailAndPassword(authentication, email, password)).user;
-    },
+        return (await signInWithEmailAndPassword(this._conn, email, password)).user;
+    }
 
     /** Sign User Out
      * 
      */
     async signOutUser(): Promise<void>{
-        const auth = await initAuthentication();
-
-        return auth.signOut(authentication)
-    },
+        return signOut(this._conn)
+    }
 
     /** Get Current User
      * 
@@ -239,13 +202,24 @@ export const Authentication = {
      */
     getCurrentUser(): Promise<User>{
         return new Promise( async(res, rej)=>{
-            const auth = await initAuthentication();
-
-            auth.onAuthStateChanged(authentication, (user:User)=>{
+            onAuthStateChanged(this._conn, (user:User)=>{
                 res(user);
             }, (err: any)=>{
                 rej(err);
             });
         });
-    },
+    }
+}
+
+export default function init(name:string):Database|Authentication{
+    switch (name.toLowerCase()){
+        case "database":
+            return new Database();
+
+        case "auth":
+            return new Authentication();
+
+        default:
+            throw new Error(`Unable to create firebase connection '${name}'!`);
+    }
 }

@@ -1,6 +1,7 @@
 import { Content, createElement as _ } from "../../util/Elements";
 import gameSelect from "./content/PokemonGameSelectElement";
 
+
 /** Pokemon Display Module
  * 
  * @param {string} init 
@@ -9,6 +10,7 @@ import gameSelect from "./content/PokemonGameSelectElement";
 export default function Pokemon(init?:string):Content {
 
     return [ 
+        _("style", require("./style.scss")),
         _("h1", "Pokemon Game Marathon"),
         _("aside", {id:"pokemon-about"},
             _("h2", "About:"),

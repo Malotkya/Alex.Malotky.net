@@ -157,23 +157,6 @@ export default class Context{
             
     }
 
-    /** Paramters Setter
-     * 
-     */
-    set params(value: Map<string, string>){
-        if( !(value instanceof Map) ){
-            throw new TypeError(`Unknown type '${typeof value}' for Params!`);
-        } 
-
-        for(let it of value.entries()){
-            this._params.set(it[0], it[1]);
-        }
-
-        for(let it of this._gets.entries()){
-            this._params.set(it[0], it[1]);
-        }
-    }
-
     /** HTML Title Setter
      * 
      */

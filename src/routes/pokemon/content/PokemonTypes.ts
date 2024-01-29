@@ -5,11 +5,10 @@ export type Type = "Normal"|"Fire"|"Water"|"Grass"|"Flying"|"Fighting"|
 export interface Pokemon {
     name: string,
     modifier?: string,
-    number: number,
     level: number,
     moves: Array<string|MoveData>,
     types: Array<Type>,
-    terraType: Type,
+    terraType?: Type,
     item?: string,
     nature?: string,
     ability?: string,
@@ -26,6 +25,12 @@ export interface Pokemon {
     }
 }
 
+export interface GameVersion {
+    normal: string,
+    shiney?: string,
+    override?:string
+}
+
 export interface MoveData {
     name: string,
     type: Type,
@@ -37,7 +42,7 @@ export interface MoveData {
 
 export interface Game {
     game: string,
-    version?: StringIndex,
+    version?: GameVersion,
     generation: number,
     region: string,
     team: Array<Pokemon>,

@@ -23,7 +23,7 @@ export function formatURI(pokemon:Pokemon, version?:GameVersion):string {
         normal = "pokemon/art/",
         shiney = "pokemon/art/",
         override = ".png"
-    } = version;
+    } = version || {};
 
     let number:number|string = getNumber(pokemon.name);
     if(number < 1000){

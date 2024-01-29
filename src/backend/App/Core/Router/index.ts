@@ -20,7 +20,7 @@ export default class Router extends Route {
      * @param {string} title 
      * @param {string} info 
      */
-    constructor(title:string, info?:string){
+    constructor(title:string, info:string = ""){
         super();
 
         if(typeof title === "string")
@@ -30,8 +30,6 @@ export default class Router extends Route {
 
         if(typeof info === "string")
             this._info = info;
-        else if(typeof info === "undefined")
-            this._info = "";
         else
             throw new TypeError(`Unknown type '${typeof title}' for info!`)
     }
@@ -61,7 +59,7 @@ export default class Router extends Route {
      * 
      * Routers handle path matching differently then layers and routes.
      * 
-     * @param {string} path 
+     * @param {Context} ctx 
      * @returns {boolean}
      */
     public match(ctx:Context):boolean{

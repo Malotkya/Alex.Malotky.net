@@ -29,7 +29,6 @@ export default class Layer {
     protected _path: string;
     protected _handler: Middleware;
     protected _options: any;
-    protected _params: Map<string, string>;
     
     /** Constructor
      * 
@@ -53,8 +52,6 @@ export default class Layer {
         if(typeof handler !== "function" && typeof handler !== "undefined")
             throw new TypeError(`Unknown type '${typeof handler}' for handler!`);
         this._handler = handler;
-    
-        this._params = new Map<string, string>();
     }
 
     /** Handle Context/Response
@@ -71,15 +68,6 @@ export default class Layer {
         } catch (e:any){
             throw e;
         }
-    }
-
-    /** Set Parameter
-     * 
-     * @param {string} key 
-     * @param {string} value 
-     */
-    public set(key:string, value:string){
-        this._params.set(String(key), value);
     }
 
     /** Path Setter
@@ -105,7 +93,7 @@ export default class Layer {
 
     /** Match Path
      * 
-     * @param {string} path 
+     * @param {Context} context 
      * @returns {boolean}
      */
     public match(context: Context): boolean{

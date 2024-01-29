@@ -7,7 +7,7 @@ export const crystal:Game = {
         shiney: "Shiny/Crystal"
     },
     generation: 2,
-    region: "Johto",
+    region: "Johto // Kanto",
     team: [
         {   name: "Typhlosion",
             gender: true,

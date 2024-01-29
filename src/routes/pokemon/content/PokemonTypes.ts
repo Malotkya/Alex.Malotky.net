@@ -2,6 +2,8 @@ export type Type = "Normal"|"Fire"|"Water"|"Grass"|"Flying"|"Fighting"|
                    "Poison"|"Electric"|"Ground"|"Rock"|"Psychic"|"Ice"|
                    "Bug"|"Ghost"|"Steel"|"Dragon"|"Dark"|"Fairy";
 
+export type Region = "Kanto"|"Johto"|"Hoenn"|"Sinnoh"|"Unova"|"Kalos"|"Alola"|"Galar"|"Paldea"
+
 export interface Pokemon {
     name: string,
     modifier?: string,

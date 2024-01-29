@@ -1,6 +1,21 @@
-import { Nature } from "./content/PokemonTypes";
+import { Nature, Region } from "./content/PokemonTypes";
 interface NatureIndex {
     [name:string]: Nature
+}
+type ArrayIndex = {
+    [name in Region]: Array<string>;
+};
+
+export const REGION_MASTER_ARRAY_INDEX:ArrayIndex = {
+    Kanto:  ["Kanto"],
+    Johto:  ["Johto", "Johto // Kanto"],
+    Hoenn:  ["Hoenn"],
+    Sinnoh: ["Sinnoh", "Hisui"],
+    Unova:  ["Unova"],
+    Kalos:  ["Kalos"],
+    Alola:  ["Alola"],
+    Galar:  ["Galar"],
+    Paldea: ["Paldea", "Kitakami"]
 }
 
 //Information From: https://pokemondb.net/ability

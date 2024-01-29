@@ -1,9 +1,27 @@
-import { createElement as _, Content } from "../../../util/Elements";
+import { createElement as _ } from "../../../util/Elements";
 import PokemonTeamViewElement from "./PokemonTeamViewElement";
-import { Game } from "./PokemonTypes";
+import { Game, Region as KnownRegion} from "./PokemonTypes";
+import { REGION_MASTER_ARRAY_INDEX } from "../data";
 
 interface dataList {
     [name:string]: Game
+}
+
+type Region = KnownRegion | "Unknown"
+
+/** Get Pokemon Region
+ * 
+ * @param {String} string 
+ * @returns {Region}
+ */
+function getRegion(string:string):Region {
+    for(let region in REGION_MASTER_ARRAY_INDEX ) {
+
+        if(REGION_MASTER_ARRAY_INDEX[region as KnownRegion].includes(string))
+            return region as KnownRegion;
+    }
+
+    return "Unknown";
 }
 
 /** Create Menu List Item
@@ -38,10 +56,10 @@ export default class PokemonGameSelectElement extends HTMLElement{
         this._menu = [];
         this._list = list;
 
-        const regions:Map<string, HTMLElement> = new Map();
+        const regions:Map<Region, HTMLElement> = new Map();
 
         for(let name in list){
-            const region: string = list[name].region;
+            const region:Region = getRegion(list[name].region);
             const button = _("button", {target: name}, list[name].game);
     
             if(!regions.has(region)) {

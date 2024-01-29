@@ -9,6 +9,7 @@ import { white } from "./games/white";
 import { x } from "./games/x"
 import { sun } from "./games/sun";
 import { eevee } from "./games/eevee";
+import { diamond } from "./games/brilliantDiamond";
 import { red } from "./games/fireRed";
 
 /** Pokemon Display Module
@@ -36,7 +37,7 @@ export default function Pokemon(init?:string):Content {
             "red"     : red,
             //"gold"    : require("./games/heartGold.json"),
             //"saphire" : require("./games/alphaSaphire.json"),
-            //"diamond" : require("./games/brilliantDiamond.json"),
+            "diamond" : diamond,
             //"black"   : require("./games/black2.json"),
             "eevee"   : eevee,
             //"shield"  : require("./games/shield.json"),

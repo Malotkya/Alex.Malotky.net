@@ -1,6 +1,6 @@
 import { createElement as _ } from "../../../util/Elements";
 import PokemonElement from "./PokemonElement";
-import { Pokemon } from "./PokemonTypes";
+import { Pokemon, GameVersion } from "./PokemonTypes";
 
 /** Pokemon-Team-View
  * 
@@ -11,7 +11,7 @@ export default class PokemonTeamViewElement extends HTMLElement {
     private _select: HTMLElement;
     private _view: HTMLElement;
 
-    constructor(main: Array<Pokemon>, other: Array<Pokemon> = [], version?:StringIndex, game?:string){
+    constructor(main: Array<Pokemon>, other: Array<Pokemon> = [], version?:GameVersion, game?:string){
         super()
         this._main  =  main.map(p=>PokemonElement(p, version, game));
         this._other = other.map(p=>PokemonElement(p, version, game));;

@@ -1,4 +1,4 @@
-import { Pokemon, Nature } from "./PokemonTypes";
+import { Pokemon, GameVersion } from "./PokemonTypes";
 import {MASTER_POKEMON_LIST} from "../data"
 
 const SEREBII_URI = "https://www.serebii.net/";
@@ -18,7 +18,7 @@ function getNumber(name:string):number{
  * @param {StringIndex} version - Game Version Information
  * @returns {string}
  */
-export function formatURI(pokemon:Pokemon, version:StringIndex = {}):string {
+export function formatURI(pokemon:Pokemon, version?:GameVersion):string {
     const {
         normal = "pokemon/art/",
         shiney = "pokemon/art/",

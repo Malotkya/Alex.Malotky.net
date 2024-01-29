@@ -1,5 +1,5 @@
 import { createElement as _, Content } from "../../../util/Elements";
-import { Pokemon, MoveData, Nature } from "./PokemonTypes";
+import { Pokemon, MoveData, Nature, GameVersion } from "./PokemonTypes";
 import { MASTER_NATURE_INDEX, MASTER_ITEM_INDEX, MASTER_ABILITY_INDEX} from "../data"
 import { formatURI } from "./Serebii";
 
@@ -191,7 +191,7 @@ export function getAbilityDescription(name?:string):Content {
 /** Pokemon-Element
  * 
  */
-export default function PokemonElement(data:Pokemon, version?:StringIndex, gameName:string = ""):HTMLElement {
+export default function PokemonElement(data:Pokemon, version?:GameVersion, gameName:string = ""):HTMLElement {
     const {
         name = "Misingno!",
         level = 0,

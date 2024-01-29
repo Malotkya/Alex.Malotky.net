@@ -85,27 +85,18 @@ export default class Route extends Layer{
     /** Handle Context/Response Override
      * 
      * @param {Context} context 
-     * @param {Signal} done 
      */
-    public handle(context: Context, done: Signal){
-        let index = 0;
-
-        const next: Signal = (error?:any):void=>{
-            if(error)
-                return done(error);
+    public async handle(context: Context){
+        for(let layer of this._layers) {
+            try {
+                await layer.handle(context);
+            } catch (e:any){
+                throw e;
+            }
 
             if(context.isDone())
-                return done();
-
-            let layer: Layer = this._layers[index++];
-
-            if(typeof layer === "undefined")
-                return done();
-
-            layer.handle(context, next);
+                break;
         }
-
-        next();
     }
 
     /** Set Path Override

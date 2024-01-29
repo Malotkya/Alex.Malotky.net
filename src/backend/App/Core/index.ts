@@ -46,7 +46,7 @@ export default class Core extends Route{
      * 
      * Loads content, title, and description.
      */
-    private handler(timeout:number = CSS_TRANSITION_TIME, body?:BodyData): void{
+    private async handler(timeout:number = CSS_TRANSITION_TIME, body?:BodyData): Promise<void>{
         this._routing = true;
 
         const context = new Context(window.location, body);
@@ -68,18 +68,19 @@ export default class Core extends Route{
             });           
         }, timeout);
 
-        this.handle(context, (error?: any) => {
-            if(error){
-                context.body = makeErrorMessage(error);
-                context.title = "Error";
-                context.info = "";
-                if(error.additional)
-                    console.error(error.additional);
-                console.error(error);
-            }
+        try {
+            await this.handle(context);
+        } catch (error: any){
+            context.body = makeErrorMessage(error);
+            context.title = "Error";
+            context.info = "";
+
+            if(error.additional)
+                console.error(error.additional);
+            console.error(error);
 
             context.done();
-        });
+        }
     }
 
     /** Route Clicked Function

@@ -39,21 +39,21 @@ export default class Router extends Route {
     /** Handle Context/Response Override
      * 
      * @param {Context} context 
-     * @param {Signal} done 
      */
-    public handle(context: Context, done: Signal):void {
+    public async handle(context: Context): Promise<void> {
         if( !(context instanceof Context) )
             throw new TypeError(`Unknown type '${typeof context}' for Context!`);
-        
-        if(typeof done !== "function")
-            throw new TypeError(`Unknown type '${typeof done}' for done!`);
 
-        if(this.match(context.path)) {
+        if(this.match(context)) {
             context.title = this._title;
             context.info = this._info;
-            super.handle(context, done);
-        } else {
-            done();
+
+            try {
+                await super.handle(context);
+            } catch (e: any){
+                throw e;
+            }
+            
         }
     }
 
@@ -64,8 +64,8 @@ export default class Router extends Route {
      * @param {string} path 
      * @returns {boolean}
      */
-    public match(path:string):boolean{
-        return path.match(this.path) !== null;
+    public match(ctx:Context):boolean{
+        return ctx.path.match(this.path) !== null;
     }
 
     /** Title Getter

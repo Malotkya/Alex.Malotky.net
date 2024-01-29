@@ -60,18 +60,16 @@ export default class Layer {
     /** Handle Context/Response
      * 
      * @param {Context} context 
-     * @param {Signal} next 
      */
-    public handle(context: Context, next: Signal){
+    public async handle(context: Context){
         if( !(context instanceof Context) )
             throw new TypeError(`Unknown type '${typeof context}' for context!`);
 
-        if(this.match(context.path)){
-            context.params = this._params;
-            const wrapper = async(callback:Middleware) => await callback(context);
-            wrapper(this._handler).then(next).catch(next);
-        } else {
-            next();
+        try {
+            if(this.match(context))
+                await this._handler(context);
+        } catch (e:any){
+            throw e;
         }
     }
 
@@ -110,14 +108,14 @@ export default class Layer {
      * @param {string} path 
      * @returns {boolean}
      */
-    public match(path: string, ignore:boolean = false): boolean{
-        if(typeof path !== "string")
-            throw new TypeError(`Unknown type '${typeof path}' for path!`);
+    public match(context: Context): boolean{
+        if( !(context instanceof Context) )
+            throw new TypeError(`Unknown type '${typeof context}' for Context!`);
 
-        if(this._shortcut && !ignore)
+        if(this._shortcut)
             return true;
 
-        let match = path.match(this._regex)
+        let match = context.path.match(this._regex)
 
         if(match === null){
             return false;
@@ -126,7 +124,7 @@ export default class Layer {
         for(let index = 1; index < match.length; index++){
             let name = String(this._keys[index-1].name);
             let value = decodeURIComponent(match[index]);
-            this.set(name, value);
+            context.params.set(name, value);
         }
 
         return true;

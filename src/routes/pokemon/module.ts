@@ -1,6 +1,15 @@
 import { Content, createElement as _ } from "../../util/Elements";
 import gameSelect from "./content/PokemonGameSelectElement";
 
+import { yellow } from "./games/yellow";
+import { crystal } from "./games/crystal";
+import { ruby } from "./games/ruby";
+import { platinum } from "./games/platinum";
+import { white } from "./games/white";
+import { x } from "./games/x"
+import { sun } from "./games/sun";
+import { eevee } from "./games/eevee";
+import { red } from "./games/fireRed";
 
 /** Pokemon Display Module
  * 
@@ -17,19 +26,19 @@ export default function Pokemon(init?:string):Content {
             _("p", "I have recently got back into playing the mainline pokemon games.  I haven't played any of them sence Generation 3, so I have accquire all the games and have been playing them in order.  Bellow are the list of pokemon that I used in each games along with my thoughts about each game.")
         ),
         new gameSelect(init || "sun", {
-            "yellow"  : require("./games/yellow.json"),
-            "crystal" : require("./games/crystal.json"),
-            "ruby"    : require("./games/ruby.json"),
-            "red"     : require("./games/fireRed.json"),
-            "platinum": require("./games/platinum.json"),
-            "white"   : require("./games/white.json"),
-            "x"       : require("./games/x.json"),
-            "sun"     : require("./games/sun.json"),
+            "yellow"  : yellow,
+            "crystal" : crystal,
+            "ruby"    : ruby,
+            "platinum": platinum,
+            "white"   : white,
+            "x"       : x,
+            "sun"     : sun,
+            "red"     : red,
             //"gold"    : require("./games/heartGold.json"),
             //"saphire" : require("./games/alphaSaphire.json"),
-            //"black"   : require("./games/black2.json"),
-            "eevee"   : require("./games/eevee.json"),
             //"diamond" : require("./games/brilliantDiamond.json"),
+            //"black"   : require("./games/black2.json"),
+            "eevee"   : eevee,
             //"shield"  : require("./games/shield.json"),
             //"violet"  : require("./games/violet.json"),
         })

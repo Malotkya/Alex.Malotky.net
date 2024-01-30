@@ -17,9 +17,11 @@ export const MtgDecks = new Router("MTG Decks", "The Magic the Gathering Decks t
 const Editor = new Router("Mtg Deck Editor");
 Editor.use("*", async(ctx: Context)=>{
     const auth = await Authentication();
-
-    if(!(await auth.getCurrentUser())){
-        ctx.reRoute("/Login");
+    try {
+        if( !(await auth.getCurrentUser()) )
+            ctx.reRoute("/Login");
+    } catch (e){
+        throw e;
     }
 });
 
@@ -27,6 +29,7 @@ Editor.use("/Delete/:id", async(ctx:Context)=>{
     const database = await Database();
     database.deleteDocument(DATABASE_NAME, ctx.get("id"));
     ctx.reRoute("/Decks/Editor");
+    
 });
 
 Editor.use("/Update/:id", async(ctx:Context)=>{
@@ -50,7 +53,7 @@ Editor.use("/Update/:id", async(ctx:Context)=>{
 Editor.use("/New", async(ctx:Context)=>{
     const database = await Database();
 
-    const id = await database.createDocument(DATABASE_NAME, {publish: await database.now()});
+    const id = await database.createDocument(DATABASE_NAME, {publish: database.now()});
 
     ctx.reRoute(`/Decks/Editor/${id}`);
 });

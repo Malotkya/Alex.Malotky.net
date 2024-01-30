@@ -31,13 +31,13 @@ export default function EditPost(data:any = {}): Content {
         
         _("div", {class: "row main"},
             _("label", {for: "post-content", class: "post-content"},
-                "Mark Down Editor:",
+                _("span", "Mark Down Editor:"),
                 txtContent
             ),
             
 
             _("label", {for: "content-preview", class: "content-preview"},
-                "Mark Down Preview",
+                _("span", "Mark Down Preview:"),
                 target
             ),
         ),

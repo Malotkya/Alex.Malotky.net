@@ -39,6 +39,13 @@
 
     .post-content, .content-preview{
         width: 50%;
+
+        span {
+            text-align: center;
+            width: 100%;
+            display: inline-block;
+        }
+
     }
 }
 
@@ -50,7 +57,7 @@
 #post-list {
     padding: 0;
 
-    li {
+    .blog-post {
         list-style: none;
         display: flex;
         flex-flow: row wrap;
@@ -72,10 +79,17 @@
             padding-right: 0.5em;
         }
 
+        .post-buttons {
+            width: 100%;
+            text-align: center;
+        }
+
         mark-down {
             width: 100%;
             color: $dark;
             background-color: $white;
         }
+
+
     }
 }

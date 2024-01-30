@@ -17,9 +17,12 @@ export default function Blog(args:expectedArgs):Content {
     }
 
     if(args.edit) {
+
         return [
             _("style", require("./style.scss")),
             _("h1", "Blog Post Editor!"),
+            _("a", {href: "/Blog/Edit", class:"btn", clear:"true"}, "Back"),
+            _("a", {href: `/Blog/${args.item.id}`, id: "btnView", class: "btn", clear:"true"}, "View"),
             EditPost(args.item)
         ];
     }
@@ -72,7 +75,7 @@ function Result(post:Post, edit:boolean):Content {
         window.route("/Blog/Edit/" + id);
     });
 
-    return _("li", 
+    return _("li", {id: id, class: "blog-post"},
         _("h2", title),
         _("p", formatDate(date, "%M %D, %Y")),
         edit? _("div", {class: "post-buttons"}, editButton, deleteButton)

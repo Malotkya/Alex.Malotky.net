@@ -29,7 +29,6 @@ export default class Context{
     private _path: string;
 
     //Information Generated from path
-    private _gets: Map<string, string>;
     private _params: Map<string, string>;
 
     //Information gnerated by users.
@@ -53,21 +52,20 @@ export default class Context{
         this._title = "";
         this._info = "";
         this._params = new Map<string, string>();
-        this._gets = new Map<string, string>();
         for(let args of location.search.substring(1).split('&')){
             let buffer = decodeURIComponent(args).split("=");
-            this._gets.set(buffer[0], buffer[1]);
+            this._params.set(buffer[0], buffer[1]);
         }
         if(typeof body !== "undefined") {
             if(body instanceof FormData){
                 for(let [name, value] of body.entries())
-                    this._gets.set(name, value.toString());
+                    this._params.set(name, value.toString());
             } else if(body instanceof Map) {
                 for(let [name, value] of body.values())
-                    this._gets.set(name, String(value));
+                    this._params.set(name, String(value));
             } else {
                 for(let name in body)
-                    this._gets.set(name, String(body[name]));
+                    this._params.set(name, String(body[name]));
             }
         }
     }

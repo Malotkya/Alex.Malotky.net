@@ -67,7 +67,7 @@ Editor.use("/:id", async(ctx:Context)=>{
 
 Editor.use(async(ctx: Context)=>{
     const database = await Database();
-    const results = await database.queryCollection(DATABASE_NAME);
+    const results = await database.queryCollection(DATABASE_NAME, {orderBy: ["date", "desc"]});
     ctx.body = await importModule("blog", {edit: true, item: results});
 })
 
@@ -91,7 +91,10 @@ Blog.use("/:id", async(ctx:Context)=>{
 Blog.use(async(ctx:Context)=> {
     const results:any = await cache(DATABASE_NAME, async()=>{
         const database = await Database();
-        return await database.queryCollection(DATABASE_NAME)
+        return await database.queryCollection(DATABASE_NAME, {
+            orderBy: ["date", "desc"],
+            limit: [5]
+        })
     });
 
     ctx.body = await importModule("blog", {item: results});

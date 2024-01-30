@@ -9,7 +9,7 @@ import DeckEditorElement, {Deck} from "./elements/DeckEditor";
 
 //Extra deck information in database.
 export interface DeckItem extends Deck {
-    id: string,
+    id?: string,
     name: string,
     description: string
 };
@@ -42,16 +42,32 @@ export function DeckView(deck:DeckItem): Content{
  * @returns {Content}
  */
 export function DeckEdit(deck:DeckItem): Content{
+    const btnSubmit = _("button", {id:"submit"}, "Save Changes");
+
+    const txtName = _("input", {id: "name", value: deck.name}) as HTMLInputElement;
+    const txtDescription = _("textarea", {id:"description"}, deck.description) as HTMLTextAreaElement;
+    const editor = new DeckEditorElement(deck.commanders, deck.main_deck);
+
+    btnSubmit.addEventListener("click", ()=>{
+        const data:DeckItem = {
+            ...editor.getDeckObject(),
+            name: txtName.value,
+            description: txtDescription.value
+        };
+
+        window.route("/Decks/Editor/Update/"+deck.id, {deck: JSON.stringify(data)})
+    });
+
     return _("article", {id:"deckEditor"},
         _("a", {href: "/Decks/Editor", class:"btn"}, "Back"),
         _("a", {href: `/Decks/${deck.id}`, id: "btnView", class: "btn"}, "View"),
-        _("button", {id:"submit"}, "Save Changes"),
+        btnSubmit,
         _("h1", "Deck Editor"),
         _("label", {for: "name"}, "Deck Name"),
-        _("input", {id: "name", value: deck.name}),
+        txtName,
         _("label", {for:"description"}),
-        _("textarea", {id:"description"}, deck.description),
+        txtDescription,
         _("label", {for: "deckList"}, "Deck List:"),
-        new DeckEditorElement(deck.commanders, deck.main_deck)
+        editor
     );
 }

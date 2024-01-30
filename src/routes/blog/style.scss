@@ -56,40 +56,40 @@
 
 #post-list {
     padding: 0;
+}
 
-    .blog-post {
-        list-style: none;
-        display: flex;
-        flex-flow: row wrap;
-        width: 95%;
-        margin: 0 auto;
-        margin-bottom: .5em;
-        border-radius: 5px;
-        padding: .25em;
-        background-color: $medium;
-        color: $white;
+.blog-post {
+    list-style: none;
+    display: flex;
+    flex-flow: row wrap;
+    width: 95%;
+    margin: 0 auto;
+    margin-bottom: .5em;
+    border-radius: 5px;
+    padding: .25em;
+    background-color: $medium;
+    color: $white;
 
-        h2 {
-            flex-grow: 1;
-            color: $accent-light;
-            padding-left: 0.5em;
-        }
-
-        p {
-            padding-right: 0.5em;
-        }
-
-        .post-buttons {
-            width: 100%;
-            text-align: center;
-        }
-
-        mark-down {
-            width: 100%;
-            color: $dark;
-            background-color: $white;
-        }
-
-
+    h2 {
+        flex-grow: 1;
+        color: $accent-light;
+        padding-left: 0.5em;
     }
+
+    p {
+        padding-right: 0.5em;
+    }
+
+    .post-buttons {
+        width: 100%;
+        text-align: center;
+    }
+
+    mark-down {
+        width: 100%;
+        color: $dark;
+        background-color: $white;
+    }
+
+
 }

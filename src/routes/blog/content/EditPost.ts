@@ -14,13 +14,16 @@ export default function EditPost(data:any = {}): Content {
     console.log(data);
 
     //Elements used by form code.
-    const input = _("textarea", {id: "post-content", name: "content"}, content) as HTMLTextAreaElement;
+    const txtContent = _("textarea", {id: "post-content", name: "content"}, content) as HTMLTextAreaElement;
+    const txtTitle = _("input", {id: "post-title", name: "title", value: title}) as HTMLInputElement;
     const target = _("div", {id: "content-preview"}, _("mark-down", content));
+
+    //Form
     const form = _("form", {id: "blog-post-form"},
         _("div", {class: "row"},
             _("label", {for: "post-title", class: "post-title"},
                 "Post Title:",
-                _("input", {id: "post-title", name: "title", value: title}),
+                txtTitle,
             ),
 
             _("p", {id: "post-date"}, formatDate(date, "%M %D, %Y", "")),
@@ -29,7 +32,7 @@ export default function EditPost(data:any = {}): Content {
         _("div", {class: "row main"},
             _("label", {for: "post-content", class: "post-content"},
                 "Mark Down Editor:",
-                input
+                txtContent
             ),
             
 
@@ -47,14 +50,21 @@ export default function EditPost(data:any = {}): Content {
     ) as HTMLFormElement;
 
     //Event Listeners.
-    input.addEventListener("input", ()=>{
+    txtContent.addEventListener("input", ()=>{
         target.innerHTML = "";
-        target.appendChild(_("mark-down", input.value));
+        target.appendChild(_("mark-down", txtContent.value));
     });
 
     form.addEventListener("submit", (event:SubmitEvent)=>{
         event.preventDefault();
-        window.route("/Blog/Edit/Update/"+id, new FormData(form))
+
+        const data:any = {
+            title: txtTitle.value,
+            date: date,
+            content: txtContent.value
+        }
+
+        window.route("/Blog/Edit/Update/"+id, {post: JSON.stringify(data)})
         return false;
     });
 

@@ -59,8 +59,8 @@ export function DeckEdit(deck:DeckItem): Content{
     });
 
     return _("article", {id:"deckEditor"},
-        _("a", {href: "/Decks/Editor", class:"btn"}, "Back"),
-        _("a", {href: `/Decks/${deck.id}`, id: "btnView", class: "btn"}, "View"),
+        _("a", {href: "/Decks/Editor", class:"btn", clear:"true"}, "Back"),
+        _("a", {href: `/Decks/${deck.id}`, id: "btnView", class: "btn", clear:"true"}, "View"),
         btnSubmit,
         _("h1", "Deck Editor"),
         _("label", {for: "name"}, "Deck Name"),

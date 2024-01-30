@@ -48,6 +48,9 @@ export default class App extends Core {
             event.preventDefault();
             target.blur();
 
+            if(link.getAttribute("clear") === "true")
+                localStorage.clear();
+
             if(link.href.indexOf(this.hostname) !== -1){
                 let match = link.href.match(/(?<=#).*?(?=\?|$)/gm);
                 if(match){

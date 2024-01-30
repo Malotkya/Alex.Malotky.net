@@ -28,6 +28,7 @@ export default function Blog(args:expectedArgs):Content {
     }
 
     const {
+        id = "undefined",
         title = "Not Found!",
         date,
         content = ""
@@ -35,9 +36,11 @@ export default function Blog(args:expectedArgs):Content {
         
     return [
         _("style", require("./style.scss")),
-        _("h1", {id: "post-title"}, title),
-        _("p", {id: "post-date"}, formatDate(date, "%M %D, %Y")),
-        _("mark-down", {id: "post-content"}, content)
+        _("article", {id: id, class: "blog-post"},
+            _("h1", {id: "post-title"}, title),
+            _("p", {id: "post-date"}, formatDate(date, "%M %D, %Y")),
+            _("mark-down", {id: "post-content"}, content)
+        )
     ]
 }
 

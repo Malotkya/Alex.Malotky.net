@@ -304,12 +304,3 @@ export const yellow: Game = {
         }
     ]
 }
-
-/*"comments": [
-    "Fun fact: Pokemon yellow was the first Gameboy Color game that I ever had!",
-    "Generation one is more rough then I remember, sleep, paralysis, and confusion are much more brutal then they are in later games.",
-    "I also think that my team could have been better if I had planned a little better.  Maybe gone with Haunter instead of Nidoking would have given me a better type coverage (looking at you Alakazam).  I also think giving Blastoise body slam would have been smarter than giving it to Pikachu.  Then Pikachu could have used swift and Mew could have kept tri attack.",
-    "For the moves that everyone does have, it is mostly for type coverage or so that I don't have to keep swapping out Pokemon to use HM's.  I wanted to make sure I had a psychic type, something that knows earthquake, and swift for when my opponents had minimized into oblivion. I was also hopping to get Venusaur to learn sleep powder, but never got to a high enough level",
-    "I used the glitch at Nugget Bridge to catch mew.",
-    "Lastly, I used Buterfree for flash in Rock Tunnel and to put Mew to sleep to make it easier to catch."
-]*/

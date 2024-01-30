@@ -51,7 +51,7 @@ Editor.use("/Update/:id", async(ctx:Context)=>{
 Editor.use("/New", async(ctx:Context)=>{
     const database = await Database();
     const id = await database.createDocument(DATABASE_NAME, {date: await database.now()});
-    ctx.reRoute(`/Decks/Editor/${id}`);
+    ctx.reRoute(`/Blog/Edit/${id}`);
 });
 
 Editor.use("/:id", async(ctx:Context)=>{

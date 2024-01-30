@@ -21,8 +21,8 @@ app.add("/Resume", Resume);
 app.add("/Portfolio", Portfolio);
 app.add("/About", AboutMe);
 app.add("/Blog", Blog);
-app.add("/Decks", MtgDecks);
 
+app.use("/Decks", MtgDecks);
 app.use("/Pokemon", Pokemon);
 app.use(Login);
 

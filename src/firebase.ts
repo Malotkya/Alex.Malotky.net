@@ -18,6 +18,10 @@ import {onAuthStateChanged, signOut, signInWithEmailAndPassword} from "firebase/
 export { User } from "firebase/auth";
 export {Timestamp} from "firebase/firestore";
 
+interface Options {
+    [name:string]:Array<unknown>
+}
+
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -72,11 +76,11 @@ export class Database {
 
     /** Query Collection
      * 
-     * @param {string} name 
-     * @param {any} opts 
+     * @param {string} collectionName 
+     * @param {Options} opts 
      * @returns {Array<any>}
      */
-    async queryCollection(collectionName: string, opts?:any):Promise<Array<any>>{
+    async queryCollection(collectionName: string, opts?:Options):Promise<Array<any>>{
         const output: Array<any> = [];
         const options: Array<QueryConstraint> = [];
     
@@ -175,7 +179,7 @@ export class Database {
 export class Authentication {
     private _conn: Auth;
 
-    constuctor() {
+    constructor() {
         this._conn = getAuth(app);
     }
 

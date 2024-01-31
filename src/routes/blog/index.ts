@@ -50,7 +50,7 @@ Editor.use("/Update/:id", async(ctx:Context)=>{
 
 Editor.use("/New", async(ctx:Context)=>{
     const database = await Database();
-    const id = await database.createDocument(COLLECTION_NAME, {date: await database.now()});
+    const id = await database.createDocument(COLLECTION_NAME, {date: database.now()});
     ctx.reRoute(`/Blog/Edit/${id}`);
 });
 
@@ -90,7 +90,7 @@ Blog.use("/:id", async(ctx:Context)=>{
 
 Blog.use(async(ctx:Context)=> {
     const results:any = await cache(COLLECTION_NAME, async()=>{
-        
+
         const database = await Database();
         return await database.queryCollection(COLLECTION_NAME, {
             orderBy: ["date", "desc"],

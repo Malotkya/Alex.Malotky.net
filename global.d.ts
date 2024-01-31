@@ -8,10 +8,10 @@ declare module '*.scss' {
     export default content;
 }
 
-interface StringIndex {
-    [index:string]:string
+interface Dictionary<t> {
+    [index:string]:t
 }
-declare type BodyData = StringIndex|FormData|Map<string, string>
+declare type BodyData = Dictionary<string>|FormData|Map<string, string>
 
 declare interface Window { 
     route: (href:string, body?:BodyData)=>void; 

@@ -7,7 +7,7 @@ import Database from "../../util/Database";
 import {cache} from "../../util/Memory";
 import Authentication from "../../util/Authentication";
 
-const DATABASE_NAME = "MtgDecks";
+const COLLECTION_NAME = "MtgDecks";
 
 /** Mtg Module
  * 
@@ -27,7 +27,7 @@ Editor.use("*", async(ctx: Context)=>{
 
 Editor.use("/Delete/:id", async(ctx:Context)=>{
     const database = await Database();
-    database.deleteDocument(DATABASE_NAME, ctx.get("id"));
+    database.deleteDocument(COLLECTION_NAME, ctx.get("id"));
     ctx.reRoute("/Decks/Editor");
     
 });
@@ -42,7 +42,7 @@ Editor.use("/Update/:id", async(ctx:Context)=>{
         if(deck === undefined)
             throw new Error("Update information not in body!");
 
-        await database.updateDocument(DATABASE_NAME, id, JSON.parse(deck));
+        await database.updateDocument(COLLECTION_NAME, id, JSON.parse(deck));
         ctx.reRoute(`/Decks/Editor/${id}`, {deck: deck});
     } catch (e){
         console.error(e);
@@ -53,7 +53,7 @@ Editor.use("/Update/:id", async(ctx:Context)=>{
 Editor.use("/New", async(ctx:Context)=>{
     const database = await Database();
 
-    const id = await database.createDocument(DATABASE_NAME, {publish: database.now()});
+    const id = await database.createDocument(COLLECTION_NAME, {publish: database.now()});
 
     ctx.reRoute(`/Decks/Editor/${id}`);
 });
@@ -68,7 +68,7 @@ Editor.use("/:id", async(ctx:Context)=>{
         results = JSON.parse(results);
         results.id = id;
     } else {
-        results = await database.getDocument(DATABASE_NAME, id);
+        results = await database.getDocument(COLLECTION_NAME, id);
     }
 
     if(typeof results === "undefined")
@@ -83,7 +83,7 @@ Editor.use("/:id", async(ctx:Context)=>{
 Editor.use(async(ctx: Context)=>{
     const database = await Database();
 
-    const results = await database.queryCollection(DATABASE_NAME);
+    const results = await database.queryCollection(COLLECTION_NAME);
 
     ctx.body = await importModule("mtg", {
         arr: results,
@@ -98,7 +98,7 @@ MtgDecks.use("/:id", async(ctx:Context)=>{
 
     const results = await cache(`MtgDeck(${id})`, async()=>{
         const database = await Database();
-        return await database.getDocument(DATABASE_NAME, id)
+        return await database.getDocument(COLLECTION_NAME, id)
     });
     
     if(typeof results === "undefined"){
@@ -110,9 +110,9 @@ MtgDecks.use("/:id", async(ctx:Context)=>{
 
 MtgDecks.use(async(ctx:Context)=>{
     
-    const results = await cache(DATABASE_NAME, async()=>{
+    const results = await cache(COLLECTION_NAME, async()=>{
         const database = await Database();
-        return await database.queryCollection(DATABASE_NAME)
+        return await database.queryCollection(COLLECTION_NAME)
     });
 
     ctx.body = await importModule("mtg", {arr: results});

@@ -7,7 +7,7 @@ import Authentication from "../../util/Authentication";
 import Database from "../../util/Database";
 import { cache } from "../../util/Memory";
 
-const DATABASE_NAME = "Blog";
+const COLLECTION_NAME = "Blog";
 
 /** Blog Router
  * 
@@ -25,7 +25,7 @@ Editor.use("*", async(ctx:Context) =>{
 
 Editor.use("/Delete/:id", async(ctx:Context)=>{
     const database = await Database();
-    database.deleteDocument(DATABASE_NAME, ctx.get("id"));
+    database.deleteDocument(COLLECTION_NAME, ctx.get("id"));
     ctx.reRoute("/Blog/Edit");
 });
 
@@ -39,7 +39,7 @@ Editor.use("/Update/:id", async(ctx:Context)=>{
         if(post === undefined)
             throw new Error("Update information not in body!");
 
-        await database.updateDocument(DATABASE_NAME, id, JSON.parse(post));
+        await database.updateDocument(COLLECTION_NAME, id, JSON.parse(post));
         ctx.reRoute(`/Blog/Edit/${id}`, {post: post});
 
     } catch (e) {
@@ -50,7 +50,7 @@ Editor.use("/Update/:id", async(ctx:Context)=>{
 
 Editor.use("/New", async(ctx:Context)=>{
     const database = await Database();
-    const id = await database.createDocument(DATABASE_NAME, {date: await database.now()});
+    const id = await database.createDocument(COLLECTION_NAME, {date: await database.now()});
     ctx.reRoute(`/Blog/Edit/${id}`);
 });
 
@@ -58,7 +58,7 @@ Editor.use("/:id", async(ctx:Context)=>{
     const database = await Database();
 
     const id:string = ctx.get("id");
-    const result:any = await database.getDocument(DATABASE_NAME, id);
+    const result:any = await database.getDocument(COLLECTION_NAME, id);
     if(typeof result === "undefined")
         throw new Error("Unable to find id: " + id);
 
@@ -67,7 +67,7 @@ Editor.use("/:id", async(ctx:Context)=>{
 
 Editor.use(async(ctx: Context)=>{
     const database = await Database();
-    const results = await database.queryCollection(DATABASE_NAME, {orderBy: ["date", "desc"]});
+    const results = await database.queryCollection(COLLECTION_NAME, {orderBy: ["date", "desc"]});
     ctx.body = await importModule("blog", {edit: true, item: results});
 })
 
@@ -78,7 +78,7 @@ Blog.use("/:id", async(ctx:Context)=>{
 
     const results:any = await cache(`Blog(${id})`, async()=>{
         const database = await Database();
-        return await database.getDocument(DATABASE_NAME, id);
+        return await database.getDocument(COLLECTION_NAME, id);
     });
 
     if(typeof results === "undefined"){
@@ -89,9 +89,10 @@ Blog.use("/:id", async(ctx:Context)=>{
 });
 
 Blog.use(async(ctx:Context)=> {
-    const results:any = await cache(DATABASE_NAME, async()=>{
+    const results:any = await cache(COLLECTION_NAME, async()=>{
+        
         const database = await Database();
-        return await database.queryCollection(DATABASE_NAME, {
+        return await database.queryCollection(COLLECTION_NAME, {
             orderBy: ["date", "desc"],
             limit: [5]
         })

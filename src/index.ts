@@ -38,5 +38,7 @@ app.onReady(()=>{
 //Global Custom Element Registry
 import MarkDownElement from "./util/CustomElements/MarkDownElement";
 import ToolTip from "./util/CustomElements/ToolTipElement";
+import AutoComplete from "./util/CustomElements/AutoComlete";
 customElements.define("mark-down", MarkDownElement);
 customElements.define("tool-tip", ToolTip);
+customElements.define("auto-complete", AutoComplete);

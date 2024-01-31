@@ -1,7 +1,7 @@
 import { createElement as _ } from "../../../util/Elements";
 
 export interface SkillItem{
-    info: {[index: string]: string|undefined|Array<string>},
+    info: Dictionary<string|undefined|Array<string>>,
     id: string,
     name: string,
     list: Array<string>

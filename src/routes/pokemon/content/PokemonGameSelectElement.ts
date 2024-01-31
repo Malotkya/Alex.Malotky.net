@@ -3,10 +3,6 @@ import PokemonTeamViewElement from "./PokemonTeamViewElement";
 import { Game, Region as KnownRegion} from "./PokemonTypes";
 import { REGION_MASTER_ARRAY_INDEX } from "../data";
 
-interface dataList {
-    [name:string]: Game
-}
-
 type Region = KnownRegion | "Unknown"
 
 /** Get Pokemon Region
@@ -48,9 +44,9 @@ function createMenuListElement(name:string):{menuElement:HTMLElement, regionList
 export default class PokemonGameSelectElement extends HTMLElement{
     private _menu: Array<HTMLElement>;
     private _target: HTMLElement;
-    private _list: dataList;
+    private _list: Dictionary<Game>;
 
-    constructor(init:string, list:dataList) {
+    constructor(init:string, list:Dictionary<Game>) {
         super();
         this._target = _("section", {id: "pokemon-game-view"});
         this._menu = [];

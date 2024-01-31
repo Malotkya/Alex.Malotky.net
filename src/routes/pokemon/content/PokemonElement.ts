@@ -85,15 +85,13 @@ function MoveElement(data: MoveData|string): Content{
 }
 const MOVE_ELEMENT_CLASS_NAME = "pokmeon-move-item";
 
-interface ContentIndex {
-    [name:string]: Content
-}
+
 /** Create Optional List Item
  * 
- * @param {StringIndex} data 
+ * @param {Dictionary<Content>} data 
  * @returns {Content}
  */
-function OptionalList(data:ContentIndex): Content{
+function OptionalList(data:Dictionary<Content>): Content{
     const list:Content = [];
 
     for(let name in data){

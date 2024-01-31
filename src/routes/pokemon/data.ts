@@ -1,7 +1,4 @@
 import { Nature, Region } from "./content/PokemonTypes";
-interface NatureIndex {
-    [name:string]: Nature
-}
 type ArrayIndex = {
     [name in Region]: Array<string>;
 };
@@ -19,7 +16,7 @@ export const REGION_MASTER_ARRAY_INDEX:ArrayIndex = {
 }
 
 //Information From: https://pokemondb.net/ability
-export const MASTER_ABILITY_INDEX:StringIndex = {
+export const MASTER_ABILITY_INDEX:Dictionary<string> = {
     "Adaptability": "Powers up moves of the same type.",
     "Aerilate": "Turns Normal-type moves into Flying-type moves.",
     "Aftermath": "Damages the attacker landing the finishing hit.",
@@ -329,7 +326,7 @@ export const MASTER_ABILITY_INDEX:StringIndex = {
 }
 
 //Information from : https://pokemondb.net/item/all#cat=hold
-export const MASTER_ITEM_INDEX:StringIndex = {
+export const MASTER_ITEM_INDEX:Dictionary<string> = {
     "Ability Capsule": "A capsule that allows a Pokémon with two Abilities to switch between these Abilities when it is used.",
     "Abomasite": "Enables Abomasnow to Mega Evolve during battle.",
     "Absolite": "Enables Absol to Mega Evolve during battle.",
@@ -628,7 +625,7 @@ export const MASTER_ITEM_INDEX:StringIndex = {
     "Zoom Lens": "Raises a move's accuracy if the holder moves after its target."
 }
 
-export const MASTER_NATURE_INDEX: NatureIndex = {
+export const MASTER_NATURE_INDEX: Dictionary<Nature> = {
     ADAMANT: {inc: "Attack",      dec: "Sp. Attack"},
     BASHFUL: {inc: "Sp. Attack",  dec: "Sp. Attack"},
     BOLD:    {inc: "Defense",     dec: "Attack"},

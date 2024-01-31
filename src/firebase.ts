@@ -18,10 +18,7 @@ import {onAuthStateChanged, signOut, signInWithEmailAndPassword} from "firebase/
 export { User } from "firebase/auth";
 export {Timestamp} from "firebase/firestore";
 
-interface Options {
-    [name:string]:Array<unknown>
-}
-
+type Options = Dictionary<Array<unknown>>;
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional

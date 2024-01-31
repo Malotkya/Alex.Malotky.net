@@ -7,16 +7,12 @@ import DeckListDialog from "./DeckListDialog";
 import CardElement from "./CardInputElemet";
 import {Card} from "../../../../util/Scryfall";
 
-interface categories {
-    [name:string]: Array<Card>
-}
-
 /** Deck Interface
  * 
  */
 export interface Deck {
     commanders: Array<Card>,
-    main_deck: categories,
+    main_deck: Dictionary<Array<Card>>,
     color_identity: Array<string>,
     art: string
 }
@@ -128,7 +124,7 @@ export default class DeckEditor extends HTMLElement {
     /** Constructor
      * 
      */
-    constructor(commanders: Array<Card> = [], mainDeck:categories = {}){
+    constructor(commanders: Array<Card> = [], mainDeck:Dictionary<Array<Card>> = {}){
         super();
         this._categories = new Map();
         this._dialog = new DeckListDialog();

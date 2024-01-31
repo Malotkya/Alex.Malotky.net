@@ -2,8 +2,9 @@
  * 
  * @author Alex Malotky
  */
-import { queryForCard, Card } from "../../../../util/Scryfall";
-import AutoComplete from "./AutoComplete";
+import { queryForCard, Card, getShard } from "../../../../util/Scryfall";
+import { createElement as _ } from "../../../../util/Elements";
+import AutoComplete from "../../../../util/CustomElements/AutoComlete";
 
 const BLANK_CARD:Card = {
     count: -1,
@@ -12,6 +13,8 @@ const BLANK_CARD:Card = {
     collector_number: "",
     foil: true,
 }
+
+const cache:Dictionary<Array<string>> = {};
 
 /** CardElement Class
  * 
@@ -131,6 +134,14 @@ export default class CardInputElement extends HTMLLIElement {
         })
     }
 
+    private async getListFromShard(value:string):Promise<Array<string>>{
+        value = value.charAt(0).toUpperCase();
+        if(cache[value] === undefined)
+            cache[value] = (await getShard(value)).match(/(?<="name":").*?(?=")/gm);
+
+        return cache[value];
+    }
+
     /** Connected Callback
      * 
      * If there is no value, then it creates an input.
@@ -199,10 +210,10 @@ export default class CardInputElement extends HTMLLIElement {
 
         } else {
             //Name Input
-            nameElement.appendChild(new AutoComplete(input, ()=>{
-                this.find(input.value);
-                input.value = "";
-            }));
+            const autoComplete = _("auto-complete", input) as AutoComplete;
+            autoComplete.list = (value:string) => this.getListFromShard(value);
+
+            nameElement.appendChild(autoComplete);
             input.placeholder = "Card Name";
 
             //Submit Name Button
@@ -213,6 +224,8 @@ export default class CardInputElement extends HTMLLIElement {
                 this.find(input.value);
                 input.value = "";
             });
+
+            autoComplete.addEventListener("submit", ()=>btnFind.click());
 
             this.appendChild(btnFind);
         }

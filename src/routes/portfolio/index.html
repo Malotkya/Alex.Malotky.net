@@ -43,12 +43,51 @@
     </mark-down>
 </article>
 
+<!-- Capstone Project -->
+<article class="portfolio-card">
+    <h2>Capstone Project</h2>
+    <p class="links"> 
+        <a href="/Decks" target="_blank">Find it Here</a> |
+        <a href="https://github.com/Malotkya/CapstoneProject">Github Repo</a>
+    </p>
+    <mark-down>
+        # Background
+        In order to graduate from my [Applied Computing](https://uwex.wisconsin.edu/applied-computing/#overview) program I had to complete a Capstone Project where ideally I would be working with a client (ex. an employeer or local company) and create some kind of project.  Because at the time I worked for a security company I decided to reach out to a Magic the Gathering content creater named DJ about creating a website.   I had seen him complain online that he have been running into issues with displaying the decks online and wished for a custom solution.
+
+        # About Magic the Gathering
+        Magic the Gathering is a card game with a different formats that have varying rules.  Some people just collect the cards, and other people play the game competitivly, while most just play for fun with their friends at home. I personally play a format called Commander or EDH where the decks are based around a single card that helms the deck.  Displaying the decks in this app is prioritized for displaying commander decks.
+
+        # Requirements
+        The main requirements for this project where:
+        1) Being able to easily add decks that had been created in scryfall.
+        2) Be able to easily view the cards in the deck without ads or unnecisary information.
+        3) Being able to easily to view all the decks in a list.
+
+        Some stretch goals were added like:
+        1) Being able to search the decks.
+        2) A link for downloading the decklists.
+        3) A link to purchase the decklists.
+
+        # Technology
+        Wix was chosen as the platform to develop the website because it has drag and drop elements that would allow DJ to be able to make changes and maintain the website after I was no longer working on the project.
+        Wix also came with the abbility to add custom elements allowing me to add special functionality and a document database for storing the deck information.
+
+        To Npm packages were added to the project:
+        1) [cvs-parse](https://www.npmjs.com/package/csv-parse): used for parsing cvs deck information uploaded to the database.
+        3) [masonry-layout](https://www.npmjs.com/package/masonry-layout): used to form a masonry layout betweeen the different catagories in a deck list.
+    </mark-down>
+    <p>
+        Unfortunatly the project never went live and I have added a modified/lite version of the code here on my portfolio website.  The deck view page is the same with some styling changes to match my website.
+        The view all does not currently have any search functionality because wix's database and firebase are different enough that I had to put it off.  But it is in the works.
+    </p>
+</article>
+
 <!-- Phasmophobia Helper-->
 <article class="portfolio-card">
     <h2>Phasmophobia Helper</h2>
     <p class="links">
         <a href="https://phasmophobiahelper.web.app/">Find it Here</a> | 
-        <a href="https://github.com/Malotkya/PhasmophobiaHelper" target="_blank">Github Repo</a>
+        <a href="https://github.com/Malotkya/PhasmophobiaHelper">Github Repo</a>
     </p>
     <p>
         Phasmophobia is a horror puzzle game where you enter a haunted house and attept to discover the type of ghost haunting the house.
@@ -66,7 +105,7 @@
     <h2>Games in React</h2>
     <p class="links">
         <a href="https://staticgames.web.app">Find it Here</a> |
-        <a href="https://github.com/Malotkya/StaticGames" target="_blank">Github Repo</a>
+        <a href="https://github.com/Malotkya/StaticGames">Github Repo</a>
     </p>
     <p>
         I am in the process of converting some games that I had written in vanilla javascript, notablly Yatzee and TicTacToe, in React.
@@ -96,28 +135,10 @@
     <h2>Terminal Emulator</h2>
     <p class="links">
         <a href="#">Comming Soon!</a> |
-        <a href="#" target="_blank">Github Repo</a>
+        <a href="#">Github Repo</a>
     </p>
     <p>
         This project invalves playing around with the 2D library to create/ emulate a terminal.
         I am currently converting the project from a vanilla javascript module, to webpack typescript project.
     </p>
 </article>
-
-<!-- Jumbo Commander's Website-->
-<!--<article class="portfolio-card">
-    <h2>JumboCommnader.com</h2>
-    <p class="links">
-        <a href="https://jumbocommander.com/">Find it Here!</a>
-    </p>
-    <p>
-        Over the Fall Semester of 2022 and the Spring Semester of 2023, I had the privilage of working with DJ (the Jumbo Commander) in making a new website.
-        He opted to host his new website with <a href="https://www.wix.com/">Wix</a> that comes with a drag and drop edditor.
-        This was important for DJ because he wanted the ability to update and make changes to the website without needing to rely on someone else.
-        Wix also comes with the ability to create custome elements and a database.
-    </p>
-    <p>
-        Using those features I was able to create a way for DJ to easily store Magic the Gathering deck information within the database, allowing for users to search through the database, and also easily view the decks and cards within the database.
-        It was a challenging project because working within the confines of Wix caused some hurdles, but in the end I am happy with how it turned out.
-    </p>
-</article>-->

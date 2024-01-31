@@ -61,17 +61,18 @@ export default class MarkDownElement extends HTMLElement {
         markdown = createBlock(markdown, "ul", /\n\s*[*+-] /gm, "•");
 
         this.innerHTML = markdown
-            .replace(/(^[*-]+$)/gm, "<hr/>")                               //Horizontal Rule
-            .replace(/^\s*#{1} (.*?)$/gim, '<h3>$1</h3>')                  //Headers 1
-            .replace(/^\s*#{2} (.*?)$/gim, '<h4>$1</h4>')                  //Headers 2
-            .replace(/^\s*#{3} (.*?)$/gim, '<h5>$1</h5>')                  //Headers 3
-            .replace(/^\s*#+ (.*?)$/gim,   '<h6>$1</h6>')                  //Headers 4-6
-            .replace(/[*_]{2}([^*_].*?)[*_]{2}/gm, '<strong>$1</strong>')  //Bold
-            .replace(/[*_]{1}(.*?)[*_]{1}/gm, '<em>$1</em>')               //Italics
-            .replace(/^\s*•(.*)$/gm, '<li>$1</li>')                        //List Item
-            .replace(/!\[(.*?)\]\((.*?)\)/gm, "<img alt='$1' src='$2' />") //Image
-            .replace(/\[(.*?)\]\((.*?)\)/gm, "<a href='$2'>$1</a>")        //Links
-            .replace(/`(.*?)`/gm, "<code>$1</code>")                       //Code lines
-            .replace(/\n$/gim, '<br/>');                                   //Line Break
-        }
+            .replace(/(^[*-]+$)/gm, "<hr/>")                                        //Horizontal Rule
+            .replace(/^\s*#{1} (.*?)$/gim, '<h3>$1</h3>')                           //Headers 1
+            .replace(/^\s*#{2} (.*?)$/gim, '<h4>$1</h4>')                           //Headers 2
+            .replace(/^\s*#{3} (.*?)$/gim, '<h5>$1</h5>')                           //Headers 3
+            .replace(/^\s*#+ (.*?)$/gim,   '<h6>$1</h6>')                           //Headers 4+
+            .replace(/[*_]{2}([^*_].*?)[*_]{2}/gm, '<strong>$1</strong>')           //Bold
+            .replace(/[*_]{1}(.*?)[*_]{1}/gm, '<em>$1</em>')                        //Italics
+            .replace(/^\s*•(.*)$/gm, '<li>$1</li>')                                 //List Item
+            .replace(/!\[(.*?)\]\((.*?)\)/gm, "<img alt='$1' src='$2' />")          //Image
+            .replace(/\[(.*?)\]\((.*?)\)/gm, "<a href='$2' target='_blank'>$1</a>") //Links
+            .replace(/`(.*?)`/gm, "<code>$1</code>")                                //Code lines
+            .replace(/\n$/gim, '<br/>')                                             //Line Break
+            .replace(/(<br\/>)+$/g, '')                                             //Remove all trailing breaks
+    }
 }

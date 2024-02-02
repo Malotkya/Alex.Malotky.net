@@ -45,8 +45,8 @@ export const crystal:Game = {
             stats:{
                 attack: 127,
                 defense: 124,
-                specialAttack: 158,
-                specialDefence: 129,
+                specialAttack: 170,
+                specialDefence: 141,
                 speed: 156,
                 health: 198
             },
@@ -86,10 +86,10 @@ export const crystal:Game = {
                 }
             ],
             stats:{
-                attack: 165,
+                attack: 159,
                 defense: 102,
-                specialAttack: 156,
-                specialDefence: 108,
+                specialAttack: 158,
+                specialDefence: 110,
                 speed: 116,
                 health: 194
             },
@@ -133,12 +133,12 @@ export const crystal:Game = {
                 }
             ],
             stats:{
-                attack: 177,
+                attack: 190,
                 defense: 137,
                 specialAttack: 98,
                 specialDefence: 146,
                 speed: 128,
-                health: 210
+                health: 220
             },
             types:[
                 "Water",
@@ -182,8 +182,8 @@ export const crystal:Game = {
             stats:{
                 attack: 116,
                 defense: 104,
-                specialAttack: 182,
-                specialDefence: 140,
+                specialAttack: 199,
+                specialDefence: 157,
                 speed: 165,
                 health: 181
             },
@@ -225,10 +225,10 @@ export const crystal:Game = {
                 }
             ],
             stats:{
-                attack: 82,
+                attack: 89,
                 defense: 125,
-                specialAttack: 128,
-                specialDefence: 158,
+                specialAttack: 133,
+                specialDefence: 163,
                 speed: 86,
                 health: 170
             },
@@ -273,8 +273,8 @@ export const crystal:Game = {
             stats:{
                 attack: 144,
                 defense: 134,
-                specialAttack: 104,
-                specialDefence: 104,
+                specialAttack: 114,
+                specialDefence: 114,
                 speed: 92,
                 health: 216
             },
@@ -369,11 +369,3 @@ export const crystal:Game = {
         }
     ]
 }
-
-/*comments: [
-    "So many quality of life upgrades from Generation 1.",
-    "The team you see above is the team that I used to defeat Red.  I had a hard counter for everything on his team except for his Snorlax, ended up relying on the confusion from Dynamic Punch.",
-    "This is the same team that I used to defeat the elite four, except I only really used Typhlosion, Victreebel, Gyarados, and Espeon there.",
-    "Similarly to yellow, I wish I had palnned a little better and had a fighting type to really close the coverage gap of normal types.",
-    "Lastyly, Bellsprout and Tentacruel are there for the HM moves Cut, Flash, and Whirlpool."
-]*/

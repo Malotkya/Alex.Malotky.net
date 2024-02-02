@@ -37,7 +37,7 @@ export default function Blog(args:expectedArgs):Content {
     return [
         _("style", require("./style.scss")),
         _("article", {id: id, class: "blog-post"},
-            _("h1", {id: "post-title"}, title),
+            _("h1", {class: "post-title"}, title),
             _("p", {id: "post-date"}, formatDate(date, "%M %D, %Y")),
             _("mark-down", {id: "post-content"}, content)
         )
@@ -79,7 +79,7 @@ function Result(post:Post, edit:boolean):Content {
     });
 
     return _("li", {id: id, class: "blog-post"},
-        _("h2", title),
+        _("h2", {class: "post-title"}, title),
         _("p", formatDate(date, "%M %D, %Y")),
         edit? _("div", {class: "post-buttons"}, editButton, deleteButton)
             : _("mark-down", content)

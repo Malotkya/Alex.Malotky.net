@@ -12,6 +12,7 @@ import { eevee } from "./games/eevee";
 import { diamond } from "./games/brilliantDiamond";
 import { red } from "./games/fireRed";
 import { gold } from "./games/heartGold";
+import { sapphire } from "./games/alphaSapphire";
 
 /** Pokemon Display Module
  * 
@@ -27,22 +28,8 @@ export default function Pokemon(init?:string):Content {
             _("h2", "About:"),
             _("p", "I have recently got back into playing the mainline pokemon games.  I haven't played any of them sence Generation 3, so I have accquire all the games and have been playing them in order.  Bellow are the list of pokemon that I used in each games along with my thoughts about each game.")
         ),
-        new gameSelect(init || "sun", {
-            "yellow"  : yellow,
-            "crystal" : crystal,
-            "ruby"    : ruby,
-            "platinum": platinum,
-            "white"   : white,
-            "x"       : x,
-            "sun"     : sun,
-            "red"     : red,
-            "gold"    : gold,
-            //"saphire" : require("./games/alphaSaphire.json"),
-            "diamond" : diamond,
-            //"black"   : require("./games/black2.json"),
-            "eevee"   : eevee,
-            //"shield"  : require("./games/shield.json"),
-            //"violet"  : require("./games/violet.json"),
-        })
+        new gameSelect(init || "sun",
+            { yellow, crystal, ruby, platinum, white, x, sun, red, gold, sapphire, diamond, /* black, */ eevee, /* shield, violet */ }
+        )
     ];
 };

@@ -139,6 +139,15 @@ export class Database {
      * @param {any} object 
      */
     async updateDocument(collectionName:string, documentId:string, object:any):Promise<void>{
+
+        for(let name in object){
+            const dateTest = object[name];
+            if( !(dateTest instanceof Timestamp) &&
+                 (typeof dateTest.seconds === "number" && typeof dateTest.nanoseconds === "number")){
+                object[name] = new Timestamp(dateTest.seconds, dateTest.nanoseconds);
+            }
+        }
+
         await updateDoc(doc(this._conn, collectionName, documentId), object);
     }
 

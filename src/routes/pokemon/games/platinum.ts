@@ -347,11 +347,3 @@ export const platinum:Game = {
         }
     ]
 }
-
-/* comments: [
-        "This is almost a first for me, its the first pokemon game that I have played on the DS, but I have already played brilliant diamond.",
-        "Staraptor was a real champion for gyms 2 - 4, I feal almost guilty that it turned into the pokemon that takes a hit so I can heal in the elite four.",
-        "Floatzel was the other champion of the team being able to almost single handely taken on the elite four by himself.",
-        "I find that I am starting to get tired of HM's now that pokemon are able to learn a real variaty of moves, and as typing feels more important.  I ended up with a whole fleat of Bibarels knowing a variaty of HM moves, I reocorded just the one I used to get through Victory Road.",
-        "Platinum might be one of my favorite pokemon games, with a real variaty of moves and pokemon to choose from."
-    ] */

@@ -440,12 +440,3 @@ export const ruby:Game = {
     ],
     
 }
-
-/*comments: [
-        "I don't remember their being as much of a change between the games as their is between gen 2 and gen 3.  There is of course the huge upgrade to the box system.  Abbilitys and Natures are added which add a whole new dynamic to the game, and picking up berrys allong your journey is also another new mechanic.",
-        "There are some difference between physical and non physical attacks that don't seem to line up with physical and special stats.  For example using fire punch on a pikachu with the static abbility might leave you paralized, but still relys on the special attack stat.",
-        "The end game was also more diffucult then I remember, but that might be becasue I rushed through the ocean part of the game instead of exploring and getting lost like you are supposed to.",
-        "Because I have played this game so much in the past I opted to play in a \"nuzlock style\", only catching the first pokemon I found on each route but kept using them even if they fainted.  The only exception was catching abra in the same cave after catching aaron, but I couldn't pass up an opertunity to play with an all punch Allakazam.",
-        "There are some short commings for my team again, most notably against ice typing.  I also failed to include any fighting type moves, but that is much less punishing in this game.",
-        "Linoone, Tropious, and Gyarados where used for access to the different HM moves, and pick up on Zigzagoon/Linoone was rediculus."
-    ] */

@@ -1,22 +1,45 @@
+/** Scryfall/ImportStream
+ * 
+ * @author Alex Malotky
+ */
 "use strict";
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const stream_1 = require("stream");
+const {Transform} = require("stream");
 const ScryfallCard_1 = __importDefault(require("./ScryfallCard"));
-class ImportStream extends stream_1.Transform {
+
+/** Import Stream
+ * 
+ * Takes Lines of JSON data and creates/ passes on card objects
+ */
+class ImportStream extends Transform {
+
+    /** Constructor
+     * 
+     */
     constructor() {
         super();
         this.buffer = "";
         this.count = 0;
     }
+
+    /** Process Scryfall Card Object
+     * 
+     * @param {any} object 
+     */
     processCard(object) {
         let card = new ScryfallCard_1.default(object).toString();
         if (card != "delete")
             this.push(card.toString() + "\n");
         this.emit("inc");
     }
+
+    /** Process line of stream
+     * 
+     * @param {string} line 
+     */
     processLine(line) {
         try {
             //Remove Comma from line
@@ -30,6 +53,13 @@ class ImportStream extends stream_1.Transform {
                 this.emit("log", error.message + ": " + line);
         }
     }
+
+    /** Transform Stream Override
+     * 
+     * @param {Buffer} data 
+     * @param {string} encoding 
+     * @param {Function} callback 
+     */
     _transform(data, encoding, callback) {
         this.buffer += data.toString();
         let index = this.buffer.indexOf('\n');

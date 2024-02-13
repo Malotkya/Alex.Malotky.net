@@ -1,3 +1,7 @@
+/** Scryfall/Update
+ * 
+ * @author Alex Malotky
+ */
 "use strict";
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
@@ -8,6 +12,12 @@ const https_1 = __importDefault(require("https"));
 const fs_1 = __importDefault(require("fs"));
 const ImportStream_1 = __importDefault(require("./ImportStream"));
 const OptimizeStream_1 = __importDefault(require("./OptimizeStream"));
+
+/** Check For Update from Scryfall
+ * 
+ * @param {string} compare 
+ * @returns {string|null}
+ */
 function CheckForUpdate(compare) {
     return new Promise((resolve, reject) => {
         https_1.default.get("https://api.scryfall.com/bulk-data", (res) => {
@@ -43,6 +53,12 @@ function CheckForUpdate(compare) {
     });
 }
 exports.CheckForUpdate = CheckForUpdate;
+
+/** Get Database Metadata
+ * 
+ * @param {string} database 
+ * @returns {string}
+ */
 function GetDatabaseMetadata(database) {
     return new Promise((resolve, reject) => {
         fs_1.default.stat(database, (error, stats) => {
@@ -59,13 +75,25 @@ function GetDatabaseMetadata(database) {
     });
 }
 exports.GetDatabaseMetadata = GetDatabaseMetadata;
+
+/** Download Update from Scryfall.
+ * 
+ * @param {string} uri 
+ * @returns {Promise<string>}
+ */
 function DownloadUpdate(uri) {
     return new Promise((resolve, reject) => {
+        //Download to temperary file.
         const fileName = "temp.db";
         const fileStream = fs_1.default.createWriteStream(fileName);
+
         let download = 0;
         let saved = 0;
         let optimized = 0;
+        /** Update Download Report
+         * 
+         * @param {boolean} refresh 
+         */
         const update = (refresh = true) => {
             process.stdout.write("Cards Downloaded: " + download + "\n" +
                 " Cards Optimized: " + optimized + "\n" +
@@ -73,6 +101,8 @@ function DownloadUpdate(uri) {
             if (refresh)
                 process.stdout.write(`\u001b[${3}A`);
         };
+
+        //Start Download
         https_1.default.get(uri, (response) => {
             response.pipe(new ImportStream_1.default())
                 .on("log", (message) => {
@@ -106,12 +136,19 @@ function DownloadUpdate(uri) {
                 update(false);
                 resolve(fileName);
             });
+
         }).on("error", (error) => {
             reject(error);
         });
     });
 }
 exports.DownloadUpdate = DownloadUpdate;
+
+/** Update Database
+ * 
+ * @param {string} database 
+ * @returns {Promise<void>}
+ */
 function Update(database) {
     return new Promise((resolve, reject) => {
         GetDatabaseMetadata(database).then((data) => {
@@ -120,12 +157,8 @@ function Update(database) {
                 if (typeof uri === "string") {
                     DownloadUpdate(uri).then((fileName) => {
                         try {
-                            fs_1.default.unlinkSync(database);
-                        }
-                        catch (err) {
-                            //Don't care if the file doesn't exsist
-                        }
-                        try {
+                            if(fs_1.default.existsSync(database))
+                                fs_1.default.unlinkSync(database);
                             fs_1.default.renameSync(fileName, database);
                         }
                         catch (err) {

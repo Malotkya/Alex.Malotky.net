@@ -1,8 +1,15 @@
+/** /Webpack/Plugin/SpliceWebpackPlugin
+ * 
+ * Very Basic and doesnt emit anything to webpack.
+ * 
+ * @author Alex Malotky
+ */
 "use strict";
 const path = require("path");
 const fs = require("fs");
 const OptimizeDatabase = require("../../util/Scryfall/OptimizeDatabase");
 
+//Locations of Database and Shards
 const src = path.join(process.cwd(), "cards.db");
 const dest = path.join(process.cwd(), "build", "cards");
 

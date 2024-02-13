@@ -71,7 +71,7 @@ function DownloadUpdate(uri) {
                 " Cards Optimized: " + optimized + "\n" +
                 "     Cards Saved: " + saved + "\n");
             if (refresh)
-                process.stdout.moveCursor(-100, -3);
+                process.stdout.write(`\u001b[${3}A`);
         };
         https_1.default.get(uri, (response) => {
             response.pipe(new ImportStream_1.default())

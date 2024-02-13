@@ -45,17 +45,16 @@ class ScryfallCard {
     }
     parseImages() {
         try {
-            if (Object.prototype.hasOwnProperty.call(this.scryfall, "card_faces")) {
+            if (Object.prototype.hasOwnProperty.call(this.scryfall, "card_faces") && this.scryfall.card_faces[0].image_uris) {
                 return [
                     this.scryfall.card_faces[0].image_uris[IMAGE_TYPE],
                     this.scryfall.card_faces[1].image_uris[IMAGE_TYPE]
                 ];
             }
-            else {
-                return [
-                    this.scryfall.image_uris[IMAGE_TYPE]
-                ];
-            }
+            
+            return [
+                this.scryfall.image_uris[IMAGE_TYPE]
+            ];
         }
         catch (error) {
             return [];

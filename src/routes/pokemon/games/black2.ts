@@ -9,7 +9,7 @@ export const black:Game = {
     },
     region: "Unova",
     team: [
-        {   name: "Embroar",
+        {   name: "Emboar",
             level: 61,
             gender: false,
             types:[
@@ -202,7 +202,7 @@ export const black:Game = {
                 }
             ]
         },
-        {   name: "Galvanula",
+        {   name: "Galvantula",
             level: 61,
             gender: true,
             types:[
@@ -211,7 +211,7 @@ export const black:Game = {
             ],
             item: "Zoom Lens",
             nature: "Rash",
-            ability: "Compoundeyes",
+            ability: "Compound Eyes",
             stats:{
                 health: 194,
                 attack: 114,
@@ -259,7 +259,7 @@ export const black:Game = {
             ],
             item: "",
             nature: "Naughty",
-            ability: "Inner FOcus",
+            ability: "Inner Focus",
             stats:{
                 health: 191,
                 attack: 148,

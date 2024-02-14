@@ -106,7 +106,7 @@ export const white:Game = {
                 "Psychic",
                 "Fire"
             ],
-            item: "Depp Sea Tooth",
+            item: "",
             nature: "Modest",
             ability: "Victory Star",
             stats:{

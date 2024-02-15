@@ -95,11 +95,23 @@ function OptionalList(data:Dictionary<Content>): Content{
     const list:Content = [];
 
     for(let name in data){
-        if(data[name] !== null)
+        let content:Content = data[name];
+        let additional:Array<Content> = [];
+
+        if(Array.isArray(content)){
+            additional = content;
+            content = additional.shift();
+        }
+
+        if(content !== null) {
             list.push(_("li", {class: "pokemon-optional-item"}, 
                 _("span", {class: "pokemon-optional-name"}, name+":"),
-                _("span", {class: "pokemon-optional-value"}, data[name])
+                _("span", {class: "pokemon-optional-value"}, content)
             ));
+        }
+
+        while(additional.length > 0)
+            list.push(additional.shift());
     }
 
     if(list.length === 0)
@@ -186,6 +198,22 @@ export function getAbilityDescription(name?:string):Content {
     )
 }
 
+/** Dynamax and Gygantimax info.
+ * 
+ * @param {number} dynamax,
+ * @param {boolean} gigantamax, 
+ * @returns {Content}
+ */
+function getDynamaxInfo(dynamax?:number, gigantamax?:boolean):Content {
+    if(isNaN(dynamax))
+        return null;
+
+    return [
+        _("span", dynamax.toString()),
+        gigantamax? _("li", {class: "gigantamax", style:"display:block"}, "Gigantamax!"): null
+    ]
+}
+
 /** Pokemon-Element
  * 
  */
@@ -199,7 +227,9 @@ export default function PokemonElement(data:Pokemon, version?:GameVersion, gameN
         moves = [],
         ability,
         nature,
-        item
+        item,
+        dynamax,
+        gigantamax
     } = data;
 
     while(moves.length < 4){
@@ -240,7 +270,8 @@ export default function PokemonElement(data:Pokemon, version?:GameVersion, gameN
         OptionalList({
             "Ability": getAbilityDescription(ability),
             "Nature":  getNatureDescription(nature),
-            "Item":    getItemDescription(item)
+            "Item":    getItemDescription(item),
+            "Dynamax Level": getDynamaxInfo(dynamax, gigantamax)
         })
     );
 }

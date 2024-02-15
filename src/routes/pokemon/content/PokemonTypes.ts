@@ -16,6 +16,8 @@ export interface Pokemon {
     ability?: string,
     gender?: boolean, //true: ♂, false: ♀
     shiney?:boolean,
+    dynamax?:number,
+    gigantamax?:boolean,
     stats: {
         attack: number,
         defense: number,

@@ -10,7 +10,8 @@
     "serve:dev": "npm run build:dev && firebase serve",
     "serve:prod": "npm run build:prod && firebase serve",
     "deploy": "npm run build:clean && firebase deploy",
-    "scryfall": "node ./util/scryfall.js"
+    "scryfall": "node ./util/scryfall.js",
+    "pokemon": "node ./util/pokemon.js"
   },
   "author": "Alex Malotky",
   "license": "ISC",

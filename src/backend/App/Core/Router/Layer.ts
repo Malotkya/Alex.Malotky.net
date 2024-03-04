@@ -6,11 +6,6 @@
 import {pathToRegexp, Key} from "path-to-regexp";
 import Context from "../Context";
 
-/** Signal Function Type
- * 
- */
-export type Signal = (error?:any) => void;
-
 /** Middleware Function Type
  * 
  */

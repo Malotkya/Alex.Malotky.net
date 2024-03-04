@@ -4,8 +4,6 @@
  */
 import { Content } from "../../../util/Elements";
 
-export type Executable = (context?:Context)=>Promise<void>|void;
-
 interface route {
     path: string,
     body: any

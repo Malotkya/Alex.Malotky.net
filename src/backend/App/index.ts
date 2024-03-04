@@ -8,7 +8,7 @@ import Router from "./Core/Router";
 
 //Export Classes and Functions
 import { Content } from "../../util/Elements";
-import Context, { Executable } from "./Core/Context";
+import Context  from "./Core/Context";
 export {Router, Context};
 export {makeErrorMessage, HtmlError} from "./Core";
 

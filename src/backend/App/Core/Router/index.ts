@@ -3,7 +3,6 @@
  * @author Alex Malotky
  */
 import Context from "../Context";
-import { Signal } from "./Layer";
 import Route from "./Route";
 
 /** Router Class

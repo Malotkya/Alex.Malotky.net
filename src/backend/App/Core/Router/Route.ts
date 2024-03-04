@@ -2,7 +2,7 @@
  * 
  * @author Alex Malotky
  */
-import Layer, {Middleware, Signal} from "./Layer";
+import Layer, {Middleware} from "./Layer";
 import Context from "../Context";
 
 /** Route Class

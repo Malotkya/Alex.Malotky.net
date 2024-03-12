@@ -104,7 +104,7 @@ export default class Core extends Route{
         }
     }
 
-    public go(path: string, timeout?: number, body?:BodyData){
+    private go(path: string, timeout?: number, body?:BodyData){
         this.back = path;
         window.history.pushState({}, "", path);
         this.handler(timeout, body);

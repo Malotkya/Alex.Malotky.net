@@ -52,21 +52,18 @@ export default class Core extends Route{
         const context = new Context(window.location, body);
         this._target.style.opacity = "0";
 
-        window.setTimeout(() => {
-            //Wait for routing & rendering to finish
-            context.onDone(async (newPath?:string, body?:any)=>{
-                if(newPath) {
-                    if(newPath === "back")
-                        newPath = this.back;
+        context.onDone(async(newPath?:string, body?:any)=>{
+            if(newPath) {
+                if(newPath === "back")
+                    newPath = this.back;
 
-                    this.go(newPath, 0, body);
-                } else {
-                    await this.display(context);
-                }
+                this.go(newPath, 0, body);
+            } else {
+                await this.display(context);
+            }
 
-                this._routing = false;
-            });           
-        }, timeout);
+            this._routing = false;
+        }, timeout);           
 
         try {
             await this.handle(context);

@@ -191,16 +191,18 @@ export default class Context{
         }
     }
 
-    public onDone(callback:(s?:string, b?:any)=>Promise<void>){
+    public onDone(callback:(s?:string, b?:any)=>Promise<void>, timeout:number){
         if(typeof callback !== "function")
             throw new TypeError(`Unknown type '${typeof callback}' for done Event!`);
 
-        if(typeof this._done === "boolean") {
-            callback(this._newRoute?.path, this._newRoute?.body);
-            this._done = true;
-        } else {
-            this._done = callback;
-        }
+        window.setTimeout(() => {
+            if(typeof this._done === "boolean") {
+                callback(this._newRoute?.path, this._newRoute?.body);
+                this._done = true;
+            } else {
+                this._done = callback;
+            }
+        }, timeout);
     }
 
     public isDone(): boolean{

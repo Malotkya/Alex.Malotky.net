@@ -191,7 +191,7 @@ export default class Context{
         }
     }
 
-    public onDone(callback:(s?:string, b?:any)=>Promise<void>, timeout:number){
+    public onDone(callback:(s?:string, b?:any)=>void, timeout:number){
         if(typeof callback !== "function")
             throw new TypeError(`Unknown type '${typeof callback}' for done Event!`);
 

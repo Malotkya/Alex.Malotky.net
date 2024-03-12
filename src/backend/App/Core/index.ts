@@ -46,38 +46,42 @@ export default class Core extends Route{
      * 
      * Loads content, title, and description.
      */
-    private async handler(timeout:number = CSS_TRANSITION_TIME, body?:BodyData): Promise<void>{
-        this._routing = true;
+    private handler(timeout:number = CSS_TRANSITION_TIME, body?:BodyData): Promise<void>{
+        return new Promise((resolve, reject)=>{
+            this._routing = true;
+            const context = new Context(window.location, body);
+            this._target.style.opacity = "0";
 
-        const context = new Context(window.location, body);
-        this._target.style.opacity = "0";
+            context.onDone((newPath?:string, body?:any)=>{
+                if(newPath) {
+                    if(newPath === "back")
+                        newPath = this.back;
 
-        context.onDone(async(newPath?:string, body?:any)=>{
-            if(newPath) {
-                if(newPath === "back")
-                    newPath = this.back;
+                    this.go(newPath, 0, body);
+                    this._routing = false;
+                    resolve();
+                } else {
+                    this.display(context).then(()=>{
+                        this._routing = false;
+                        resolve();
+                    }).catch(reject);
+                }
 
-                this.go(newPath, 0, body);
-            } else {
-                await this.display(context);
-            }
+                
+            }, timeout);           
 
-            this._routing = false;
-        }, timeout);           
+            this.handle(context).catch((error:any)=>{
+                context.body = makeErrorMessage(error);
+                context.title = "Error";
+                context.info = "";
 
-        try {
-            await this.handle(context);
-        } catch (error: any){
-            context.body = makeErrorMessage(error);
-            context.title = "Error";
-            context.info = "";
+                if(error.additional)
+                    console.error(error.additional);
+                console.error(error);
 
-            if(error.additional)
-                console.error(error.additional);
-            console.error(error);
-
-            context.done();
-        }
+                context.done();
+            });
+        });
     }
 
     /** Route Clicked Function

@@ -211,8 +211,12 @@ export default class Core extends Route{
      */
     private fireChildReadyEvents(): void{
         this._target.querySelectorAll("*").forEach((node:HTMLElement)=>{
-            if(node.readyCallback)
-                node.readyCallback();
+            try {
+                if(node.readyCallback)
+                    node.readyCallback();
+            } catch (e) {
+                console.error(e);
+            }
         });
     }
 

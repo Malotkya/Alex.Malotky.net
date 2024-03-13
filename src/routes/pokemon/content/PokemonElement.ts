@@ -3,8 +3,6 @@ import { Pokemon, MoveData, Nature, GameVersion } from "./PokemonTypes";
 import { MASTER_NATURE_INDEX, MASTER_ITEM_INDEX, MASTER_ABILITY_INDEX} from "../data"
 import { formatURI } from "./Serebii";
 
-
-
 /** Gender Icon Module
  * 
  * @param {boolean} gender 
@@ -180,6 +178,18 @@ function getItemDescription(name?:string):Content {
     )
 }
 
+/** Terra Type
+ * 
+ * @param {string} type
+ * @returns {Content}
+ */
+function getTerraType(type?:string):Content{
+    if(type === undefined)
+        return null;
+
+    return _("span", {class: `pokemon-type-item ${type.toLocaleLowerCase()}`}, type);
+}
+
 /** Ability Description Tool Tip
  * 
  * @param {string} name 
@@ -229,7 +239,8 @@ export default function PokemonElement(data:Pokemon, version?:GameVersion, gameN
         nature,
         item,
         dynamax,
-        gigantamax
+        gigantamax,
+        terraType
     } = data;
 
     while(moves.length < 4){
@@ -271,7 +282,8 @@ export default function PokemonElement(data:Pokemon, version?:GameVersion, gameN
             "Ability": getAbilityDescription(ability),
             "Nature":  getNatureDescription(nature),
             "Item":    getItemDescription(item),
-            "Dynamax Level": getDynamaxInfo(dynamax, gigantamax)
+            "Dynamax Level": getDynamaxInfo(dynamax, gigantamax),
+            "Terra Type": getTerraType(terraType)
         })
     );
 }

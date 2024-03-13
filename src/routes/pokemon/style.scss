@@ -31,11 +31,12 @@
         }
 
         .pokemon-type-item {
-             border-style: solid;
-             border-width: 2px;
-             border-radius: 5px;
-             padding: 0.2em;
-             color: #F8F8F8;
+            border-style: solid;
+            border-width: 2px;
+            border-radius: 5px;
+            padding: 0.2em;
+            color: #F8F8F8;
+            display: inline-block;
         }
 
         .bug      { background-color: #A8B820; border-color: #A8B820; text-shadow: 0 0 2px #A8B820;}
@@ -56,6 +57,21 @@
         .rock     { background-color: #B8A038; border-color: #886830; text-shadow: 0 0 2px #886830;}
         .steel    { background-color: #B8B8D0; border-color: #807870; text-shadow: 0 0 2px #807870;}
         .water    { background-color: #6890F0; border-color: #3228c0; text-shadow: 0 0 2px #3228c0;}
+        .steller {
+            background: conic-gradient(
+                hsl(360 100% 50%),
+                hsl(315 100% 50%),
+                hsl(270 100% 50%),
+                hsl(225 100% 50%),
+                hsl(180 100% 50%),
+                hsl(135 100% 50%),
+                hsl(90 100% 50%),
+                hsl(45 100% 50%),
+                hsl(0 100% 50%)
+            );
+            border-color: #AAAAAA; text-shadow:
+            0 0 4px #111111;
+        }
 
         .pokemon-title {
             width: 100%;

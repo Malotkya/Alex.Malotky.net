@@ -10,7 +10,7 @@ export interface Pokemon {
     level: number,
     moves: Array<string|MoveData>,
     types: Array<Type>,
-    terraType?: Type,
+    terraType?: Type|"Steller",
     item?: string,
     nature?: string,
     ability?: string,

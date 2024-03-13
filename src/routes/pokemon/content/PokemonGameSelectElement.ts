@@ -5,6 +5,17 @@ import { REGION_MASTER_ARRAY_INDEX } from "../data";
 
 type Region = KnownRegion | "Unknown"
 
+const MIN_BUTTON_WIDTH = 200;//px
+
+function calculateNavButtonWidth(totalWidth:number, count:number):Array<string> {
+    let value:number = totalWidth / count;
+
+    if( value > MIN_BUTTON_WIDTH)
+        return [`${value}px`, `${value}px`]
+
+    return  [`${MIN_BUTTON_WIDTH}px`, `${MIN_BUTTON_WIDTH}px`]
+}
+
 /** Get Pokemon Region
  * 
  * @param {String} string 
@@ -112,14 +123,16 @@ export default class PokemonGameSelectElement extends HTMLElement{
     }
 
     readyCallback(): void {
-        this.querySelectorAll(".region").forEach(parrent=>{
-            const width = `${parrent.clientWidth}px`;
+        const list = this.querySelector("ul");
+        const [parrentWidth, childWidth] = calculateNavButtonWidth(list.clientWidth, list.childNodes.length);
 
-            parrent.querySelectorAll("ul").forEach(child=>{
-                child.style.maxWidth = width;
+        list.childNodes.forEach((parent:HTMLElement)=>{
+            parent.style.minWidth = parrentWidth;
+
+            parent.querySelectorAll("ul").forEach((child:HTMLElement)=>{
+                child.style.maxWidth = childWidth;
             });
         });
-
     }
 }
 

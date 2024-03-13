@@ -16,7 +16,7 @@ export default class DeckView extends HTMLElement{
      * 
      * @param categories 
      */
-    constructor(categories?:any){
+    constructor(categories?:Dictionary<Array<Card>>){
         super();
         this._list = new Map();
         this.style.display = "block";
@@ -34,7 +34,7 @@ export default class DeckView extends HTMLElement{
      * Converts index object holding arrays to Map of Arrays
      * ! ONLY CHECKS FOR AN ARRAY, DOSENT VERIFY CARD OBJECTS IN ARRAY !
      */
-    private set categories(value: any){
+    private set categories(value: Dictionary<Array<Card>>){
         for(let name in value){
             const list:Array<Card> = value[name];
             if(!Array.isArray(list))
@@ -46,17 +46,17 @@ export default class DeckView extends HTMLElement{
 
     /** Check Image Heights
      * 
-     * @param {Array<HTMLElement> list 
+     * @param {Array<HTMLElement>} list 
      */
     public checkImageHeights(list: Array<HTMLElement>){
         const limit = this.getBoundingClientRect().bottom;
 
         for(let figure of list){
+            figure.style.top = "";
             const {bottom} = figure.getBoundingClientRect();
+
             if(bottom > limit){
                 figure.style.top = `${limit-bottom}px`;
-            } else {
-                figure.style.top = "";
             }
         }
     }
@@ -124,7 +124,7 @@ export function CardElement(card:Card, loadList?:Array<Promise<HTMLElement>>): C
         const image = _("img", {src: v, alt: altText(i)});
         if(loadList){
              loadList.push(new Promise((res,rej)=>{
-                image.addEventListener("load", ()=>res(image.parentElement));
+                image.addEventListener("load", ()=>res(image.parentElement), {once: true});
             }));
         }
         return image;

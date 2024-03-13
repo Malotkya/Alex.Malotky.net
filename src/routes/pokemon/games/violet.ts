@@ -1,8 +1,13 @@
+import { Game } from "../content/PokemonTypes";
 
-{
+export const violet:Game = {
     "game": "Violet",
     "generation": 9,
-    "region": "",
+    "region": "Paldea",
+    "version": {
+        normal: "scarletviolet/pokemon/new",
+        shiney: "Shiny/SV/new"
+    },
     "team": [
         {   "name": "Meowscarada",
             "level": 100,

@@ -312,15 +312,23 @@ export default class Core extends Route{
         return window.location.pathname;
     }
 
+    /** Port Getter
+     * 
+     */
     public get port():string {
         return window.location.port;
     }
 
+    /** Get Routing Info
+     * 
+     * @param {string} href 
+     * @returns {path:string, anchor:string}
+     */
     protected getRouteInfo(href:string):{path:string,anchor:string}{
-        let regex:string = "(https?:\/\/" + this.hostname;
+        let regex:string = "(https?://" + this.hostname;
 
         const port:string = this.port;
-        if(this.port !== "80" && this.port !== "443")
+        if(port !== "80" && port !== "443")
             regex += ":" + port;
 
         href = href.replace(new RegExp(regex+")"), "");

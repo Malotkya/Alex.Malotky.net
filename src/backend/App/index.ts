@@ -56,9 +56,9 @@ export default class App extends Core {
             if(link.getAttribute("target") !== "_blank" && link.href.indexOf(this.hostname) !== -1){
                 const {anchor, path} = this.getRouteInfo(link.href);
 
+                //Determine if scrolling or routing.
                 if(this.pathname === path){
-                    if(anchor)
-                        this.scroll(anchor);
+                    this.scroll(anchor);
                 } else {
                     this.route(link.href);
                 }

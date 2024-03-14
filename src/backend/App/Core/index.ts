@@ -98,15 +98,17 @@ export default class Core extends Route{
         }
     }
 
-    private async go(href: string, timeout?: number, body?:BodyData){
+    private go(href: string, timeout?: number, body?:BodyData){
         const {path, anchor} = this.getRouteInfo(href);
 
         this.back = path;
         window.history.pushState({}, "", href);
 
-        await this.handler(timeout, body);
-        if(anchor)
-            this.scroll(anchor);
+        this.handler(timeout, body).then(()=>{
+            if(anchor)
+                this.scroll(anchor);
+        }).catch(console.error);
+        
     }
 
     public get back():string{
@@ -116,10 +118,6 @@ export default class Core extends Route{
         }
 
         return "/";
-    }
-
-    public get current():string {
-        return this._history[0];
     }
 
     public set back(value:string) {

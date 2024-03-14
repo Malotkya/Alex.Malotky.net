@@ -33,7 +33,7 @@ export default class Core extends Route{
         
         window.onpopstate = () => this.handler();
         window.onload = () => this.start();
-        window.route = (href:Event|string, body?:BodyData) => this.route(href, body);
+        window.route = (href:string, body?:BodyData) => this.route(href, body);
 
         window.addEventListener("resize", ()=>this.fireChildReadyEvents());
 
@@ -89,18 +89,14 @@ export default class Core extends Route{
      * This function currently only triggers on navbar clicks,
      * I am unsure if I will be adding this to other internal links.
      * 
-     * @param {Event} event 
+     * @param {string} href 
+     * @param {BodyData} body
      */
-    protected route(event?: Event|string, body?:BodyData): void{
-        event = event || window.event || "/";
-        
-        if(event instanceof Event){
-            event.preventDefault();
-            event = (event.target as HTMLAnchorElement).href;
-        }
+    protected route(href?: string, body?:BodyData): void{
+        href = href || "/";
 
         if(!this._routing && this._loadingError.length === 0){
-            this.go(event, undefined, body);
+            this.go(href, undefined, body);
         }
     }
 

@@ -92,18 +92,21 @@ export default class Core extends Route{
      * @param {string} href 
      * @param {BodyData} body
      */
-    protected route(href?: string, body?:BodyData): void{
-        href = href || "/";
-
+    protected route(href: string = "/", body?:BodyData): void{
         if(!this._routing && this._loadingError.length === 0){
             this.go(href, undefined, body);
         }
     }
 
-    private go(path: string, timeout?: number, body?:BodyData){
+    private async go(href: string, timeout?: number, body?:BodyData){
+        const {path, anchor} = this.getRouteInfo(href);
+
         this.back = path;
-        window.history.pushState({}, "", path);
-        this.handler(timeout, body);
+        window.history.pushState({}, "", href);
+
+        await this.handler(timeout, body);
+        if(anchor)
+            this.scroll(anchor);
     }
 
     public get back():string{
@@ -113,6 +116,10 @@ export default class Core extends Route{
         }
 
         return "/";
+    }
+
+    public get current():string {
+        return this._history[0];
     }
 
     public set back(value:string) {
@@ -303,6 +310,38 @@ export default class Core extends Route{
      */
     public get pathname():string{
         return window.location.pathname;
+    }
+
+    public get port():string {
+        return window.location.port;
+    }
+
+    protected getRouteInfo(href:string):{path:string,anchor:string}{
+        let regex:string = "(https?:\/\/" + this.hostname;
+
+        const port:string = this.port;
+        if(this.port !== "80" && this.port !== "443")
+            regex += ":" + port;
+
+        href = href.replace(new RegExp(regex+")"), "");
+
+        const index:number = href.indexOf("#");
+        if(index < 0){
+            return {
+                path: href,
+                anchor: ""
+            };
+        } else if(index === 0){
+            return {
+                path: "",
+                anchor: href
+            };
+        } else {
+            return {
+                path: href.substring(0, index),
+                anchor: href.substring(index+1)
+            };
+        }
     }
 }
 

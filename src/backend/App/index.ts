@@ -52,17 +52,13 @@ export default class App extends Core {
             if(link.getAttribute("clear") === "true")
                 localStorage.clear();
 
-            //New Page Override
-            if(link.getAttribute("target") === "_blank") {
-                this.link(link.href);
-
             //Determine if internal or external link
-            }else if(link.href.indexOf(this.hostname) !== -1){
+            if(link.getAttribute("target") !== "_blank" && link.href.indexOf(this.hostname) !== -1){
+                const {anchor, path} = this.getRouteInfo(link.href);
 
-                //Determine if scroll on page or routing
-                let match = link.href.match(/(?<=#).*?(?=\?|$)/gm);
-                if(match){
-                    this.scroll(match[0]);
+                if(this.current === path){
+                    if(anchor)
+                        this.scroll(anchor);
                 } else {
                     this.route(link.href);
                 }

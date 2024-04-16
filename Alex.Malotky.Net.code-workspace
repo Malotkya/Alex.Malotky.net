@@ -1,0 +1,28 @@
+{
+    "folders": [
+        {
+            "path": "backend",
+            "name": "Engine"
+        },
+        {
+            "path": "content/routes",
+            "name": "Contents"
+        },
+        {
+            "path": "content/styles",
+            "name": "Styling"
+        },
+        {
+            "path": "public",
+            "name": "Public"
+        },
+        {
+            "path": "webpack",
+            "name": "Webpack"
+        },
+        {
+            "path": "util",
+            "name": "Javascript"
+        }
+    ]
+}

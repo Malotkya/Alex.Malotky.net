@@ -1,0 +1,200 @@
+@import "normalize.scss";
+
+/*! Alex.Malotky.net */
+@import "colors.scss";
+@import "breakpoints.scss";
+@import "navbar.scss"; 
+
+
+/*************** Global Styling ***************/
+*{
+    box-sizing: border-box;
+}
+
+html {
+    background-color: black;
+}
+
+/* Body Styling */
+body {
+    background-color: $white;
+    color: $dark;
+    max-width: 100vw;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+@media (min-width: $desktop){
+    body{
+        max-width: 1600px;
+        margin: auto;
+    }
+}
+
+/* Skip Link Styling */
+.skip {
+    position: absolute;
+    left: -999px;
+
+    &:focus {
+        top: auto;
+        left: auto;
+        right: 1px;
+        z-index: 1;
+    }
+}
+
+
+/* Layout Styling */
+header {
+    position: sticky;
+    width: 100%;
+    top: 0;
+    z-index: 100;
+    flex-grow: 0;
+}
+
+main {
+    padding: 0 .2em;
+    transition: opacity 500ms;
+    flex-grow: 1;
+}
+
+footer{
+    text-align: center;
+    background-color: $medium;
+    color: $white;
+    flex-grow: 0;
+    
+    .icon{
+        width: 1.5em;
+        height: auto;
+        color: $white;
+    }
+}
+
+/* Main Element Stylings */
+h1{
+    text-align: center;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: $accent-dark;
+}
+
+a:link,
+a:visited {
+    color: $accent-dark;
+}
+
+img, video {
+    width: 100%;
+    height: auto;
+}
+
+aside {
+    background-color: $medium;
+    color: $white;
+
+    a:link,
+    a:visited {
+        color: $accent-light;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        color: $accent-light;
+    }
+}
+
+/* Error Styling */
+.error{
+    color: red !important;
+}
+
+/* Button Styling */
+.btn:visited, .btn:link, .btn,
+button{
+    size: 1.25em;
+    text-decoration: none;
+    background-color: $light-grey;
+    color: $dark;
+    padding: 2px 6px;
+    display: inline-block;
+    border: $dark solid 1px;
+    border-radius: 5px;
+    margin: 2px;
+}
+
+.btn:hover, button:hover {
+    background-color: $grey;
+    cursor: pointer;
+}
+
+/*************** Web Component Styling ***************/
+
+auto-complete {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    margin: 2px;
+
+    auto-complete-list{
+        position: absolute;
+        border: 1px solid #d4d4d4;
+        border-bottom: none;
+        border-top: none;
+        z-index: 99;
+        /*position the autocomplete items to be the same width as the container:*/
+        top: 100%;
+        left: 0;
+        right: 0;
+        width: 99%;
+    
+        div {
+            padding: 1px;
+            cursor: pointer;
+            background-color: #fff;
+            border-bottom: 1px solid #d4d4d4;
+        }
+    
+        div:hover {
+            background-color: #e9e9e9; 
+        }
+    
+        .active {
+            background-color: $accent-dark !important;
+            color: $white; 
+        }
+    }
+}
+
+tool-tip-text {
+    position: absolute;
+    padding: 0.5em;
+    background-color: $white;
+    border: $accent-dark 0.5px solid;
+    border-radius: 5px;
+}
+
+mark-down {
+    font-size: 1rem;
+    display: block;
+    padding: .2rem;
+    padding-bottom: 1rem;
+
+    h3, h4, h5, h6 {
+        margin: 1rem 0;
+    }
+
+    h3 {
+        font-size: 1.5rem;
+        padding-bottom: 5px;
+        border-bottom: solid 2px;
+    }
+    h4 { font-size: 1.25rem }
+    h5 { font-size: 1.15rem}
+    h6 { font-size: 1.0rem}
+}
+
+/*************** Import Other Styling ***************/
+@import "routes/portfolio/style.scss";

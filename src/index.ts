@@ -3,6 +3,7 @@ import Template, {NavLink, ErrorContent} from "./util/Templates";
 
 import Home from "./routes/home";
 import About from "./routes/about";
+import Portfolio from "./routes/portfolio";
 
 const app = new App();
 const navBar:Array<Content> = [];
@@ -37,8 +38,11 @@ app.errorHandler((err:any, ctx:Context)=>{
 //Register to App Routing
 app.use(Home.Path, Home.Router);
 app.use(About.Path, About.Router);
+app.use(Portfolio.Path, Portfolio.Router);
 
 //Register to NavBar
+navBar.push(NavLink(Portfolio.Path, Portfolio.Title));
 navBar.push(NavLink(About.Path, About.Title));
+
 
 export default app;

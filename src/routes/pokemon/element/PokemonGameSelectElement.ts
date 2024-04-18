@@ -1,6 +1,6 @@
-import { createElement as _ } from "../../../util/Elements";
+import { createElement as _ } from "../../../util/Element";
 import PokemonTeamViewElement from "./PokemonTeamViewElement";
-import { Game, Region as KnownRegion} from "./PokemonTypes";
+import { Game, Region as KnownRegion} from "../view/PokemonTypes";
 import { REGION_MASTER_ARRAY_INDEX } from "../data";
 
 type Region = KnownRegion | "Unknown"
@@ -74,7 +74,8 @@ export default class PokemonGameSelectElement extends HTMLElement{
                 regions.set(region, regionList);
                 this._menu.push(menuElement);
             }
-                
+            
+            //@ts-ignore
             regions.get(region).appendChild(_("li", button));
         }
 

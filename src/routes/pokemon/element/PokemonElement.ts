@@ -1,7 +1,7 @@
 import { createElement as _, Content } from "../../../util/Elements";
-import { Pokemon, MoveData, Nature, GameVersion } from "./PokemonTypes";
+import { Pokemon, MoveData, Nature, GameVersion } from "../view/PokemonTypes";
 import { MASTER_NATURE_INDEX, MASTER_ITEM_INDEX, MASTER_ABILITY_INDEX} from "../data"
-import { formatURI } from "./Serebii";
+import { formatURI } from "../view/Serebii";
 
 /** Gender Icon Module
  * 

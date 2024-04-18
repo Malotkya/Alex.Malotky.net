@@ -1,4 +1,4 @@
-import { Game } from "../content/PokemonTypes";
+import { Game } from "../PokemonTypes";
 
 export const shield:Game = {
     game: "Shield",

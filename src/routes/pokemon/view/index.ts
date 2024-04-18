@@ -1,5 +1,5 @@
-import { Content, createElement as _ } from "../../util/Elements";
-import gameSelect from "./content/PokemonGameSelectElement";
+import { Content, createElement as _ } from "zim-engine/lib/View";
+import gameSelect from "../element/PokemonGameSelectElement";
 
 import { yellow } from "./games/yellow";
 import { crystal } from "./games/crystal";

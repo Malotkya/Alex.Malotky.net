@@ -1,6 +1,6 @@
-import { createElement as _ } from "../../../util/Elements";
+import { createElement as _ } from "../../../util/Element";
 import PokemonElement from "./PokemonElement";
-import { Pokemon, GameVersion } from "./PokemonTypes";
+import { Pokemon, GameVersion } from "../view/PokemonTypes";
 
 /** Pokemon-Team-View
  * 

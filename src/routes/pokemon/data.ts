@@ -1,4 +1,4 @@
-import { Nature, Region } from "./content/PokemonTypes";
+import { Nature, Region } from "./view/PokemonTypes";
 type ArrayIndex = {
     [name in Region]: Array<string>;
 };

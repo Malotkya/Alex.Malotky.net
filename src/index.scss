@@ -1,9 +1,9 @@
-@import "normalize.scss";
+@import "styles/normalize.scss";
 
 /*! Alex.Malotky.net */
-@import "colors.scss";
-@import "breakpoints.scss";
-@import "navbar.scss"; 
+@import "styles/colors.scss";
+@import "styles/breakpoints.scss";
+@import "styles/navbar.scss"; 
 
 
 /*************** Global Styling ***************/
@@ -197,4 +197,4 @@ mark-down {
 }
 
 /*************** Import Other Styling ***************/
-@import "routes/portfolio/style.scss";
+//@import "routes/portfolio/style.scss";

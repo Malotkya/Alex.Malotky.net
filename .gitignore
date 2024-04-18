@@ -66,6 +66,8 @@ build
 # dotenv environment variables file
 .env
 
+.wrangler
+
 *.db 
 pokemon.json
 cards/*

@@ -1,4 +1,4 @@
-export type Content = string|HTMLElement|null|Array<Content>;
+export type Element = string|HTMLElement|null|Array<Element>;
 
 /** Creates HTML Element
  * 
@@ -9,7 +9,7 @@ export type Content = string|HTMLElement|null|Array<Content>;
  * @param {Array} children 
  * @returns 
  */
-export function createElement(name:string, attributes:any = {}, ...children:Array<Content>): HTMLElement{
+export function createElement(name:string, attributes:any = {}, ...children:Array<Element>): HTMLElement{
     if(typeof attributes === "string" || attributes instanceof HTMLElement || Array.isArray(attributes)) {
         children.unshift(attributes);
         attributes = {};
@@ -22,7 +22,7 @@ export function createElement(name:string, attributes:any = {}, ...children:Arra
         element.setAttribute(name, String(attributes[name]));
     }
 
-    const insertChildren = (list:Array<Content>) => {
+    const insertChildren = (list:Array<Element>) => {
         for(let child of list){
             if(child instanceof HTMLElement) {
                 element.appendChild(child);

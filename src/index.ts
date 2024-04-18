@@ -1,7 +1,8 @@
 import {App, Context, View, Content} from "zim-engine";
 import Template, {NavLink, ErrorContent} from "./util/Templates";
 
-import {Home, HOME_TITLE} from "./routes/home";
+import Home from "./routes/home";
+import About from "./routes/about";
 
 const app = new App();
 const navBar:Array<Content> = [];
@@ -30,15 +31,14 @@ app.errorHandler((err:any, ctx:Context)=>{
     } = err;
 
     ctx.status(status);
-    const type = ctx.request.headers.get("content-type");
-    if(type && type.includes("json")) {
-        ctx.json({status, message});
-    } else {
-        ctx.render(ErrorContent(status, message));
-    }
+    ctx.render(ErrorContent(status, message));
 });
 
-navBar.push(NavLink("Home", HOME_TITLE));
-app.use("/", Home);
+//Register to App Routing
+app.use(Home.Path, Home.Router);
+app.use(About.Path, About.Router);
+
+//Register to NavBar
+navBar.push(NavLink(About.Path, About.Title));
 
 export default app;

@@ -1,17 +1,89 @@
 const path = require('path');
-const TerserPlugin = require("terser-webpack-plugin");
+const fs = require('fs');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const HtmlMinimizerPlugin = require("html-minimizer-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const SpliceWebpackPlugin = require("./plugin/SpliceWebpackPlugin.js");
 
+/** Bundle Content
+ * 
+ * @param {string} routeDir 
+ * @param {string} target 
+ * @returns {{elements:Array<string>, staticFiles:Array<Object>}}
+ */
+function bundleContent(routeDir, target){
+    const staticFiles = [];
+    const elements = [];
+
+    for(let route of fs.readdirSync(routeDir)){
+        const directory = path.join(routeDir, route);
+        
+        for(let file of fs.readdirSync(directory)){
+            switch (file){
+                case "static":
+                    staticFiles.push({
+                        to: target,
+                        from: path.join(directory, file)
+                    });
+                    break;
+
+                case "element":
+                    allTsFiles(path.join(directory, file)).forEach(item=>elements.push(item)); 
+                    break;
+            }
+        }
+    }
+
+    return {elements, staticFiles};
+}
+
+/** Get All Ts Files
+ * 
+ * @param {string} dir 
+ * @returns {Array<string>}
+ */
+function allTsFiles(dir){
+    let output = [];
+
+    for(let name of fs.readdirSync(dir)){
+        name = path.join(dir, name);
+
+        if(fs.statSync(name).isDirectory()){
+            output = output.concat(allTsFiles(name));
+        } else {
+            if(name.match(/ts$/)){
+                output.push(name);
+            }
+        }
+    }
+
+    return output;
+}
+
+/** App Webpack Configuration
+ * 
+ * @param {boolean} prod 
+ * @param {string} src 
+ * @param {string} target 
+ * @returns {Object}
+ */
 module.exports = (prod, src, target) => {
+
+    const routes = path.join(src, "routes");
+    const {elements, staticFiles} = bundleContent(routes, target);
+
+    //Add styliing file
+    elements.push(path.join(src, 'index.scss'));
+
+    //Add base static directory
+    staticFiles.push({
+        to: target,
+        from: path.join(src, 'static')
+    });
+
     return {
         mode: prod? "production": "development",
-        entry: [
-            path.join(src, 'index.ts'),
-            path.join(src, 'index.scss')
-        ],
+        entry: elements,
         devtool: prod? undefined: 'source-map',
         module: {
             rules: [
@@ -22,7 +94,6 @@ module.exports = (prod, src, target) => {
                 },
                 {
                     test: /\.scss$/,
-                    exclude: /node_modules/,
                     use: [
                         {
                             loader: 'file-loader',
@@ -30,46 +101,28 @@ module.exports = (prod, src, target) => {
                         },
                         'sass-loader'
                     ]
-                },
-                {
-                    test: /.html$/i,
-                    type:'asset/source',
-                    exclude: /node_modules/,
                 }
             ]
         },
         resolve: {
-            extensions: ['.tsx', '.ts', '.js', '.html'],
-        },
-        experiments: {
-            outputModule: true
+            extensions: ['.ts', '.js'],
         },
         output: {
-            filename: 'script.js',
+            filename: 'elements.js',
             path: target,
-            library: {
-                type: 'module'
-            }
         },
         plugins: [
             new CopyWebpackPlugin({
-                patterns: [{
-                    to: target,
-                    from: path.join(src, 'static')
-                }]
+                patterns: staticFiles
             }),
             new SpliceWebpackPlugin()
         ],
         optimization: {
             minimize: prod,
-            minimizer: prod? [
-                new HtmlMinimizerPlugin(),
+            minimizer: [
                 new CssMinimizerPlugin(),
                 new TerserPlugin()
-            ]: [
-                new TerserPlugin()
-            ],
-            usedExports: true
+            ]
         }
     }
 };

@@ -1,20 +1,19 @@
-import { createElement as _, Content } from "../../util/Elements";
-import AnimatedText from "./content/AnimatedText";
+import { _, Content } from "../../util/Templates";
 
 const TEXT = "Hello,\r\nMy name is Alex Malotky.";
 
 export default function Home():Content {
-    if(typeof (window as any).visited === "undefined"){
-        (window as any).visited = true;
-        console.log("Welcome to Alex.Malotky.net!");
-        console.log("This is being printed from a file that is being loaded and executed dynamically!")
-    }
+    //if(typeof (window as any).visited === "undefined"){
+    //    (window as any).visited = true;
+    //    console.log("Welcome to Alex.Malotky.net!");
+    //    console.log("This is being printed from a file that is being loaded and executed dynamically!")
+    //}
 
     return [
         _("style", require("./style.scss")),
         _("h1", "Welcome!"),
         _("div", {id: "home-container"},
-            new AnimatedText(TEXT),
+            _("animated-text", {text:TEXT}),
             _("article",
                 _("p", "I have just graduated from UW-Platteville, and I am excited to get into the programming field!")
             ),
@@ -25,14 +24,14 @@ export default function Home():Content {
                 )
             )
         )
-    ];
+    ]
 }
 
 function Spotlight(): Content{
     return [
         _("h3", "Phasmophobia Helper"),
         _("figure", 
-            _("img", {src: "/media/Phasmo-Screenshot.png", alt: "Screenshot"})
+            _("img", {src: "/Phasmo-Screenshot.png", alt: "Screenshot"})
         ),
         _("section",
             _("p", 

@@ -13,7 +13,8 @@ app.view(new View(
         {name: "author", content: "Alex Malotky"},
         {name: "title", content: "Alex.Malotky.Net"},
         {name: "description", content: "Portfolio website for Alex Malotky."},
-        {name: "link", attributes: {rel: "stylesheet", href: "/style.css"}}
+        {name: "link", attributes: {rel: "stylesheet", href: "/style.css"}},
+        {name: "script", attributes:{src: "/elements.js"}}
     ],
     (c:Content)=>Template(navBar, c),
     {

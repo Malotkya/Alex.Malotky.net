@@ -1,5 +1,5 @@
 export default class ToolTip extends HTMLElement {
-    private _text: ToolTipText|undefined;
+    private _text: ToolTipText|null;
     private _fixed: boolean;
 
     constructor(text?:string){
@@ -7,6 +7,9 @@ export default class ToolTip extends HTMLElement {
 
         if(text)
             this._text = new ToolTipText(text);
+        else
+            this._text = null;
+        this._fixed = false;
 
         this.addEventListener("mouseover", (event:MouseEvent)=>{
             if(this._text)
@@ -79,7 +82,7 @@ export default class ToolTip extends HTMLElement {
 
     get text(){
         if(this._text){
-            return this._text.textContent;
+            return this._text.textContent || "";
         }
 
         return "";
@@ -94,7 +97,7 @@ export default class ToolTip extends HTMLElement {
     }
     
     connectedCallback(){
-        if(this._text === undefined) {
+        if(this._text === null) {
             this._text = this.querySelector("tool-tip-text");
 
             if(this._text){

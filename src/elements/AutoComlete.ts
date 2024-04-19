@@ -14,8 +14,8 @@ type updateFunction = (s?:string) => Array<string>|Promise<Array<string>>
  * 
  */
 export default class AutoComplete extends HTMLElement {
-    private _input: HTMLInputElement;
-    private _updateList:updateFunction;
+    private _input: HTMLInputElement|null;
+    private _updateList:updateFunction|undefined;
     private _autoCompleteList: AutoCompleteList; 
 
     /** Constructor
@@ -28,8 +28,11 @@ export default class AutoComplete extends HTMLElement {
         super();
         this._autoCompleteList = new AutoCompleteList();
         this.list = list;
+        this._input = null;
+        //@ts-ignore
         this._autoCompleteList.addEventListener("update", (event:UpdateEvent)=>{
-            this._input.value = event.value;
+            if(this._input)
+                this._input.value = event.value;
             this.dispatchEvent(new Event("submit"));
         });
     }
@@ -78,10 +81,10 @@ export default class AutoComplete extends HTMLElement {
 
         if(this._input) {
             this._input.addEventListener("input", async(event)=>{
-                const value = this._input.value.toUpperCase();
+                const value = this._input?.value.toUpperCase();
                 this._autoCompleteList.close();
     
-                if(value.trim() === "")
+                if(value && value.trim() === "")
                     return;
                 
                 if(this._updateList){
@@ -127,11 +130,9 @@ class AutoCompleteList extends HTMLElement {
      * 
      * @param list 
      */
-    constructor(list?:Array<string>){
+    constructor(list:Array<string> = []){
         super();
-        if(list)
-            this.list = list;
-
+        this._list = list;
         this._currentIndex = -1;
     }
 
@@ -181,8 +182,11 @@ class AutoCompleteList extends HTMLElement {
      * 
      * @param {string} value 
      */
-    update(value:string){
+    update(value:string|undefined){
         let count:number = 0;
+        if(value === undefined)
+            return;
+
         for(let index:number = 0; index < this._list.length; index++){
             const name = this._list[index];
     

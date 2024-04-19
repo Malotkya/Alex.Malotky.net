@@ -72,6 +72,9 @@ module.exports = (prod, src, target) => {
     const routes = path.join(src, "routes");
     const {elements, staticFiles} = bundleContent(routes, target);
 
+    //Add global elements
+    allTsFiles(path.join(src, "elements")).forEach(item=>elements.push(item));
+
     //Add styliing file
     elements.push(path.join(src, 'index.scss'));
 

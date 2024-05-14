@@ -36,7 +36,7 @@ function createBlock(string:string, element:string, regex:RegExp, dilimiter?:str
     return output;
 }
 
-export default class MarkDownElement extends HTMLElement {
+class MarkDownElement extends HTMLElement {
     constructor(innerHTML?:string){
         super();
         if(innerHTML)
@@ -76,3 +76,5 @@ export default class MarkDownElement extends HTMLElement {
             .replace(/(<br\/>)+$/g, '')                                             //Remove all trailing breaks
     }
 }
+
+customElements.define("mark-down", MarkDownElement);

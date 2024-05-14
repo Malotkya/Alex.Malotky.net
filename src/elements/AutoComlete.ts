@@ -13,7 +13,7 @@ type updateFunction = (s?:string) => Array<string>|Promise<Array<string>>
 /** Auto Complete Element
  * 
  */
-export default class AutoComplete extends HTMLElement {
+class AutoComplete extends HTMLElement {
     private _input: HTMLInputElement|null;
     private _updateList:updateFunction|undefined;
     private _autoCompleteList: AutoCompleteList; 
@@ -241,3 +241,4 @@ export class UpdateEvent extends Event {
 }
 
 customElements.define("auto-complete-list", AutoCompleteList);
+customElements.define("auto-complete", AutoComplete);

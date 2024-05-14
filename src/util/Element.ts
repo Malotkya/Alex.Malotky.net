@@ -1,4 +1,4 @@
-type Element = string|number|boolean|HTMLElement|null|Array<Element>;
+export type Element = string|number|boolean|undefined|HTMLElement|null|Array<Element>;
 
 /** Creates HTML Element
  * 

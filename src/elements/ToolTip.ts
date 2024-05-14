@@ -1,4 +1,4 @@
-export default class ToolTip extends HTMLElement {
+class ToolTip extends HTMLElement {
     private _text: ToolTipText|null;
     private _fixed: boolean;
 
@@ -136,3 +136,4 @@ class ToolTipText extends HTMLElement {
     }
 }
 customElements.define("tool-tip-text", ToolTipText);
+customElements.define("tool-tip", ToolTip);

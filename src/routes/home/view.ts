@@ -1,4 +1,4 @@
-import { _, Content } from "../../util/Templates";
+import { createContent as _, Content } from "zim-engine";
 
 const TEXT = "Hello,\r\nMy name is Alex Malotky.";
 

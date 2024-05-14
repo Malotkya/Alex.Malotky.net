@@ -1,4 +1,4 @@
-export type Element = string|HTMLElement|null|Array<Element>;
+type Element = string|number|boolean|HTMLElement|null|Array<Element>;
 
 /** Creates HTML Element
  * 
@@ -22,20 +22,25 @@ export function createElement(name:string, attributes:any = {}, ...children:Arra
         element.setAttribute(name, String(attributes[name]));
     }
 
-    const insertChildren = (list:Array<Element>) => {
-        for(let child of list){
-            if(child instanceof HTMLElement) {
-                element.appendChild(child);
-            } else if(Array.isArray(child)){
-                insertChildren(child);
-            } else if(child !== null && child !== undefined) {
-                element.innerHTML += String(child);
-            }
+    appendChildren(element, children);
+    return element;
+}
+
+/** Recursivly Append Children Elements
+ * 
+ * @param {HTMLElement} element 
+ * @param {Array<Element>} children 
+ */
+function appendChildren(element:HTMLElement, children:Array<Element>):void {
+    for(let child of children){
+        if(Array.isArray(child)){
+            appendChildren(element, child);
+        } else if(child instanceof HTMLElement) {
+            element.appendChild(child);
+        }else if(child !== null && child !== undefined) {
+            element.append(String(child));
         }
     }
-    insertChildren(children);
-
-    return element;
 }
 
 /** Attempts to find node, and parents of node.

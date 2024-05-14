@@ -1,5 +1,5 @@
-import { Content, createElement as _, RenderUpdate} from "zim-engine/lib/View";
-export {Content, _};
+import { Content, createContent as _} from "zim-engine";
+import { RenderUpdate } from "zim-engine/lib/View";
 
 export default function WireFrame(navList:Content, content:Content):Content{
     return [

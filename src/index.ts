@@ -4,6 +4,7 @@ import Template, {NavLink, ErrorContent} from "./util/Templates";
 import Home from "./routes/home";
 import About from "./routes/about";
 import Portfolio from "./routes/portfolio";
+import Pokemon from "./routes/pokemon";
 
 const app = new App();
 const navBar:Array<Content> = [];
@@ -39,10 +40,11 @@ app.errorHandler((err:any, ctx:Context)=>{
 app.use(Home.Path, Home.Router);
 app.use(About.Path, About.Router);
 app.use(Portfolio.Path, Portfolio.Router);
+app.use(Pokemon.Path, Pokemon.Router);
 
 //Register to NavBar
 navBar.push(NavLink(Portfolio.Path, Portfolio.Title));
 navBar.push(NavLink(About.Path, About.Title));
-
+navBar.push(NavLink(Pokemon.Path, "Pokemon"));
 
 export default app;

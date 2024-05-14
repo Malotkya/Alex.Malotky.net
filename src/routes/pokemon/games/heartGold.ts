@@ -1,4 +1,4 @@
-import { Game } from "../PokemonTypes";
+import { Game } from "../types";
 
 export const gold:Game = {
     game: "Heart Gold",

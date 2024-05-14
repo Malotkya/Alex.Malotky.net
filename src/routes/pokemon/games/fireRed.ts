@@ -1,4 +1,4 @@
-import { Game } from "../PokemonTypes";
+import { Game } from "../types";
 
 export const red:Game = {
     game: "Fire Red",

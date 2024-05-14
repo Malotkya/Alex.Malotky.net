@@ -1,6 +1,5 @@
+import {Game, Region as KnownRegion} from "../types";
 import { createElement as _ } from "../../../util/Element";
-import PokemonTeamViewElement from "./PokemonTeamViewElement";
-import { Game, Region as KnownRegion} from "../view/PokemonTypes";
 import { REGION_MASTER_ARRAY_INDEX } from "../data";
 
 type Region = KnownRegion | "Unknown"
@@ -52,60 +51,17 @@ function createMenuListElement(name:string):{menuElement:HTMLElement, regionList
     };
 }
 
-export default class PokemonGameSelectElement extends HTMLElement{
+export default class PokemonGameSelect extends HTMLElement {
+    private _init:string|undefined;
+    private _list:Dictionary<Game>;
     private _menu: Array<HTMLElement>;
     private _target: HTMLElement;
-    private _list: Dictionary<Game>;
 
-    constructor(init:string, list:Dictionary<Game>) {
+    constructor(){
         super();
-        this._target = _("section", {id: "pokemon-game-view"});
+        this._list = {};
         this._menu = [];
-        this._list = list;
-
-        const regions:Map<Region, HTMLElement> = new Map();
-
-        for(let name in list){
-            const region:Region = getRegion(list[name].region);
-            const button = _("button", {target: name}, list[name].game);
-    
-            if(!regions.has(region)) {
-                const {menuElement, regionList} = createMenuListElement(region);
-                regions.set(region, regionList);
-                this._menu.push(menuElement);
-            }
-            
-            //@ts-ignore
-            regions.get(region).appendChild(_("li", button));
-        }
-
-        this.display(init);
-    }
-
-    display(name:string){
-        this._target.innerHTML = "";
-        
-        if(this._list[name]){
-            const {
-                game,
-                generation,
-                region,
-                team,
-                others,
-                version,
-            } = this._list[name];
-            this._target.appendChild(_("h3", {class: "game-name"}, `Pokemon ${game}`));
-            this._target.appendChild(_("p", {class: "game-info"}, `Generation: ${generation}<br/> Region: ${region}`))
-            this._target.appendChild(new PokemonTeamViewElement(  team, others, version, game ));
-        } else {
-            this._target.appendChild(_("p", {class: "error"}, `Game '${name}' cannot be found!`));
-        }
-        
-    }
-
-    connectedCallback(){
-        this.appendChild( _("nav", {class: "pokemon-game-select"},  _("ul", this._menu)) );
-        this.appendChild( this._target );
+        this._target = _("div", {id: "pokemon-game-view"});
 
         this.addEventListener("click", (event:Event)=>{
             const target: HTMLElement = event.target as HTMLElement;
@@ -123,18 +79,78 @@ export default class PokemonGameSelectElement extends HTMLElement{
         })
     }
 
-    readyCallback(): void {
-        const list = this.querySelector("ul");
-        const [parrentWidth, childWidth] = calculateNavButtonWidth(list.clientWidth, list.childNodes.length);
+    static get observedAttributes(){
+        return ["init", "data"]
+    }
 
-        list.childNodes.forEach((parent:HTMLElement)=>{
-            parent.style.minWidth = parrentWidth;
+    private set data(value:string){
+        this._list = JSON.parse(value);
+        this._menu = [];
 
-            parent.querySelectorAll("ul").forEach((child:HTMLElement)=>{
-                child.style.maxWidth = childWidth;
-            });
-        });
+        const regions:Map<Region, HTMLElement> = new Map();
+
+        for(let name in this._list){
+            const region:Region = getRegion(this._list[name].region);
+            const button = _("button", {target: name}, this._list[name].game);
+    
+            if(!regions.has(region)) {
+                const {menuElement, regionList} = createMenuListElement(region);
+                regions.set(region, regionList);
+                this._menu.push(menuElement);
+            }
+                
+            regions.get(region)!.appendChild(_("li", button));
+        }
+
+        this.display(this._init || "undefined");
+    }
+
+    private set init(value:string){
+        this._init = value;
+        this.display(value);
+    }
+
+    attributeChangedCallback(name:string, oldValue:string, newValue:string){
+        if(name === "init"){
+            this.init = newValue;
+        } else if(name === "data"){
+            this.data = atob(newValue);
+        }
+    }
+
+    display(name:string){
+        this._target.innerHTML = "";
+        
+        if(this._list[name]){
+            const {
+                game,
+                generation,
+                region,
+                team,
+                others,
+                version,
+            } = this._list[name];
+            this._target.appendChild(_("h3", {class: "game-name"}, `Pokemon ${game}`));
+            this._target.appendChild(_("p", {class: "game-info"}, `Generation: ${generation}<br/> Region: ${region}`))
+            this._target.appendChild( _("pokemon-team-select", {
+                main: btoa(JSON.stringify(team)),
+                other:btoa(JSON.stringify(others)),
+                version:btoa(JSON.stringify(version)),
+                game
+            }));
+        } else {
+            this._target.appendChild(_("p", {class: "error"}, `Game '${name}' cannot be found!`));
+        }
+    }
+
+    connectedCallback(){
+        this.appendChild( _("nav", {class: "pokemon-game-select"},  _("ul", this._menu)) );
+        this.appendChild( this._target );
+    }
+
+    disconnectedCallback(){
+        this.innerHTML = "";
     }
 }
 
-customElements.define("pokemon-game-select", PokemonGameSelectElement);
+customElements.define("pokemon-game-select", PokemonGameSelect);

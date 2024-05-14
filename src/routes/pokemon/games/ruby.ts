@@ -1,4 +1,4 @@
-import { Game } from "../PokemonTypes";
+import { Game } from "../types";
 
 export const ruby:Game = {
     game: "Ruby",

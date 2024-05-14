@@ -1,4 +1,4 @@
-import { Game } from "../PokemonTypes";
+import { Game } from "../types";
 
 export const black:Game = {
     game: "Black 2",
@@ -206,7 +206,7 @@ export const black:Game = {
             level: 61,
             gender: true,
             types:[
-                "Bug",,
+                "Bug",
                 "Electric"
             ],
             item: "Zoom Lens",
@@ -254,7 +254,7 @@ export const black:Game = {
             level: 60,
             gender: true,
             types:[
-                "Poison",,
+                "Poison",
                 "Flying"
             ],
             item: "",

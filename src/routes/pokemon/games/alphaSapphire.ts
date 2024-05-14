@@ -1,4 +1,4 @@
-import {Game} from "../PokemonTypes";
+import { Game } from "../types";
 
 export const sapphire:Game = {
     game : "Alpha Sapphire",
@@ -437,4 +437,4 @@ export const sapphire:Game = {
             ]
         }
     ]
-}
+};

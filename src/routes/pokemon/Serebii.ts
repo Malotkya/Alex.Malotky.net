@@ -1,5 +1,5 @@
-import { Pokemon, GameVersion } from "./PokemonTypes";
-import {MASTER_POKEMON_LIST} from "../data"
+import { Pokemon, GameVersion } from "./types";
+import {MASTER_POKEMON_LIST} from "./data"
 
 const SEREBII_URI = "https://www.serebii.net/";
 

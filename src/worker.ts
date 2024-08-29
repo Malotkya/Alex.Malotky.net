@@ -1,6 +1,6 @@
-import Engine, {Content} from "../Engine";
-import View from "../Engine/View";
-import Template from "./util/Templates";
+import Engine, {Content} from "Engine";
+import View from "Engine/View";
+import Template, { NavLink } from "./template";
 
 const navBar:Array<Content> = []
 
@@ -36,5 +36,8 @@ app.use(Home.Path, Home.Router);
 app.use(About.Path, About.Router);
 app.use(Portfolio.Path, Portfolio.Router);
 app.use(Pokemon.Path, Pokemon.Router);
+
+navBar.push(NavLink(Portfolio.Path, "Protfolio"));
+navBar.push(NavLink(About.Path, "About Me"));
 
 export default app;

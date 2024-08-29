@@ -1,5 +1,23 @@
 const path = require("path");
 const TerserPlugin = require("terser-webpack-plugin");
+const fs = require("fs");
+const json5 = require("json5")
+
+const tsconfig = fs.readFileSync("./tsconfig.json").toString()
+
+function getAliases(){
+    const {paths} = json5.parse(tsconfig).compilerOptions;
+    const alias = {};
+
+    for(let item in paths) {
+        const key = item.replace("/*", "");
+        const name = paths[item][0].replace("/*", "");
+       
+        alias[key] = path.resolve(process.cwd(), name);
+    }
+
+    return alias;
+}
 
 /** ZimEngine Webpack
  * 
@@ -39,6 +57,7 @@ module.exports = (props) => {
         },
         resolve: {
             extensions: ['.ts', '.js', ".html", ".scss"],
+            alias: getAliases()
         },
         output: {
             filename: '_worker.js',

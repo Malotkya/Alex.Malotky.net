@@ -3,7 +3,7 @@
  * @author Alex Malotky
  */
 import Context from "../Context";
-import { pathToRegexp, Key} from "path-to-regexp";
+import { pathToRegexp, Key, PathToRegexpOptions } from "path-to-regexp";
 
 export type Middleware = (context:Context)=>Promise<void>|void;
 export type EndPoint = (context:Context)=>Promise<Response|void>|Response|void;
@@ -22,12 +22,11 @@ const DEFAULT_OPTS = {strict: false, end: false};
 export default class Layer {
     private _shortcut:boolean;
     private _handler:Middleware|EndPoint;
-    private _regex:RegExp;
-    private _keys:Array<Key>;
+    private _regex:RegExp&{keys:Array<Key>};
 
     constructor(middleware:Middleware)
     constructor(path:string, middleware:Middleware)
-    constructor(path:string, options:any|undefined, endpoint:EndPoint)
+    constructor(path:string, options:PathToRegexpOptions|undefined, endpoint:EndPoint)
     constructor(){
         switch(arguments.length){
             case 0:
@@ -39,7 +38,7 @@ export default class Layer {
 
                 this._shortcut = true;
                 this._handler = arguments[0];
-                this._regex = pathToRegexp("/", this._keys = [], DEFAULT_OPTS);
+                this._regex = pathToRegexp("/", DEFAULT_OPTS);
                 break;
 
             case 2:
@@ -50,7 +49,7 @@ export default class Layer {
 
                 this._shortcut = false;
                 this._handler = arguments[1]
-                this._regex = pathToRegexp(arguments[0], this._keys = [], DEFAULT_OPTS);
+                this._regex = pathToRegexp(arguments[0], DEFAULT_OPTS);
                 break;
 
 
@@ -70,7 +69,7 @@ export default class Layer {
 
                 this._shortcut = false;
                 this._handler = arguments[2];
-                this._regex = pathToRegexp(arguments[0], this._keys = [], arguments[1]);
+                this._regex = pathToRegexp(arguments[0], arguments[1]);
                 break;
         }
     }
@@ -116,7 +115,7 @@ export default class Layer {
 
         
         for(let index=1; index<match.length; index++){
-            result[this._keys[index-1].name] = decodeURIComponent(match[index]);
+            result[this._regex.keys[index-1].name] = decodeURIComponent(match[index]);
         }
 
         return {

@@ -26,7 +26,7 @@
     "html-minimizer-webpack-plugin": "^4.3.0",
     "jsdom": "^23.0.1",
     "masonry-layout": "^4.2.2",
-    "path-to-regexp": "^6.2.2",
+    "path-to-regexp": "^7.1.0",
     "raw-loader": "^4.0.2",
     "sass": "^1.62.1",
     "sass-loader": "^13.2.2",

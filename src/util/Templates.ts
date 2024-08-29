@@ -1,15 +1,11 @@
 import { Content, createContent as _} from "Engine";
 import { RenderUpdate } from "Engine/View";
 
-export default function WireFrame(navList:Content, content:Content):Content{
-    return [
-        _("header", 
-            _("a", {class: "skip", href:"#main"}, "Skip Link"),
-            Navigation(navList),
-        ),
-        _("main", content),
-        Footer()
-    ]
+export default function WireFrame(navList:Content, content:Content){
+    return _("header", 
+        _("a", {class: "skip", href:"#main"}, "Skip Link"),
+        Navigation(navList),
+    ) + _("main", content) + Footer();
 }
 
 export function NavLink(href:string, title:string):Content{
@@ -44,13 +40,13 @@ function Footer():Content {
         _("p", _("strong", "Where to find me:")),
         _("p",
             _("a", {href:"https://github.com/Malotkya", target:"_blank"},
-                _("img", {src: "/media/github.svg", alt:"GitHub", class:"icon"}, true )
+                _("img", {src: "/media/github.svg", alt:"GitHub", class:"icon"} )
             ),
             _("a", {href:"https://www.linkedin.com/in/amalotky/", target:"_blank"},
-                _("img", {src: "/media/linkedin.svg", alt:"LinkedIn", class:"icon"}, true )
+                _("img", {src: "/media/linkedin.svg", alt:"LinkedIn", class:"icon"} )
             ),
             _("a", {href:"mailto: Malotkya@outlook.com"},
-                _("img", {src: "/media/email.png", alt:"Email", class:"icon"}, true )
+                _("img", {src: "/media/email.png", alt:"Email", class:"icon"} )
             )
         )
     )

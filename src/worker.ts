@@ -1,5 +1,8 @@
-import Engine from "../Engine";
+import Engine, {Content} from "../Engine";
 import View from "../Engine/View";
+import Template from "./util/Templates";
+
+const navBar:Array<Content> = []
 
 const app = new Engine(new View(
     {
@@ -20,17 +23,14 @@ const app = new Engine(new View(
         scripts: [
             {src: "/script.js", defer: true}
         ]
-    }
+    },
+    (update)=>Template(navBar, update)
 ));
 
 import Home from "./routes/home";
 import About from "./routes/about";
 import Portfolio from "./routes/portfolio";
 import Pokemon from "./routes/pokemon";
-
-app.get(ctx=>{
-    ctx.html("<h1>Hello World</h1>");
-});
 
 app.use(Home.Path, Home.Router);
 app.use(About.Path, About.Router);

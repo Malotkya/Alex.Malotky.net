@@ -1,5 +1,5 @@
 const path = require("path");
-const WorkerConfig = require("zim-engine/webpack");
+const WorkerConfig = require("./webpack/engine.config");
 const AppConfig = require("./webpack/app.config");
 
 //directories used multiple times
@@ -12,5 +12,4 @@ const inProduction = process.argv.includes('prod');
 //export config
 module.exports = [
     WorkerConfig({inProduction, source_directory, build_directory}),
-    AppConfig(inProduction, source_directory, build_directory)
 ]

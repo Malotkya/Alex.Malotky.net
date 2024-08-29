@@ -1,7 +1,7 @@
-import Attribute, {buildAttributesString} from "../Attribute";
+import {buildAttributesString, AttributeList} from "../Attribute";
 import { HTMLContent } from "../Types";
 import Content, {compressContent} from "./Content";
-
+import CustomRegistry from "./Custom";
 
 type Element = HTMLContent;
 export default Element;
@@ -22,7 +22,9 @@ const SELF_CLOSING = [
     "track",
     "wbr"
 ] as const;
-type SelfClosing = typeof SELF_CLOSING[number]
+type SelfClosing = typeof SELF_CLOSING[number];
+
+export const customElements = new CustomRegistry();
 
 /** Create HTML Content
  * 
@@ -31,16 +33,23 @@ type SelfClosing = typeof SELF_CLOSING[number]
  * @param {Array<Element|Content>} children 
  * @returns {Element}
  */
-export function createElement(name:SelfClosing, attributes?:Dictionary<Attribute>):Element
-export function createElement(name:string, attributes?:Dictionary<Attribute>|Element|Content, ...children:Array<Element|Content>):Element
-export function createElement(name:string, attributes:Dictionary<Attribute>|Element|Content = {}, ...children:Array<Element|Content>):Element {
-    //@ts-expect-error
-    const selfClosing = SELF_CLOSING.indexOf(name) >= 0;
+export function createElement(name:SelfClosing, attributes?:AttributeList):Element
+export function createElement(name:string, attributes?:AttributeList|Element|Content, ...children:Array<Element|Content>):Element
+export function createElement(name:string, attributes:AttributeList|Element|Content = {}, ...children:Array<Element|Content>):Element {
 
     if(typeof attributes !== "object" || Array.isArray(attributes)) {
         children.unshift(attributes);
         attributes = {};
     }
+
+    const custom = customElements.extends(name);
+    if(custom){
+        attributes.is = name;
+        name = custom;
+    }
+
+    //@ts-expect-error
+    const selfClosing = SELF_CLOSING.indexOf(name) >= 0;
 
     if(selfClosing && children.length > 0)
         throw new Error("Self closing Element cannot have children!");

@@ -23,13 +23,6 @@ export default class View{
     #defaultContent:RenderFunction;
     #attribute:AttributeList;
 
-    /** File Route Getter
-     * 
-     */
-    static get route():string {
-        return "/engine.js"
-    }
-
     /** Constructor
      * 
      * @param {Array<ElementTag>} headTags 
@@ -50,14 +43,6 @@ export default class View{
         this.#defaultContent = stationaryContent;
         this.#attribute = attributes;
         this.#defaultHead = headInit;
-        if(this.#defaultHead.scripts === undefined){
-            this.#defaultHead.scripts = [];
-        }
-        this.#defaultHead.scripts.push({
-            src: View.route,
-            name: "injectedJS",
-            defer: true
-        });
     }
 
     /** Render Content Update

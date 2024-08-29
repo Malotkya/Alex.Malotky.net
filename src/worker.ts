@@ -21,7 +21,7 @@ const app = new Engine(new View(
             {rel: "stylesheet", href: "/style.css"}
         ],
         scripts: [
-            {src: "/script.js", defer: true}
+            {src: "/bundle.js", defer: true}
         ]
     },
     (update)=>Template(navBar, update)

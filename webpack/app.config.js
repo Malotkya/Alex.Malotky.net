@@ -111,7 +111,7 @@ module.exports = (prod, src, target) => {
             extensions: ['.ts', '.js'],
         },
         output: {
-            filename: 'elements.js',
+            filename: 'bundle.js',
             path: target,
         },
         plugins: [

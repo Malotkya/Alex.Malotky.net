@@ -2,6 +2,7 @@ import {RenderUpdate, RenderContent} from "..";
 import { findOrCreateElement } from "Engine/Web";
 import { HeadUpdate } from "../Html/Head";
 import Tracker from "./Tacker";
+import { AttributeList } from "../Html/Attribute";
 
 interface FetchOptions {
     method?: string
@@ -114,10 +115,15 @@ export default class RenderEnvironment {
             this._title.textContent = this._defaultTitle + " | " + update.title;
         }
 
-        update.links
+        const meta:Dictionary<AttributeList> = {};
+        for(let name in update.meta){
+            meta[name] = {
+                content: update.meta[name]
+            };
+        }
 
         if(update.meta){
-            this._meta.update(update.meta);
+            this._meta.update(meta);
         }
 
         if(update.links){

@@ -1,5 +1,5 @@
 import { findOrCreateElement } from "Engine/Web";
-import { AttributeList } from "../Html/Attribute";
+import Attribute, { AttributeList } from "../Html/Attribute";
 
 export default class Tracker {
     private _defaults:Dictionary<AttributeList>;
@@ -24,7 +24,7 @@ export default class Tracker {
         }
     }
 
-    update(updates:Dictionary<AttributeList|string>){
+    update(updates:Dictionary<AttributeList>){
         const lstDefault = Object.getOwnPropertyNames(this._defaults);
         const lstUpdate = Object.getOwnPropertyNames(updates);
 
@@ -58,22 +58,16 @@ export default class Tracker {
     private static updateElement(element:Element, defaults:AttributeList, update:AttributeList = {}){
         const lstDefault = Object.getOwnPropertyNames(defaults);
         const lstUpdate = Object.getOwnPropertyNames(update);
-
-        if(typeof update === "string"){
-            update = {
-                content: update
-            };
-        }
         
         for(let name of element.getAttributeNames()) {
             const index = lstUpdate.indexOf(name);
 
             if(index !== -1){
-                element.setAttribute(name, update[name]);
+                element.setAttribute(name, String(update[name]));
                 lstUpdate.splice(index, 1);
 
             } else if(lstDefault.indexOf(name) !== -1){
-                element.setAttribute(name, defaults[name]);
+                element.setAttribute(name, String(defaults[name]));
 
             } else {
                 element.removeAttribute(name);
@@ -81,7 +75,7 @@ export default class Tracker {
         }
 
         for(let name of lstUpdate){
-            element.setAttribute(name, update[name]);
+            element.setAttribute(name, String(update[name]));
         }
     }
 }

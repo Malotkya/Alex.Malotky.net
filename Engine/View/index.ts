@@ -4,7 +4,7 @@
  */
 import HTMLElement, {HtmlDocument, compressContent, HTMLInit} from "./Html";
 import { HeadInit, HeadUpdate, mergeInitWithUpdate } from "./Html/Head";
-import Attribute from "./Html/Attribute";
+import {AttributeList} from "./Html/Attribute";
 
 type RenderFunction = (update:RenderContent)=>HTMLElement;
 
@@ -21,7 +21,7 @@ export interface RenderUpdate {
 export default class View{
     #defaultHead:HeadInit;
     #defaultContent:RenderFunction;
-    #attribute:Dictionary<Attribute>;
+    #attribute:AttributeList;
 
     /** File Route Getter
      * 
@@ -34,7 +34,7 @@ export default class View{
      * 
      * @param {Array<ElementTag>} headTags 
      * @param {RenderFunction} stationaryContent 
-     * @param {Dictionary<Attribute>} attributes 
+     * @param {AttributeList} attributes 
      */
     constructor(attributes:HTMLInit = {}, headInit:HeadInit = {}, stationaryContent:RenderFunction = compressContent, ){
 

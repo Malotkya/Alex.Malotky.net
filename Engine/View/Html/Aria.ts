@@ -2,6 +2,7 @@
  * 
  * https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes
  */
+import {AttributeList} from "./Attribute";
 
 /* Widget Region Attributes */
 export type Autocomplete = "none"|"inline"|"list"|"both";
@@ -62,7 +63,7 @@ export type Label = string;
 export type Roledescription = string;
 
 
-export default interface GlobalAttributes {
+export default interface GlobalAttributes extends AttributeList{
     ariaAtomic?: Atomic,
     ariaBusy?: Busy,
     ariaControls?: Controls,

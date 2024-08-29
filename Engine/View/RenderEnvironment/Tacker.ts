@@ -1,8 +1,9 @@
-import { findOrCreateElement } from "../../Web";
+import { findOrCreateElement } from "Engine/Web";
+import { AttributeList } from "../Html/Attribute";
 
-export default class Tracker<E extends Element> {
-    private _defaults:Dictionary<Dictionary<string>>;
-    private _current:Dictionary<E>;
+export default class Tracker {
+    private _defaults:Dictionary<AttributeList>;
+    private _current:Dictionary<Element>;
     private _name:string;
 
     constructor(head:HTMLElement, name:string){
@@ -13,7 +14,7 @@ export default class Tracker<E extends Element> {
         for(const element of Array.from(head.querySelectorAll(name))){
             const name = element.getAttribute("name");
             if(name){
-                const defaults:Dictionary<string> = {};
+                const defaults:Dictionary<string|undefined> = {};
                 for(let att of element.getAttributeNames()){
                     defaults[att] = element.getAttribute(name) || undefined;
                 }
@@ -23,7 +24,7 @@ export default class Tracker<E extends Element> {
         }
     }
 
-    update(updates:Dictionary<string>){
+    update(updates:Dictionary<AttributeList|string>){
         const lstDefault = Object.getOwnPropertyNames(this._defaults);
         const lstUpdate = Object.getOwnPropertyNames(updates);
 
@@ -42,7 +43,7 @@ export default class Tracker<E extends Element> {
 
             //Is being removed
             } else {
-                this._current[name].parentElement.removeChild(this._current[name]);
+                this._current[name].parentElement!.removeChild(this._current[name]);
                 delete this._current[name];
             }
         }
@@ -54,9 +55,15 @@ export default class Tracker<E extends Element> {
         }
     }
 
-    private static updateElement(element:HTMLElement, defaults:Dictionary<string>, update:Dictionary<string> = {}){
+    private static updateElement(element:Element, defaults:AttributeList, update:AttributeList = {}){
         const lstDefault = Object.getOwnPropertyNames(defaults);
         const lstUpdate = Object.getOwnPropertyNames(update);
+
+        if(typeof update === "string"){
+            update = {
+                content: update
+            };
+        }
         
         for(let name of element.getAttributeNames()) {
             const index = lstUpdate.indexOf(name);

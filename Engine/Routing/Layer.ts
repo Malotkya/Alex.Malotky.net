@@ -17,7 +17,7 @@ export interface Match {
     params:Params
 }
 
-const DEFAULT_OPTS = {strict: false, end: false};
+const DEFAULT_OPTS:PathToRegexpOptions = {strict: false, end: false};
 
 export default class Layer {
     private _shortcut:boolean;

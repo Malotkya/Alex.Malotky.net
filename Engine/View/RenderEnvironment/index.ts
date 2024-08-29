@@ -1,5 +1,5 @@
 import {RenderUpdate, RenderContent} from "..";
-import { findOrCreateElement } from "../../Web";
+import { findOrCreateElement } from "Engine/Web";
 import { HeadUpdate } from "../Html/Head";
 import Tracker from "./Tacker";
 
@@ -43,10 +43,10 @@ export default class RenderEnvironment {
         return await response.json();
     }
 
-    private _meta:Tracker<HTMLMetaElement>;
-    private _links:Tracker<HTMLLinkElement>;
-    private _styles:Tracker<HTMLStyleElement>;
-    private _scripts:Tracker<HTMLScriptElement>;
+    private _meta:Tracker;
+    private _links:Tracker;
+    private _styles:Tracker;
+    private _scripts:Tracker;
 
     private _title:HTMLTitleElement;
     private _defaultTitle:string;
@@ -113,6 +113,8 @@ export default class RenderEnvironment {
         } else {
             this._title.textContent = this._defaultTitle + " | " + update.title;
         }
+
+        update.links
 
         if(update.meta){
             this._meta.update(update.meta);

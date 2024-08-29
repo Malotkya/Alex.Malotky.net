@@ -3,7 +3,6 @@
  * @author Alex Malotky
  */
 import View, {RenderUpdate} from "../View";
-import HTMLElement from "../View/Html";
 import ProtoResponse from "./ProtoResponse";
 
 const HTML_MIME_TYPE = "text/html";

@@ -1,5 +1,5 @@
 import { LinkRel, RefferPolicy, CrossOrigin, Priority, Target, HTMLContent } from "./Types"
-import { buildAttributesString } from "./Attribute";
+import { buildAttributesString, AttributeList } from "./Attribute";
 
 export type TitleInit = string;
 /** Title Tag
@@ -45,20 +45,20 @@ function base(value:BaseInit):HTMLContent {
 }
 
 
-export interface LinkInit {
+export interface LinkInit extends AttributeList {
     as?:"audio"|"document"|"embed"|"fetch"|"font"|"font"|"image"|"object"|"script"|"style"|"track"|"video"|"worker",
     blocking?:boolean,
     corssorigin?:CrossOrigin,
     disabled?:boolean,
-    fetchpriority: Priority,
+    fetchpriority?: Priority,
     href: string,
     hreflang?:string,
     imagesizes?:string,
     imagesrcset?:string,
     integrity?:string,
     media?:string,
-    refferpolicy: RefferPolicy,
-    rel?: LinkRel,
+    refferpolicy?: RefferPolicy,
+    rel: LinkRel,
     sizes?:string,
     title?:string,
     type?:string,
@@ -74,15 +74,15 @@ export interface LinkInit {
  * @returns {HTMLContent}
  */
 function link(value:LinkInit):HTMLContent {
-    const attributes:string = buildAttributesString(value);
+    if(value.rel === undefined)
+        throw new Error("Link must have a relation!");
+    if(value.href === undefined)
+        throw new Error("Link must have a href!");
 
-    if(attributes === "")
-        throw new Error("Empty Attributes for Link!");
-
-    return "<link "+attributes+"/>";
+    return "<link "+buildAttributesString(value)+"/>";
 }
 
-export interface StyleInit {
+export interface StyleInit extends AttributeList{
     blocking?:boolean,
     media?:string,
     nonce?:string,
@@ -107,7 +107,7 @@ function style(value:StyleInit):HTMLContent {
     return "<style "+buildAttributesString(value)+">"+content+"</style>";
 }
 
-export interface ScriptInit {
+export interface ScriptInit extends AttributeList{
     async?:boolean,
     attributeionsrc?:string|boolean,
     blocking?:"render"|boolean,
@@ -264,6 +264,7 @@ function merge<U, I extends U&{name?:string}>(init:Array<I> = [], update:Diction
         if(original.name){
             const index = list.indexOf(original.name);
             if(index >= 0){
+                //@ts-ignore
                 output.push(update[original.name]);
                 list.splice(index, 0);
             } else {
@@ -277,6 +278,7 @@ function merge<U, I extends U&{name?:string}>(init:Array<I> = [], update:Diction
     }
 
     for(let name of list){
+        //@ts-ignore
         output.push({
             ...update[name],
         })
@@ -285,7 +287,7 @@ function merge<U, I extends U&{name?:string}>(init:Array<I> = [], update:Diction
     return output;
 }
 
-export interface LinkUpdate {
+export interface LinkUpdate extends AttributeList{
     disabled?:boolean,
     href: string,
     imagesrcset?:string,
@@ -295,11 +297,11 @@ export interface LinkUpdate {
     sizes?:string,
     title?:string,
 }
-export interface StyleUpdate {
+export interface StyleUpdate extends AttributeList{
     media?:string,
     value:string,
 }
-export interface ScriptUpdate {
+export interface ScriptUpdate extends AttributeList{
     async?:boolean,
     nomodule?:boolean,
     src?:string,
@@ -325,6 +327,7 @@ export function mergeInitWithUpdate(init:HeadInit, update:HeadUpdate = {}):HeadI
         base: init.base,
         title: updateTitle(init.title, update.title),
         meta: updateMeta(init.meta, update.meta),
+        //@ts-ignore
         links: merge(init.links, update.links),
         styles: merge(init.styles, update.styles),
         scripts: merge(init.scripts, update.scripts)

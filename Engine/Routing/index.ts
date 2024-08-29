@@ -31,6 +31,9 @@ export default class Routing extends Router{
                     const response = await layer.handle(context);
                     if(response)
                         return response;
+
+                    if(context.response.commited())
+                        return await context.flush();
                 }
             }
 

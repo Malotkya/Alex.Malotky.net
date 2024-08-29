@@ -3,6 +3,7 @@ import { Enumerable } from "./Types";
 
 type Attribute = string|number|boolean|Array<string>;
 export default Attribute;
+export type AttributeList = Dictionary<Attribute|undefined>;
 
 /** Build Attributes String
  * 

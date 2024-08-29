@@ -2,7 +2,7 @@
  * 
  * @author Alex Malotky
  */
-import {Context, Router} from "zim-engine";
+import {Context, Router} from "Engine";
 import homeView from "./view";
 
 /** Home Module
@@ -13,13 +13,12 @@ const Title = "Home"
 const Path = "/"
 
 Home.all(async(ctx:Context)=>{
-    const header = {
-        title: Title
-    }
-
-    const content = homeView();
-
-    ctx.render({header, content})
+    ctx.render({
+        head: {
+            title: Title
+        },
+        body: homeView()
+    })
 });
 
 export default {Title, Path, Router:Home}

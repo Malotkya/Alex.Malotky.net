@@ -1,4 +1,4 @@
-import { createContent as _, Content } from "zim-engine";
+import { createContent as _, Content } from "Engine";
 import { Buffer } from "node:buffer";
 
 import { yellow } from "./games/yellow";

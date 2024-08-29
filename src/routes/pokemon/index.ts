@@ -2,7 +2,7 @@
  * 
  * @author Alex Malotky
  */
-import {Context, Router} from "zim-engine";
+import {Context, Router} from "Engine";
 import pokemonView from "./view";
 
 /** Pokemon Router
@@ -12,14 +12,18 @@ export const Pokemon = new Router();
 const Path = "/Pokemon";
 
 Pokemon.all(async(ctx:Context)=>{
-    const header = {
-        title: "Pokemon Games",
-        description: "Pokemon teams accross the different pokemon games Alex has played."
-    }
 
-    const content = pokemonView(ctx.search["game"]);
 
-    ctx.render({header, content});
+    ctx.render({
+        head: {
+            title: "Pokemon Games",
+            meta: {
+                description: "Pokemon teams accross the different pokemon games Alex has played."
+            }
+            
+        },
+        body: pokemonView(ctx.search.get("game"))
+    });
 });
 
 export default {Path, Router:Pokemon};

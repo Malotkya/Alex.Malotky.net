@@ -2,7 +2,7 @@
  * 
  * @author Alex Malotky
  */
-import {Router, Context} from "zim-engine";
+import {Router, Context} from "Engine";
 
 
 /** Portfolio Router
@@ -13,14 +13,15 @@ const Title = "Portfolio";
 const Path = "/Portfolio"
 
 Portfolio.all(async(ctx:Context)=>{
-    const header = {
-        title: Title,
-        description: "A list of projects that Alex has worked on."
-    };
-
-    const content = require("./index.html");
-
-    ctx.render({header, content});
+    ctx.render({
+        head:{
+            title: Title,
+            meta: {
+                description: "A list of projects that Alex has worked on."
+            }
+        },
+        body: require("./index.html")
+    });
 });
 
 export default {Path, Title, Router:Portfolio}

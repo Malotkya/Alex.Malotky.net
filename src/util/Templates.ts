@@ -1,5 +1,5 @@
-import { Content, createContent as _} from "zim-engine";
-import { RenderUpdate } from "zim-engine/lib/View";
+import { Content, createContent as _} from "Engine";
+import { RenderUpdate } from "Engine/View";
 
 export default function WireFrame(navList:Content, content:Content):Content{
     return [
@@ -58,11 +58,11 @@ function Footer():Content {
 
 export function ErrorContent(status:number, message:string):RenderUpdate {
     const string = `${status}: ${message}`;
-    const header = {
-        title: string
+
+    return {
+        head: {
+            title: string
+        },
+        body: _("h2", {class:"error"}, string)
     };
-
-    const content:Content = _("h2", {class:"error"}, string);
-
-    return {header, content};
 }

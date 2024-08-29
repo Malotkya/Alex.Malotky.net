@@ -3,6 +3,7 @@
  * @author Alex Malotky
  */
 import Routing from "./Routing";
+import Layer from "./Routing/Layer";
 import Context from "./Context";
 import View from "./View";
 import { EndPoint, Middleware } from "./Routing/Layer";
@@ -31,19 +32,41 @@ export default class Engine extends Routing {
         return await this.handle(new Context(request, env, this._view));
     }
 
-    use(handler:Middleware|EndPoint): void
-    use(path:string, endpoint:EndPoint):void
+    use(handler:Middleware|EndPoint|Layer): void
+    use(path:string, endpoint:EndPoint|Layer):void
     use(){
         switch(arguments.length){
             case 0:
                 throw new Error("No arguments were passed to Engine.use!");
 
             case 1:
-                super.all(arguments[0]);
+                switch(typeof arguments[0]){
+                    case "function":
+                        super.all(arguments[0]);
+                        break;
+
+                    case "object":
+                        this._methods.add("ALL", arguments[0]);
+                        break;
+
+                    default:
+                        throw new Error("Handler must be a function or a Layer!");
+                }
                 break;
 
             default:
-                super.all(arguments[0], arguments[1]);
+                switch(typeof arguments[1]){
+                    case "function":
+                        super.all(arguments[1]);
+                        break;
+
+                    case "object":
+                        this._methods.add("ALL", arguments[1]);
+                        break;
+
+                    default:
+                        throw new Error("Handler must be a function or a Layer!");
+                }
         }
     }
 

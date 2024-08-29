@@ -14,7 +14,7 @@ export default class Routing extends Router{
     private errorHandler:ErrorHandler;
 
     constructor(){
-        super();
+        super("Main Routing");
         this.notFoundHandler = (ctx:Context) => {throw new HttpError(404, `${ctx.url.pathname} was not found!`)};
         this.errorHandler = (e:any) => {
             return new Response(e.message || String(e), {status: e.statusCode || e.code || e.status || 500})

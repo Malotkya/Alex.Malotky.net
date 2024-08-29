@@ -8,14 +8,12 @@ import {Router, Context} from "Engine";
 /** Portfolio Router
  * 
  */
-const Portfolio = new Router();
-const Title = "Portfolio";
-const Path = "/Portfolio"
+const Portfolio = new Router("/Portfolio");
 
 Portfolio.all(async(ctx:Context)=>{
     ctx.render({
         head:{
-            title: Title,
+            title: "Portfolio",
             meta: {
                 description: "A list of projects that Alex has worked on."
             }
@@ -24,4 +22,4 @@ Portfolio.all(async(ctx:Context)=>{
     });
 });
 
-export default {Path, Title, Router:Portfolio}
+export default Portfolio;

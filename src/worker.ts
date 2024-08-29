@@ -32,12 +32,12 @@ import About from "./routes/about";
 import Portfolio from "./routes/portfolio";
 import Pokemon from "./routes/pokemon";
 
-app.use(Home.Path, Home.Router);
-app.use(About.Path, About.Router);
-app.use(Portfolio.Path, Portfolio.Router);
-app.use(Pokemon.Path, Pokemon.Router);
+app.use(Home);
+app.use(About);
+app.use(Portfolio);
+app.use(Pokemon);
 
-navBar.push(NavLink(Portfolio.Path, "Protfolio"));
-navBar.push(NavLink(About.Path, "About Me"));
+navBar.push(NavLink(Portfolio.path, "Protfolio"));
+navBar.push(NavLink(About.path, "About Me"));
 
 export default app;

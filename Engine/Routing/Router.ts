@@ -27,14 +27,20 @@ class Stack extends Array<{name:string, layer:Layer}>{
  */
 export default class Router extends Layer{
     protected _methods:Stack;
+    private _path: string;
 
     /** Constructor
      * 
      * @param {any} options 
      */
-    constructor(options:any = {end:true}) {
-        super("/", ROUTER_ERROR);
+    constructor(path:string) {
+        super(path, ROUTER_ERROR);
         this._methods = new Stack();
+        this._path = path;
+    }
+
+    get path(){
+        return this._path;
     }
 
     /** Handle Request Override
@@ -73,13 +79,13 @@ export default class Router extends Layer{
     private _filter(args:IArguments):Layer {
         switch(typeof args[0]){
             case "function":
-                return new Layer("/", undefined, args[0])
+                return new Layer("/", args[0])
 
             case "string":
                 if(typeof args[1] !== "function")
                     throw new TypeError("Endpoint must be a function!");
 
-                return new Layer(args[0], undefined, args[1]);
+                return new Layer(args[0], args[1]);
 
             default:
                 throw new TypeError("Path must be a string!");

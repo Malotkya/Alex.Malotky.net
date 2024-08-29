@@ -7,18 +7,16 @@ import {Router, Context} from "Engine";
 /** About Me Router
  * 
  */
-const AboutMe = new Router();
-const Title = "About Me";
-const Path = "/About";
+const AboutMe = new Router("/About");
 
 AboutMe.all(async(ctx:Context)=>{
     ctx.render({
         head:{
-            title: Title,
+            title: "About Me",
             meta: {description: "More about Alex."}
         }, 
         body: require("./index.html")
     });
 });
 
-export default {Path, Title, Router:AboutMe}
+export default AboutMe;

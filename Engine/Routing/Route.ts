@@ -5,7 +5,7 @@
 import Context from "../Context";
 import Layer, { EndPoint, Middleware } from "./Layer";
 
-const ROUTE_ERROR = ()=>{throw new Error("_handler called from Router!")}
+const ROUTE_ERROR = ()=>{throw new Error("_handler called from Route!")}
 
 export default class Route extends Layer {
     #layers: Array<Layer>;
@@ -42,14 +42,14 @@ export default class Route extends Layer {
         let layer:Layer;
         switch(typeof arguments[0]){
             case "function":
-                layer = new Layer("/", undefined, arguments[0])
+                layer = new Layer("/", arguments[0])
                 break;
 
             case "string":
                 if(typeof arguments[1] !== "function")
                     throw new TypeError("Endpoint must be a function!");
 
-                layer = new Layer(arguments[0], undefined, arguments[1]);
+                layer = new Layer(arguments[0], arguments[1]);
                 break;
 
             default:

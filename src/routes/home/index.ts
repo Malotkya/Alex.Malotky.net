@@ -8,17 +8,12 @@ import homeView from "./view";
 /** Home Module
  *
  */
-const Home = new Router();
-const Title = "Home"
-const Path = "/"
+const Home = new Router("/");
 
 Home.all(async(ctx:Context)=>{
     ctx.render({
-        head: {
-            title: Title
-        },
         body: homeView()
     })
 });
 
-export default {Title, Path, Router:Home}
+export default Home;

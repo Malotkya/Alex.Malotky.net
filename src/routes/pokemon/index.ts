@@ -8,12 +8,9 @@ import pokemonView from "./view";
 /** Pokemon Router
  * 
  */
-export const Pokemon = new Router();
-const Path = "/Pokemon";
+export const Pokemon = new Router("/Pokemon");
 
 Pokemon.all(async(ctx:Context)=>{
-
-
     ctx.render({
         head: {
             title: "Pokemon Games",
@@ -26,4 +23,4 @@ Pokemon.all(async(ctx:Context)=>{
     });
 });
 
-export default {Path, Router:Pokemon};
+export default Pokemon;

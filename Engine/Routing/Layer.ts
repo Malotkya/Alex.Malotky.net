@@ -17,16 +17,13 @@ export interface Match {
     params:Params
 }
 
-const DEFAULT_OPTS:PathToRegexpOptions = {strict: false, end: false};
-
 export default class Layer {
     private _shortcut:boolean;
     private _handler:Middleware|EndPoint;
     private _regex:RegExp&{keys:Array<Key>};
 
     constructor(middleware:Middleware)
-    constructor(path:string, middleware:Middleware)
-    constructor(path:string, options:PathToRegexpOptions|undefined, endpoint:EndPoint)
+    constructor(path:string, middleware:Middleware|EndPoint)
     constructor(){
         switch(arguments.length){
             case 0:
@@ -38,10 +35,10 @@ export default class Layer {
 
                 this._shortcut = true;
                 this._handler = arguments[0];
-                this._regex = pathToRegexp("/", DEFAULT_OPTS);
+                this._regex = pathToRegexp("/");
                 break;
 
-            case 2:
+            default:
                 if(typeof arguments[0] !== "string")
                     throw new TypeError("Path must be a string!");
                 if(typeof arguments[1] !== "function")
@@ -49,27 +46,7 @@ export default class Layer {
 
                 this._shortcut = false;
                 this._handler = arguments[1]
-                this._regex = pathToRegexp(arguments[0], DEFAULT_OPTS);
-                break;
-
-
-            default:
-                if(typeof arguments[0] !== "string")
-                    throw new TypeError("Path must be a string!");
-                if(typeof arguments[2] !== "function")
-                    throw new TypeError("Endpoint must be a function!");
-                switch (typeof arguments[1]) {
-                    case "undefined":
-                        arguments[1] = DEFAULT_OPTS;
-                        break;
-
-                    default:
-                        throw new TypeError("Invalid Options for Layer!");
-                }
-
-                this._shortcut = false;
-                this._handler = arguments[2];
-                this._regex = pathToRegexp(arguments[0], arguments[1]);
+                this._regex = pathToRegexp(arguments[0]);
                 break;
         }
     }

@@ -12,4 +12,5 @@ const inProduction = process.argv.includes('prod');
 //export config
 module.exports = [
     WorkerConfig({inProduction, source_directory, build_directory}),
+    AppConfig(inProduction, source_directory, build_directory)
 ]

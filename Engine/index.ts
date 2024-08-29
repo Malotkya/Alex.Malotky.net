@@ -7,6 +7,13 @@ import Context from "./Context";
 import View from "./View";
 import { EndPoint, Middleware } from "./Routing/Layer";
 
+//Exports
+import Router from "./Routing/Router";
+import { createElement } from "./View/Html/Element";
+import { RenderContent } from "./View";
+export {Router, Context, createElement as createContent};
+export type {RenderContent as Content};
+
 export default class Engine extends Routing {
     private _view:View|undefined;
 

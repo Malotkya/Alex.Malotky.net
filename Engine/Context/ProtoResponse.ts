@@ -1,48 +1,125 @@
+/** Engine/Context/ProtoResponse
+ * 
+ */
 import {Transform, TransformCallback} from "node:stream";
-import {Buffer} from "node:buffer";
 import { sleep } from "../Util";
 
 export default class ProtoResponse extends Transform{
-    public status:number;
-    public headers:Map<string, string>;
+    //Strict private members
+    #status:number;
+    #headers:Map<string, string>;
     #body: Array<Uint8Array>;
 
-    private working:boolean;
+    //Not Strict
+    private working:boolean|undefined;
+    private static encoder = new TextEncoder();
 
+    /** Stringify Encoded Data
+     * 
+     * @param {any} data 
+     * @param {string} encode 
+     * @returns {string}
+     */
+    private static _stringify(data:any, encode:string):string {
+
+        //Test if not string.
+        if(typeof data !== "string") {
+
+            //Test if it has toString method
+            if(typeof data.toString === "function") {
+
+                //Test if accepts encdoding.
+                if(data.toString.length >= 1){
+                    return data.toString(encode);
+                } else {
+                    return data.toString();
+                }
+            }
+
+            return String(data);
+        }
+        
+        return data;
+    }
+    
+    /** Text Encoder
+     * 
+     * @param {any} data 
+     * @param {string} encode 
+     * @returns {Uint8Array}
+     */
+    private static _text(data:any, encode:string):Uint8Array {
+        return ProtoResponse.encoder.encode(String(ProtoResponse._stringify(data, encode)))
+    }
+
+    /** Proto Response Constructor
+     * 
+     */
     constructor(){
         super();
 
-        this.status = 200;
-        this.headers = new Map();
+        this.#status = 200;
+        this.#headers = new Map();
         this.#body = [];
-        this.working = false;
     }
 
-    _transform(data:Buffer|string, encode:string, callback:TransformCallback){
+    /** Transform Data Override
+     * 
+     * @param {any} data 
+     * @param {string} encode 
+     * @param {Function} callback 
+     */
+    _transform(data:any, encode:string, callback:TransformCallback){
         this.working = true;
-        if(data instanceof Buffer)
+        if( data instanceof Uint8Array )
             this.#body.push(data);
         else
-            this.text(data);
+        this.#body.push(ProtoResponse._text(data, encode));
         callback();
     }
 
+    /** Flush Override
+     * 
+     * @param callback 
+     */
     _flush(callback: TransformCallback): void {
         this.working = false;
         callback()
     }
 
-    text(string:any):void {
-        this.#body.push(new TextEncoder().encode(String(string)))
+    /** Has Commited
+     * 
+     * @returns 
+     */
+    commited():boolean{
+        return this.working !== undefined
     }
 
-    commited(){
-        if(this.working)
-            return true;
-
-        return this.#body.length > 0;
+    /** Status Getter
+     * 
+     */
+    get status():number {
+        return this.#status;
     }
 
+    /** Status Setter
+     * 
+     */
+    set status(value:number){
+        this.#status = value;
+    }
+
+    /** Headers Getter
+     * 
+     */
+    get headers():Map<string, string>{
+        return this.#headers;
+    }
+
+    /** Flush Response
+     * 
+     * @returns {Promise<Response>}
+     */
     async flush():Promise<Response> {
         while(this.working)
             sleep();

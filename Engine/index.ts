@@ -4,9 +4,10 @@
  */
 import Routing from "./Routing";
 import Layer from "./Routing/Layer";
-import Context, {Authorization} from "./Context";
+import Context from "./Context";
 import View from "./View";
 import { EndPoint, Middleware } from "./Routing/Layer";
+import Authorization from "./Authorization";
 
 //Exports
 import Router from "./Routing/Router";
@@ -18,6 +19,7 @@ export type {RenderContent as Content};
 export default class Engine extends Routing {
     private _view:View|undefined;
     private _auth:Authorization|undefined;
+
 
     constructor(){
         super();
@@ -31,8 +33,14 @@ export default class Engine extends Routing {
     }
 
     auth(value:Authorization) {
-        if(typeof value !== "function")
-            throw new TypeError("Auth must be a function!");
+        if( !(value instanceof Authorization) )
+            throw new TypeError("Invalid type of authorization.");
+
+        if(typeof value.get() !== "function")
+            throw new TypeError("Authentication Getter is not set!");
+
+        if(typeof value.set() !== "function")
+            throw new TypeError("Authentication Setter is not set!");
 
         this._auth = value;
     }

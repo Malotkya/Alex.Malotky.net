@@ -4,12 +4,11 @@
  */
 import View, {RenderUpdate} from "../View";
 import ProtoResponse from "./ProtoResponse";
+import Authorization from "Engine/Authorization";
 
 const HTML_MIME_TYPE = "text/html";
 const TXT_MIME_TYPE  = "text/plain";
 const JSON_MIME_TYPE = "application/json";
-
-export type Authorization = (request:Request) => Promise<User|null>|User|null
 
 /** Context
  * 
@@ -227,11 +226,18 @@ export default class Context{
      * 
      * @returns {Promise<User|null>}
      */
-    async authorization():Promise<User|null> {
-        if(this._auth === undefined)
+    async getAuth():Promise<User|null> {
+        if(this._auth === undefined || this._auth.get() === undefined)
             return null;
 
-        return await this._auth(this._request);
+        return await this._auth.get()(this._request);
+    }
+
+    async setAuth(user:User):Promise<void> {
+        if(this._auth === undefined || this._auth.set() === undefined)
+            return;
+
+        await this._auth.set()(this._response, user);
     }
 
     /** Redirect

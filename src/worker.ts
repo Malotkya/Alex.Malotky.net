@@ -42,11 +42,13 @@ import Home from "./routes/home";
 import About from "./routes/about";
 import Portfolio from "./routes/portfolio";
 import Pokemon from "./routes/pokemon";
+import Login from "./routes/login";
 
 app.use(Home);
 app.use(About);
 app.use(Portfolio);
 app.use(Pokemon);
+app.use(Login);
 
 navBar.push(NavLink(Portfolio.path, "Protfolio"));
 navBar.push(NavLink(About.path, "About Me"));

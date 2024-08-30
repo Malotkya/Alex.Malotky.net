@@ -1,7 +1,7 @@
 import { Router, Context } from "Engine";
 import LoginForm from "./view";
 
-export const Login = new Router("/Login");
+const Login = new Router("/Login");
 
 Login.all(async(ctx: Context)=>{
     const {username, password} = await ctx.authorization() || {username:undefined, password: undefined};
@@ -24,3 +24,5 @@ Login.all(async(ctx: Context)=>{
         body: LoginForm(username, password, error)
     });
 });
+
+export default Login;

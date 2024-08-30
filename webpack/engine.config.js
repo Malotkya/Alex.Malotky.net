@@ -37,7 +37,11 @@ module.exports = (props) => {
                 {
                     test: /\.tsx?$/,
                     use: 'ts-loader',
-                    exclude: /node_modules/
+                    exclude: [
+                        /node_modules/,
+                        /Engine\/Web/,
+                        /Engine\/View\/RenderEnvironment/
+                    ]
                 },
                 {
                     test: /.html$/i,

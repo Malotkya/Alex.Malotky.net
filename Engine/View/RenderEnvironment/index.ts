@@ -1,5 +1,5 @@
 import {RenderUpdate, RenderContent} from "..";
-import { getRouteInfo, findOrCreateElement } from "./Util";
+import { getRouteInfo, findOrCreateElement, hashObject } from "./Util";
 import { HeadUpdate } from "../Html/Head";
 import HeadEnvironment from "./Head";
 
@@ -12,7 +12,9 @@ interface FetchOptions {
 
 export default class RenderEnvironment {
     private _head:HeadEnvironment;
+    private _headHash:number;
     private _main:HTMLElement;
+    private _mainHash:number;
 
     private _routing:boolean;
     private _delay:{url:string|URL, body?:FormData}|undefined;
@@ -24,7 +26,9 @@ export default class RenderEnvironment {
         
         this._routing = false;
         this._head = new HeadEnvironment();
+        this._headHash = 0;
         this._main = findOrCreateElement("#main");
+        this._mainHash = 0;
     }
 
     /** Main Route Handler
@@ -106,11 +110,22 @@ export default class RenderEnvironment {
     /// Private Update Methods ///
 
     private updateHead(update:HeadUpdate) {
+        const hash = hashObject(update);
+        if(hash === this._headHash){
+            return console.warn("Head didn't change!");
+        }
+
         this._head.update(update);
+        this._headHash = hash;
     }
 
     private updateBody(update:RenderContent) {
+        const hash = hashObject(update);
+        if(hash === this._mainHash){
+            return console.warn("Body didn't change!");
+        }
         RenderEnvironment.render(this._main, update);
+        this._mainHash = hash;
     }
 
     private updateChanges(update:Dictionary<RenderContent>){

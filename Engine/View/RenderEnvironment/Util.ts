@@ -99,3 +99,26 @@ export function getRouteInfo(href:string):{path:string, anchor:string} {
         anchor: href.substring(index+1)
     }
 }
+
+/** Hash Object
+ * 
+ */
+export function hashObject(value:Object|string):number {
+    let string:string;
+    if(typeof value !== "string"){
+        string = JSON.stringify(value);
+    } else {
+        string = value;
+    } 
+
+    if(string.length === 0)
+        return 0;
+
+    let hash = 0;
+    for(let i=0; i<string.length; i++) {
+        hash = ((hash << 5) - hash) + string.charCodeAt(i);
+        hash |= 0;
+    }
+
+    return hash;
+}

@@ -1,4 +1,4 @@
-type Content = string|number|boolean|Array<Content>;
+type Content = string|number|boolean|null|undefined|Array<Content>;
 export default Content;
 
 /** Compress Content
@@ -14,6 +14,9 @@ export function compressContent(content:Content):string {
         return buffer;
     } else if(content === null || content === undefined){
         return "";
+    } else if(typeof content !== "string") {
+        return String(content);
     }
-    return String(content);
+
+    return content;
 }

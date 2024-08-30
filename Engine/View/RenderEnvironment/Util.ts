@@ -122,3 +122,18 @@ export function hashObject(value:Object|string):number {
 
     return hash;
 }
+
+/** Get Value From
+ * 
+ * @param {string} query 
+ * @returns {string}
+ */
+export function getValueFrom(element:HTMLElement, name:string):string {
+    const target = element.querySelector(`[name='${name}']`) as HTMLInputElement|null;
+
+    if(target && target.value){
+        return target.value;
+    }
+
+    return "";
+}

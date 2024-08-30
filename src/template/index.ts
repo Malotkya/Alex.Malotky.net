@@ -1,11 +1,13 @@
 import { Content, createContent as _} from "Engine";
-import { RenderUpdate } from "Engine/View";
+import { RenderUpdate, RenderFunction } from "Engine/View";
 
-export default function WireFrame(navList:Content, content:Content){
-    return _("header", 
-        _("a", {class: "skip", href:"#main"}, "Skip Link"),
-        Navigation(navList),
-    ) + _("main", content) + Footer();
+export default function WireFrame(navList:Content):RenderFunction{
+    return function Template(content:Content){
+        return _("header", 
+            _("a", {class: "skip", href:"#main"}, "Skip Link"),
+            Navigation(navList),
+        ) + _("main", content) + Footer();
+    }
 }
 
 export function NavLink(href:string, title:string):Content{

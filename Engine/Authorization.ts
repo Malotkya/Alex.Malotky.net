@@ -1,7 +1,7 @@
 import ProtoResponse from "./Context/ProtoResponse"
 
 export type AuthGet = (request:Request) => Promise<User|null>|User|null
-export type AuthSet = (response:ProtoResponse, user:User) => Promise<void>|void;
+export type AuthSet = (response:ProtoResponse, user:User|null) => Promise<void>|void;
 
 export default class Authorization{
     private _getter:AuthGet|undefined;

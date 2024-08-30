@@ -248,7 +248,7 @@ export default class Context{
         return await this._auth.get()(this._request);
     }
 
-    async setAuth(user:User):Promise<void> {
+    async setAuth(user:User|null):Promise<void> {
         if(this._auth === undefined || this._auth.set() === undefined)
             return;
 

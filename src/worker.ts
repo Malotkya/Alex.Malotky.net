@@ -48,19 +48,33 @@ auth.get(async(req)=>{
     return payload as User;
 })
 auth.set(async(res, user)=>{
-    const token = await jwt.sign({
-        ...user,
-        exp: Math.floor(Date.now() / 1000) + MAX_LOGIN_AGE
-    }, "secret");
-
-    res.headers.set("Set-Cookie",
-        serialize("auth", token, {
-            httpOnly: true,
-            maxAge: MAX_LOGIN_AGE,
-            sameSite: "lax",
-            path: "/"
-        })
-    )
+    if(user === null){
+        //Logout
+        res.headers.set("Set-Cookie",
+            serialize("auth", "", {
+                httpOnly: true,
+                maxAge: 0,
+                sameSite: "lax",
+                path: "/"
+            })
+        );
+    } else {
+        //Login
+        const token = await jwt.sign({
+            ...user,
+            exp: Math.floor(Date.now() / 1000) + MAX_LOGIN_AGE
+        }, "secret");
+    
+        res.headers.set("Set-Cookie",
+            serialize("auth", token, {
+                httpOnly: true,
+                maxAge: MAX_LOGIN_AGE,
+                sameSite: "lax",
+                path: "/"
+            })
+        )
+    }
+    
 });
 app.auth(auth);
 

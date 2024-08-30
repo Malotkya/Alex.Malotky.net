@@ -43,16 +43,7 @@ export default class RenderEnvironment {
         const {anchor, path} = getRouteInfo(window.location.href);
 
         try {
-            const data = await RenderEnvironment.fetch(path, {body});
-            if(data.head){
-                this.updateHead(data.head);
-            }
-            if(data.body){
-                this.updateBody(data.body);
-            }
-            if(data.update){
-                this.updateChanges(data.update);
-            }
+            this.update(await RenderEnvironment.fetch(path, {body}));
         } catch (e){
             console.error(e);
             //window.location.reload();
@@ -107,6 +98,18 @@ export default class RenderEnvironment {
         window.open(href, '_blank' , 'noopener,noreferrer')
     }
 
+    update(update:RenderUpdate){
+        if(update.head){
+            this.updateHead(update.head);
+        }
+        if(update.body){
+            this.updateBody(update.body);
+        }
+        if(update.update){
+            this.updateChanges(update.update);
+        }
+    }
+
     /// Private Update Methods ///
 
     private updateHead(update:HeadUpdate) {
@@ -148,21 +151,29 @@ export default class RenderEnvironment {
      * @param {RenderContent} content 
      */
     static render(target:HTMLElement&{value?:string}, content:RenderContent){
-        const insert = (value:string) => {
-            if(target.value){
-                target.value = value;
+
+        if(target.value){ //If it takes value.
+
+            if(typeof content === "object"){
+                target.value = JSON.stringify(content);
             } else {
-                target.innerHTML = value;
+                target.value = content;
             }
-        }
-        if(Array.isArray(content)){
-            for(let c of content){
-                RenderEnvironment.render(target, c);
-            }
-        } else if(typeof content === "string"){
-            insert(content);
+
         } else {
-            insert(String(content));
+            
+            const append = (value:RenderContent) => {
+                if(Array.isArray(value)){
+                    for(let c of value){
+                        append(c);
+                    }
+                } else {
+                    target.innerHTML += value;
+                }
+            } //Append
+
+            target.innerHTML = "";
+            append(content);
         }
     }
 
@@ -183,11 +194,18 @@ export default class RenderEnvironment {
             throw new Error("Did not recieve JSON response!");
         }
 
+        const data:RenderUpdate = await response.json();
+
         if(!response.ok) {
-            throw await response.json();
+
+            if(data.error){
+                console.error(data.error);
+            } else {
+                throw new Error("An known error has occured!");
+            }
         }
 
-        const data:RenderUpdate = await response.json();
+        
         if(data.head === undefined && data.body === undefined && data.update === undefined){
             throw new Error("Recieved either an empty or invalid response!");
         }

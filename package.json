@@ -3,16 +3,16 @@
   "version": "3.0.0",
   "description": "Personal / Portfolio Website",
   "scripts": {
-    "build:dev": "npx webpack-cli --env dev",
-    "build:prod": "npx webpack-cli --env prod",
-    "build:watch": "npx webpack-cli --watch",
-    "build:clean": "rm -r build && npm run build:prod",
-    "serve:dev": "npm run build:dev && firebase serve",
-    "serve:prod": "npm run build:prod && firebase serve",
-    "deploy": "npm run build:clean && firebase deploy",
-    "scryfall": "node ./util/scryfall.js",
-    "pokemon": "node ./util/pokemon.js",
-    "preview": "wrangler pages dev"
+    "preview": "wrangler pages dev",
+    "remove": "rimraf ./build",
+    "build:dev": "webpack-cli --env dev",
+    "build:prod": "webpack-cli --env prod",
+    "build:watch": "webpack-cli --watch",
+    "build:clean": "npm run remove && npm run build:prod",
+    "preview:dev": "npm run build:dev && npm run preview",
+    "preview:prod": "npm run build:prod && npm run preview",
+    "preview:watch": "concurrently \"npm run build:watch\" \"npm run preview\"",
+    "deploy": "npm run build:clean && wrangler pages deploy"
   },
   "author": "Alex Malotky",
   "license": "ISC",
@@ -20,6 +20,7 @@
     "@cloudflare/workers-types": "^4.20240405.0",
     "@types/masonry-layout": "^4.2.6",
     "@types/node": "^20.12.7",
+    "concurrently": "^8.2.2",
     "copy-webpack-plugin": "^11.0.0",
     "css-minimizer-webpack-plugin": "^5.0.0",
     "file-loader": "^6.2.0",
@@ -29,13 +30,14 @@
     "masonry-layout": "^4.2.2",
     "path-to-regexp": "^7.1.0",
     "raw-loader": "^4.0.2",
+    "rimraf": "^6.0.1",
     "sass": "^1.62.1",
     "sass-loader": "^13.2.2",
     "ts-loader": "^9.4.2",
     "typescript": "^5.0.4",
     "webpack": "^5.81.0",
     "webpack-cli": "^5.0.2",
-    "wrangler": "^3.0.0"
+    "wrangler": "^3.73.0"
   },
   "sideEffects": false
 }

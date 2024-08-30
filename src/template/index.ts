@@ -6,7 +6,7 @@ export default function WireFrame(navList:Content):RenderFunction{
         return _("header", 
             _("a", {class: "skip", href:"#main"}, "Skip Link"),
             Navigation(navList),
-        ) + _("main", content) + Footer();
+        ) + _("main", {id: "main"}, content) + Footer();
     }
 }
 

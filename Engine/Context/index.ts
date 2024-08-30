@@ -37,7 +37,7 @@ export default class Context{
         this._request = request;
         this._response = new ProtoResponse();
         this._env = env;
-        this._url = new URL(request.url || "/", `http://${request.headers.get("host")}`);
+        this._url = new URL(request.url);
         this._view = view;
         this._auth = auth;
 
@@ -232,5 +232,17 @@ export default class Context{
             return null;
 
         return await this._auth(this._request);
+    }
+
+    /** Redirect
+     * 
+     * @param url 
+     * @param status 
+     */
+    redirect(url:string|URL, status?:number){
+        if(url === "back"){
+            url = this._request.headers.get("Referrer") || "/";
+        }
+        this._response.redirect(url, status);
     }
 }

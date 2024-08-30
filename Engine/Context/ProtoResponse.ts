@@ -9,6 +9,7 @@ export default class ProtoResponse extends Transform{
     #status:number;
     #headers:Map<string, string>;
     #body: Array<Uint8Array>;
+    #redirect: string|URL|undefined;
 
     //Not Strict
     private working:boolean|undefined;
@@ -124,13 +125,28 @@ export default class ProtoResponse extends Transform{
         while(this.working)
             sleep();
 
+        if(this.#redirect){
+            return Response.redirect(this.#redirect, this.#status);
+        }
+
         const headers:Record<string, string> = {};
-        for(const [name, value] of this.headers.entries())
+        for(const [name, value] of this.#headers.entries())
             headers[name] = value;
 
         return new Response(new Blob(this.#body), {
             status: this.status,
             headers: headers
         });
+    }
+
+    /** Redirect Resposne
+     * 
+     * @param {string|URL} url 
+     * @param {number} status 
+     */
+    redirect(url:string|URL, status:number = 301){
+        this.#redirect = url;
+        this.#status = status;
+        this.working = false;
     }
 }

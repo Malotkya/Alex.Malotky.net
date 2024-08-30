@@ -9,7 +9,7 @@ const HTML_MIME_TYPE = "text/html";
 const TXT_MIME_TYPE  = "text/plain";
 const JSON_MIME_TYPE = "application/json";
 
-export type Authorization = (request:Request) => Promise<User>|User
+export type Authorization = (request:Request) => Promise<User|null>|User|null
 
 /** Context
  * 

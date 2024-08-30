@@ -1,15 +1,16 @@
 import RenderEnvironment from "./View/RenderEnvironment";
-import { getRouteInfo } from "./View/RenderEnvironment/Util";
+import { getRouteInfo, getValueFrom } from "./View/RenderEnvironment/Util";
+
 
 const env = new RenderEnvironment();
 
-window.addEventListener("popstate", function stateChange(event){
+window.addEventListener("popstate", function state_change(event){
     env.handler().then(anchor=>{
         env.scroll(anchor);
     }).catch(console.error);
 });
 
-document.body.addEventListener("click", function clcik(event){
+document.body.addEventListener("click", function click_event(event){
     const target:HTMLElement = event.target as HTMLElement;
     const link:HTMLAnchorElement|null = target.closest("a");
 
@@ -32,8 +33,42 @@ document.body.addEventListener("click", function clcik(event){
     }
 });
 
-document.body.addEventListener("submit", function submit(event){
+document.body.addEventListener("submit", async function submit_event(event){
     event.preventDefault();
+    const form = event.target as HTMLFormElement;
 
-    alert("Submit!");
+    
+    const url = form.action || window.location.pathname;
+    let method:string|undefined;
+    let body:FormData|undefined; 
+    const headers:Dictionary<string> = {};
+    
+    switch (form.getAttribute("method")?.toLocaleLowerCase()){
+        case "dialog":
+            alert("Dialog is currently not supported!");
+            break;
+
+        case "auth":
+            headers["Authorization"] = "Basic " + btoa(`${getValueFrom(form, "username")}:${getValueFrom(form, "password")}`);
+            method = "GET";
+            break;
+
+        default:
+            method = form.method;
+            body = new FormData(form);
+    }
+
+    if(method){
+        const data = await RenderEnvironment.fetch(url, {method, body, headers});
+        if(data.update){
+            for(const id in data.update){
+                const element = form.querySelector("#"+id) as HTMLElement;
+                if(element){
+                    RenderEnvironment.render(element, data.update[id]);
+                }
+            }
+        } else {
+            env.update(data);
+        }
+    }
 });

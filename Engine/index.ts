@@ -20,7 +20,6 @@ export default class Engine extends Routing {
     private _view:View|undefined;
     private _auth:Authorization|undefined;
 
-
     constructor(){
         super();
     }
@@ -34,7 +33,7 @@ export default class Engine extends Routing {
 
     auth(value:Authorization) {
         if( !(value instanceof Authorization) )
-            throw new TypeError("Invalid type of authorization.");
+            throw new TypeError("Value must be an instance of Authorization!");
 
         if(typeof value.get() !== "function")
             throw new TypeError("Authentication Getter is not set!");
@@ -46,12 +45,21 @@ export default class Engine extends Routing {
     }
 
     async fetch(request:Request, env:Env):Promise<Response> {
+
+        let data:FormData|undefined;
+        try {
+            data = await request.formData()
+        } catch (e){
+            data = new FormData();
+        }
+
         const asset = await env.ASSETS.fetch(request);
 
         if(asset.ok)
             return asset;
 
-        return await this.handle(new Context(request, env, this._view, this._auth));
+
+        return await this.handle(new Context(request, data, env, this._view, this._auth,));
     }
 
     use(handler:Middleware|EndPoint|Layer): void

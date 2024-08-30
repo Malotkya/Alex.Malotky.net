@@ -21,18 +21,18 @@ export default class Context{
     private _env:Env;
     private _view:View|undefined;
     private _auth:Authorization|undefined;
+    private _form:Map<string, string>;
 
     private _search:Map<string, string>;
     private _params:Map<string, string>;
     private _query:string|undefined;
-
 
     /** Constructor
      * 
      * @param request 
      * @param response 
      */
-    constructor(request: Request, env:Env, view?:View, auth?:Authorization){
+    constructor(request: Request, data:FormData, env:Env, view?:View, auth?:Authorization){
         this._request = request;
         this._response = new ProtoResponse();
         this._env = env;
@@ -43,10 +43,16 @@ export default class Context{
         //Defaults
         this._search = new Map();
         this._params = new Map();
+        this._form = new Map();
 
         //Search Values
         for(const [name, value] of this._url.searchParams.entries())
             this._search.set(name, value);
+
+        //Form Value
+        data.forEach((value, key)=>{
+            this._form.set(key, value.toString())
+        });
     }
 
     /** Request Getter
@@ -61,6 +67,13 @@ export default class Context{
      */
     get response():ProtoResponse {
         return this._response;
+    }
+
+    /** Form Data Getter
+     * 
+     */
+    get formData():Map<string, string> {
+        return this._form;
     }
 
     /** Environment Getter

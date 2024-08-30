@@ -264,9 +264,22 @@ export default class Context{
         if(url === "back"){
             url = this._request.headers.get("Referrer") || "/";
         }
-        if(typeof url === "string"){
-            url = new URL(this._request.url.replace(/(^https?:\/\/.*?:\d{0,4})(.*)$/, "$1"+url));
+        
+        if(this._request.headers.get(HEADER_KEY) === HEADER_VALUE){
+            if(url instanceof URL){
+                url = url.pathname;
+            }
+
+            this.render({
+                redirect: url
+            })
+        } else {
+
+            if(typeof url === "string"){
+                url = new URL(this._request.url.replace(/(^https?:\/\/.*?:\d{0,4})(.*)$/, "$1"+url));
+            }
+            this._response.redirect(url, status);
+
         }
-        this._response.redirect(url, status);
     }
 }

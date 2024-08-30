@@ -44,7 +44,12 @@ export default class RenderEnvironment {
         const {anchor, path} = getRouteInfo(window.location.href);
 
         try {
-            this.update(await RenderEnvironment.fetch(path, {body}));
+            const data = await RenderEnvironment.fetch(path, {body});
+            if(data.redirect){
+                this.route(data.redirect);
+                return "";
+            }
+            this.update(data);
         } catch (e){
             console.error(e);
             //window.location.reload();
@@ -202,7 +207,6 @@ export default class RenderEnvironment {
         if(!response.ok) {
             RenderEnvironment.error(data.error);
         }
-
         
         if(data.head === undefined && data.body === undefined && data.update === undefined){
             throw new Error("Recieved either an empty or invalid response!");

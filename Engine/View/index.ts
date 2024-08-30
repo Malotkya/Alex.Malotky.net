@@ -18,7 +18,8 @@ export interface RenderUpdate {
         cause?:unknown,
         stack?:string,
         status?:number,
-    }
+    },
+    redirect?:string
 }
 
 /** View Class
@@ -35,7 +36,7 @@ export default class View{
      * @param {RenderFunction} stationaryContent 
      * @param {AttributeList} attributes 
      */
-    constructor(attributes:HTMLInit = {}, headInit:HeadInit = {}, stationaryContent:RenderFunction = compressContent, ){
+    constructor(attributes:HTMLInit = {}, headInit:HeadInit = {}, stationaryContent:RenderFunction = compressContent){
 
         if(typeof attributes !== "object")
             throw new TypeError("Invalid Attributes!");

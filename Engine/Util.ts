@@ -3,6 +3,9 @@
  * @author Alex Malotky
  */
 
+export const HEADER_VALUE = "application/json";
+export const HEADER_KEY   = "Update-Type";
+
 /** Sleep
  * 
  * @param {number} n 

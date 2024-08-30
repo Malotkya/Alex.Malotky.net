@@ -5,6 +5,7 @@
 import View, {RenderUpdate} from "../View";
 import ProtoResponse from "./ProtoResponse";
 import Authorization from "Engine/Authorization";
+import { HEADER_KEY, HEADER_VALUE } from "Engine/Util";
 
 const HTML_MIME_TYPE = "text/html";
 const TXT_MIME_TYPE  = "text/plain";
@@ -197,8 +198,9 @@ export default class Context{
     render(update:RenderUpdate){
         if(this._view === undefined)
             throw new Error("No view to render with!");
+        this._response.headers.set(HEADER_KEY, HEADER_VALUE);
 
-        if(this._request.headers.get("Content-Type") === JSON_MIME_TYPE) {
+        if(this._request.headers.get(HEADER_KEY) === HEADER_VALUE) {
             this.json(update);
         } else {
             this.html(this._view.render(update));

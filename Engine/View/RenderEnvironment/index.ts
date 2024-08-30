@@ -2,6 +2,7 @@ import {RenderUpdate, RenderContent} from "..";
 import { getRouteInfo, findOrCreateElement, hashObject } from "./Util";
 import { HeadUpdate } from "../Html/Head";
 import HeadEnvironment from "./Head";
+import { HEADER_KEY, HEADER_VALUE } from "../../Util";
 
 
 interface FetchOptions {
@@ -186,11 +187,13 @@ export default class RenderEnvironment {
     static async fetch(url:string|URL, opts:FetchOptions):Promise<RenderUpdate> {
         if(opts.headers === undefined)
             opts.headers = {};
-        opts.headers["Content-Type"] = "application/json";
+        opts.headers[HEADER_KEY] = HEADER_VALUE;
 
         const response = await fetch(url, opts);
 
-        if(response.headers.get("Content-Type") !== "application/json") {
+        if(response.headers.get(HEADER_KEY) !== HEADER_VALUE) {
+            throw new Error("Did not recieve an update response!");
+        } else if(response.headers.get("Content-Type") !== "application/json") {
             throw new Error("Did not recieve JSON response!");
         }
 

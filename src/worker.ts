@@ -1,7 +1,11 @@
+import jwt from '@tsndr/cloudflare-worker-jwt';
 import Engine, {Content} from "Engine";
 import View from "Engine/View";
 import Template, { NavLink, ErrorContent } from "./template";
-import {Buffer} from "node:buffer";
+import {parse, serialize} from "cookie";
+import Authorization from 'Engine/Authorization';
+
+const MAX_LOGIN_AGE = 604800;
 
 const navBar:Array<Content> = []
 
@@ -28,15 +32,38 @@ app.view = new View(
     },
     Template(navBar)
 );
-app.auth((req)=>{
-    const auth = req.headers.get("authorization");
 
-    if(auth === null)
+//Authentication Handler
+const auth = new Authorization();
+auth.get(async(req)=>{
+    const {auth} = parse(req.headers.get("Cookie") || "");
+
+    if(typeof auth !== "string")
         return null;
 
-    const [username, password] = Buffer.from(auth.split(' ')[1], 'base64').toString().split(':');
-    return {username, password};
-});
+    if( !(await jwt.verify(auth, "secret")) )
+        return null;
+    
+    const {payload} = jwt.decode(auth);
+    return payload as User;
+})
+auth.set(async(res, user)=>{
+    const token = await jwt.sign({
+        ...user,
+        exp: Math.floor(Date.now() / 1000) + MAX_LOGIN_AGE
+    }, "secret");
+
+    res.headers.set("Set-Cookie",
+        serialize("auth", token, {
+            httpOnly: true,
+            maxAge: MAX_LOGIN_AGE,
+            sameSite: "lax",
+            path: "/"
+        })
+    )
+})
+
+//Error Handler
 app.error((err, ctx)=>{
     if(typeof err === "number"){
         err = new HttpError(err);
@@ -47,7 +74,7 @@ app.error((err, ctx)=>{
 
     ctx.status(status).render(ErrorContent(status, message));
     return ctx.flush();
-})
+});
 
 import Home from "./routes/home";
 import About from "./routes/about";

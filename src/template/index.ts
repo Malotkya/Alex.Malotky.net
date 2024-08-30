@@ -1,5 +1,6 @@
-import { Content, createContent as _} from "Engine";
+import { Content, Context, createContent as _} from "Engine";
 import { RenderUpdate, RenderFunction } from "Engine/View";
+import HttpError, { getMessage } from "Engine/HttpError";
 
 export default function WireFrame(navList:Content):RenderFunction{
     return function Template(content:Content){
@@ -54,13 +55,48 @@ function Footer():Content {
     )
 }
 
-export function ErrorContent(status:number, message:string):RenderUpdate {
-    const string = `${status}: ${message}`;
+export function ErrorContent(err:any, ctx:Context):RenderUpdate {
+    switch (typeof err){
+        case "string":
+            err = new HttpError(500, err);
+            break;
+
+        case "bigint":
+            err = new HttpError(Number(err));
+            break;
+
+        case "number":
+            err = new HttpError(err);
+            break;
+
+        case "object":
+            if( !(err instanceof Error) ){
+                if( err.message === undefined || (err.status === undefined && err.code == undefined) ){
+                    err = new HttpError(500, JSON.stringify(err));
+                }
+            }
+            break;
+
+        default:
+            err = new HttpError(500, "An unknown Error occured!");
+    }
+
+    const status = err.code || err.status || 500;
+    const message = `${status}: ${err.message}`;
 
     return {
         head: {
-            title: string
+            title: getMessage(status) || "Error"
         },
-        body: _("h2", {class:"error"}, string)
+        body: _("p", {class: "error"}, message),
+        update: {
+            error: message
+        },
+        error: {
+            message: err.message,
+            stack: err.stack,
+            cause: err.cause,
+            status: status
+        }
     };
 }

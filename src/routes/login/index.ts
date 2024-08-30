@@ -31,7 +31,7 @@ Login.post(async(ctx)=>{
     } else if(username !== "test" || password !== "12345"){
         error = "Wrong Username or Password!";
     } else {
-        ctx.setAuth({username, password});
+        await ctx.setAuth({username, password});
         return ctx.redirect("back");
     }
 

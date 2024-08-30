@@ -15,3 +15,8 @@ interface Dictionary<t> {
 interface Env {
     ASSETS: Fetcher
 }
+
+interface User {
+    username:string,
+    password:string
+}

@@ -197,12 +197,7 @@ export default class RenderEnvironment {
         const data:RenderUpdate = await response.json();
 
         if(!response.ok) {
-
-            if(data.error){
-                console.error(data.error);
-            } else {
-                throw new Error("An known error has occured!");
-            }
+            RenderEnvironment.error(data.error);
         }
 
         
@@ -212,4 +207,11 @@ export default class RenderEnvironment {
 
         return data;
     }
+
+    static error(value:RenderUpdate["error"]){
+        if(value === undefined)
+            throw new Error("An known error has occured!");
+
+        console.error("%d: %s\n", value.status, value.message, value.stack)
+    } 
 }

@@ -61,7 +61,8 @@ auth.set(async(res, user)=>{
             path: "/"
         })
     )
-})
+});
+app.auth(auth);
 
 //Error Handler
 app.error((err, ctx)=>{

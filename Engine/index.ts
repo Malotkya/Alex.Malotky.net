@@ -4,7 +4,7 @@
  */
 import Routing from "./Routing";
 import Layer from "./Routing/Layer";
-import Context from "./Context";
+import Context, {Authorization} from "./Context";
 import View from "./View";
 import { EndPoint, Middleware } from "./Routing/Layer";
 
@@ -17,10 +17,24 @@ export type {RenderContent as Content};
 
 export default class Engine extends Routing {
     private _view:View|undefined;
+    private _auth:Authorization|undefined;
 
-    constructor(view?:View){
+    constructor(){
         super();
-        this._view = view;
+    }
+
+    set view(value:View){
+        if( !(value instanceof View) )
+            throw new Error("Value must be an instance of View!");
+
+        this._view = value;
+    }
+
+    auth(value:Authorization) {
+        if(typeof value !== "function")
+            throw new TypeError("Auth must be a function!");
+
+        this._auth = value;
     }
 
     async fetch(request:Request, env:Env):Promise<Response> {
@@ -29,7 +43,7 @@ export default class Engine extends Routing {
         if(asset.ok)
             return asset;
 
-        return await this.handle(new Context(request, env, this._view));
+        return await this.handle(new Context(request, env, this._view, this._auth));
     }
 
     use(handler:Middleware|EndPoint|Layer): void

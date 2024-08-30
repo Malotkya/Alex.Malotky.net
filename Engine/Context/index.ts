@@ -9,6 +9,8 @@ const HTML_MIME_TYPE = "text/html";
 const TXT_MIME_TYPE  = "text/plain";
 const JSON_MIME_TYPE = "application/json";
 
+export type Authorization = (request:Request) => Promise<User>|User
+
 /** Context
  * 
  * Wrapper Around Request/Response
@@ -19,6 +21,7 @@ export default class Context{
     private _url:URL;
     private _env:Env;
     private _view:View|undefined;
+    private _auth:Authorization|undefined;
 
     private _search:Map<string, string>;
     private _params:Map<string, string>;
@@ -30,12 +33,13 @@ export default class Context{
      * @param request 
      * @param response 
      */
-    constructor(request: Request, env:Env, view?:View){
+    constructor(request: Request, env:Env, view?:View, auth?:Authorization){
         this._request = request;
         this._response = new ProtoResponse();
         this._env = env;
         this._url = new URL(request.url || "/", `http://${request.headers.get("host")}`);
         this._view = view;
+        this._auth = auth;
 
         //Defaults
         this._search = new Map();
@@ -115,11 +119,19 @@ export default class Context{
         return this;
     }
 
+    /** Write Chunk to Response
+     * 
+     * @param {any} chunk 
+     * @returns {Context}
+     */
     write(chunk:any):Context {
         this._response.write(chunk);
         return this;
     }
 
+    /** End Response
+     * 
+     */
     end():void {
         this._response.end();
     }
@@ -188,6 +200,9 @@ export default class Context{
         return this._response.flush();
     }
 
+    /** Query Getter
+     * 
+     */
     get query():string {
         if(this._query !== undefined) {
             if(this._query === "")
@@ -198,10 +213,24 @@ export default class Context{
         return this.url.pathname;
     }
 
+    /** Query Setter
+     * 
+     */
     set query(value:string){
         if(typeof value !== "string")
             throw new TypeError("Query must be a string!");
 
         this._query = value;
+    }
+
+    /** Get Authorization
+     * 
+     * @returns {Promise<User|null>}
+     */
+    async authorization():Promise<User|null> {
+        if(this._auth === undefined)
+            return null;
+
+        return await this._auth(this._request);
     }
 }

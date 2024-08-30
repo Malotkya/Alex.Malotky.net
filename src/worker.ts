@@ -1,6 +1,6 @@
 import Engine, {Content} from "Engine";
 import View from "Engine/View";
-import Template, { NavLink } from "./template";
+import Template, { NavLink, ErrorContent } from "./template";
 import {Buffer} from "node:buffer";
 
 const navBar:Array<Content> = []
@@ -37,12 +37,24 @@ app.auth((req)=>{
     const [username, password] = Buffer.from(auth.split(' ')[1], 'base64').toString().split(':');
     return {username, password};
 });
+app.error((err, ctx)=>{
+    if(typeof err === "number"){
+        err = new HttpError(err);
+    }
+
+    const status = err.code || err.status || 500;
+    const message = err.message || String(err);
+
+    ctx.status(status).render(ErrorContent(status, message));
+    return ctx.flush();
+})
 
 import Home from "./routes/home";
 import About from "./routes/about";
 import Portfolio from "./routes/portfolio";
 import Pokemon from "./routes/pokemon";
 import Login from "./routes/login";
+import HttpError from "Engine/HttpError";
 
 app.use(Home);
 app.use(About);

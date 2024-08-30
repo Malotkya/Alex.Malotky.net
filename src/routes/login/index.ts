@@ -1,20 +1,38 @@
-import { Router, Context } from "Engine";
+import { Router } from "Engine";
 import LoginForm from "./view";
 
 const Login = new Router("/Login");
 
-Login.all(async(ctx: Context)=>{
-    const {username, password} = await ctx.authorization() || {username:undefined, password: undefined};
-    let error:string|undefined;
+Login.get(async(ctx)=>{
+    const user = await ctx.getAuth();
 
-    if(username !== undefined && password !== undefined){
+    if(user){
+        return ctx.redirect("back");
+    }
 
-        if(username !== "test" || password !== "12345") {
-            error = "Wrong Username or Password!";
-        } else {
-            return ctx.redirect("back");
-        }
+    ctx.render({
+        head: {
+            title: "Login",
+        },
+        body: LoginForm()
+    });
+});
 
+
+Login.post(async(ctx)=>{
+    const username = ctx.formData.get("username");
+    const password = ctx.formData.get("password");
+    let error:string;
+
+    if(username ===  undefined){
+        error = "Please enter a username!";
+    } else if(password === undefined){
+        error = "Please enter a password!";
+    } else if(username !== "test" || password !== "12345"){
+        error = "Wrong Username or Password!";
+    } else {
+        ctx.setAuth({username, password});
+        return ctx.redirect("back");
     }
 
     ctx.render({
@@ -23,6 +41,6 @@ Login.all(async(ctx: Context)=>{
         },
         body: LoginForm(username, password, error)
     });
-});
+})
 
 export default Login;

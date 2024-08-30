@@ -37,7 +37,7 @@ export function createElement(name:SelfClosing, attributes?:AttributeList):Eleme
 export function createElement(name:string, attributes?:AttributeList|Element|Content, ...children:Array<Element|Content>):Element
 export function createElement(name:string, attributes:AttributeList|Element|Content = {}, ...children:Array<Element|Content>):Element {
 
-    if(typeof attributes !== "object" || Array.isArray(attributes)) {
+    if(typeof attributes !== "object" || Array.isArray(attributes) || attributes === null) {
         children.unshift(attributes);
         attributes = {};
     }

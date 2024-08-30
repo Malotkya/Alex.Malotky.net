@@ -243,6 +243,9 @@ export default class Context{
         if(url === "back"){
             url = this._request.headers.get("Referrer") || "/";
         }
+        if(typeof url === "string"){
+            url = new URL(this._request.url.replace(/(^https?:\/\/.*?:\d{0,4})(.*)$/, "$1"+url));
+        }
         this._response.redirect(url, status);
     }
 }

@@ -43,14 +43,9 @@ document.body.addEventListener("submit", async function submit_event(event){
     let body:FormData|undefined; 
     const headers:Dictionary<string> = {};
     
-    switch (form.getAttribute("method")?.toLocaleLowerCase()){
+    switch (form.method){
         case "dialog":
             alert("Dialog is currently not supported!");
-            break;
-
-        case "auth":
-            headers["Authorization"] = "Basic " + btoa(`${getValueFrom(form, "username")}:${getValueFrom(form, "password")}`);
-            method = "GET";
             break;
 
         default:
@@ -60,7 +55,9 @@ document.body.addEventListener("submit", async function submit_event(event){
 
     if(method){
         const data = await RenderEnvironment.fetch(url, {method, body, headers});
-        if(data.update){
+        if(data.redirect){
+            env.route(data.redirect);
+        } else if(data.update){
             for(const id in data.update){
                 const element = form.querySelector("#"+id) as HTMLElement;
                 if(element){

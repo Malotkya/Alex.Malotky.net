@@ -37,10 +37,15 @@ export function buildAttributesString(attributes:Dictionary<unknown>):string {
                 }
                 break;
 
+            case "undefined":
+                break;
+
             case "object":
                 if(Array.isArray(value)){
                     output += name+"=\""+value.join(" ")+"\" "
 
+                    break;
+                } else if(value === null){
                     break;
                 }
 

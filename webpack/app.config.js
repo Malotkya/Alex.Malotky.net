@@ -3,7 +3,7 @@ const fs = require('fs');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const TerserPlugin = require("terser-webpack-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
-const SpliceWebpackPlugin = require("./plugin/SpliceWebpackPlugin.js");
+//const SpliceWebpackPlugin = require("./plugin/SpliceWebpackPlugin.js");
 
 /** Bundle Content
  * 
@@ -71,6 +71,7 @@ module.exports = (prod, src, target) => {
 
     const routes = path.join(src, "routes");
     const {elements, staticFiles} = bundleContent(routes, target);
+    elements.push(path.resolve(src, "../Engine/Web.ts"));
 
     //Add global elements
     allTsFiles(path.join(src, "elements")).forEach(item=>elements.push(item));
@@ -118,7 +119,6 @@ module.exports = (prod, src, target) => {
             new CopyWebpackPlugin({
                 patterns: staticFiles
             }),
-            new SpliceWebpackPlugin()
         ],
         optimization: {
             minimize: prod,

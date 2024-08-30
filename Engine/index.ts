@@ -46,18 +46,17 @@ export default class Engine extends Routing {
 
     async fetch(request:Request, env:Env):Promise<Response> {
 
+        const asset = await env.ASSETS.fetch(request.clone());
+
+        if(asset.ok)
+            return asset;
+
         let data:FormData|undefined;
         try {
             data = await request.formData()
         } catch (e){
             data = new FormData();
         }
-
-        const asset = await env.ASSETS.fetch(request);
-
-        if(asset.ok)
-            return asset;
-
 
         return await this.handle(new Context(request, data, env, this._view, this._auth,));
     }

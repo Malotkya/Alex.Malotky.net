@@ -1,10 +1,12 @@
 import Engine, {Content} from "Engine";
 import View from "Engine/View";
 import Template, { NavLink } from "./template";
+import {Buffer} from "node:buffer";
 
 const navBar:Array<Content> = []
 
-const app = new Engine(new View(
+const app = new Engine();
+app.view = new View(
     {
         lang: "en",
         dir: "ltr"
@@ -24,8 +26,17 @@ const app = new Engine(new View(
             {src: "/bundle.js", defer: true}
         ]
     },
-    (update)=>Template(navBar, update)
-));
+    Template(navBar)
+);
+app.auth((req)=>{
+    const auth = req.headers.get("authorization");
+
+    if(auth === null)
+        return null;
+
+    const [username, password] = Buffer.from(auth.split(' ')[1], 'base64').toString().split(':');
+    return {username, password};
+});
 
 import Home from "./routes/home";
 import About from "./routes/about";

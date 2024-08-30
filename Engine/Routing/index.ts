@@ -13,6 +13,9 @@ export default class Routing extends Router{
     private notFoundHandler:Handler;
     private errorHandler:ErrorHandler;
 
+    /** Routing Constructor
+     * 
+     */
     constructor(){
         super("Main Routing");
         this.notFoundHandler = (ctx:Context) => {throw new HttpError(404, `${ctx.url.pathname} was not found!`)};
@@ -21,6 +24,11 @@ export default class Routing extends Router{
         }
     }
 
+    /** Handle Routing
+     * 
+     * @param {Context} context 
+     * @returns {Promise<Response>}
+     */
     async handle(context:Context):Promise<Response>{
         try {
             for(const {name, layer} of this._methods){
@@ -41,6 +49,27 @@ export default class Routing extends Router{
         } catch (error:any){
             return await this.errorHandler(error, context);
         }
+    }
+
+    /** Not Found Handler Setter
+     * 
+     * @param {Handler} handler 
+     */
+    notFound(handler:Handler){
+        if(typeof handler !== "function")
+            throw new TypeError("Not Found Handler must be a function!");
+
+        this.notFoundHandler = handler;
+    }
+
+    /** Error Handler Setter
+     * 
+     * @param {ErrorHandler} handler 
+     */
+    error(handler:ErrorHandler){
+        if(typeof handler !== "function")
+            throw new TypeError("Error Handler must be a function!");
         
+        this.errorHandler = handler;
     }
 }

@@ -24,7 +24,7 @@ export default class Engine extends Routing {
         super();
     }
 
-    set view(value:View){
+    view(value:View){
         if( !(value instanceof View) )
             throw new Error("Value must be an instance of View!");
 

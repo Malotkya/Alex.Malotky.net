@@ -10,7 +10,7 @@ const MAX_LOGIN_AGE = 604800;
 const navBar:Array<Content> = []
 
 const app = new Engine();
-app.view = new View(
+app.view(new View(
     {
         lang: "en",
         dir: "ltr"
@@ -31,7 +31,7 @@ app.view = new View(
         ]
     },
     Template(navBar)
-);
+));
 
 //Authentication Handler
 const auth = new Authorization();
@@ -95,7 +95,7 @@ import Home from "./routes/home";
 import About from "./routes/about";
 import Portfolio from "./routes/portfolio";
 import Pokemon from "./routes/pokemon";
-import Login from "./routes/login";
+import Login, {Logout} from "./routes/login";
 import HttpError from "Engine/HttpError";
 
 app.use(Home);
@@ -103,6 +103,7 @@ app.use(About);
 app.use(Portfolio);
 app.use(Pokemon);
 app.use(Login);
+app.use(Logout);
 
 navBar.push(NavLink(Portfolio.path, "Protfolio"));
 navBar.push(NavLink(About.path, "About Me"));

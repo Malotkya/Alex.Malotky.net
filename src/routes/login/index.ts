@@ -41,6 +41,13 @@ Login.post(async(ctx)=>{
         },
         body: LoginForm(username, password, error)
     });
-})
+});
+
+export const Logout = new Router("/Logout");
+
+Logout.all(async(ctx)=>{
+    await ctx.setAuth(null);
+    ctx.redirect("/");
+});
 
 export default Login;

@@ -65,8 +65,6 @@ export default class Router extends Layer{
                     const response = await layer.handle(context);
                     if(response)
                         return response;
-    
-                    throw new Error("End Point did not return a Response!");
                 } 
             }
     

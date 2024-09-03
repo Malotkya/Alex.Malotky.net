@@ -37,35 +37,12 @@ async function queryWrapper(db:D1Database, query:string):Promise<Record<string, 
 /** Querry Table Handler
  * 
  */
-Resume.get("/:table/:id?", async(ctx)=>{
+Resume.get("/:table", async(ctx)=>{
     const table = (ctx.params.get("table") as string).toLocaleLowerCase();
-    const id = ctx.params.get("id");
     let query = TABLES[table];
 
     if(query === undefined){
         throw new HttpError(404, `Unable to find ${table}!`);
-    } else if(id){
-        query += "WHERE id = ?";
-
-        try {
-            const result = await ctx.env.DB.prepare(query).bind(id).first();
-
-            if(result === null){
-                throw new HttpError(404, `Unable to find id '${id}' in '${table}'!`);
-            }
-
-            return ctx.render({
-                head: {
-                    title: title(table, result["title"] as string || result["name"] as string || id),
-                    meta: {
-                        description: DESCRIPTION
-                    }
-                },
-                body: SingleView(table, result)
-            });
-        } catch (e){
-            throw new HttpError(500, "There was a problem querying the database!");
-        }
     }
 
     query += ORDER_BY[table];
@@ -92,6 +69,44 @@ Resume.get("/:table/:id?", async(ctx)=>{
     
 });
 
+/** Querry Table Handler
+ * 
+ */
+Resume.get("/:table/:id", async(ctx)=>{
+    const table = (ctx.params.get("table") as string).toLocaleLowerCase();
+    const id = ctx.params.get("id") as string;
+    let query = TABLES[table];
+
+    if(query === undefined){
+        throw new HttpError(404, `Unable to find ${table}!`);
+    }
+
+    query += "WHERE id = ?";
+
+    try {
+        const result = await ctx.env.DB.prepare(query).bind(id).first();
+
+        if(result === null){
+            throw new HttpError(404, `Unable to find id '${id}' in '${table}'!`);
+        }
+
+        return ctx.render({
+            head: {
+                title: title(table, result["title"] as string || result["name"] as string || id),
+                meta: {
+                    description: DESCRIPTION
+                }
+            },
+            body: SingleView(table, result)
+        });
+    } catch (e){
+        throw new HttpError(500, "There was a problem querying the database!");
+    }
+    
+});
+
+
+
 /** Default Resume Handler
  * 
  */
@@ -114,4 +129,6 @@ Resume.get(async(ctx)=>{
     } catch (e){
         throw new HttpError(500, "There was a problem getting the resume!");
     }
-})
+});
+
+export default Resume;

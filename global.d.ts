@@ -14,6 +14,7 @@ interface Dictionary<t> {
 
 interface Env {
     ASSETS: Fetcher
+    DB: D1Database
 }
 
 interface User {

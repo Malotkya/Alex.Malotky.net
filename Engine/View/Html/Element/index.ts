@@ -1,4 +1,4 @@
-import {buildAttributesString, AttributeList} from "../Attribute";
+import {buildAttributesString, AttributeList, HTMLElementAttriburesMap, HTMLClosedElementAttriburesMap} from "../Attributes";
 import { HTMLContent } from "../Types";
 import Content, {compressContent} from "./Content";
 import CustomRegistry from "./Custom";
@@ -6,23 +6,6 @@ import CustomRegistry from "./Custom";
 type Element = HTMLContent;
 export default Element;
 
-const SELF_CLOSING = [
-    "area",
-    "base",
-    "br",
-    "col",
-    "embed",
-    "hr",
-    "img",
-    "input",
-    "link",
-    "meta",
-    "param",
-    "source",
-    "track",
-    "wbr"
-] as const;
-type SelfClosing = typeof SELF_CLOSING[number];
 
 export const customElements = new CustomRegistry();
 
@@ -33,8 +16,9 @@ export const customElements = new CustomRegistry();
  * @param {Array<Element|Content>} children 
  * @returns {Element}
  */
-export function createElement(name:SelfClosing, attributes?:AttributeList):Element
-export function createElement(name:string, attributes?:AttributeList|Element|Content, ...children:Array<Element|Content>):Element
+export function createElement<K extends keyof HTMLClosedElementAttriburesMap>(name:K, attributes?:HTMLClosedElementAttriburesMap[K]):Element
+export function createElement<K extends keyof HTMLElementAttriburesMap>(name:K, attributes?:HTMLElementAttriburesMap[K]|Element|Content, ...children:Array<Element|Content>):Element
+export function createElement(customName:string, attributes?:AttributeList|Element|Content, ...children:Array<Element|Content>):Element 
 export function createElement(name:string, attributes:AttributeList|Element|Content = {}, ...children:Array<Element|Content>):Element {
 
     if(typeof attributes !== "object" || Array.isArray(attributes) || attributes === null) {

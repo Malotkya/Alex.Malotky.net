@@ -34,7 +34,7 @@ export default class Router extends Layer{
      * @param {any} options 
      */
     constructor(path:string) {
-        super(path, ROUTER_ERROR);
+        super(path, {end: false}, ROUTER_ERROR);
         this._methods = new Stack();
         this._path = path;
     }

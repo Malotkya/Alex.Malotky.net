@@ -11,7 +11,7 @@ export default class Route extends Layer {
     #layers: Array<Layer>;
 
     public constructor(path:string = "/") {
-        super(path, ROUTE_ERROR);
+        super(path, {end: false}, ROUTE_ERROR);
         this.#layers = [];
     }
 

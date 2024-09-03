@@ -1,9 +1,9 @@
 import jwt from '@tsndr/cloudflare-worker-jwt';
 import Engine, {Content} from "Engine";
 import View from "Engine/View";
+import Authorization from 'Engine/Authorization';
 import Template, { NavLink, ErrorContent } from "./template";
 import {parse, serialize} from "cookie";
-import Authorization from 'Engine/Authorization';
 
 const MAX_LOGIN_AGE = 604800;
 
@@ -79,32 +79,25 @@ auth.set(async(res, user)=>{
 app.auth(auth);
 
 //Error Handler
-app.error((err, ctx)=>{
-    if(typeof err === "number"){
-        err = new HttpError(err);
-    }
-
-    const status = err.code || err.status || 500;
-    const message = err.message || String(err);
-
-    ctx.status(status).render(ErrorContent(status, message));
-    return ctx.flush();
-});
+app.error(ErrorContent);
 
 import Home from "./routes/home";
+import Resume from './routes/resume';
 import About from "./routes/about";
 import Portfolio from "./routes/portfolio";
 import Pokemon from "./routes/pokemon";
 import Login, {Logout} from "./routes/login";
-import HttpError from "Engine/HttpError";
+
 
 app.use(Home);
+app.use(Resume);
 app.use(About);
 app.use(Portfolio);
 app.use(Pokemon);
 app.use(Login);
 app.use(Logout);
 
+navBar.push(NavLink(Resume.path, "Resume"));
 navBar.push(NavLink(Portfolio.path, "Protfolio"));
 navBar.push(NavLink(About.path, "About Me"));
 

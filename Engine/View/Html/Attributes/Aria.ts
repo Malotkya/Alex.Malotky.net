@@ -2,7 +2,7 @@
  * 
  * https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes
  */
-import {AttributeList} from "./Attribute";
+import {AttributeList} from ".";
 
 /* Widget Region Attributes */
 export type Autocomplete = "none"|"inline"|"list"|"both";

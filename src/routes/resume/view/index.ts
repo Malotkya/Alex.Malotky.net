@@ -1,42 +1,36 @@
 import { createContent as _ } from "Engine";
-import { SchoolItem, SchoolCard, SchoolDetailed } from "./school"
-import { JobItem, JobCard, JobDetailed} from "./job";
-import { SkillItem, SkillCard, SkillDetailed } from "./skill";
+import { SchoolItem, SchoolCard, SchoolDetailed, validateSchoolItem } from "./school"
+import { JobItem, JobCard, JobDetailed, validateJobItem} from "./job";
+import { SkillItem, SkillCard, SkillDetailed, validateSkillItem } from "./skill";
 
 const style = _("style", require("./style.scss"));
 
 export function SingleView(table:string, value:Dictionary<unknown>){
     switch (table){
         case "school":
-            //@ts-ignore
-            return [style, SchoolDetailed(value)];
+            return [style, SchoolDetailed(validateSchoolItem(value))];
 
         case "job":
-            //@ts-ignore
-            return [style, JobDetailed(value)];
+            return [style, JobDetailed(validateJobItem(value))];
 
         case "skill":
-            //@ts-ignore
-            return [style, SkillDetailed(value)];
+            return [style, SkillDetailed(validateSkillItem(value))];
     }
 
     throw new Error("Unable to find detailed table!");
 }
-type Card = (value:Dictionary<unknown>[])=>string;
+type Card = (value:Dictionary<unknown>)=>string;
 
 export function getCard(table:string):{card:Card, title:string} {
     switch (table){
         case "school":
-            //@ts-ignore
-            return {card: SchoolCard, title: "Schooling:"};
+            return {card: (value)=>SchoolCard(validateSchoolItem(value)), title: "Schooling:"};
 
         case "job":
-            //@ts-ignore
-            return {card: JobCard, title: "Work History:"};
+            return {card: (value)=>JobCard(validateJobItem(value)), title: "Work History:"};
 
         case "skill":
-            //@ts-ignore
-            return {card: SkillCard, title: "Skills:"};
+            return {card: (value)=>SkillCard(validateSkillItem(value)), title: "Skills:"};
     }
 
     throw new Error("Unable to find detailed card!");
@@ -49,7 +43,6 @@ export function ListView(table:string, value:Array<Dictionary<unknown>>){
         style,
         _("h1", title),
         _("ul", {class: "resume-card-list"},
-            //@ts-ignore
             value.map(card)
         )
     ]

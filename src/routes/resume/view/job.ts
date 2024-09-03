@@ -2,12 +2,40 @@ import { createContent as _ } from "Engine";
 import { formatDate } from "@/util";
 
 export interface JobItem {
-    id: string,
+    id: number,
     title: string,
-    employer: string,
+    employer?: string,
     startDate: number,
     endDate?: number,
     about: Array<string>
+}
+
+export function validateJobItem(value:Dictionary<unknown>):JobItem {
+    if(typeof value["id"] !== "number") 
+        throw new TypeError("Invalid Job id!");
+
+    if(typeof value["title"] !== "string")
+        throw new TypeError("Invalid Job Title!");
+
+    if(value["employer"] !== null && typeof value["employer"] !== "string")
+        throw new TypeError("Invalid Job Employer!");
+
+    if(typeof value["startDate"] !== "number")
+        throw new TypeError("Invalid Job Start Date!");
+    
+    if(value["endDate"] !== null && typeof value["endDate"] !== "number")
+        throw new TypeError("Invalid Job End Date!");
+
+    if(typeof value["about"] === "string"){
+        value["about"] = JSON.parse(value["about"]);
+    } else if(value["about"] === null){
+        value["about"] = [];
+    } else {
+        throw new TypeError("Invalid Job About!");
+    }
+
+    //@ts-ignore
+    return value;
 }
 
 export function JobCard(item: JobItem){

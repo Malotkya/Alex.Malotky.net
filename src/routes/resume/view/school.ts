@@ -2,11 +2,36 @@ import { createContent as _ } from "Engine";
 import { formatDate } from "@/util";
 
 export interface SchoolItem {
-    id: string,
+    id: number,
     name: string,
     degree: string,
     graduated: number,
     about: Array<string>
+}
+
+export function validateSchoolItem(value:Dictionary<unknown>):SchoolItem {
+    if(typeof value["id"] !== "number") 
+        throw new TypeError("Invalid School id!");
+
+    if(typeof value["name"] !== "string")
+        throw new TypeError("Invalid School Name!");
+
+    if(value["degree"]  !== "string")
+        throw new TypeError("Invalid School Degree!");
+
+    if(typeof value["graduated"] !== "number")
+        throw new TypeError("Invalid School Graduated!");
+
+    if(typeof value["about"] === "string"){
+        value["about"] = JSON.parse(value["about"]);
+    } else if(value["about"] === null){
+        value["about"] = [];
+    } else {
+        throw new TypeError("Invalid Job About!");
+    }
+
+    //@ts-ignore
+    return value;
 }
 
 export function SchoolCard(item:SchoolItem){

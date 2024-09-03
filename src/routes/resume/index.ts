@@ -5,9 +5,9 @@
 import { Router } from "Engine";
 import HttpError from "Engine/HttpError";
 import ResumeView , { SingleView, ListView } from "./view";
-import { SchoolItem } from "./view/school";
-import { JobItem } from "./view/job";
-import { SkillItem } from "./view/skill";
+import { validateSchoolItem } from "./view/school";
+import { validateJobItem } from "./view/job";
+import { validateSkillItem } from "./view/skill";
 
 const TABLES:Dictionary<string|undefined> = {
     "job": "SELECT * FROM Jobs",
@@ -56,7 +56,7 @@ Resume.get("/:table/:id?", async(ctx)=>{
 
             return ctx.render({
                 head: {
-                    title: title(table, id),
+                    title: title(table, result["title"] as string || result["name"] as string || id),
                     meta: {
                         description: DESCRIPTION
                     }
@@ -97,12 +97,9 @@ Resume.get("/:table/:id?", async(ctx)=>{
  */
 Resume.get(async(ctx)=>{
     try {
-        //@ts-ignore
-        const school:Array<SchoolItem> = await queryWrapper(ctx.env.DB, "SELECT * FROM School ORDER BY graduated DESC LIMIT 6");
-        //@ts-ignore
-        const jobs:Array<JobItem> = await queryWrapper(ctx.env.DB, "SELECT * FROM Jobs ORDER BY startDate DESC LIMIT 6");
-        //@ts-ignore
-        const skills:Array<SkillItem> = await queryWrapper(ctx.env.DB, "SELECT * FROM Skills");
+        const school = await queryWrapper(ctx.env.DB, "SELECT * FROM School ORDER BY graduated DESC LIMIT 6");
+        const jobs = await queryWrapper(ctx.env.DB, "SELECT * FROM Jobs ORDER BY startDate DESC LIMIT 6");
+        const skills = await queryWrapper(ctx.env.DB, "SELECT * FROM Skills");
         
         ctx.render({
             head: {
@@ -111,7 +108,7 @@ Resume.get(async(ctx)=>{
                     description: DESCRIPTION
                 }
             },
-            body: ResumeView(jobs, school, skills)
+            body: ResumeView(jobs.map(validateJobItem), school.map(validateSchoolItem), skills.map(validateSkillItem))
         })
 
     } catch (e){

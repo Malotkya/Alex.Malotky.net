@@ -1,10 +1,40 @@
 import { createContent as _ } from "Engine";
 
 export interface SkillItem{
-    info: Dictionary<string|undefined|Array<string>>,
-    id: string,
+    id: number,
     name: string,
-    list: Array<string>
+    list: Array<string>,
+    info: Dictionary<string|undefined|Array<string>>
+}
+
+export function validateSkillItem(value:Dictionary<unknown>):SkillItem {
+    if(typeof value["id"] !== "number") 
+        throw new TypeError("Invalid Skill id!");
+
+    if(typeof value["name"] !== "string")
+        throw new TypeError("Invalid Skill Name!");
+
+    if(value["employer"] !== null && typeof value["employer"] !== "string")
+        throw new TypeError("Invalid Job Employer!");
+
+    if(typeof value["list"] === "string"){
+        value["list"] = JSON.parse(value["list"]);
+    } else if(value["list"] === null){
+        value["list"] = [];
+    } else {
+        throw new TypeError("Invalid Skill List!");
+    }
+
+    if(typeof value["info"] === "string"){
+        value["info"] = JSON.parse(value["info"]);
+    } else if(value["info"] === null){
+        value["info"] = {};
+    } else {
+        throw new TypeError("Invalid Skill Info!");
+    }
+
+    //@ts-ignore
+    return value;
 }
 
 export function SkillCard(item:SkillItem){

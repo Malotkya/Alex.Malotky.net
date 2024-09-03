@@ -6,7 +6,7 @@
         "paths": {
             "Engine": ["./Engine/index.ts"],
             "Engine/*": ["./Engine/*"],
-            "*": ["./src/*"]
+            "@/*": ["./src/*"]
         },
 
         /* Modules */

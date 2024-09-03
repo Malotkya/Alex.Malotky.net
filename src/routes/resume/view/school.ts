@@ -6,7 +6,7 @@ export interface SchoolItem {
     name: string,
     degree: string,
     graduated: number,
-    about: Array<string>
+    other: Array<string>
 }
 
 export function validateSchoolItem(value:Dictionary<unknown>):SchoolItem {
@@ -16,18 +16,18 @@ export function validateSchoolItem(value:Dictionary<unknown>):SchoolItem {
     if(typeof value["name"] !== "string")
         throw new TypeError("Invalid School Name!");
 
-    if(value["degree"]  !== "string")
+    if(typeof value["degree"]  !== "string")
         throw new TypeError("Invalid School Degree!");
 
     if(typeof value["graduated"] !== "number")
         throw new TypeError("Invalid School Graduated!");
 
-    if(typeof value["about"] === "string"){
-        value["about"] = JSON.parse(value["about"]);
-    } else if(value["about"] === null){
-        value["about"] = [];
+    if(typeof value["other"] === "string"){
+        value["other"] = JSON.parse(value["other"]);
+    } else if(value["other"] === null){
+        value["other"] = [];
     } else {
-        throw new TypeError("Invalid Job About!");
+        throw new TypeError("Invalid School Other!");
     }
 
     //@ts-ignore
@@ -48,7 +48,6 @@ export function SchoolCard(item:SchoolItem){
 
 export function SchoolDetailed(item:SchoolItem){
     const graduated = formatDate(item.graduated, "%M, %Y", "Currently Enrolled");
-    const about = item.about || [];
 
     return [
         _("h1", item.degree),
@@ -58,7 +57,7 @@ export function SchoolDetailed(item:SchoolItem){
                 _("span", `Graduated: ${graduated}`)
             ),
             _("div", {class: "resume-about"},
-                _("ul", about.map(a=>_("li", a)))
+                _("ul", item.other.map(a=>_("li", a)))
             )
         )
     ]

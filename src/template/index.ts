@@ -55,7 +55,7 @@ function Footer():Content {
     )
 }
 
-export function ErrorContent(err:any, ctx:Context):RenderUpdate {
+export function ErrorContent(err:any, ctx:Context):Promise<Response> {
     switch (typeof err){
         case "string":
             err = new HttpError(500, err);
@@ -84,7 +84,7 @@ export function ErrorContent(err:any, ctx:Context):RenderUpdate {
     const status = err.code || err.status || 500;
     const message = `${status}: ${err.message}`;
 
-    return {
+    ctx.render({
         head: {
             title: getMessage(status) || "Error"
         },
@@ -98,5 +98,6 @@ export function ErrorContent(err:any, ctx:Context):RenderUpdate {
             cause: err.cause,
             status: status
         }
-    };
+    });
+    return ctx.flush()
 }

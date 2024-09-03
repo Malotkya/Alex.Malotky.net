@@ -1,13 +1,12 @@
-import { createElement as _ } from "../../../util/Elements";
-import {formatDate} from "../../../util/FormateDate";
-import { Timestamp } from "firebase/firestore";
+import { createContent as _ } from "Engine";
+import { formatDate } from "@/util";
 
 export interface JobItem {
     id: string,
     title: string,
     employer: string,
-    startDate: Timestamp,
-    endDate?: Timestamp,
+    startDate: number,
+    endDate?: number,
     about: Array<string>
 }
 

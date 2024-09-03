@@ -1,12 +1,11 @@
-import { createElement as _ } from "../../../util/Elements";
-import {formatDate} from "../../../util/FormateDate";
-import { Timestamp } from "firebase/firestore";
+import { createContent as _ } from "Engine";
+import { formatDate } from "@/util";
 
 export interface SchoolItem {
     id: string,
     name: string,
     degree: string,
-    graduated: Timestamp,
+    graduated: number,
     about: Array<string>
 }
 

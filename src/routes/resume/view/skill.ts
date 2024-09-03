@@ -1,4 +1,4 @@
-import { createElement as _ } from "../../../util/Elements";
+import { createContent as _ } from "Engine";
 
 export interface SkillItem{
     info: Dictionary<string|undefined|Array<string>>,

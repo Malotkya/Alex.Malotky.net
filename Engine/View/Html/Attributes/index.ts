@@ -1,9 +1,17 @@
 import AriaGlobalAttributes from "./Aria";
-import { Enumerable } from "./Types";
 
 type Attribute = string|number|boolean|Array<string>;
 export default Attribute;
 export type AttributeList = Dictionary<Attribute|undefined>;
+
+//HTML Values used accross Elements
+export type RefferPolicy = "no-referrer"|"no-referrer-when-downgrade"|"origin"|"origin-when-cross-origin"|"unsafe-url";
+export type CrossOrigin = "anonymous"|"use-credentials";
+export type Priority = "high"|"low"|"auto";
+
+export type Target = "_self"|"_blank"|"_parent"|"_top";
+
+export type Enumerable = "true"|"false";
 
 /** Build Attributes String
  * 
@@ -107,4 +115,16 @@ export interface GlobalAttributes extends AriaGlobalAttributes {
     title?: string,
     translate?: "yes"|"no",
     //virtualkeyboardpolicy?: "auto"|"manual",
+}
+
+import AnchorAttributes from "./Anchor";
+import AbbreviationAttributes from "./Abbreviation";
+
+export interface HTMLElementAttriburesMap {
+    a: AnchorAttributes,
+    abbr: AbbreviationAttributes
+}
+
+export interface HTMLClosedElementAttriburesMap {
+
 }

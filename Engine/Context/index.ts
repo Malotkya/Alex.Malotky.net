@@ -234,6 +234,9 @@ export default class Context{
         if(typeof value !== "string")
             throw new TypeError("Query must be a string!");
 
+        if(value === "")
+            value = "/";
+
         this._query = value;
     }
 

@@ -24,6 +24,7 @@ export default class Layer {
 
     constructor(middleware:Middleware)
     constructor(path:string, middleware:Middleware|EndPoint)
+    constructor(path:string, opts:PathToRegexpOptions, middleware:Middleware)
     constructor(){
         switch(arguments.length){
             case 0:
@@ -38,7 +39,7 @@ export default class Layer {
                 this._regex = pathToRegexp("/");
                 break;
 
-            default:
+            case 2:
                 if(typeof arguments[0] !== "string")
                     throw new TypeError("Path must be a string!");
                 if(typeof arguments[1] !== "function")
@@ -47,6 +48,19 @@ export default class Layer {
                 this._shortcut = false;
                 this._handler = arguments[1]
                 this._regex = pathToRegexp(arguments[0]);
+                break;
+
+            default:
+                if(typeof arguments[0] !== "string")
+                    throw new TypeError("Path must be a string!");
+                if(typeof arguments[1] !== "object")
+                    throw new TypeError("Options must be an object!");
+                if(typeof arguments[2] !== "function")
+                    throw new TypeError("Middleware must be a function!");
+
+                this._shortcut = false;
+                this._handler = arguments[2]
+                this._regex = pathToRegexp(arguments[0], arguments[1]);
                 break;
         }
     }

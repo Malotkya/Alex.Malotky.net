@@ -10,14 +10,14 @@ import { validateJobItem } from "./view/job";
 import { validateSkillItem } from "./view/skill";
 
 const TABLES:Dictionary<string|undefined> = {
-    "job": "SELECT * FROM Jobs",
-    "skill": "SELECT * FROM Skills",
-    "school": "SELECT * FROM School"
+    "jobs": "SELECT * FROM Jobs ",
+    "skills": "SELECT * FROM Skills ",
+    "school": "SELECT * FROM School "
 }
 const ORDER_BY:Dictionary<string> = {
-    "job": "ORDER BY graduated DESC",
-    "skill": "",
-    "school": "ORDER BY startDate DESC"
+    "jobs": " ORDER BY startDate DESC",
+    "skills": "",
+    "school": " ORDER BY graduated DESC"
 }
 
 const DESCRIPTION = "Alex's resume and other skills.";

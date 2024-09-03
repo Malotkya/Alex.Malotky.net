@@ -14,9 +14,6 @@ export function validateSkillItem(value:Dictionary<unknown>):SkillItem {
     if(typeof value["name"] !== "string")
         throw new TypeError("Invalid Skill Name!");
 
-    if(value["employer"] !== null && typeof value["employer"] !== "string")
-        throw new TypeError("Invalid Job Employer!");
-
     if(typeof value["list"] === "string"){
         value["list"] = JSON.parse(value["list"]);
     } else if(value["list"] === null){

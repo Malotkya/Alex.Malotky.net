@@ -10,10 +10,10 @@ export function SingleView(table:string, value:Dictionary<unknown>){
         case "school":
             return [style, SchoolDetailed(validateSchoolItem(value))];
 
-        case "job":
+        case "jobs":
             return [style, JobDetailed(validateJobItem(value))];
 
-        case "skill":
+        case "skills":
             return [style, SkillDetailed(validateSkillItem(value))];
     }
 
@@ -26,10 +26,10 @@ export function getCard(table:string):{card:Card, title:string} {
         case "school":
             return {card: (value)=>SchoolCard(validateSchoolItem(value)), title: "Schooling:"};
 
-        case "job":
+        case "jobs":
             return {card: (value)=>JobCard(validateJobItem(value)), title: "Work History:"};
 
-        case "skill":
+        case "skills":
             return {card: (value)=>SkillCard(validateSkillItem(value)), title: "Skills:"};
     }
 

@@ -105,6 +105,23 @@ import VariableAttributes from "./Variable";
 import VideoAttributes from "./Video";
 import LineBreakOppertunityAttributes from "./LineBreakOpportunity";
 
+export const SELF_CLOSING = [
+   "area",
+   "base",
+   "br",
+   "col",
+   "embed",
+   "hr",
+   "img",
+   "input",
+   "link",
+   "meta",
+   "param",
+   "source",
+   "track",
+   "wbr"
+]
+
 /** Closed Element Attributes Map
  * 
  */

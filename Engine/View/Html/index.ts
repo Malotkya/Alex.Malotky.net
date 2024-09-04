@@ -1,6 +1,6 @@
 import {buildAttributesString} from "./Attributes";
 import HTMLAttributes from "./Attributes/Map/Html";
-import Element, { createElement } from "./Element";
+import { createElement } from "./Element";
 import Content, {compressContent} from "./Element/Content";
 import Head, {HeadInit} from "./Head"
 
@@ -19,7 +19,7 @@ function html(init:HTMLInit, head:HTMLElement, body:HTMLElement):HTMLElement {
  * @param children 
  * @returns 
  */
-function body(children:Array<Element|Content>|Element|Content):HTMLElement {
+function body(children:Array<Content>|Content):HTMLElement {
     return "<body>"+compressContent(children)+"</body>";
 }
 
@@ -30,6 +30,6 @@ function body(children:Array<Element|Content>|Element|Content):HTMLElement {
  * @param {Array<Element|Content>} content 
  * @returns {string}
  */
-export function HtmlDocument(att:HTMLInit, head:HeadInit, content:Array<Element|Content>|Element|Content):HTMLElement{
+export function HtmlDocument(att:HTMLInit, head:HeadInit, content:Array<Content>|Content):HTMLElement{
     return "<!DOCTYPE html>"+html(att, Head(head), body(content));
 }

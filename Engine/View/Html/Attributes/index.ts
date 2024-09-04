@@ -2,7 +2,6 @@
  * 
  */
 import AriaGlobalAttributes, {toString as toAriaString} from "./Aria";
-export type {HTMLClosedElementAttriburesMap, HTMLElementAttriburesMap} from "./Map";
 
 type Attribute = string|number|boolean|Array<string>|Date|Function;
 export default Attribute;

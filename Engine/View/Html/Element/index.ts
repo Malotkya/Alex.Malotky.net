@@ -1,4 +1,5 @@
-import {buildAttributesString, AttributeList, HTMLElementAttriburesMap, HTMLClosedElementAttriburesMap} from "../Attributes";
+import {buildAttributesString, AttributeList} from "../Attributes";
+import { SELF_CLOSING, HTMLClosedElementAttriburesMap, HTMLElementAttriburesMap } from "../Attributes/Map";
 import HTMLElement from "..";
 import Content, {compressContent} from "./Content";
 import CustomRegistry from "./Custom";
@@ -28,7 +29,6 @@ export function createElement(name:string, attributes:AttributeList|Content = {}
         name = custom;
     }
 
-    //@ts-expect-error
     const selfClosing = SELF_CLOSING.indexOf(name) >= 0;
 
     if(selfClosing && children.length > 0)

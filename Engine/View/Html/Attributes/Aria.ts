@@ -2,7 +2,7 @@
  * 
  * https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes
  */
-import {AttributeList} from ".";
+import {AttributeList, SpaceSeperatedList} from ".";
 
 /* Widget Region Attributes */
 export type Autocomplete = "none"|"inline"|"list"|"both";
@@ -44,13 +44,13 @@ export type Colcount = number;
 export type Colindex = number;
 export type Colspan = number;
 export type Controls = string;
-export type Describedby = string|Array<string>;
+export type Describedby = SpaceSeperatedList;
 export type Description = string;
 export type Details = string;
 export type Flowto = string;
-export type Labelledby = string|Array<string>;
-export type Owns = string|Array<string>;
-export type Posinset =number;
+export type Labelledby = SpaceSeperatedList;
+export type Owns = SpaceSeperatedList;
+export type Posinset = number;
 export type Rowcount = number;
 export type Rowindex = number;
 export type Rowspan = number;
@@ -62,7 +62,9 @@ export type Keyshortcuts = string;
 export type Label = string;
 export type Roledescription = string;
 
-
+/** Aria Global Attributes
+ * 
+ */
 export default interface GlobalAttributes extends AttributeList{
     ariaAtomic?: Atomic,
     ariaBusy?: Busy,
@@ -86,4 +88,39 @@ export default interface GlobalAttributes extends AttributeList{
     ariaOwns?: Owns,
     ariaRelevant?: Relevant,
     ariaRoledescription?: Roledescription
+}
+
+/** Aria Attribute To String
+ * 
+ * @param {string} name 
+ * @param {unknown} value 
+ * @returns {string}
+ */
+export function toString(name:string, value:unknown):string {
+    switch (typeof value) {
+        case "string":
+            if(value !== "")
+                return name+"=\""+value+"\" ";
+            break;
+
+        case "number":
+            if(!isNaN(value))
+                return name+"=\""+value+"\" ";
+            else
+                console.warn("NaN passed as Aria Attribute value!");
+            break;
+
+        case "boolean":
+            return name+"=\""+value?"true":"false"+"\" ";
+
+        case "object":
+            if(Array.isArray(value)) {
+                return name+"=\""+value.join(" ")+"\" ";
+            }
+
+        default:
+            console.warn("Unknown value passed as Aria Attribute:\n%o", value);
+    }   
+
+    return "";
 }

@@ -1,12 +1,12 @@
-import {buildAttributesString, GlobalAttributes} from "./Attribute";
+import {buildAttributesString} from "./Attributes";
+import HTMLAttributes from "./Attributes/Map/Html";
 import Element, { createElement } from "./Element";
-import { HTMLContent } from "./Types";
 import Content, {compressContent} from "./Element/Content";
 import Head, {HeadInit} from "./Head"
 
-type HTMLElement = HTMLContent;
+type HTMLElement = string;
 export default HTMLElement;
-export type HTMLInit = GlobalAttributes;
+export type HTMLInit = HTMLAttributes;
 
 export {createElement, compressContent};
 

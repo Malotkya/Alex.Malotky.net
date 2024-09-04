@@ -4,7 +4,7 @@
  */
 import HTMLElement, {HtmlDocument, compressContent, HTMLInit} from "./Html";
 import { HeadInit, HeadUpdate, mergeInitWithUpdate } from "./Html/Head";
-import {AttributeList} from "./Html/Attribute";
+import {AttributeList} from "./Html/Attributes";
 
 export type RenderFunction = (update:RenderContent)=>HTMLElement;
 

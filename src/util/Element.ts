@@ -10,11 +10,9 @@ export type Element = string|number|boolean|undefined|HTMLElement|null|Array<Ele
  * @returns 
  */
 export function createElement(name:string, attributes:any = {}, ...children:Array<Element>): HTMLElement{
-    if(typeof attributes === "string" || attributes instanceof HTMLElement || Array.isArray(attributes)) {
+    if(typeof attributes !== "object" || attributes instanceof HTMLElement || Array.isArray(attributes)) {
         children.unshift(attributes);
         attributes = {};
-    } else if(typeof attributes !== "object"){
-        throw new TypeError("Attributes must be an object!");
     }
     
     const element = document.createElement(name);

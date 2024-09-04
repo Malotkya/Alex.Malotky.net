@@ -1,5 +1,5 @@
 import { findOrCreateElement } from "./Util";
-import { AttributeList } from "../Html/Attribute";
+import { AttributeList } from "../Html/Attributes";
 
 export default class Tracker {
     private _defaults:Dictionary<AttributeList>;

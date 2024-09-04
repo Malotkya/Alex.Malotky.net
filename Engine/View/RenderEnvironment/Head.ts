@@ -1,6 +1,6 @@
 import {findOrCreateElement} from "./Util";
 import { HeadUpdate } from "../Html/Head";
-import { AttributeList } from "../Html/Attribute";
+import { AttributeList } from "../Html/Attributes";
 import Tracker from "./Tacker";
 
 export default class HeadEnvironment {

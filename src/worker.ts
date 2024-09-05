@@ -88,13 +88,14 @@ import About from "./routes/about";
 import Portfolio from "./routes/portfolio";
 import Pokemon from "./routes/pokemon";
 import Login, {Logout} from "./routes/login";
-
+import Magic from "./routes/magic";
 
 app.use(Home);
 app.use(Resume);
 app.use(About);
 app.use(Portfolio);
 app.use(Pokemon);
+app.use(Magic);
 app.use(Login);
 app.use(Logout);
 

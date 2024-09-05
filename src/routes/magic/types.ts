@@ -14,3 +14,16 @@ export interface Card {
     typeLine?:string,
     oracle?: string
 }
+
+export interface Deck {
+    commanders: Array<Card>,
+    main_deck: Dictionary<Array<Card>>,
+    color_identity: Array<string>,
+    art: string
+}
+
+export interface DeckItem extends Deck {
+    id?: string,
+    name: string,
+    description: string
+}

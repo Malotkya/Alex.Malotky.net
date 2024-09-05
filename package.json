@@ -20,7 +20,7 @@
     "@cloudflare/workers-types": "^4.20240405.0",
     "@tsndr/cloudflare-worker-jwt": "^2.5.3",
     "@types/cookie": "^0.6.0",
-    "@types/masonry-layout": "^4.2.6",
+    "@types/masonry-layout": "^4.2.8",
     "@types/node": "^20.12.7",
     "concurrently": "^8.2.2",
     "cookie": "^0.6.0",

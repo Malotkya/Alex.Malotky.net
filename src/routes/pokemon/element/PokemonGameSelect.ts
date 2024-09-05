@@ -131,7 +131,11 @@ export default class PokemonGameSelect extends HTMLElement {
                 version,
             } = this._list[name];
             this._target.appendChild(_("h3", {class: "game-name"}, `Pokemon ${game}`));
-            this._target.appendChild(_("p", {class: "game-info"}, `Generation: ${generation}<br/> Region: ${region}`))
+            this._target.appendChild(_("p", {class: "game-info"},
+                `Generation: ${generation}`,
+                _("br"),
+                `Region: ${region}`
+            ))
             this._target.appendChild( _("pokemon-team-select", {
                 main: btoa(JSON.stringify(team)),
                 other:btoa(JSON.stringify(others)),

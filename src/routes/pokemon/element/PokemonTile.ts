@@ -141,15 +141,19 @@ function getNatureDescription(name?:string):Element {
         return null;
 
     if(name === "")
-        return "<i>none</i>";
+        return _("i", "none")
 
     const temp:Nature = MASTER_NATURE_INDEX[name.toUpperCase()];
-    let tip:string;
+    let tip:Element;
     if(temp) {
         if(temp.inc === temp.dec)
             tip = "Does nothing to adjust stats.";
 
-        tip =`Increases ${temp.inc}.<br/>Decreases ${temp.dec}.`;
+        tip = [
+            `Increases ${temp.inc}.`,
+            _("br"),
+            `Decreases ${temp.dec}.`
+        ];
     } else {
         tip = `Nature '${name}' not found!`;
     }
@@ -170,7 +174,7 @@ function getItemDescription(name?:string):Element {
         return null;
 
     if(name === "")
-        return "<i>none</i>";
+        return _("i", "none");
 
     return _("tool-tip",
         name,
@@ -200,7 +204,7 @@ export function getAbilityDescription(name?:string):Element {
         return null;
 
     if(name === "")
-        return "<i>none</i>";
+        return _("i", "none");
 
     return _("tool-tip",
         name,

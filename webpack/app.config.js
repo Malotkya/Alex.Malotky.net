@@ -3,7 +3,6 @@ const fs = require('fs');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const TerserPlugin = require("terser-webpack-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
-//const SpliceWebpackPlugin = require("./plugin/SpliceWebpackPlugin.js");
 
 /** Bundle Content
  * 
@@ -110,6 +109,9 @@ module.exports = (prod, src, target) => {
         },
         resolve: {
             extensions: ['.ts', '.js'],
+            alias: {
+                "@": src
+            }
         },
         output: {
             filename: 'bundle.js',

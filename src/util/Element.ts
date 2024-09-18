@@ -29,7 +29,7 @@ export function createElement(name:string, attributes:any = {}, ...children:Arra
  * @param {HTMLElement} element 
  * @param {Array<Element>} children 
  */
-function appendChildren(element:HTMLElement, children:Array<Element>):void {
+export function appendChildren(element:HTMLElement, children:Array<Element>):void {
     for(let child of children){
         if(Array.isArray(child)){
             appendChildren(element, child);

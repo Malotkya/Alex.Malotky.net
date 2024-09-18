@@ -2,7 +2,7 @@
  * 
  * @author Alex Malotky
  */
-import CardElement from "./CardInputElement";
+import CardElement from "./CardInput";
 import {Card} from "../types";
 
 /** Category Element

@@ -2,9 +2,9 @@
  * 
  * @author Alex Malotky
  */
-import CategoryElement from "./CategoryElement";
+import CategoryElement from "./Category";
 import DeckListDialog from "./DeckListDialog";
-import CardElement from "./CardInputElement";
+import CardElement from "./CardInput";
 import {Card, Deck} from "../types";
 
 
@@ -107,7 +107,7 @@ function cardToString(card:Card):string {
 /** Deck Editor Element
  * 
  */
-export default class DeckEditor extends HTMLElement {
+export default class CatagoryInput extends HTMLElement {
     private _dialog: DeckListDialog;
     private _categories:Map<string, CategoryElement>;
     private _input: CategoryElement;
@@ -223,7 +223,7 @@ export default class DeckEditor extends HTMLElement {
     public getDeckObject():Deck {
         const output:Deck = {
             commanders: [],
-            main_deck:{},
+            main_deck: {},
             color_identity: [],
             art: ""
         }
@@ -324,4 +324,4 @@ export default class DeckEditor extends HTMLElement {
     }
 }
 
-customElements.define("deck-editor", DeckEditor);
+customElements.define("catagory-input", CatagoryInput);

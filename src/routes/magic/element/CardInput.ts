@@ -22,7 +22,7 @@ const cache:Dictionary<Array<string>> = {};
  * Html Representation of the Card Interface.
  * 
  */
-export default class CardInputElement extends HTMLElement {
+export default class CardInput extends HTMLElement {
     //@ts-ignore
     private _value:Card
 
@@ -123,7 +123,7 @@ export default class CardInputElement extends HTMLElement {
     private find(cardName:string){
         createCardFromString(cardName).then((card:Card)=>{
             console.debug(card);
-            this.parentElement!.insertBefore(new CardInputElement(card), this);
+            this.parentElement!.insertBefore(new CardInput(card), this);
         });
     }
 
@@ -213,7 +213,7 @@ export default class CardInputElement extends HTMLElement {
 
         } else {
             //Name Input
-            const autoComplete = new AutoComplete(CardInputElement.getListFromShard, input);
+            const autoComplete = new AutoComplete(CardInput.getListFromShard, input);
 
             nameElement.appendChild(autoComplete);
             input.placeholder = "Card Name";
@@ -234,7 +234,7 @@ export default class CardInputElement extends HTMLElement {
     }
 }
 
-customElements.define("card-input", CardInputElement);
+customElements.define("card-input", CardInput);
 
 /** Set Card From String
      * 

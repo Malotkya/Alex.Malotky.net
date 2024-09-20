@@ -45,5 +45,11 @@ export function DeckEdit(deck:DeckItem): Content{
         })
     ).toString("base64");
 
-    return _("deck-input", {data});
+    return _("form",
+        {
+            data:data,
+            is: "deck-input",
+            id: "deck-input",
+            method: "POST"
+        });
 }

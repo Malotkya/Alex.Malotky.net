@@ -1,8 +1,8 @@
-import { createElement as _ } from "@/util/Element";
+import { createElement as _, appendChildren } from "@/util/Element";
 import { DeckItem } from "../types";
 import CatagoryInput from "./CatagoryInput";
 
-export default class DeckInput extends HTMLElement {
+export default class DeckInput extends HTMLFormElement {
     _data:DeckItem|undefined;
 
     static get observedAttributes(){
@@ -45,7 +45,7 @@ export default class DeckInput extends HTMLElement {
     }
 
     connectedCallback(){
-        if(this.innerHTML === ""){
+        if(this.innerHTML !== ""){
            return;
         }
 
@@ -56,36 +56,18 @@ export default class DeckInput extends HTMLElement {
                 main_deck = {}
         } = this._data || {};
 
-        const txtName = _("input", {id: "name", value: name}) as HTMLInputElement;
-        const txtDescription = _("textarea", {id:"description"}, description) as HTMLTextAreaElement;
-        const editor = new CatagoryInput(commanders, main_deck);
-
-        const form = _("form",
+        appendChildren(this, [
             _("a", {href: "/Decks/Editor", class:"btn", clear:"true"}, "Back"),
             _("a", {href: `/Decks/${id}`, id: "btnView", class: "btn", clear:"true"}, "View"),
             _("button", {id:"submit"}, "Save Changes"),
             _("h1", "Deck Editor"),
             _("label", {for: "name"}, "Deck Name"),
-            txtName,
+            _("input", {id: "name", name: "name", value: name}),
             _("label", {for:"description"}),
-            txtDescription,
+            _("textarea", {id:"description", name: "description"}, description),
             _("label", {for: "deckList"}, "Deck List:"),
-            editor
-        );
-
-        form.addEventListener("submit", (event)=>{
-            event.preventDefault();
-
-            const deck = editor.getDeckObject() as DeckItem;
-            deck.name = txtName.value;
-            deck.description = txtDescription.value;
-            
-            const data = new FormData();
-            data.set("deck", JSON.stringify(deck));
-
-            //@ts-expect-error
-            window.route("/Decks/Editor/Update/"+id, {deck: JSON.stringify(data)})
-        })
+            new CatagoryInput(commanders, main_deck)
+        ]);
     }
 }
 

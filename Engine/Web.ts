@@ -59,7 +59,7 @@ document.body.addEventListener("submit", async function submit_event(event){
             env.route(data.redirect);
         } else if(data.update){
             for(const id in data.update){
-                const element = form.querySelector("#"+id) as HTMLElement;
+                const element = form.querySelector("#"+id) as HTMLElement|null;
                 if(element){
                     RenderEnvironment.render(element, data.update[id]);
                 }

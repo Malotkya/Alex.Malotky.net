@@ -93,8 +93,21 @@ export default class Router extends Layer{
     /** Use Middleware Method
      * 
      */
-    use(middleware:Middleware){
-        this._methods.add("MIDDLEWARE", new Layer(middleware));
+    use(middleware:Middleware|Router){
+        switch(typeof middleware){
+            case "function":
+                this._methods.add("MIDDLEWARE", new Layer(middleware));
+                break;
+
+            case "object":
+                if(middleware instanceof Router) {
+                    this._methods.add("MIDDLEWARE", middleware);
+                    break;
+                }
+
+            default:
+                throw new TypeError("Invalid middleware!");
+        }
     }
 
     /** Get Method

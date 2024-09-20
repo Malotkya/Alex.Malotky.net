@@ -77,11 +77,6 @@ module.exports = (props) => {
             ],
             usedExports: true
         },
-        ignoreWarnings: [
-            {
-                module: /Util.js$/
-            },
-        ],
         externals: {
             'node:assert': 'node:assert',
             'node:async_hooks': 'node:async_hooks',

@@ -2,13 +2,14 @@
  * 
  * @author Alex Malotky
  */
-import HTMLElement, {HtmlDocument, compressContent, HTMLInit} from "./Html";
+import {HtmlDocument, compressContent, HTMLInit} from "./Html";
+import Content from "./Html/Element/Content";
 import { HeadInit, HeadUpdate, mergeInitWithUpdate } from "./Html/Head";
 import {AttributeList} from "./Html/Attributes";
 
-export type RenderFunction = (update:RenderContent)=>HTMLElement;
+export type RenderFunction = (update:RenderContent)=>Content;
 
-export type RenderContent = HTMLElement|Array<RenderContent>;
+export type RenderContent = Content|Array<Content>;
 export interface RenderUpdate {
     head?: HeadUpdate,
     body?: RenderContent

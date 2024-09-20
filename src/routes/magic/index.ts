@@ -4,13 +4,12 @@
  */
 import {Router, createContent as _, HttpError} from "Engine";
 import { DeckItem, ProtoDeck, validateInput, convertProtoDeck } from "./types";
-import { DeckEdit, DeckView } from "./view";
+import { DeckEdit, DeckView, DeckListView } from "./view";
 
-const Magic = new Router("/Magic");
-const Editor = new Router("/Edit");
-
-const style = _("style", require("./style.scss"));
 const PAGE_SIZE = 30;
+
+const Magic = new Router("/Decks");
+const Editor = new Router("/Edit");
 
 Editor.use(async(ctx)=>{
     const user = await ctx.getAuth();
@@ -24,7 +23,7 @@ Editor.delete("/:id", async(ctx)=>{
     await ctx.env.DB.prepare("DELETE FROM Decks WHERE id = ?")
         .bind(ctx.params.get("id")).run();
 
-    ctx.redirect("/Magic/Edit");
+    ctx.redirect("/Decks/Edit");
 });
 
 Editor.get("/New", async(ctx)=>{
@@ -33,7 +32,7 @@ Editor.get("/New", async(ctx)=>{
     await ctx.env.DB.prepare("INSERT INTO Decks(id) VALUES(?)")
         .bind(id).run();
 
-    ctx.redirect(`/Magic/Edit/${id}`);
+    ctx.redirect(`/Decks/Edit/${id}`);
 });
 
 Editor.post("/:id", async(ctx)=>{
@@ -123,11 +122,11 @@ Editor.all(async(ctx)=>{
         head: {
             title: "List of Decks",
             meta: {
-                description: "List of magic decks."
+                description: "List of magic decks to edit."
             }
         },
-        //TODO: Add view for list of results
-        body: JSON.stringify(results)
+        //@ts-ignore
+        body: DeckListView(results.map(convertProtoDeck), true)
     });
 });
 
@@ -173,8 +172,8 @@ Magic.all(async(ctx)=>{
                 description: "List of magic decks."
             }
         },
-        //TODO: Add view for list of results
-        body: JSON.stringify(results)
+        //@ts-ignore
+        body: DeckListView(results.map(convertProtoDeck))
     })
 });
 

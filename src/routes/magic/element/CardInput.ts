@@ -134,6 +134,7 @@ export default class CardInput extends HTMLElement {
     private set(string:string){
         createCardFromString(string).then(card=>{
             this._value = card;
+            this.dispatchEvent(new Event("input"));
         })
     }
 
@@ -162,8 +163,9 @@ export default class CardInput extends HTMLElement {
         }else if(this._value){
             nameElement.className = "name";
 
-            //Card Coutn Input
+            //Card Count Input
             input.value = String(this._value.count);
+            input.type = "number";
             input.style.width = "3ch";
             input.addEventListener("change", ()=>{
                 let number:number = Number(input.value);
@@ -193,8 +195,7 @@ export default class CardInput extends HTMLElement {
             nameElement.appendChild(foilInput);
             
             //Delete Button
-            const btnDelete = document.createElement("button");
-            btnDelete.textContent = "X";
+            const btnDelete = _("button", {type: "button"}, "X");
             btnDelete.addEventListener("click", ()=>this.delete() );
             
             //Select Options
@@ -219,7 +220,7 @@ export default class CardInput extends HTMLElement {
             input.placeholder = "Card Name";
 
             //Submit Name Button
-            const btnFind = document.createElement("button");
+            const btnFind = _("button", {type: "button"});
             btnFind.textContent = "+";
 
             btnFind.addEventListener("click", ()=>{

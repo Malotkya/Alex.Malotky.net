@@ -2,6 +2,7 @@
  * 
  * @author Alex Malotky
  */
+import { createElement as _ } from "@/util/Element";
 
 /** Deck List Dialog Element
  * 
@@ -49,16 +50,14 @@ export default class DeckListDialog extends HTMLDialogElement {
     public connectedCallback(){
         this.innerHTML = "";
 
-        const btnSubmit = document.createElement("button");
-        btnSubmit.textContent = "Submit";
+        const btnSubmit = _("button", {type: "button"}, "Submit");
         btnSubmit.addEventListener("click", event=>{
             this.close();
             if(this._submit)
                 this._submit(event);
         });
 
-        const btnCancel = document.createElement("button");
-        btnCancel.textContent = "Cancel";
+        const btnCancel = _("button", {type: "button"}, "Cancel");
         btnCancel.addEventListener("click", ()=>this.close());
         
         const div = document.createElement("div");

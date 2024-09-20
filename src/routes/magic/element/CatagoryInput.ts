@@ -6,6 +6,7 @@ import CategoryElement from "./Category";
 import DeckListDialog from "./DeckListDialog";
 import CardElement from "./CardInput";
 import {Card, Deck} from "../types";
+import { createElement as _ } from "@/util/Element";
 
 
 // Default Section Name
@@ -111,6 +112,7 @@ export default class CatagoryInput extends HTMLElement {
     private _dialog: DeckListDialog;
     private _categories:Map<string, CategoryElement>;
     private _input: CategoryElement;
+    private _values: Dictionary<HTMLInputElement>;
 
     /** Constructor
      * 
@@ -119,10 +121,10 @@ export default class CatagoryInput extends HTMLElement {
         super();
         this._categories = new Map();
         this._dialog = new DeckListDialog();
-        this._dialog.promptEvent(()=>{
+        this._dialog.promptEvent(()=>{      
             this._categories.clear();
-            this.propagete();
             this.connectedCallback();
+            this.dispatchEvent(new Event("input"));
         });
 
         this._input = new CategoryElement();
@@ -133,6 +135,18 @@ export default class CatagoryInput extends HTMLElement {
         }
 
         this.value = temp;
+
+        this._values = {
+            commanders: _("input", {type: "hidden", name: "commanders"}) as HTMLInputElement,
+            main_deck: _("input", {type: "hidden", name: "main_deck"}) as HTMLInputElement,
+            color_identity: _("input", {type: "hidden", name: "color_identity"}) as HTMLInputElement,
+            art: _("input", {type: "hidden", name: "art"}) as HTMLInputElement
+        };
+
+        this.addEventListener("input", event=>{
+            event.stopPropagation();
+            this.update();
+        })
     }
 
     /** Observed Attributes Getter
@@ -216,6 +230,18 @@ export default class CatagoryInput extends HTMLElement {
         }
     }
 
+    /** Update Hidden Values for Submit
+     * 
+     */
+    private update(){
+        const {commanders, main_deck, color_identity, art} = this.getDeckObject();
+        
+        this._values["commanders"].value = JSON.stringify(commanders);
+        this._values["main_deck"].value = JSON.stringify(main_deck);
+        this._values["color_identity"].value = JSON.stringify(color_identity);
+        this._values["art"].value = art;
+    }
+
     /** Get Deck Object
      * 
      * @returns {Deck}
@@ -295,9 +321,12 @@ export default class CatagoryInput extends HTMLElement {
      */
     public connectedCallback(){
         this.innerHTML = "";
-        
+        for(let name in this._values) {
+            this.appendChild(this._values[name]);
+        }
+
         this.appendChild(this._dialog);
-        const btnShowDialog = document.createElement("button");
+        const btnShowDialog = _("button", {type: "button"});
         btnShowDialog.addEventListener("click", ()=>{
             this.value = this.getDeckList();
             this._dialog.show();
@@ -309,7 +338,7 @@ export default class CatagoryInput extends HTMLElement {
         const order: Array<string> = Array.from(this._categories.keys()).sort((lhs:string, rhs:string):number=>{
             if(lhs === CARD_TYPE_PRIORITY[0]) {
                 return -1;
-            } else if(lhs === CARD_TYPE_PRIORITY[0]){
+            } else if(rhs === CARD_TYPE_PRIORITY[0]){
                 return 1;
             } else {
                 return lhs.localeCompare(rhs);

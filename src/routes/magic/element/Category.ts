@@ -2,6 +2,7 @@
  * 
  * @author Alex Malotky
  */
+import { createElement as _ } from "@/util/Element";
 import CardElement from "./CardInput";
 import {Card} from "../types";
 
@@ -73,6 +74,7 @@ export default class CategoryElement extends HTMLElement {
      */
     private create(name:string){
         this.parentElement!.insertBefore(new CategoryElement(name), this);
+        this.dispatchEvent(new Event("input"));
     }
 
     /** Delete Category
@@ -96,8 +98,7 @@ export default class CategoryElement extends HTMLElement {
             const name = document.createElement("span");
             name.textContent = this._name;
 
-            const btnDelete = document.createElement("button");
-            btnDelete.textContent = "Delete";
+            const btnDelete = _("button", {type: "button"}, "Delete");
             btnDelete.style.fontSize = "0.8em";
             btnDelete.addEventListener("click", ()=>this.delete());
 
@@ -109,8 +110,7 @@ export default class CategoryElement extends HTMLElement {
             input.placeholder = "Category Name";
             header.appendChild(input);
 
-            const btnAdd = document.createElement("button");
-            btnAdd.textContent = "Create Category";
+            const btnAdd = _("button", {type: "button"}, "Create Category");
             btnAdd.style.margin = "0 auto";
             btnAdd.style.display = "block";
             btnAdd.addEventListener("click", ()=>{

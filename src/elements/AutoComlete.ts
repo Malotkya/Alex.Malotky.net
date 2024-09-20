@@ -85,6 +85,7 @@ export default class AutoComplete extends HTMLElement {
 
         if(this._input) {
             this._input.addEventListener("input", async(event)=>{
+                event.stopPropagation();
                 const value = this._input?.value.toUpperCase();
                 this._autoCompleteList.close();
     

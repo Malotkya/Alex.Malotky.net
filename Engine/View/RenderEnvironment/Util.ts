@@ -103,13 +103,32 @@ export function getRouteInfo(href:string):{path:string, anchor:string} {
 /** Hash Object
  * 
  */
-export function hashObject(value:Object|string):number {
+export function hashObject(value:any):number {
     let string:string;
-    if(typeof value !== "string"){
-        string = JSON.stringify(value);
-    } else {
-        string = value;
-    } 
+    switch(typeof value){
+        case "number":
+            return value;
+
+        case "undefined":
+            return 0;
+
+        case "boolean":
+            return Number(value);
+
+        case "object":
+            if(value === null)
+                return 0;
+
+            string = JSON.stringify(value);
+            break;
+
+        case "string":
+            string = value;
+            break;
+
+        default:
+            string = value.toString()
+    }
 
     if(string.length === 0)
         return 0;

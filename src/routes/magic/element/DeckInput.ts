@@ -71,4 +71,4 @@ export default class DeckInput extends HTMLFormElement {
     }
 }
 
-customElements.define("deck-input", DeckInput);
+customElements.define("deck-input", DeckInput, {extends: "form"});

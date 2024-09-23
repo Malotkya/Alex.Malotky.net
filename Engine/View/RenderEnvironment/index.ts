@@ -46,8 +46,8 @@ export default class RenderEnvironment {
         try {
             const data = await RenderEnvironment.fetch(path, {body});
             if(data.redirect){
-                this.route(data.redirect);
-                return "";
+                window.history.pushState({}, "", data.redirect);
+                return this.handler();
             }
             this.update(data);
         } catch (e){
@@ -163,7 +163,7 @@ export default class RenderEnvironment {
             if(typeof content === "object"){
                 target.value = JSON.stringify(content);
             } else {
-                target.value = content;
+                target.value = String(content);
             }
 
         } else {
@@ -208,7 +208,7 @@ export default class RenderEnvironment {
             RenderEnvironment.error(data.error);
         }
         
-        if(data.head === undefined && data.body === undefined && data.update === undefined){
+        if(data.redirect === undefined && data.head === undefined && data.body === undefined && data.update === undefined){
             throw new Error("Recieved either an empty or invalid response!");
         }
 

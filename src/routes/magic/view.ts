@@ -40,10 +40,7 @@ export function DeckView(deck:DeckItem): Content{
  */
 export function DeckEdit(deck:DeckItem): Content{
     const data = Buffer.from(
-        JSON.stringify({
-            commanders: deck.commanders,
-            main_deck: deck.main_deck
-        })
+        JSON.stringify(deck)
     ).toString("base64");
 
     return [

@@ -328,7 +328,7 @@ async function createCardFromString(string:string):Promise<Card>{
         }
 
         //Get possible missing information.
-        if(result.sets) {
+        if(card.sets) {
             if(card.set.length === 0){
                 const buffer = Object.keys(card.sets)
                 const newSet = buffer[buffer.length-1].split(":");

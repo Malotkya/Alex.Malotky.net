@@ -124,6 +124,7 @@ export default class CardInput extends HTMLElement {
         createCardFromString(cardName).then((card:Card)=>{
             console.debug(card);
             this.parentElement!.insertBefore(new CardInput(card), this);
+            this.dispatchEvent(new CustomEvent("input", {bubbles: true, cancelable: true}));
         });
     }
 
@@ -134,8 +135,7 @@ export default class CardInput extends HTMLElement {
     private set(string:string){
         createCardFromString(string).then(card=>{
             this._value = card;
-            this.dispatchEvent(new Event("input"));
-        })
+        });
     }
 
     private static async getListFromShard(value:string = ""):Promise<Array<string>>{

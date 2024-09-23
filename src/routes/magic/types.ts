@@ -198,20 +198,13 @@ export function validateInput(input:ProtoDeck):DeckItem {
     return deck;
 }
 export function convertProtoDeck(data:ProtoDeck):DeckItem {
-    const {
-        id=-1,
-        name="",
-        description="",
-        commanders="[]",
-        main_deck="{}",
-        color_identity="[]",
-        art=""
-    } = data;
-
     return {
-        id, name, description, art,
-        commanders: JSON.parse(commanders),
-        main_deck: JSON.parse(main_deck),
-        color_identity: JSON.parse(color_identity)
+        id: data.id || -1,
+        name: data.name || "",
+        description: data.description || "",
+        commanders: data.commanders? JSON.parse(data.commanders): [],
+        main_deck: data.main_deck? JSON.parse(data.main_deck): {},
+        color_identity: data.color_identity? JSON.parse(data.color_identity): [],
+        art: data.art || ""
     }
 }

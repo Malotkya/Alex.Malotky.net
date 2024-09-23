@@ -6,6 +6,7 @@
  */
 
 const URI = "https://Mtg.Malotky.net/";
+const cache:Dictionary<string> = {};
 
 /** Card Interface
  * 
@@ -81,6 +82,9 @@ function compareNames(lhs:string, rhs:string):number{
  * @returns {string}
  */
 export async function getShard(shard:string):Promise<string>{
+    if(cache[shard])
+        return cache[shard];
+
     const response = await fetch(URI+shard);
 
     if(response.status !== 200)
@@ -91,5 +95,6 @@ export async function getShard(shard:string):Promise<string>{
     if(fileText.match("<!DOCTYPE html>"))
         throw new Error("Unable to find Shard!");
 
+    cache[shard] = fileText;
     return fileText;
 }

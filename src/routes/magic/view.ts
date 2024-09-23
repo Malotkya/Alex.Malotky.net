@@ -3,6 +3,7 @@
  * 
  * @author Alex Malotky
  */
+import {Buffer} from "node:buffer";
 import {createContent as _, Content} from "Engine";
 import { DeckItem } from "./types";
 
@@ -59,7 +60,7 @@ export function DeckEdit(deck:DeckItem): Content{
 }
 
 export function DeckListView(list:Array<DeckItem>, edit:boolean = false):Content {
-    
+    //TODO: Add pagenation numbers.
     
     return [
         _("h1", "Magic the Gathering Decks"),
@@ -97,7 +98,6 @@ export function DeckListView(list:Array<DeckItem>, edit:boolean = false):Content
                     )
                 )
             ))
-        ),
-
+        )
     ]
 }

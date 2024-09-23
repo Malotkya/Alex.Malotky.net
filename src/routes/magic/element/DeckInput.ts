@@ -61,9 +61,9 @@ export default class DeckInput extends HTMLFormElement {
             _("a", {href: `/Decks/${id}`, id: "btnView", class: "btn", clear:"true"}, "View"),
             _("button", {id:"submit"}, "Save Changes"),
             _("h1", "Deck Editor"),
-            _("label", {for: "name"}, "Deck Name"),
+            _("label", {for: "name"}, "Deck Name:"),
             _("input", {id: "name", name: "name", value: name}),
-            _("label", {for:"description"}),
+            _("label", {for:"description"}, "Description:"),
             _("textarea", {id:"description", name: "description"}, description),
             _("label", {for: "deckList"}, "Deck List:"),
             new CatagoryInput(commanders, main_deck)

@@ -5,7 +5,7 @@
  * @author Alex Malotky
  */
 
-const URI = "https://Mtg.Malotky.net/";
+const URI = "https://cards.malotky.net/";
 const cache:Dictionary<string> = {};
 
 /** Card Interface

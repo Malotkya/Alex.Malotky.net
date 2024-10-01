@@ -60,6 +60,7 @@ export function DeckListView(list:Array<DeckItem>, edit:boolean = false):Content
     //TODO: Add pagenation numbers.
     
     return [
+        style,
         _("h1", "Magic the Gathering Decks"),
         edit? _("a", {class: "btn", href: "/Decks/Edit/New"}, "Create New Deck"): null,
         _("ol", {id: "deck-list"},
@@ -72,8 +73,9 @@ export function DeckListView(list:Array<DeckItem>, edit:boolean = false):Content
                     edit? _("p",
                         _(  "a",
                             {
+                                href: "./Delete",
                                 class: "btn",
-                                onClick: `confirm("Are you sure?")`
+                                onClick: `confirm('Are you sure?')`
                             },
                             "Delete"
                         )

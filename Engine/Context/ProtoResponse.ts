@@ -33,6 +33,8 @@ export default class ProtoResponse extends Transform{
                 if(data.toString.length >= 1){
                     return data.toString(encode);
                 } else {
+                    if(encode)
+                        console.warn(`Encoding '${encode}' ignored!`);
                     return data.toString();
                 }
             }
@@ -50,7 +52,7 @@ export default class ProtoResponse extends Transform{
      * @returns {Uint8Array}
      */
     private static _text(data:any, encode:string):Uint8Array {
-        return ProtoResponse.encoder.encode(String(ProtoResponse._stringify(data, encode)))
+        return ProtoResponse.encoder.encode(ProtoResponse._stringify(data, encode));
     }
 
     /** Proto Response Constructor
@@ -75,7 +77,7 @@ export default class ProtoResponse extends Transform{
         if( data instanceof Uint8Array )
             this.#body.push(data);
         else
-        this.#body.push(ProtoResponse._text(data, encode));
+            this.#body.push(ProtoResponse._text(data, encode));
         callback();
     }
 

@@ -115,9 +115,9 @@ export default class Context{
     /** Set Status Code
      * 
      * @param {number} value 
-     * @returns {Context}
+     * @returns {this}
      */
-    status(value:number):Context {
+    status(value:number):this {
         if(typeof value !== "number") {
             value = Number(value);
         }
@@ -135,9 +135,9 @@ export default class Context{
     /** Write Chunk to Response
      * 
      * @param {any} chunk 
-     * @returns {Context}
+     * @returns {this}
      */
-    write(chunk:any):Context {
+    write(chunk:any):this {
         this._response.write(chunk);
         return this;
     }
@@ -152,9 +152,9 @@ export default class Context{
     /** Set Json Content
      * 
      * @param {Object} object 
-     * @returns {Context}
+     * @returns {this}
      */
-    json(object:Object): Context{
+    json(object:Object):this{
         if (!this._response.headers.get("Content-Type")) {
             this._response.headers.set('Content-Type', JSON_MIME_TYPE);
         }
@@ -168,7 +168,7 @@ export default class Context{
      * @param {string} value 
      * @returns {this}
      */
-    text(value:string): Context{
+    text(value:string):this{
         if (!this._response.headers.get("Content-Type")) {
             this._response.headers.set('Content-Type', TXT_MIME_TYPE);
         }

@@ -17,6 +17,7 @@ document.body.addEventListener("click", function click_event(event){
     if(link){
         event.preventDefault();
         target.blur();
+        link.blur();
 
         if(link.getAttribute("target") !== "_blank" && link.href.indexOf(location.hostname) !== -1){
             const {anchor, path} = getRouteInfo(link.href);
@@ -34,10 +35,8 @@ document.body.addEventListener("click", function click_event(event){
 });
 
 document.body.addEventListener("submit", async function submit_event(event){
-    event.preventDefault();
     const form = event.target as HTMLFormElement;
 
-    
     const url = form.action || window.location.pathname;
     let method:string|undefined;
     let body:FormData|undefined; 
@@ -45,10 +44,11 @@ document.body.addEventListener("submit", async function submit_event(event){
     
     switch (form.method){
         case "dialog":
-            alert("Dialog is currently not supported!");
+            //Do nothing and let the browser handdle it.
             break;
 
         default:
+            event.preventDefault();
             method = form.method;
             body = new FormData(form);
     }

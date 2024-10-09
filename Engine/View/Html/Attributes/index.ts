@@ -48,7 +48,7 @@ export function toString(name:string, value:Attribute|undefined):string {
     switch (typeof value){
         case "string":
             if(value !== "")
-                return name+"=\""+value+"\" ";
+                return name+"=\""+value.replaceAll('"', "&quot;")+"\" ";
             return "";
 
         case "number":

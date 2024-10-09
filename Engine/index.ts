@@ -16,7 +16,7 @@ import { createElement } from "./View/Html/Element";
 import { RenderContent } from "./View";
 import HttpError from "./HttpError";
 export {Router, Context, createElement as createContent, HttpError};
-export type {RenderContent as Content};
+export type {RenderContent as Content, Middleware};
 
 export default class Engine extends Routing {
     private _view:View|undefined;

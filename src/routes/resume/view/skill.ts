@@ -1,4 +1,5 @@
 import { createContent as _ } from "Engine";
+import {Buffer} from "node:buffer";
 
 export interface SkillItem{
     id: number,
@@ -34,10 +35,10 @@ export function validateSkillItem(value:Dictionary<unknown>):SkillItem {
     return value;
 }
 
-export function SkillCard(item:SkillItem){
+export function SkillCard(item:SkillItem, edit:boolean = false){
     return _("li", {class: "resume-card"},
         _("h3", {class: "resume-title"},
-            _("a", {href: `/Resume/Skills/${item.id}`}, item.name)
+            _("a", {href: `/Resume/Skills${edit?"/Edit":""}/${item.id}`}, item.name)
         ),
         _("ul", {class: "resume-sub-title"},
             item.list.map(i=>_("li", i))
@@ -66,4 +67,17 @@ export function SkillDetailed(item:SkillItem){
             )
         )
     ]
+}
+
+export function EditSkill(item: SkillItem){
+    const data = Buffer.from(
+        JSON.stringify(item)
+    ).toString("base64");
+
+    return _("form", {method: "post"},
+        _("label", {for: "name"}, "Name:"),
+        _("input", {id: "name", name: "name", value:item.name}),
+        _("hr"),
+        _("skill-input", {data}),
+    );
 }

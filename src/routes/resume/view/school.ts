@@ -34,12 +34,12 @@ export function validateSchoolItem(value:Dictionary<unknown>):SchoolItem {
     return value;
 }
 
-export function SchoolCard(item:SchoolItem){
+export function SchoolCard(item:SchoolItem, edit:boolean = false){
     const graduated = formatDate(item.graduated, "%m, %Y", "Current");
 
     return _("li", {class: "resume-card"},
         _("h3", {class: "resume-title"},
-            _("a", {href: `/Resume/School/${item.id}`}, item.name)
+            _("a", {href: `/Resume/School${edit?"/Edit":""}/${item.id}`}, item.name)
         ),
         _("p", {class: "resume-date"}, graduated),
         _("p", {class: "resume-sub-title"}, item.degree)
@@ -61,4 +61,18 @@ export function SchoolDetailed(item:SchoolItem){
             )
         )
     ]
+}
+export function EditSchool(item: SchoolItem){
+    return _("form", {method: "post"},
+        _("label", {for: "degree"}, "Degree:"),
+        _("input", {id: "degree", name: "degree", value:item.degree}),
+        _("hr"),
+        _("label", {for: "school"}, "School:"),
+        _("input", {id: "school", name: "name", value: item.name}),
+        _("label", {for: "graduated"}, "Graduated:"),
+        _("input", {type: "date", name: "graduated", id: "graduated", value: item.graduated}),
+        _("hr"),
+        _("label", {for: "about"}, "Other Info:"),
+        _("list-input", {name: "about", id:"about", value: JSON.stringify(item.other || [])})
+    );
 }

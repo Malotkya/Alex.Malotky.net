@@ -46,8 +46,15 @@ export function formatDate(date:string|Date|number|undefined|null, format:string
 
         return "undefined";
 
-    }else if(typeof date !== "object") {
-        date = new Date(date);
+    } else {
+        switch(typeof date){
+            case "string":
+                date = date.replace(/-/g, "/");
+            
+            case "number":
+                date = new Date(date);
+                break;
+        }
     }
 
     return format

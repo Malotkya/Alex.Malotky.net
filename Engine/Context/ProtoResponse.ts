@@ -64,6 +64,9 @@ export default class ProtoResponse extends Transform{
         this.#status = 200;
         this.#headers = new Map();
         this.#body = [];
+
+        //Default headers
+        this.#headers.set("Referrer-Policy", "strict-origin");
     }
 
     /** Transform Data Override

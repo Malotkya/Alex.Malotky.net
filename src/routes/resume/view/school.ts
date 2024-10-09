@@ -19,7 +19,7 @@ export function validateSchoolItem(value:Dictionary<unknown>):SchoolItem {
     if(typeof value["degree"]  !== "string")
         throw new TypeError("Invalid School Degree!");
 
-    if(typeof value["graduated"] !== "number")
+    if(typeof value["graduated"] !== "string")
         throw new TypeError("Invalid School Graduated!");
 
     if(typeof value["other"] === "string"){
@@ -39,7 +39,7 @@ export function SchoolCard(item:SchoolItem, edit:boolean = false){
 
     return _("li", {class: "resume-card"},
         _("h3", {class: "resume-title"},
-            _("a", {href: `/Resume/School${edit?"/Edit":""}/${item.id}`}, item.name)
+            _("a", {href: `/Resume${edit?"/Edit":""}/School/${item.id}`}, item.name)
         ),
         _("p", {class: "resume-date"}, graduated),
         _("p", {class: "resume-sub-title"}, item.degree)

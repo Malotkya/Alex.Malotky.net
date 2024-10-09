@@ -20,10 +20,10 @@ export function validateJobItem(value:Dictionary<unknown>):JobItem {
     if(value["employer"] !== null && typeof value["employer"] !== "string")
         throw new TypeError("Invalid Job Employer!");
 
-    if(typeof value["startDate"] !== "number")
+    if(typeof value["startDate"] !== "string")
         throw new TypeError("Invalid Job Start Date!");
     
-    if(value["endDate"] !== null && typeof value["endDate"] !== "number")
+    if(value["endDate"] !== null && typeof value["endDate"] !== "string")
         throw new TypeError("Invalid Job End Date!");
 
     if(typeof value["about"] === "string"){
@@ -44,7 +44,7 @@ export function JobCard(item: JobItem, edit:boolean = false){
 
     return _("li", {class: "resume-card"},
         _("h3", {class: "resume-title"},
-            _("a", {href:`/Resume/Jobs${edit?"/Edit":""}/${item.id}`}, item.title)
+            _("a", {href:`/Resume${edit?"/Edit":""}/Jobs/${item.id}`}, item.title)
         ),
         _('p', {class: "resume-date"},
             `${startDate} - ${endDate}`,

@@ -38,7 +38,7 @@ export function validateSkillItem(value:Dictionary<unknown>):SkillItem {
 export function SkillCard(item:SkillItem, edit:boolean = false){
     return _("li", {class: "resume-card"},
         _("h3", {class: "resume-title"},
-            _("a", {href: `/Resume/Skills${edit?"/Edit":""}/${item.id}`}, item.name)
+            _("a", {href: `/Resume${edit?"/Edit":""}/Skills/${item.id}`}, item.name)
         ),
         _("ul", {class: "resume-sub-title"},
             item.list.map(i=>_("li", i))

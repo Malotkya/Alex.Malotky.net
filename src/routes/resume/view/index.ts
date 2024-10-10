@@ -6,7 +6,7 @@ import { SkillItem, SkillCard, SkillDetailed, validateSkillItem, EditSkill } fro
 /** Styling Element
  * 
  */
-const style = _("style", require("./style.scss"));
+const style = _("style", require("../style.scss"));
 
 /** Single Table View
  * 

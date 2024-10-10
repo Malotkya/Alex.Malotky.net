@@ -2,6 +2,20 @@ import { Content, Context, createContent as _} from "Engine";
 import { RenderUpdate, RenderFunction } from "Engine/View";
 import HttpError, { getMessage } from "Engine/HttpError";
 
+function showMenu(){
+    const menu = document.querySelector("#top-nav-menu") as HTMLElement;
+
+    if(menu){
+        if( menu.style.display ) {
+            menu.style.display = "";
+        } else {
+            menu.style.display = "flex";
+        }
+    } else {
+        console.warn("Unable to find menu!");
+    }
+}
+
 export default function WireFrame(navList:Content):RenderFunction{
     return function Template(content:Content){
         return _("header", 
@@ -22,7 +36,8 @@ export function HamburgerButton():Content {
         {
             id: "top-nav-button",
             ariaLabel: "Show/Hide Navigation",
-            ariaHaspopup: "menu"
+            ariaHaspopup: "menu",
+            onclick: showMenu
         },
         _("div"),
         _("div"),

@@ -130,6 +130,12 @@ button{
     cursor: pointer;
 }
 
+.button-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
 /*************** Web Component Styling ***************/
 
 auto-complete {

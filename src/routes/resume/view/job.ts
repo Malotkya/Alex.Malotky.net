@@ -41,6 +41,7 @@ export function validateJobItem(value:Dictionary<unknown>):JobItem {
 export function JobCard(item: JobItem, edit:boolean = false){
     const startDate: string = formatDate(item.startDate, "%m, %Y");
     const endDate: string   = formatDate(item.endDate, "%m, %Y", "Current");
+    const about: Array<string> = item.about || [];
 
     return _("li", {class: "resume-card"},
         _("h3", {class: "resume-title"},
@@ -49,7 +50,22 @@ export function JobCard(item: JobItem, edit:boolean = false){
         _('p', {class: "resume-date"},
             `${startDate} - ${endDate}`,
         ),
-        _("p", {class: "resume-sub-title"}, item.employer)
+        _("p", {class: "resume-sub-title"}, item.employer),
+        _("ul", {class: "resume-about"},
+            about.map((a)=>_("li", a))
+        ),
+        edit? 
+        _("div", {class: "button-container"},
+            _("a", {class: "btn", href: `/Resume/Edit/Jobs/${item.id}`}, "Edit"),
+            _("form", {method: "delete", action: `/Resume/Edit/Jobs/${item.id}`, onsubmit: (event)=>{
+                if(!confirm(`Are you sure you want to delete Job?`)) {
+                    event.stopPropagation();
+                }
+            }},
+                _("button", "Delete")
+            )
+
+        ): undefined
     );
 }
 

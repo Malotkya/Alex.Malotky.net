@@ -36,18 +36,35 @@ export function validateSchoolItem(value:Dictionary<unknown>):SchoolItem {
 
 export function SchoolCard(item:SchoolItem, edit:boolean = false){
     const graduated = formatDate(item.graduated, "%m, %Y", "Current");
+    const other = item.other || [];
 
     return _("li", {class: "resume-card"},
         _("h3", {class: "resume-title"},
             _("a", {href: `/Resume${edit?"/Edit":""}/School/${item.id}`}, item.name)
         ),
         _("p", {class: "resume-date"}, graduated),
-        _("p", {class: "resume-sub-title"}, item.degree)
+        _("p", {class: "resume-sub-title"}, item.degree),
+        _("ul", {class: "resume-about"},
+            other.map(a=>_("li", a))
+        ),
+        edit? 
+        _("div", {class: "button-container"},
+            _("a", {class: "btn", href: `/Resume/Edit/School/${item.id}`}, "Edit"),
+            _("form", {method: "delete", action: `/Resume/Edit/School/${item.id}`, onsubmit: (event)=>{
+                if(!confirm(`Are you sure you want to delete School?`)) {
+                    event.stopPropagation();
+                }
+            }},
+                _("button", "Delete")
+            )
+
+        ): undefined
     )
 }
 
 export function SchoolDetailed(item:SchoolItem){
     const graduated = formatDate(item.graduated, "%M, %Y", "Currently Enrolled");
+    const other = item.other || [];
 
     return [
         _("h1", item.degree),

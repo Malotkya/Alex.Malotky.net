@@ -42,7 +42,19 @@ export function SkillCard(item:SkillItem, edit:boolean = false){
         ),
         _("ul", {class: "resume-sub-title"},
             item.list.map(i=>_("li", i))
-        )
+        ),
+        edit?
+        _("div", {class: "button-container"},
+            _("a", {class: "btn", href: `/Resume/Edit/Skills/${item.id}`}, "Edit"),
+            _("form", {method: "delete", action: `/Resume/Edit/Skills/${item.id}`, onsubmit: (event)=>{
+                if(!confirm(`Are you sure you want to delete Skill?`)) {
+                    event.stopPropagation();
+                }
+            }},
+                _("button", "Delete")
+            )
+
+        ): undefined
     )
 }
 

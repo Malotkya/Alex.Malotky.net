@@ -2,7 +2,6 @@
     background-color: $dark;
     color: $white;
     display: flex;
-    justify-content: space-between;
     flex-direction: row;
     flex-wrap: wrap;
     padding: 0.5em;
@@ -21,7 +20,7 @@
 #top-nav-menu {
     flex-basis: 100%;
     display: none;
-        padding-bottom: 10px;
+    padding-bottom: 10px;
     margin: 0;
     list-style: none;
     padding: 0;

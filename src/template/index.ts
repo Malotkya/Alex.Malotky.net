@@ -47,8 +47,8 @@ export function HamburgerButton():Content {
 
 function Navigation(list:Content):Content {
     return _("nav", {id:"top-nav-bar"},
-        _("a", {id: "top-nav-title", class: "top-nav-item", href: "/"}, "Alex.Malotky.net"),
         HamburgerButton(),
+        _("a", {id: "top-nav-title", class: "top-nav-item", href: "/"}, "Alex.Malotky.net"),
         _("ul", {id: "top-nav-menu"}, list)
     );
 }

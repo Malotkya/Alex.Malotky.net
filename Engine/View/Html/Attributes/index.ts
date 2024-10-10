@@ -47,7 +47,9 @@ export function buildAttributesString(attributes:AttributeList):string {
 export function toString(name:string, value:Attribute|undefined):string {
     switch (typeof value){
         case "function":
-            value = `${value};${value.name}(event);`;
+            value = ""+value;
+            value = value.substring(value.indexOf("{")+1, value.lastIndexOf("}")-1)
+                         .replace(/\s+/g, " ").trim();
 
         case "string":
             if(value !== "")

@@ -1,5 +1,5 @@
 import RenderEnvironment from "./View/RenderEnvironment";
-import { getRouteInfo, getValueFrom } from "./View/RenderEnvironment/Util";
+import { getRouteInfo } from "./View/RenderEnvironment/Util";
 
 
 const env = new RenderEnvironment();
@@ -45,7 +45,7 @@ document.body.addEventListener("submit", async function submit_event(event){
     switch (form.method){
         case "dialog":
             //Do nothing and let the browser handdle it.
-            break;
+            return;
 
         default:
             event.preventDefault();
@@ -53,19 +53,17 @@ document.body.addEventListener("submit", async function submit_event(event){
             body = new FormData(form);
     }
 
-    if(method){
-        const data = await RenderEnvironment.fetch(url, {method, body, headers});
-        if(data.redirect){
-            env.route(data.redirect);
-        } else if(data.update){
-            for(const id in data.update){
-                const element = form.querySelector("#"+id) as HTMLElement|null;
-                if(element){
-                    RenderEnvironment.render(element, data.update[id]);
-                }
+    const data = await RenderEnvironment.fetch(url, {method, body, headers});
+    if(data.redirect){
+        env.route(data.redirect);
+    } else if(data.update){
+        for(const id in data.update){
+            const element = form.querySelector("#"+id) as HTMLElement|null;
+            if(element){
+                RenderEnvironment.render(element, data.update[id]);
             }
-        } else {
-            env.update(data);
         }
+    } else {
+        env.update(data);
     }
 });

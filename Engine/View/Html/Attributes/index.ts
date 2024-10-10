@@ -3,7 +3,7 @@
  */
 import AriaGlobalAttributes, {toString as toAriaString} from "./Aria";
 
-type Attribute = string|number|boolean|Array<string>|Date|Function;
+type Attribute = string|number|boolean|Array<string>|Date|EventListener;
 export default Attribute;
 export type AttributeList = Dictionary<Attribute|undefined>;
 

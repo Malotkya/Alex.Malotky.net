@@ -21,8 +21,8 @@ export function HamburgerButton():Content {
     return _("button",
         {
             id: "top-nav-button",
-            "aria-label": "Show/Hide Navigation",
-            "aria-haspopup": "menu"
+            ariaLabel: "Show/Hide Navigation",
+            ariaHaspopup: "menu"
         },
         _("div"),
         _("div"),

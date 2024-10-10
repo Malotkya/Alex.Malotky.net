@@ -38,22 +38,15 @@ document.body.addEventListener("submit", async function submit_event(event){
     const form = event.target as HTMLFormElement;
 
     const url = form.action || window.location.pathname;
-    let method:string|undefined;
-    let body:FormData|undefined; 
-    const headers:Dictionary<string> = {};
+    const method = form.getAttribute("method") || "get";
     
-    switch (form.method){
-        case "dialog":
-            //Do nothing and let the browser handdle it.
-            return;
+    if(method === "dialog")
+        //Do nothing and let the browser handdle it.
+        return;
 
-        default:
-            event.preventDefault();
-            method = form.method;
-            body = new FormData(form);
-    }
-
-    const data = await RenderEnvironment.fetch(url, {method, body, headers});
+    const body = new FormData(form);
+    const data = await RenderEnvironment.fetch(url, {method, body});
+    
     if(data.redirect){
         env.route(data.redirect);
     } else if(data.update){

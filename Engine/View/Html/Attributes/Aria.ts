@@ -113,6 +113,9 @@ export function toString(name:string, value:unknown):string {
         case "boolean":
             return name+"=\""+value?"true":"false"+"\" ";
 
+        case "undefined":
+            return "";
+
         case "object":
             if(Array.isArray(value)) {
                 return name+"=\""+value.join(" ")+"\" ";

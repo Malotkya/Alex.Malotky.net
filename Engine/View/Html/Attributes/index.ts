@@ -46,6 +46,9 @@ export function buildAttributesString(attributes:AttributeList):string {
  */
 export function toString(name:string, value:Attribute|undefined):string {
     switch (typeof value){
+        case "function":
+            value = `${value};${value.name}(event);`;
+
         case "string":
             if(value !== "")
                 return name+"=\""+value.replaceAll('"', "&quot;")+"\" ";
@@ -63,17 +66,13 @@ export function toString(name:string, value:Attribute|undefined):string {
         case "undefined":
             return "";
 
-        case "function":
-            console.info("Function attributes is comming soone!");
-            return name+"=\""+value.name+"\" ";
-
         case "object":
             if(Array.isArray(value)){
                 return name+"=\""+value.join(" ")+"\" "
 
             } else if(value instanceof Date){
                 return name+"=\""+value.toDateString()+"\" ";
-                
+
             }
 
         default:

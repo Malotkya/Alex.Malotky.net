@@ -90,13 +90,7 @@ export function toString(name:string, value:Attribute|undefined):string {
  * @returns {string}
  */
 export function convertName(name:string):string {
-    const matches = name.match(/[A-Z]/g);
-
-    for(let char of matches || []){
-        name.replace(char, ("-"+char).toLocaleLowerCase());
-    }
-
-    return name;
+    return name.replaceAll(/([A-Z])/g, ("-$1")).toLocaleLowerCase();
 }
 
 //https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes

@@ -93,7 +93,7 @@ export function EditMainView(){
     return [
         style,
         _("h1", "Resume Editor"),
-        _("section", 
+        _("section", {class: "resume-editor"},
             _("h2", "Choose section to edit:"),
             _("p",
                 _("a", {href: "/Resume/Edit/Jobs"}, "Work History"),

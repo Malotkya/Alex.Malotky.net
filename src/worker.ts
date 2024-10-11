@@ -20,7 +20,7 @@ app.view(new View(
         title: "Alex.Malotky.net",
         meta: [
             { charset: "utf-8"},
-            { name: "viewport",    content: "width=device-wdith, initial-scale=1"},
+            { name: "viewport",    content: "width=device-width, initial-scale=1"},
             { name: "author",      content: "Alex Malotky"},
             { name: "description", content: "Portfolio website for Alex Malotky."}
         ],

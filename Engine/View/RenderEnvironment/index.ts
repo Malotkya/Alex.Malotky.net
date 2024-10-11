@@ -5,9 +5,7 @@ import HeadEnvironment from "./Head";
 import { HEADER_KEY, HEADER_VALUE } from "../../Util";
 
 
-interface FetchOptions {
-    method?: string
-    body?: FormData
+interface FetchOptions extends RequestInit{
     headers?:Dictionary<string>
 }
 
@@ -194,25 +192,30 @@ export default class RenderEnvironment {
             opts.headers = {};
         opts.headers[HEADER_KEY] = HEADER_VALUE;
 
-        const response = await fetch(url, opts);
+        try {
+            const response = await fetch(url, opts);
 
-        if(response.headers.get(HEADER_KEY) !== HEADER_VALUE) {
-            throw new Error("Did not recieve an update response!");
-        } else if(response.headers.get("Content-Type") !== "application/json") {
-            throw new Error("Did not recieve JSON response!");
-        }
+            if(response.headers.get(HEADER_KEY) !== HEADER_VALUE) {
+                throw new Error("Did not recieve an update response!");
+            } else if(response.headers.get("Content-Type") !== "application/json") {
+                throw new Error("Did not recieve JSON response!");
+            }
 
-        const data:RenderUpdate = await response.json();
+            const data:RenderUpdate = await response.json();
 
-        if(!response.ok) {
-            RenderEnvironment.error(data.error);
+            if(!response.ok) {
+                RenderEnvironment.error(data.error);
+            }
+            
+            if(data.redirect === undefined && data.head === undefined && data.body === undefined && data.update === undefined){
+                throw new Error("Recieved either an empty or invalid response!");
+            }
+
+            return data;
+        } catch (e){
+            throw e;
         }
         
-        if(data.redirect === undefined && data.head === undefined && data.body === undefined && data.update === undefined){
-            throw new Error("Recieved either an empty or invalid response!");
-        }
-
-        return data;
     }
 
     static error(value:RenderUpdate["error"]){

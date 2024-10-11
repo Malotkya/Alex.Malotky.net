@@ -92,6 +92,15 @@ img, video {
     height: auto;
 }
 
+input, textarea, select {
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+label {
+    font-weight: bold;
+}
+
 aside {
     background-color: $medium;
     color: $white;

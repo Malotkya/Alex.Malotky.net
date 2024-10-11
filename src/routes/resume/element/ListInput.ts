@@ -5,9 +5,11 @@ function InputLine(value:string, update:EventListener){
     const txtInput = _("input", {value});
     txtInput.addEventListener("input", update);
 
-    const line = _("li", {class: "input-line"}, 
-        txtInput, btnRemove
-    )
+    const line = _("li",
+        _("div", {class: "input-line"}, 
+            txtInput, btnRemove
+        )
+    );
 
     btnRemove.addEventListener("click", ()=>{
         if(confirm("Are yous sure?")) {
@@ -32,7 +34,7 @@ export default class ListInput extends HTMLElement {
         ) as HTMLLIElement;
 
         btnNew.addEventListener("click", ()=>{
-            this._list.appendChild(InputLine("", ()=>this.update()))
+            this._list.insertBefore(InputLine("", ()=>this.update()), this._button)
         });
 
         this._list.appendChild(this._button);

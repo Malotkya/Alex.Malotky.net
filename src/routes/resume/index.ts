@@ -2,7 +2,7 @@
  * 
  * @author Alex Malotky
  */
-import { Router, Middleware, Content } from "Engine";
+import { Router, Middleware, Content, Context } from "Engine";
 import HttpError from "Engine/HttpError";
 import ResumeView , { SingleView, ListView, SingleEditView, ListEditView, EditMainView } from "./view";
 import { validateSchoolItem } from "./view/school";
@@ -13,6 +13,11 @@ const TABLES:Dictionary<string|undefined> = {
     "jobs": "SELECT * FROM Jobs ",
     "skills": "SELECT * FROM Skills ",
     "school": "SELECT * FROM School "
+}
+const DELETE:Dictionary<string|undefined> = {
+    "jobs":"DELETE FROM Jobs WHERE id = ?",
+    "skills":"DELETE FROM Jobs WHERE id = ?",
+    "school":"DELETE FROM School WHERE id = ?"
 }
 const ORDER_BY:Dictionary<string> = {
     "jobs": " ORDER BY startDate DESC",
@@ -123,6 +128,22 @@ function QueryRecord(view:(t:string, r:Record<string,unknown>)=>Content):Middlew
 }
 Resume.get("/:table/:id", QueryRecord(SingleView));
 Editor.get("/:table/:id", QueryRecord(SingleEditView));
+
+Editor.delete("/:table/:id", async(ctx:Context)=>{
+    const table = (ctx.params.get("table") as string).toLocaleLowerCase();
+    const id = ctx.params.get("id") as string;
+    const query = DELETE[table];
+
+    if(query === undefined)
+        throw new HttpError(404, `Unable to find ${table}!`);
+
+    try {
+        await ctx.env.DB.prepare(query).bind(id).run();
+        ctx.redirect(`/${table}`);
+    } catch (e){
+        throw new HttpError(500, "There was a problem deleting from the database!");
+    }
+});
 
 
 

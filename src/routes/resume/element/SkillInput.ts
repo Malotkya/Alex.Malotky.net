@@ -71,7 +71,9 @@ export default class SkillInput extends HTMLElement{
     }
 
     connectedCallback(){
+        this.appendChild(this._info);
         const info = JSON.parse(this._info.value) as Dictionary<Array<string>|undefined>;
+        this.appendChild(this._list);
         const list = JSON.parse(this._list.value) as Array<string>;
 
         let index = 0;

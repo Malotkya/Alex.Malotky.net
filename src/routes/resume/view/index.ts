@@ -82,6 +82,7 @@ export function ListEditView(table:string, value:Array<Dictionary<unknown>>){
 
     return [
         style,
+        _("a", {href: "/Resume/Edit", class: "btn"}, "Back"),
         _("h1", `Edit ${title}`),
         _("ul", {class: "resume-card-list"},
             value.map((v)=>card(v, true))
@@ -92,6 +93,7 @@ export function ListEditView(table:string, value:Array<Dictionary<unknown>>){
 export function EditMainView(){
     return [
         style,
+        _("a", {href: "/Resume", class: "btn"}, "Back"),
         _("h1", "Resume Editor"),
         _("section", {class: "resume-editor"},
             _("h2", "Choose section to edit:"),
@@ -100,7 +102,7 @@ export function EditMainView(){
                 _("br"),
                 _("a", {href: "/Resume/Edit/School"}, "School History"),
                 _("br"),
-                _("a", {href: "/Resume/Edit/Skills"}, "Skills")
+                _("a", {href: "/Resume/Edit/Skills"}, "All Skills")
             )
         )
     ]

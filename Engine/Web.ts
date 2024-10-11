@@ -38,12 +38,13 @@ document.body.addEventListener("submit", async function submit_event(event){
     const form = event.target as HTMLFormElement;
 
     const url = form.action || window.location.pathname;
-    const method = form.getAttribute("method") || "get";
+    const method = (form.getAttribute("method") || "GET").toLocaleUpperCase();
     
     if(method === "dialog")
         //Do nothing and let the browser handdle it.
         return;
 
+    event.preventDefault();
     const body = new FormData(form);
     const data = await RenderEnvironment.fetch(url, {method, body});
     

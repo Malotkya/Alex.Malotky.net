@@ -10,10 +10,6 @@
 
 }
 
-.resume-editor {
-    text-align: center;
-}
-
 .resume-card {
     display: flex;
     flex-flow: row wrap;
@@ -97,6 +93,29 @@
 
     .resume-about {
         display: none;
+    }
+}
+
+.resume-editor {
+    max-width: 800px;
+    margin: 0 auto;
+
+    P, h2 {
+        text-align: center;
+    }
+}
+
+list-input {
+    .input-line{
+        display: flex;
+
+        input {
+            flex-grow: 1;
+        }
+    }
+
+    .button {
+        list-style: none;
     }
 }
 

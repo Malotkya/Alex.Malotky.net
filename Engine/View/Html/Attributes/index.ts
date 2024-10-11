@@ -74,7 +74,8 @@ export function toString(name:string, value:Attribute|undefined):string {
 
             } else if(value instanceof Date){
                 return name+"=\""+value.toDateString()+"\" ";
-
+            } else if(value === null){
+                return name="=\"\""
             }
 
         default:

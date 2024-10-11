@@ -16,7 +16,7 @@ const TABLES:Dictionary<string|undefined> = {
 }
 const DELETE:Dictionary<string|undefined> = {
     "jobs":"DELETE FROM Jobs WHERE id = ?",
-    "skills":"DELETE FROM Jobs WHERE id = ?",
+    "skills":"DELETE FROM Skills WHERE id = ?",
     "school":"DELETE FROM School WHERE id = ?"
 }
 const ORDER_BY:Dictionary<string> = {
@@ -24,6 +24,7 @@ const ORDER_BY:Dictionary<string> = {
     "skills": "",
     "school": " ORDER BY graduated DESC"
 }
+const ROUTE = (table:string, edit:boolean = false) => `/Resume${edit?"/Edit":""}/${table.charAt(0).toLocaleUpperCase()+table.substring(1)}`;
 
 const DESCRIPTION = "Alex's resume and other skills.";
 const title = (table:string, id?:string) => `Resume - ${table}${id? `(${id})`: ""}`;
@@ -139,8 +140,9 @@ Editor.delete("/:table/:id", async(ctx:Context)=>{
 
     try {
         await ctx.env.DB.prepare(query).bind(id).run();
-        ctx.redirect(`/${table}`);
+        ctx.redirect(ROUTE(table, true));
     } catch (e){
+        console.error(e);
         throw new HttpError(500, "There was a problem deleting from the database!");
     }
 });

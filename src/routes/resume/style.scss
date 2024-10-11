@@ -119,6 +119,29 @@ list-input {
     }
 }
 
+skill-input {
+    display: flex;
+    flex-flow: row wrap;
+
+    .skill-section {
+        width: 33.33%;
+        min-width: 200px;
+        padding: 5px;
+
+        .header {
+            display: flex;
+
+            label {
+                flex-grow: 1;
+            }
+        }
+
+        textarea {
+            resize: vertical;
+        }
+    }
+}
+
 @media (min-width: 850px){
     .compact-resume .resume-card {
         max-width: 400px;

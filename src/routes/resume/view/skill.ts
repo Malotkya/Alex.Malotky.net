@@ -49,6 +49,7 @@ export function SkillCard(item:SkillItem, edit:boolean = false){
             _("form", {method: "delete", action: `/Resume/Edit/Skills/${item.id}`, onsubmit: (event)=>{
                 if(!confirm(`Are you sure you want to delete Skill?`)) {
                     event.stopPropagation();
+                    event.preventDefault();
                 }
             }},
                 _("button", "Delete")

@@ -53,6 +53,7 @@ export function SchoolCard(item:SchoolItem, edit:boolean = false){
             _("form", {method: "delete", action: `/Resume/Edit/School/${item.id}`, onsubmit: (event)=>{
                 if(!confirm(`Are you sure you want to delete School?`)) {
                     event.stopPropagation();
+                    event.preventDefault();
                 }
             }},
                 _("button", "Delete")

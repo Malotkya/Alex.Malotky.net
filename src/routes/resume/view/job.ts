@@ -60,6 +60,7 @@ export function JobCard(item: JobItem, edit:boolean = false){
             _("form", {method: "delete", action: `/Resume/Edit/Jobs/${item.id}`, onsubmit: (event)=>{
                 if(!confirm(`Are you sure you want to delete Job?`)) {
                     event.stopPropagation();
+                    event.preventDefault();
                 }
             }},
                 _("button", "Delete")

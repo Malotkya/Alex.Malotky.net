@@ -80,7 +80,9 @@ export function SchoolDetailed(item:SchoolItem){
     ]
 }
 export function EditSchool(item: SchoolItem){
-    return _("form", {method: "post"},
+    return _("form", {method: "post", class: "resume-editor"},
+        _("a", {class: "btn", href: "/Resume/Edit/School"}, "Back"),
+        _("h1", "Edit School"),
         _("label", {for: "degree"}, "Degree:"),
         _("input", {id: "degree", name: "degree", value:item.degree}),
         _("hr"),
@@ -90,6 +92,11 @@ export function EditSchool(item: SchoolItem){
         _("input", {type: "date", name: "graduated", id: "graduated", value: item.graduated}),
         _("hr"),
         _("label", {for: "about"}, "Other Info:"),
-        _("list-input", {name: "about", id:"about", value: JSON.stringify(item.other || [])})
+        _("list-input", {name: "about", id:"about", value: JSON.stringify(item.other || [])}),
+        _("hr"),
+        _("div", {class: "button-container"},
+            _("button", {type: "submit"}, "Save Changes"),
+            _("button", {type: "reset"}, "Cancel Changes")
+        )
     );
 }

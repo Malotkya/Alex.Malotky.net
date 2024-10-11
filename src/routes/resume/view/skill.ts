@@ -86,10 +86,17 @@ export function EditSkill(item: SkillItem){
         JSON.stringify(item)
     ).toString("base64");
 
-    return _("form", {method: "post"},
+    return _("form", {method: "post", class: "resume-editor"},
+        _("a", {class: "btn", href: "/Resume/Edit/Skills"}, "Back"),
+        _("h1", "Edit Skill"),
         _("label", {for: "name"}, "Name:"),
         _("input", {id: "name", name: "name", value:item.name}),
         _("hr"),
         _("skill-input", {data}),
+        _("hr"),
+        _("div", {class: "button-container"},
+            _("button", {type: "submit"}, "Save Changes"),
+            _("button", {type: "reset"}, "Cancel Changes")
+        )
     );
 }

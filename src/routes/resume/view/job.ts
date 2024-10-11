@@ -90,7 +90,9 @@ export function JobDetailed(item: JobItem){
 }
 
 export function EditJob(item: JobItem){
-    return _("form", {method: "post"},
+    return _("form", {method: "post", class: "resume-editor"},
+        _("a", {class: "btn", href: "/Resume/Edit/Jobs"}, "Back"),
+        _("h1", "Edit Job"),
         _("label", {for: "title"}, "Title:"),
         _("input", {id: "title", name: "title", value:item.title}),
         _("hr"),
@@ -102,6 +104,11 @@ export function EditJob(item: JobItem){
         _("input",  {type: "date", name: "endDate", id: "end", value: item.endDate}),
         _("hr"),
         _("label", {for: "about"}, "About:"),
-        _("list-input", {name: "about", id:"about", value: JSON.stringify(item.about || [])})
+        _("list-input", {name: "about", id:"about", value: JSON.stringify(item.about || [])}),
+        _("hr"),
+        _("div", {class: "button-container"},
+            _("button", {type: "submit"}, "Save Changes"),
+            _("button", {type: "reset"}, "Cancel Changes")
+        )
     );
 }

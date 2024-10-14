@@ -4,27 +4,112 @@
  */
 import { Router, Middleware, Content, Context } from "Engine";
 import HttpError from "Engine/HttpError";
-import ResumeView , { SingleView, ListView, SingleEditView, ListEditView, EditMainView } from "./view";
+import ResumeView , { SingleView, ListView, SingleEditView, ListEditView, EditMainView, ROUTE } from "./view";
 import { validateSchoolItem } from "./view/school";
 import { validateJobItem } from "./view/job";
 import { validateSkillItem } from "./view/skill";
 
 const TABLES:Dictionary<string|undefined> = {
-    "jobs": "SELECT * FROM Jobs ",
+    "jobs"  : "SELECT * FROM Jobs ",
     "skills": "SELECT * FROM Skills ",
     "school": "SELECT * FROM School "
 }
-const DELETE:Dictionary<string|undefined> = {
-    "jobs":"DELETE FROM Jobs WHERE id = ?",
-    "skills":"DELETE FROM Skills WHERE id = ?",
-    "school":"DELETE FROM School WHERE id = ?"
-}
 const ORDER_BY:Dictionary<string> = {
-    "jobs": " ORDER BY startDate DESC",
+    "jobs"  : " ORDER BY startDate DESC",
     "skills": "",
     "school": " ORDER BY graduated DESC"
 }
-const ROUTE = (table:string, edit:boolean = false) => `/Resume${edit?"/Edit":""}/${table.charAt(0).toLocaleUpperCase()+table.substring(1)}`;
+const DELETE:Dictionary<string|undefined> = {
+    "jobs"  :"DELETE FROM Jobs WHERE id = ?",
+    "skills":"DELETE FROM Skills WHERE id = ?",
+    "school":"DELETE FROM School WHERE id = ?"
+}
+const NEW:Dictionary<string|undefined> = {
+    "jobs"  :"INSERT INTO Jobs(id) VALUES(?)",
+    "skills":"INSERT INTO Skills(id) VALUES(?)",
+    "school":"INSERT INTO School(id) VALUES(?)"
+}
+
+/** Update or Insert Query
+ * 
+ * @param {string} table 
+ * @param {Map} data 
+ * @param {string|number} id (stirng = update / number = insert)
+ * @returns {{query:string|undefined, data:Array<unknown>, result:Record<string, unknown>}}
+ */
+function UPDATE_QUERY(table:string, data:Map<string, string>, id:string|number):{query:string|undefined, data:Array<unknown>, result:Record<string, unknown>} {
+    let name:string|undefined;
+    switch (table){
+        case "jobs":
+            const employer = data.get("employer");
+            const startDate = data.get("startDate");
+            const endDate = data.get("endDate");
+            const title = data.get("title");
+            const about = data.get("about");
+
+            const job = {employer, startDate, endDate, title, about, id}
+            validateJobItem(job, false);
+            return {
+                query: typeof id === "string"
+                    ? "UPDATE Jobs SET employer = ? startDate = ? endDate = ? title = ? about = ? WHERE id = ?"
+                    : "INSERT INTO Jobs(employer, startDate, endDate, title, about, id) VALUES(?, ?, ?, ?, ?, ?)",
+                data: [employer, startDate, endDate, title, about, id],
+                result: job
+            }
+
+        case "school":
+            name = data.get("name");
+            const graduated = data.get("graduated");
+            const degree = data.get("degree");
+            const other = data.get("other");
+
+            const school = {name, graduated, degree, other, id}
+            validateSchoolItem(school, false);
+            return {
+                query: typeof id === "string"
+                ? "UPDATE School SET name = ? graduated = ? degree = ? other = ? WHERE id = ?"
+                : "INSERT INTO School(name, graduated, degree, other, id) VALUES(?, ?, ?, ?, ?)",
+                data: [name, graduated, degree, other, id],
+                result: school
+            }
+
+        case "skills":
+            name = data.get("name");
+            const list = data.get("list");
+            const info = data.get("info");
+            
+            const skill = {name, list, info, id};
+            validateSkillItem(skill, false);
+            return {
+                query: typeof id === "string"
+                    ? "UPDATE Skills SET name = ? list = ? info = ? WHERE id = ?"
+                    : "INSERT INTO Jobs(name, list, info, id) VALUES(?, ?, ?, ?)",
+                data: [name, list, info, id],
+                result: skill
+            }
+    }
+
+    return {
+        query: undefined,
+        data: [],
+        result: {}
+    }
+}
+
+/** Query Wrapper
+ * 
+ * @param db 
+ * @param query 
+ * @returns 
+ */
+async function queryWrapper(db:D1Database, query:string):Promise<Record<string, unknown>[]> {
+    const {results, error} = await db.prepare(query).all();
+
+    if(error)
+        throw error;
+
+    return results;
+}
 
 const DESCRIPTION = "Alex's resume and other skills.";
 const title = (table:string, id?:string) => `Resume - ${table}${id? `(${id})`: ""}`;
@@ -43,16 +128,40 @@ Editor.all(async(ctx)=>{
     }
 })
 
-async function queryWrapper(db:D1Database, query:string):Promise<Record<string, unknown>[]> {
-    const {results, error} = await db.prepare(query).all();
+/** New Record Handler
+ * 
+ */
+Editor.get("/:table/New", async(ctx)=>{
+    const table = (ctx.params.get("table") as string).toLocaleLowerCase();
+    return ctx.render({
+        head: {
+            title: title(table, "New"),
+            meta: {
+                description: DESCRIPTION
+            }
+        },
+        body: SingleEditView(table, null)
+    });
+});
+Editor.post("/:table/New", async(ctx)=>{
+    const table = (ctx.params.get("table") as string).toLocaleLowerCase();
+    const id = Date.now();
+    const {query, data} = UPDATE_QUERY(table, ctx.formData, id);
 
-    if(error)
-        throw error;
+    if(query === undefined)
+        throw new HttpError(404, `Unable to find ${table}!`);
+    try {
+        await ctx.env.DB.prepare(query).bind(...data).run();
 
-    return results;
-}
+        return ctx.redirect(ROUTE(table, true, id));
+    } catch (e){
+        console.error(e);
+        throw new HttpError(500, "There was a problem updating from the database!");
+    }
+});
 
-/** Querry Table Handler
+
+/** Query Table Handler
  * 
  */
 function QueryTable(view:(t:string, r:Record<string,unknown>[])=>Content):Middleware {
@@ -91,7 +200,7 @@ function QueryTable(view:(t:string, r:Record<string,unknown>[])=>Content):Middle
 Resume.get("/:table", QueryTable(ListView));
 Editor.get("/:table", QueryTable(ListEditView));
 
-/** Querry Record Handler
+/** Query Record Handler
  * 
  */
 function QueryRecord(view:(t:string, r:Record<string,unknown>)=>Content):Middleware {
@@ -130,6 +239,9 @@ function QueryRecord(view:(t:string, r:Record<string,unknown>)=>Content):Middlew
 Resume.get("/:table/:id", QueryRecord(SingleView));
 Editor.get("/:table/:id", QueryRecord(SingleEditView));
 
+/** Delete Record Handler
+ * 
+ */
 Editor.delete("/:table/:id", async(ctx:Context)=>{
     const table = (ctx.params.get("table") as string).toLocaleLowerCase();
     const id = ctx.params.get("id") as string;
@@ -147,6 +259,33 @@ Editor.delete("/:table/:id", async(ctx:Context)=>{
     }
 });
 
+/** Update Record Handler
+ * 
+ */
+Editor.post("/:table/:id", async(ctx:Context)=>{
+    const table = (ctx.params.get("table") as string).toLocaleLowerCase();
+    const id = ctx.params.get("id") as string;
+    const {query, data, result} = UPDATE_QUERY(table, ctx.formData, id);
+
+    if(query === undefined)
+        throw new HttpError(404, `Unable to find ${table}!`);
+    try {
+        await ctx.env.DB.prepare(query).bind(...data).run();
+
+        return ctx.render({
+            head: {
+                title: title(table, result["title"] as string || result["name"] as string || id),
+                meta: {
+                    description: DESCRIPTION
+                }
+            },
+            body: SingleEditView(table, result)
+        });
+    } catch (e){
+        console.error(e);
+        throw new HttpError(500, "There was a problem updating from the database!");
+    }
+});
 
 
 /** Default Resume Handler
@@ -165,7 +304,7 @@ Resume.get(async(ctx)=>{
                     description: DESCRIPTION
                 }
             },
-            body: ResumeView(jobs.map(validateJobItem), school.map(validateSchoolItem), skills.map(validateSkillItem))
+            body: ResumeView(jobs.map(j=>validateJobItem(j)), school.map(s=>validateSchoolItem(s)), skills.map(s=>validateSkillItem(s)))
         })
 
     } catch (e){
@@ -173,6 +312,9 @@ Resume.get(async(ctx)=>{
     }
 });
 
+/** Default Editor Handler
+ * 
+ */
 Editor.get(async(ctx)=>{
     ctx.render({
         head: {

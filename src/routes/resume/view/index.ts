@@ -3,6 +3,8 @@ import { SchoolItem, SchoolCard, SchoolDetailed, validateSchoolItem, EditSchool 
 import { JobItem, JobCard, JobDetailed, validateJobItem, EditJob} from "./job";
 import { SkillItem, SkillCard, SkillDetailed, validateSkillItem, EditSkill } from "./skill";
 
+export const ROUTE = (table:string, edit:boolean = false, id?:unknown) => `/Resume${edit?"/Edit":""}/${table.charAt(0).toLocaleUpperCase()+table.substring(1)}${id?"/"+String(id):""}`;
+
 /** Styling Element
  * 
  */
@@ -35,16 +37,16 @@ export function SingleView(table:string, value:Dictionary<unknown>):Content{
  * @param {Dictionary<unknown>} value 
  * @returns {Content}
  */
-export function SingleEditView(table:string, value:Dictionary<unknown>):Content{
+export function SingleEditView(table:string, value:Dictionary<unknown>|null):Content{
     switch(table){
         case "school":
-            return [style, EditSchool(validateSchoolItem(value))];
+            return [style, EditSchool(value?validateSchoolItem(value):null)];
 
         case "jobs":
-            return [style, EditJob(validateJobItem(value))];
+            return [style, EditJob(value?validateJobItem(value):null)];
 
         case "skills":
-            return [style, EditSkill(validateSkillItem(value))];
+            return [style, EditSkill(value?validateSkillItem(value):null)];
     }
 }
 
@@ -86,7 +88,8 @@ export function ListEditView(table:string, value:Array<Dictionary<unknown>>){
         _("h1", `Edit ${title}`),
         _("ul", {class: "resume-card-list"},
             value.map((v)=>card(v, true))
-        )
+        ),
+        _("a", {class: "btn", href: ROUTE(table, true, "New")}, "Create New Entry")
     ]
 }
 

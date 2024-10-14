@@ -11,7 +11,10 @@ export default class Authorization{
     set():AuthSet
     set():AuthSet|void{
         if(arguments.length === 0){
-            return this._setter;
+            if(this._setter)
+                return this._setter;
+            else
+                throw new Error("Authentication Setter was never set!");
         }
 
         if(typeof arguments[0] !== "function")
@@ -24,7 +27,10 @@ export default class Authorization{
     get():AuthGet
     get():AuthGet|void{
         if(arguments.length === 0){
-            return this._getter;
+            if(this._getter)
+                return this._getter;
+            else
+                throw new Error("Authentication Getter was never set!");
         }
 
         if(typeof arguments[0] !== "function")

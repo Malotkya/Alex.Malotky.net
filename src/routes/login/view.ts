@@ -22,6 +22,7 @@ export function LogoutRedirect(){
     });
     return [
         _("script", fun.substring(fun.indexOf("{")+1, fun.lastIndexOf("}")-1)),
+        _("style", "h2, p { text-align: center }"),
         _("h2", "You have been successfully logged out!"),
         _("p",
             "Click ",

@@ -10,7 +10,7 @@ export interface JobItem {
     about: Array<string>
 }
 
-export function validateJobItem(value:Dictionary<unknown>):JobItem {
+export function validateJobItem(value:Dictionary<unknown>, transform:boolean = true):JobItem {
     if(typeof value["id"] !== "number") 
         throw new TypeError("Invalid Job id!");
 
@@ -27,9 +27,11 @@ export function validateJobItem(value:Dictionary<unknown>):JobItem {
         throw new TypeError("Invalid Job End Date!");
 
     if(typeof value["about"] === "string"){
-        value["about"] = JSON.parse(value["about"]);
+        if(transform)
+            value["about"] = JSON.parse(value["about"]);
     } else if(value["about"] === null){
-        value["about"] = [];
+        if(transform)
+            value["about"] = [];
     } else {
         throw new TypeError("Invalid Job About!");
     }
@@ -90,22 +92,22 @@ export function JobDetailed(item: JobItem){
     ]
 }
 
-export function EditJob(item: JobItem){
+export function EditJob(item: JobItem|null){
     return _("form", {method: "post", class: "resume-editor"},
         _("a", {class: "btn", href: "/Resume/Edit/Jobs"}, "Back"),
         _("h1", "Edit Job"),
         _("label", {for: "title"}, "Title:"),
-        _("input", {id: "title", name: "title", value:item.title}),
+        _("input", {id: "title", name: "title", value:item?.title}),
         _("hr"),
         _("label", {for: "employer"}, "Employer:"),
-        _("input", {id: "employer", name: "employer", value: item.employer}),
+        _("input", {id: "employer", name: "employer", value: item?.employer}),
         _("label", {for: "start"}, "Start Date:"),
-        _("input", {type: "date", name: "startDate", id: "start", value: item.startDate}),
+        _("input", {type: "date", name: "startDate", id: "start", value: item?.startDate}),
         _("label", {for: "end"}, "End Date:"),
-        _("input",  {type: "date", name: "endDate", id: "end", value: item.endDate}),
+        _("input",  {type: "date", name: "endDate", id: "end", value: item?.endDate}),
         _("hr"),
         _("label", {for: "about"}, "About:"),
-        _("list-input", {name: "about", id:"about", value: JSON.stringify(item.about || [])}),
+        _("list-input", {name: "about", id:"about", value: JSON.stringify(item?.about || [])}),
         _("hr"),
         _("div", {class: "button-container"},
             _("button", {type: "submit"}, "Save Changes"),

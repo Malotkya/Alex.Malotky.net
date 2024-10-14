@@ -9,7 +9,7 @@ export interface SchoolItem {
     other: Array<string>
 }
 
-export function validateSchoolItem(value:Dictionary<unknown>):SchoolItem {
+export function validateSchoolItem(value:Dictionary<unknown>, transform:boolean = true):SchoolItem {
     if(typeof value["id"] !== "number") 
         throw new TypeError("Invalid School id!");
 
@@ -23,9 +23,11 @@ export function validateSchoolItem(value:Dictionary<unknown>):SchoolItem {
         throw new TypeError("Invalid School Graduated!");
 
     if(typeof value["other"] === "string"){
-        value["other"] = JSON.parse(value["other"]);
+        if(transform)
+            value["other"] = JSON.parse(value["other"]);
     } else if(value["other"] === null){
-        value["other"] = [];
+        if(transform)
+            value["other"] = [];
     } else {
         throw new TypeError("Invalid School Other!");
     }
@@ -80,20 +82,20 @@ export function SchoolDetailed(item:SchoolItem){
         )
     ]
 }
-export function EditSchool(item: SchoolItem){
+export function EditSchool(item: SchoolItem|null){
     return _("form", {method: "post", class: "resume-editor"},
         _("a", {class: "btn", href: "/Resume/Edit/School"}, "Back"),
         _("h1", "Edit School"),
         _("label", {for: "degree"}, "Degree:"),
-        _("input", {id: "degree", name: "degree", value:item.degree}),
+        _("input", {id: "degree", name: "degree", value:item?.degree}),
         _("hr"),
         _("label", {for: "school"}, "School:"),
-        _("input", {id: "school", name: "name", value: item.name}),
+        _("input", {id: "school", name: "name", value: item?.name}),
         _("label", {for: "graduated"}, "Graduated:"),
-        _("input", {type: "date", name: "graduated", id: "graduated", value: item.graduated}),
+        _("input", {type: "date", name: "graduated", id: "graduated", value: item?.graduated}),
         _("hr"),
         _("label", {for: "about"}, "Other Info:"),
-        _("list-input", {name: "about", id:"about", value: JSON.stringify(item.other || [])}),
+        _("list-input", {name: "about", id:"about", value: JSON.stringify(item?.other || [])}),
         _("hr"),
         _("div", {class: "button-container"},
             _("button", {type: "submit"}, "Save Changes"),

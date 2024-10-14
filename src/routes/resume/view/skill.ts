@@ -8,7 +8,7 @@ export interface SkillItem{
     info: Dictionary<string|undefined|Array<string>>
 }
 
-export function validateSkillItem(value:Dictionary<unknown>):SkillItem {
+export function validateSkillItem(value:Dictionary<unknown>, transform:boolean = true):SkillItem {
     if(typeof value["id"] !== "number") 
         throw new TypeError("Invalid Skill id!");
 
@@ -24,9 +24,11 @@ export function validateSkillItem(value:Dictionary<unknown>):SkillItem {
     }
 
     if(typeof value["info"] === "string"){
-        value["info"] = JSON.parse(value["info"]);
+        if(transform)
+            value["info"] = JSON.parse(value["info"]);
     } else if(value["info"] === null){
-        value["info"] = {};
+        if(transform)
+            value["info"] = {};
     } else {
         throw new TypeError("Invalid Skill Info!");
     }
@@ -82,16 +84,16 @@ export function SkillDetailed(item:SkillItem){
     ]
 }
 
-export function EditSkill(item: SkillItem){
+export function EditSkill(item: SkillItem|null){
     const data = Buffer.from(
-        JSON.stringify(item)
+        JSON.stringify(item || {})
     ).toString("base64");
 
     return _("form", {method: "post", class: "resume-editor"},
         _("a", {class: "btn", href: "/Resume/Edit/Skills"}, "Back"),
         _("h1", "Edit Skill"),
         _("label", {for: "name"}, "Name:"),
-        _("input", {id: "name", name: "name", value:item.name}),
+        _("input", {id: "name", name: "name", value:item?.name}),
         _("hr"),
         _("skill-input", {data}),
         _("hr"),

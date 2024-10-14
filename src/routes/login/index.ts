@@ -1,5 +1,5 @@
 import { Router } from "Engine";
-import LoginForm from "./view";
+import LoginForm, {LogoutRedirect} from "./view";
 
 const Login = new Router("/Login");
 
@@ -47,7 +47,9 @@ export const Logout = new Router("/Logout");
 
 Logout.all(async(ctx)=>{
     await ctx.setAuth(null);
-    ctx.redirect("/");
+    ctx.render({
+        body: LogoutRedirect()
+    })
 });
 
 export default Login;

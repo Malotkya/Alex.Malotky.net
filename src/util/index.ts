@@ -33,25 +33,13 @@ const LONG_MONTH = [
  */
 export function formatDate(date:string|Date|number|undefined|null, format:string, ifNull?:string):string {
     if(date === null){
-        if(typeof ifNull === "string"){
-            return ifNull;
-        }
-
-        return "null";
+        return  ifNull || "null";
 
     } else if(date === undefined){
-        if(typeof ifNull === "string"){
-            return ifNull;
-        }
-
-        return "undefined";
+        return ifNull || "undefined";
 
     } else if(date === "") {
-        if(typeof ifNull === "string"){
-            return ifNull;
-        }
-
-        return "empty";
+        return ifNull || "empty";
 
     } else {
         switch(typeof date){

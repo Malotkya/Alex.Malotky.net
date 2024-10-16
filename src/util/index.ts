@@ -46,6 +46,13 @@ export function formatDate(date:string|Date|number|undefined|null, format:string
 
         return "undefined";
 
+    } else if(date === "") {
+        if(typeof ifNull === "string"){
+            return ifNull;
+        }
+
+        return "empty";
+
     } else {
         switch(typeof date){
             case "string":

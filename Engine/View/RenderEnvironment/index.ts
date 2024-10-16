@@ -206,6 +206,10 @@ export default class RenderEnvironment {
             if(!response.ok) {
                 RenderEnvironment.error(data.error);
             }
+
+            if(data.update && data.update.error === undefined){
+                data.update.error = "";
+            }
             
             if(data.redirect === undefined && data.head === undefined && data.body === undefined && data.update === undefined){
                 throw new Error("Recieved either an empty or invalid response!");

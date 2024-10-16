@@ -20,7 +20,7 @@ Resume.use(Editor);
 /** Validate Login
  * 
  */
-Editor.all(async(ctx)=>{
+Editor.all("*", async(ctx)=>{
     const user = await ctx.getAuth();
     if(user === null) {
         ctx.redirect("/Login");
@@ -178,7 +178,7 @@ Editor.post("/:table/:id", async(ctx:Context)=>{
                     description: DESCRIPTION
                 }
             },
-            body: SingleEditView(table, result)
+            body: SingleEditView(table, result, "Update Successful!")
         });
     } catch (e){
         console.error(e);

@@ -10,7 +10,7 @@ import Base, {BaseInit} from "./Base";
 import Link, {LinkInit, LinkUpdate} from "./Link";
 import Style, {StyleInit, StyleUpdate} from "./Style";
 import Script, {ScriptInit, ScriptUpdate} from "./Script";
-import Meta, {MetaInit, MetaUpdate, updateMeta, mregeMeta} from "./Meta";
+import Meta, {MetaInit, MetaUpdate, updateMeta, mergeMeta} from "./Meta";
 
 
 export interface HeadInit {
@@ -89,7 +89,7 @@ export function mergeUpdateToInit(init:HeadInit, update:HeadUpdate = {}):HeadIni
     return {
         base: init.base,
         title: updateTitle(init.title, update.title),
-        meta: mregeMeta(init.meta, update.meta),
+        meta: mergeMeta(init.meta, update.meta),
         //@ts-ignore
         links: merge(init.links, update.links),
         styles: merge(init.styles, update.styles),

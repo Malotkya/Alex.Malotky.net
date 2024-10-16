@@ -4,6 +4,7 @@
  */
 import HTMLElement from "..";
 import MetaInit from "../Attributes/Map/Meta";
+import { dictionaryInclude } from "Engine/Util";
 
 export type {MetaInit}
 export type MetaUpdate = string;
@@ -40,7 +41,7 @@ export default function Meta(value:MetaInit):HTMLElement {
 /** Update Meta Tags
  * 
  */
-export function updateMeta(init:Array<MetaInit> = [], update:Dictionary<MetaUpdate> = {}):Array<MetaInit> {
+export function mregeMeta(init:Array<MetaInit> = [], update:Dictionary<MetaUpdate> = {}):Array<MetaInit> {
     const output:Array<MetaInit> = JSON.parse(JSON.stringify(init));
     const list = Object.getOwnPropertyNames(update);
 
@@ -60,6 +61,22 @@ export function updateMeta(init:Array<MetaInit> = [], update:Dictionary<MetaUpda
             content: update[name],
             name
         });
+    }
+
+    return output;
+}
+
+
+/** Update Meta Tags
+ * 
+ */
+export function updateMeta(init:Array<MetaInit> = [], update:Dictionary<MetaUpdate> = {}):Dictionary<string> {
+    const output:Dictionary<string> = JSON.parse(JSON.stringify(update));
+
+    for(const item of init){
+        if(item.name && item.content && !dictionaryInclude(output, item.name)){
+            output[item.name] = item.content;
+        }
     }
 
     return output;

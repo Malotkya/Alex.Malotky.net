@@ -20,12 +20,14 @@ export interface Match {
 export default class Layer {
     private _shortcut:boolean;
     private _handler:Middleware|EndPoint;
-    private _regex:RegExp&{keys:Array<Key>};
+    private _regex:RegExp;
+    private _keys:Array<Key>;
 
     constructor(middleware:Middleware)
     constructor(path:string, middleware:Middleware|EndPoint)
     constructor(path:string, opts:PathToRegexpOptions, middleware:Middleware)
     constructor(){
+        let path:{regexp:RegExp, keys:Array<Key>};
         switch(arguments.length){
             case 0:
                 throw new Error("No arguments passed to layer!");
@@ -36,7 +38,7 @@ export default class Layer {
 
                 this._shortcut = true;
                 this._handler = arguments[0];
-                this._regex = pathToRegexp("/");
+                path = pathToRegexp("/");
                 break;
 
             case 2:
@@ -47,7 +49,7 @@ export default class Layer {
 
                 this._shortcut = false;
                 this._handler = arguments[1]
-                this._regex = pathToRegexp(arguments[0]);
+                path = pathToRegexp(arguments[0]);
                 break;
 
             default:
@@ -60,9 +62,12 @@ export default class Layer {
 
                 this._shortcut = false;
                 this._handler = arguments[2]
-                this._regex = pathToRegexp(arguments[0], arguments[1]);
+                path = pathToRegexp(arguments[0], arguments[1]);
                 break;
         }
+
+        this._regex = path.regexp;
+        this._keys = path.keys;
     }
 
     async handle(context:Context):Promise<Response|void>{
@@ -106,7 +111,7 @@ export default class Layer {
 
         
         for(let index=1; index<match.length; index++){
-            result[this._regex.keys[index-1].name] = decodeURIComponent(match[index]);
+            result[this._keys[index-1].name] = decodeURIComponent(match[index]);
         }
 
         return {

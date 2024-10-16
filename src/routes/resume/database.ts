@@ -40,7 +40,8 @@ export const DELETE:Dictionary<string|undefined> = {
  * @param {string|number} id (stirng = update / number = insert)
  * @returns {{query:string|undefined, data:Array<unknown>, result:Record<string, unknown>}}
  */
-export function UPDATE_QUERY(table:string, data:Map<string, string>, id:string):{query:string|undefined, data:Array<unknown>, result:Record<string, unknown>} {
+export function UPDATE_QUERY(table:string, data:Map<string, string>, id:string|number):{query:string|undefined, data:Array<unknown>, result:Record<string, unknown>} {
+    id = Number(id);
     let name:string|undefined;
     switch (table){
         case "jobs":
@@ -53,7 +54,7 @@ export function UPDATE_QUERY(table:string, data:Map<string, string>, id:string):
             const job = {employer, startDate, endDate, title, about, id}
             validateJobItem(job, false);
             return {
-                query: "INSERT INTO Jobs(employer, startDate, endDate, title, about, id) VALUES(?, ?, ?, ?, ?, ?)",
+                query: "UPDATE Jobs SET employer = ?, startDate = ?, endDate = ?, title = ?, about = ? WHERE id = ?",
                 data: [employer, startDate, endDate, title, about, id],
                 result: job
             }
@@ -67,7 +68,7 @@ export function UPDATE_QUERY(table:string, data:Map<string, string>, id:string):
             const school = {name, graduated, degree, other, id}
             validateSchoolItem(school, false);
             return {
-                query: "UPDATE School SET name = ? graduated = ? degree = ? other = ? WHERE id = ?",
+                query: "UPDATE School SET name = ?, graduated = ?, degree = ?, other = ? WHERE id = ?",
                 data: [name, graduated, degree, other, id],
                 result: school
             }
@@ -80,7 +81,7 @@ export function UPDATE_QUERY(table:string, data:Map<string, string>, id:string):
             const skill = {name, list, info, id};
             validateSkillItem(skill, false);
             return {
-                query: "UPDATE Skills SET name = ? list = ? info = ? WHERE id = ?",
+                query: "UPDATE Skills SET name = ?, list = ?, info = ? WHERE id = ?",
                 data: [name, list, info, id],
                 result: skill
             }

@@ -27,7 +27,9 @@ export default class Layer {
     constructor(path:string, middleware:Middleware|EndPoint)
     constructor(path:string, opts:PathToRegexpOptions, middleware:Middleware)
     constructor(){
-        let path:{regexp:RegExp, keys:Array<Key>};
+        let path:string = "/";
+        let opts:Object = {};
+
         switch(arguments.length){
             case 0:
                 throw new Error("No arguments passed to layer!");
@@ -36,9 +38,7 @@ export default class Layer {
                 if(typeof arguments[0] !== "function")
                     throw new TypeError("Middleware must be a function!");
 
-                this._shortcut = true;
                 this._handler = arguments[0];
-                path = pathToRegexp("/");
                 break;
 
             case 2:
@@ -47,9 +47,8 @@ export default class Layer {
                 if(typeof arguments[1] !== "function")
                     throw new TypeError("Middleware must be a function!");
 
-                this._shortcut = false;
-                this._handler = arguments[1]
-                path = pathToRegexp(arguments[0]);
+                this._handler = arguments[1];
+                path = arguments[0];
                 break;
 
             default:
@@ -60,14 +59,18 @@ export default class Layer {
                 if(typeof arguments[2] !== "function")
                     throw new TypeError("Middleware must be a function!");
 
-                this._shortcut = false;
-                this._handler = arguments[2]
-                path = pathToRegexp(arguments[0], arguments[1]);
+                this._handler = arguments[2];
+                path = arguments[0];
+                opts = arguments[1];
                 break;
         }
+        this._shortcut = path === "*";
+        if(this._shortcut)
+            path += "path";
 
-        this._regex = path.regexp;
-        this._keys = path.keys;
+        const {regexp, keys} = pathToRegexp(path, opts);
+        this._regex = regexp;
+        this._keys = keys;
     }
 
     async handle(context:Context):Promise<Response|void>{

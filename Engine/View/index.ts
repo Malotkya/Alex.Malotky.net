@@ -4,7 +4,7 @@
  */
 import {HtmlDocument, compressContent, HTMLInit} from "./Html";
 import Content from "./Html/Element/Content";
-import { HeadInit, HeadUpdate, mergeInitWithUpdate } from "./Html/Head";
+import { HeadInit, HeadUpdate, mergeUpdateToInit, mergeUpdateToUpdate } from "./Html/Head";
 import {AttributeList} from "./Html/Attributes";
 
 export type RenderFunction = (update:RenderContent)=>Content;
@@ -53,12 +53,22 @@ export default class View{
         this.#defaultHead = headInit;
     }
 
-    /** Render Content Update
+    /** Render Content
      * 
      * @param {ContentUpdate} update 
      * @returns {string}
      */
     render(update:RenderUpdate):string{
-        return HtmlDocument(this.#attribute, mergeInitWithUpdate(this.#defaultHead, update.head), this.#defaultContent(update.body || []));
+        return HtmlDocument(this.#attribute, mergeUpdateToInit(this.#defaultHead, update.head), this.#defaultContent(update.body || []));
+    }
+
+    /** Update Content
+     * 
+     * @param {ContentUpdate} update
+     * @returns {string}
+     */
+    update(update:RenderUpdate):RenderUpdate {
+        update.head = mergeUpdateToUpdate(this.#defaultHead, update.head);
+        return update;
     }
 }

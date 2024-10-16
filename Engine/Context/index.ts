@@ -193,17 +193,17 @@ export default class Context{
 
     /** Reunder Update Content
      * 
-     * @param {ContentUpdate} update 
+     * @param {ContentUpdate} value 
      */
-    render(update:RenderUpdate){
+    render(value:RenderUpdate){
         if(this._view === undefined)
             throw new Error("No view to render with!");
         this._response.headers.set(HEADER_KEY, HEADER_VALUE);
 
         if(this._request.headers.get(HEADER_KEY) === HEADER_VALUE) {
-            this.json(update);
+            this.json(this._view.update(value));
         } else {
-            this.html(this._view.render(update));
+            this.html(this._view.render(value));
         }
     }
 

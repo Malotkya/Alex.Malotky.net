@@ -10,7 +10,7 @@ import Base, {BaseInit} from "./Base";
 import Link, {LinkInit, LinkUpdate} from "./Link";
 import Style, {StyleInit, StyleUpdate} from "./Style";
 import Script, {ScriptInit, ScriptUpdate} from "./Script";
-import Meta, {MetaInit, MetaUpdate, updateMeta} from "./Meta";
+import Meta, {MetaInit, MetaUpdate, updateMeta, mregeMeta} from "./Meta";
 
 
 export interface HeadInit {
@@ -67,21 +67,50 @@ function merge<U, I extends U&{name?:string}>(init:Array<I> = [], update:Diction
     return output;
 }
 
+function toUpdate<U extends {name?:string}>(value:Array<U>):Dictionary<U> {
+    const output:Dictionary<U> = {};
+
+    for(let item of value){
+        if(item.name){
+            output[item.name] = item;
+        }
+    }
+
+    return output;
+}
+
 /** Merge Init With Update
  * 
  * @param {HeadInit} init 
  * @param {HeadUpdate} update 
  * @returns {HeadInit}
  */
-export function mergeInitWithUpdate(init:HeadInit, update:HeadUpdate = {}):HeadInit{
+export function mergeUpdateToInit(init:HeadInit, update:HeadUpdate = {}):HeadInit{
     return {
         base: init.base,
         title: updateTitle(init.title, update.title),
-        meta: updateMeta(init.meta, update.meta),
+        meta: mregeMeta(init.meta, update.meta),
         //@ts-ignore
         links: merge(init.links, update.links),
         styles: merge(init.styles, update.styles),
         scripts: merge(init.scripts, update.scripts)
+    };
+}
+
+/** Merge Init With Update
+ * 
+ * @param {HeadInit} init 
+ * @param {HeadUpdate} update 
+ * @returns {HeadInit}
+ */
+export function mergeUpdateToUpdate(init:HeadInit, update:HeadUpdate = {}):HeadUpdate{
+    return {
+        title: update.title || init.title,
+        meta: updateMeta(init.meta, update.meta),
+        //@ts-ignore
+        links: toUpdate(merge(init.links, update.links)),
+        styles: toUpdate(merge(init.styles, update.styles)),
+        scripts: toUpdate(merge(init.scripts, update.scripts))
     };
 }
 

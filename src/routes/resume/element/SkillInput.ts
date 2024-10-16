@@ -1,11 +1,10 @@
-import ListInput from "./ListInput";
 import { createElement as _ } from "@/util/Element";
 
 function Section(index:number, name:string, data:Array<string> = [], update:EventListener){
     const title = `name${index}`;
 
     const txtName = _("input", {id:title, class: "name", value: name}) as HTMLInputElement;
-    const txtAbout = _("textarea", {id: name, value: data.join("/n")}) as HTMLTextAreaElement;
+    const txtAbout = _("textarea", {id: name}, data.join("\n")) as HTMLTextAreaElement;
     txtAbout.addEventListener("input", update);
     txtName.addEventListener("input", (event)=>{
         txtAbout.id = txtName.value;
@@ -33,14 +32,14 @@ function Section(index:number, name:string, data:Array<string> = [], update:Even
 }
 
 export default class SkillInput extends HTMLElement{
-    private _list:HTMLInputElement;
-    private _info:HTMLInputElement;
+    private _input:HTMLInputElement;
+    private _list:Dictionary<string|string[]>;
 
     constructor(){
         super();
 
-        this._list = _("input", {type:"hidden", name: "list"}) as HTMLInputElement
-        this._info = _("input", {type:"hidden", name: "info"}) as HTMLInputElement
+        this._input = _("input", {type:"hidden", name: "info", value: "{}"}) as HTMLInputElement;
+        this._list = {};
     }
 
     static get observedAttributes(){
@@ -48,21 +47,18 @@ export default class SkillInput extends HTMLElement{
     }
 
     attributeChangedCallback(name:string, oldValue:string, newValue:string){
-        if(name === "data"){
-            const {list, info} = JSON.parse(atob(newValue)) as {list:Array<string>, info:Dictionary<Array<string>|undefined>}
+        const value = atob(newValue);
 
-            if(list === undefined || !Array.isArray(list)) {
-                throw new TypeError("Invalid list!");
+        if(name === "data"){
+            const data = JSON.parse(value) as Dictionary<string[]|string>|null
+
+            if(data){
+                this._list = data;
+                this._input.value = value;
             } else {
-                this._list.value = JSON.stringify(list);
+                this._list = {}
+                this._input.value = "{}";
             }
-                
-        
-            if(info === undefined || typeof info !== "object") {
-                throw new TypeError("Invalid Info!");
-            } else {
-                this._info.value = JSON.stringify(info);
-            } 
         }
     }
 
@@ -71,16 +67,18 @@ export default class SkillInput extends HTMLElement{
     }
 
     connectedCallback(){
-        this.appendChild(this._info);
-        const info = JSON.parse(this._info.value) as Dictionary<Array<string>|undefined>;
-        this.appendChild(this._list);
-        const list = JSON.parse(this._list.value) as Array<string>;
+        this.appendChild(this._input);
 
         let index = 0;
-        for(const name of list){
+        for(const name in this._list){
+            let value = this._list[name];
+
+            if(typeof value === "string"){
+                value = value.split("\n");
+            }
 
             this.appendChild(
-                Section(index++, name, info["name"], ()=>this.update())
+                Section(index++, name, value, ()=>this.update())
             );
         }
 
@@ -90,7 +88,7 @@ export default class SkillInput extends HTMLElement{
         )
         btnNew.addEventListener("click", ()=>{
             this.insertBefore(
-                Section(list.length, "", [], ()=>this.update()),
+                Section(index++, "", [], ()=>this.update()),
                 newSection
             )
         });
@@ -99,20 +97,18 @@ export default class SkillInput extends HTMLElement{
     }
 
     private update(){
-        const list:Array<string> = [];
         const info:Dictionary<Array<string>> = {};
 
         //@ts-ignore
         this.querySelectorAll(".name").forEach((txtName:HTMLInputElement)=>{
             const name = txtName.value;
-            const about = this.querySelector(`#${name}`) as HTMLTextAreaElement;
-
-            list.push(name);
-            info[name] = about.value.split("\n");
+            if(name){
+                const about = this.querySelector(`#${name}`) as HTMLTextAreaElement;
+                info[name] = about.value.split("\n");
+            }
         });
 
-        this._list.value = JSON.stringify(list);
-        this._info.value = JSON.stringify(info);
+        this._input.value = JSON.stringify(info);
     }
 }
 

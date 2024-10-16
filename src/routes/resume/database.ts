@@ -75,14 +75,13 @@ export function UPDATE_QUERY(table:string, data:Map<string, string>, id:string|n
 
         case "skills":
             name = data.get("name");
-            const list = data.get("list");
             const info = data.get("info");
             
-            const skill = {name, list, info, id};
+            const skill = {name, info, id};
             validateSkillItem(skill, false);
             return {
-                query: "UPDATE Skills SET name = ?, list = ?, info = ? WHERE id = ?",
-                data: [name, list, info, id],
+                query: "UPDATE Skills SET name = ?, info = ? WHERE id = ?",
+                data: [name, info, id],
                 result: skill
             }
     }
@@ -135,14 +134,13 @@ export function INSERT_QUERY(table:string, data:Map<string, string>, id:number):
 
         case "skills":
             name = data.get("name");
-            const list = data.get("list");
             const info = data.get("info");
             
-            const skill = {name, list, info, id};
+            const skill = {name, info, id};
             validateSkillItem(skill, false);
             return {
-                query: "INSERT INTO Jobs(name, list, info, id) VALUES(?, ?, ?, ?)",
-                data: [name, list, info, id],
+                query: "INSERT INTO Skills(name, info, id) VALUES(?, ?, ?)",
+                data: [name, info, id],
                 result: skill
             }
     }

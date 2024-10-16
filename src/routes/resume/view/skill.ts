@@ -4,7 +4,6 @@ import {Buffer} from "node:buffer";
 export interface SkillItem{
     id: number,
     name: string,
-    list: Array<string>,
     info: Dictionary<string|undefined|Array<string>>
 }
 
@@ -16,14 +15,6 @@ export function validateSkillItem(value:Dictionary<unknown>, transform:boolean =
         value["name"] = "";
     } else if (typeof value["name"] !== "string") {
         throw new TypeError("Invalid Skill Name!");
-    }
-
-    if(typeof value["list"] === "string"){
-        value["list"] = JSON.parse(value["list"]);
-    } else if(value["list"] === null){
-        value["list"] = [];
-    } else {
-        throw new TypeError("Invalid Skill List!");
     }
 
     if(typeof value["info"] === "string"){
@@ -41,12 +32,14 @@ export function validateSkillItem(value:Dictionary<unknown>, transform:boolean =
 }
 
 export function SkillCard(item:SkillItem, edit:boolean = false){
+    const list = Object.getOwnPropertyNames(item.info);
+
     return _("li", {class: "resume-card"},
         _("h3", {class: "resume-title"},
             _("a", {href: `/Resume${edit?"/Edit":""}/Skills/${item.id}`}, item.name)
         ),
         _("ul", {class: "resume-sub-title"},
-            item.list.map(i=>_("li", i))
+            list.map(i=>_("li", i))
         ),
         edit?
         _("div", {class: "button-container"},
@@ -65,12 +58,14 @@ export function SkillCard(item:SkillItem, edit:boolean = false){
 }
 
 export function SkillDetailed(item:SkillItem){
+    const list = Object.getOwnPropertyNames(item.info);
+
     return [
         _("h1", item.name),
         _("article", {class: "resume-detailed"},
             _("div", {class: "resume-about"}, 
                 _("ol", 
-                    item.list.map((skill,index)=>{
+                    list.map((skill,index)=>{
                         let about:string|Array<string> = item.info[skill] || "";
 
                         if(Array.isArray(about))
@@ -89,7 +84,7 @@ export function SkillDetailed(item:SkillItem){
 
 export function EditSkill(item: SkillItem|null, message?:string){
     const data = Buffer.from(
-        JSON.stringify(item || {})
+        JSON.stringify(item?.info || {})
     ).toString("base64");
 
     return _("form", {method: "post", class: "resume-editor"},

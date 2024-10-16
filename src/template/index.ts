@@ -1,5 +1,5 @@
 import { Content, Context, createContent as _} from "Engine";
-import { RenderUpdate, RenderFunction } from "Engine/View";
+import { RenderFunction } from "Engine/View";
 import HttpError, { getMessage } from "Engine/HttpError";
 
 function showMenu(){
@@ -21,7 +21,8 @@ export default function WireFrame(navList:Content):RenderFunction{
         return _("header", 
             _("a", {class: "skip", href:"#main"}, "Skip Link"),
             Navigation(navList),
-        ) + _("main", {id: "main"}, content) + Footer();
+        ) + _("noscript", "Javascript is currently needed to view some pages.")
+          + _("main", {id: "main"}, content) + Footer();
     }
 }
 

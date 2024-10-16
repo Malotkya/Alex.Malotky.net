@@ -68,7 +68,7 @@ export default class Router extends Layer{
                 } 
             }
     
-            throw new Error("Router did not return a Response!");
+            throw 404;
         }
 
         context.query = path;

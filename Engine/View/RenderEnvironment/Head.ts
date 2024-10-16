@@ -45,20 +45,9 @@ export default class HeadEnvironment {
             };
         }
 
-        if(update.meta){
-            this._meta.update(meta);
-        }
-
-        if(update.links){
-            this._links.update(update.links);
-        }
-
-        if(update.styles){
-            this._styles.update(update.styles);
-        }
-
-        if(update.scripts){
-            this._scripts.update(update.scripts);
-        }
+        this._meta.update(meta);
+        this._links.update(update.links!);
+        this._styles.update(update.styles!);
+        this._scripts.update(update.scripts!);
     }
 }

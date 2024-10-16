@@ -16,7 +16,7 @@ export default class Tracker {
             if(name){
                 const defaults:Dictionary<string|undefined> = {};
                 for(let att of element.getAttributeNames()){
-                    defaults[att] = element.getAttribute(name) || undefined;
+                    defaults[att] = element.getAttribute(att) || undefined;
                 }
                 this._defaults[name] = defaults;
                 this._current[name] = element;

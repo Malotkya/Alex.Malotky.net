@@ -9,11 +9,14 @@ export interface SkillItem{
 }
 
 export function validateSkillItem(value:Dictionary<unknown>, transform:boolean = true):SkillItem {
-    if(typeof value["id"] !== "number") 
+    if(typeof value["id"] !== "number" || isNaN(value["id"])) 
         throw new TypeError("Invalid Skill id!");
 
-    if(typeof value["name"] !== "string")
+    if(transform && value["name"] === null){
+        value["name"] = "";
+    } else if (typeof value["name"] !== "string") {
         throw new TypeError("Invalid Skill Name!");
+    }
 
     if(typeof value["list"] === "string"){
         value["list"] = JSON.parse(value["list"]);
@@ -84,7 +87,7 @@ export function SkillDetailed(item:SkillItem){
     ]
 }
 
-export function EditSkill(item: SkillItem|null){
+export function EditSkill(item: SkillItem|null, message?:string){
     const data = Buffer.from(
         JSON.stringify(item || {})
     ).toString("base64");
@@ -92,6 +95,8 @@ export function EditSkill(item: SkillItem|null){
     return _("form", {method: "post", class: "resume-editor"},
         _("a", {class: "btn", href: "/Resume/Edit/Skills"}, "Back"),
         _("h1", "Edit Skill"),
+        _("p", {class: "error", id: "error"}),
+        _("p", {class: "message"}, message),
         _("label", {for: "name"}, "Name:"),
         _("input", {id: "name", name: "name", value:item?.name}),
         _("hr"),

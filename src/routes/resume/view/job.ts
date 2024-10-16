@@ -11,17 +11,23 @@ export interface JobItem {
 }
 
 export function validateJobItem(value:Dictionary<unknown>, transform:boolean = true):JobItem {
-    if(typeof value["id"] !== "number") 
+    if(typeof value["id"] !== "number" || isNaN(value["id"])) 
         throw new TypeError("Invalid Job id!");
 
-    if(typeof value["title"] !== "string")
+    if(transform && value["title"] === null){
+        value["title"] = "";
+    } else if (typeof value["title"] !== "string") {
         throw new TypeError("Invalid Job Title!");
+    }
 
     if(value["employer"] !== null && typeof value["employer"] !== "string")
         throw new TypeError("Invalid Job Employer!");
 
-    if(typeof value["startDate"] !== "string")
+    if(transform && value["startDate"] === null) {
+        value["startDate"] = "";
+    }if(typeof value["startDate"] !== "string") {
         throw new TypeError("Invalid Job Start Date!");
+    }
     
     if(value["endDate"] !== null && typeof value["endDate"] !== "string")
         throw new TypeError("Invalid Job End Date!");
@@ -92,10 +98,12 @@ export function JobDetailed(item: JobItem){
     ]
 }
 
-export function EditJob(item: JobItem|null){
+export function EditJob(item: JobItem|null, message?:string){
     return _("form", {method: "post", class: "resume-editor"},
         _("a", {class: "btn", href: "/Resume/Edit/Jobs"}, "Back"),
         _("h1", "Edit Job"),
+        _("p", {class: "error", id: "error"}),
+        _("p", {class: "message"}, message),
         _("label", {for: "title"}, "Title:"),
         _("input", {id: "title", name: "title", value:item?.title}),
         _("hr"),

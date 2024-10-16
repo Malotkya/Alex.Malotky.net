@@ -37,16 +37,16 @@ export function SingleView(table:string, value:Dictionary<unknown>):Content{
  * @param {Dictionary<unknown>} value 
  * @returns {Content}
  */
-export function SingleEditView(table:string, value:Dictionary<unknown>|null):Content{
+export function SingleEditView(table:string, value:Dictionary<unknown>|null, message?:string):Content{
     switch(table){
         case "school":
-            return [style, EditSchool(value?validateSchoolItem(value):null)];
+            return [style, EditSchool(value?validateSchoolItem(value):null, message)];
 
         case "jobs":
-            return [style, EditJob(value?validateJobItem(value):null)];
+            return [style, EditJob(value?validateJobItem(value):null, message)];
 
         case "skills":
-            return [style, EditSkill(value?validateSkillItem(value):null)];
+            return [style, EditSkill(value?validateSkillItem(value):null, message)];
     }
 }
 

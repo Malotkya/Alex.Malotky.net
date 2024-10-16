@@ -102,4 +102,9 @@ navBar.push(NavLink(Resume.path, "Resume"));
 navBar.push(NavLink(Portfolio.path, "Protfolio"));
 navBar.push(NavLink(About.path, "About Me"));
 
-export default app;
+//why??
+export default {
+    fetch(req:Request, env:Env, ctx:unknown){
+        return app.fetch(req, env);
+    }
+};

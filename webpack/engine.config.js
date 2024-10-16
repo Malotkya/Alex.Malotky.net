@@ -1,9 +1,13 @@
 const path = require("path");
 const TerserPlugin = require("terser-webpack-plugin");
 const fs = require("fs");
-const json5 = require("json5")
+const json5 = require("json5");
+const {DefinePlugin} = require("webpack");
 
-const tsconfig = fs.readFileSync("./tsconfig.json").toString()
+const tsconfig = fs.readFileSync(path.join(process.cwd(), "tsconfig.json")).toString();
+const package  = fs.readFileSync(path.join(process.cwd(), "package.json")).toString();
+
+const {version} = json5.parse(package);
 
 function getAliases(){
     const {paths} = json5.parse(tsconfig).compilerOptions;
@@ -70,6 +74,11 @@ module.exports = (props) => {
                 type: 'module'
             }
         },
+        plugins: [
+            new DefinePlugin({
+                VERSION: JSON.stringify(version)
+            })
+        ],
         optimization: {
             minimize: props.inProduction,
             minimizer: [

@@ -21,3 +21,5 @@ interface User {
     username:string,
     password:string
 }
+
+declare const VERSION = "#.#.#.?"

@@ -4,7 +4,6 @@ import View from "Engine/View";
 import Authorization from 'Engine/Authorization';
 import Template, { NavLink, ErrorContent } from "./template";
 import {parse, serialize} from "cookie";
-import {version} from "../package.json";
 
 const MAX_LOGIN_AGE = 604800;
 
@@ -25,10 +24,10 @@ app.view(new View(
             { name: "description", content: "Portfolio website for Alex Malotky."}
         ],
         links: [
-            {rel: "stylesheet", href: `/style.css?${version}`}
+            {rel: "stylesheet", href: `/style.css?${VERSION}`}
         ],
         scripts: [
-            {src: `/bundle.js?${version}`, defer: true}
+            {src: `/bundle.js?${VERSION}`, defer: true}
         ]
     },
     Template(navBar)

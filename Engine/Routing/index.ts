@@ -46,8 +46,16 @@ export default class Routing extends Router{
             }
 
             return await this.notFoundHandler(context);
-        } catch (error:any){
-            return await this.errorHandler(error, context);
+        } catch (route_err:any){
+            try {
+                if(route_err === 404 || route_err.code === 404 || route_err.status === 404){
+                    return await this.notFoundHandler(context);
+                }
+                throw route_err;
+            } catch (error){
+                return await this.errorHandler(error, context);
+            }
+            
         }
     }
 

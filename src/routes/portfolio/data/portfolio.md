@@ -17,7 +17,6 @@ For routing, I wanted to replicate the middle ware structure that [Express.js](h
 Originaly for this project I wanted to use template Html files to render the pages.  As my pages got more complex, and I wanted to show off some of the code that I used in my capstone project I decided to use pure javascript and Web Componenets.  This lead me to create modules that are compiled by webpack that will export either an HTML string, and HTML Element or a function that returns on of the previously mentioned types.  When landing on that page, the app will dynamically load the module and then render and display the page.
 
 # Technology
-
 ## Firebase
 I decided to go with firebase to host my project because it is easy to set up and deploy to.  On top of that I am also able to access firestore, which is a document database, so that I can update information on my website without having to redeploy the application.
 

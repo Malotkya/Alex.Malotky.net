@@ -53,34 +53,34 @@ export function toString(name:string, value:Attribute|undefined):string {
 
         case "string":
             if(value !== "")
-                return name+"=\""+value.replaceAll('"', "&quot;")+"\" ";
+                return " "+name+"=\""+value.replaceAll('"', "&quot;")+"\"";
             return "";
 
         case "number":
             if(!isNaN(value))
-                return name+"=\""+value+"\" ";
+                return " "+name+"=\""+value+"\"";
             console.warn("NaN passed as Attribute value!");
             return name+"=\"NaN\" ";
 
         case "boolean":
-            return name+" "
+            return " "+name;
 
         case "undefined":
             return "";
 
         case "object":
             if(Array.isArray(value)){
-                return name+"=\""+value.join(" ")+"\" "
+                return " "+name+"=\""+value.join(" ")+"\""
 
             } else if(value instanceof Date){
-                return name+"=\""+value.toDateString()+"\" ";
+                return " "+name+"=\""+value.toDateString()+"\"";
             } else if(value === null){
-                return name="=\"\""
+                return " "+name+"=\"\""
             }
 
         default:
             console.warn("Unknown value passed as Attribute:\n%o", value);
-            return name+"=\""+String(value)+"\" ";
+            return " "+name+"=\""+String(value)+"\"";
     }
 }
 

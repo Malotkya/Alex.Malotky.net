@@ -100,25 +100,25 @@ export function toString(name:string, value:unknown):string {
     switch (typeof value) {
         case "string":
             if(value !== "")
-                return name+"=\""+value+"\" ";
+                return " "+name+"=\""+value+"\"";
             break;
 
         case "number":
             if(!isNaN(value))
-                return name+"=\""+value+"\" ";
+                return " "+name+"=\""+value+"\"";
             else
                 console.warn("NaN passed as Aria Attribute value!");
             break;
 
         case "boolean":
-            return name+"=\""+value?"true":"false"+"\" ";
+            return " "+name+"=\""+value?"true":"false"+"\"";
 
         case "undefined":
             return "";
 
         case "object":
             if(Array.isArray(value)) {
-                return name+"=\""+value.join(" ")+"\" ";
+                return " "+name+"=\""+value.join(" ")+"\"";
             }
 
         default:

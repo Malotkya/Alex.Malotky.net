@@ -37,9 +37,9 @@ export function createElement(name:string, attributes:AttributeList|Content = {}
     let attString:string = buildAttributesString(attributes);
 
     if(selfClosing) {
-        return "<"+name+" "+attString+"/>";
+        return "<"+name+attString+"/>";
     }
     
-    return "<"+name+" "+attString+">"+compressContent(children)+"</"+name+">";
+    return "<"+name+attString+">"+compressContent(children)+"</"+name+">";
 }
 

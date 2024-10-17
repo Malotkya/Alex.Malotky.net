@@ -36,7 +36,7 @@ Editor.get("/New", async(ctx)=>{
 });
 
 Editor.post("/:id", async(ctx)=>{
-    const id = ctx.params.get("id")!;
+    const id = Number(ctx.params.get("id")!);
 
     const name = ctx.formData.get("name");
     if(name === undefined)
@@ -64,7 +64,7 @@ Editor.post("/:id", async(ctx)=>{
 
     let deck:DeckItem;
     try {
-        deck = validateInput({name, description, commanders, main_deck, color_identity, art});
+        deck = validateInput({id, name, description, commanders, main_deck, color_identity, art});
     } catch (e:any){
         throw new HttpError(400, `Invalid deck!\n${e.message || String(e)}`)
     }

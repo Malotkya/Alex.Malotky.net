@@ -36,7 +36,7 @@ function Spotlight(): Content{
         _("section",
             _("p", 
                 "It is currently hosted on firebase at ",
-                _("a", {href: "https://phasmophobiahelper.web.app/"},
+                _("a", {href: "https://Phasmo.Malotky.net/"},
                     "Phasmophobiahelper.web.app"
                 ),
                 "."

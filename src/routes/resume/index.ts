@@ -91,6 +91,7 @@ function QueryTable(view:(t:string, r:Record<string,unknown>[])=>Content):Middle
             })
     
         } catch (e){
+            console.error(e);
             throw new HttpError(500, "There was a problem querying the database!");
         }
         
@@ -131,6 +132,7 @@ function QueryRecord(view:(t:string, r:Record<string,unknown>)=>Content):Middlew
                 body: view(table, result)
             });
         } catch (e){
+            console.error(e);
             throw new HttpError(500, "There was a problem querying the database!");
         }
     }
@@ -207,6 +209,7 @@ Resume.get(async(ctx)=>{
         })
 
     } catch (e){
+        console.error(e);
         throw new HttpError(500, "There was a problem getting the resume!");
     }
 });

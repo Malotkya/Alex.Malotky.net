@@ -1,40 +1,4 @@
-/**
-    * Used to replce elemets in the string because javascript regex won't work
-    * with multiline regex.
-    *
-    * @param {string} string - the markdown string
-    * @param {string} element - html element to insert
-    * @param {RegExp} regex - regex for where to split the markdown
-    * @param {string} dilimiter - optional dilimiter for sub elements
-    */
-function createBlock(string:string, element:string, regex:RegExp, dilimiter?:string){
-    let split = string.split(regex);
-    let output = split[0] + '\n';
-    let inBlock = false;
-    for(let i = 1; i < split.length; i++) {
-        if( !inBlock ) {
-            output += `<${element}>\n`;
-            inBlock = true;
-        }
-
-        if(dilimiter)
-            output += dilimiter;
-
-        let index = split[i].indexOf('\n');
-        if(index === -1) {
-            output += split[i] + '\n';
-        } else {
-            output += split[i].substring(0, index) + `</${element}>`
-                + split[i].substring(index+1);
-            inBlock = false;
-        }
-    }
-
-    if(inBlock)
-        output += `</${element}>`;
-
-    return output;
-}
+import { createBlock } from "@/util";
 
 class MarkDownElement extends HTMLElement {
     constructor(innerHTML?:string){
@@ -55,10 +19,10 @@ class MarkDownElement extends HTMLElement {
         markdown = createBlock(markdown, "blockquote", /\n&gt;/gm);
 
         //Ordered List
-        markdown = createBlock(markdown, "ol", /\n\s*\d+./gm, "•");
+        markdown = createBlock(markdown, "ol", /\n\d+./gm, "•");
 
         //Unordered List
-        markdown = createBlock(markdown, "ul", /\n\s*[*+-] /gm, "•");
+        markdown = createBlock(markdown, "ul", /\n[*+-] /gm, "•");
 
         this.innerHTML = markdown
             .replace(/(^[*-]+$)/gm, "<hr/>")                                        //Horizontal Rule

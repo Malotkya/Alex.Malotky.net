@@ -14,12 +14,6 @@ export interface RenderUpdate {
     head?: HeadUpdate,
     body?: RenderContent
     update?:Dictionary<RenderContent>,
-    error?: {
-        message:string,
-        cause?:unknown,
-        stack?:string,
-        status?:number,
-    },
     redirect?:string
 }
 

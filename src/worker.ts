@@ -112,7 +112,7 @@ app.error((err:any, ctx:Context)=>{
     ctx.status(status);
 
     if(ctx.expectsRender() || contentType.includes("html")) {
-        ctx.render(ErrorContent(status, message, err))
+        ctx.render(ErrorContent(status, message))
     } else if(contentType.includes("json")) {
         ctx.json({status, message});
     } else {

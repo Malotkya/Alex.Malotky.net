@@ -71,7 +71,7 @@ function Footer():Content {
     )
 }
 
-export function ErrorContent(status:number, message:string, err:Error):RenderUpdate {
+export function ErrorContent(status:number, message:string):RenderUpdate {
     return {
         head: {
             title: getMessage(status) || "Error"
@@ -79,12 +79,6 @@ export function ErrorContent(status:number, message:string, err:Error):RenderUpd
         body: _("p", {class: "error", id: "error"}, message),
         update: {
             error: message
-        },
-        error: {
-            message: err.message,
-            stack: err.stack,
-            cause: err.cause,
-            status: status
         }
     }
 }

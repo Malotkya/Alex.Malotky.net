@@ -107,7 +107,7 @@ app.error((err:any, ctx:Context)=>{
 
     const status = Number(err.code || err.status || 500);
     const message = `${status}: ${err.message}`;
-    const contentType = (ctx.request.headers.get("Content-Type") || "").toLocaleLowerCase();
+    const contentType = (ctx.request.headers.get("Accept") || "").toLocaleLowerCase();
 
     ctx.status(status);
 

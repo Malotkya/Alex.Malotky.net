@@ -50,7 +50,7 @@ export default class Engine extends Routing {
 
         const asset = await env.ASSETS.fetch(request.clone());
 
-        if(asset.ok)
+        if(asset.status < 400)
             return asset;
 
         let data:FormData|undefined;

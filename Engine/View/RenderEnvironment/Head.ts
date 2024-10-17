@@ -32,7 +32,7 @@ export default class HeadEnvironment {
     update(update:HeadUpdate) {
         if(this._defaultTitle === ""){
             this._title.textContent = update.title || "";
-        } else if(update.title === undefined || update.title === "" || update.title === this._defaultTitle){
+        } else if(update.title === undefined || update.title === ""){
             this._title.textContent = this._defaultTitle;
         } else {
             this._title.textContent = this._defaultTitle + " | " + update.title;

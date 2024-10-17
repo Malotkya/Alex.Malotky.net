@@ -105,7 +105,7 @@ export function mergeUpdateToInit(init:HeadInit, update:HeadUpdate = {}):HeadIni
  */
 export function mergeUpdateToUpdate(init:HeadInit, update:HeadUpdate = {}):HeadUpdate{
     return {
-        title: update.title || init.title,
+        title: update.title,
         meta: updateMeta(init.meta, update.meta),
         //@ts-ignore
         links: toUpdate(merge(init.links, update.links)),

@@ -22,7 +22,9 @@ export default function Title(value:TitleInit):HTMLElement {
  */
 export function updateTitle(init:TitleInit = "", update:TitleUpdate = ""):TitleUpdate {
     if(init){
-        return init+" | "+update;
+        if(update)
+            return init+" | "+update;
+        return init;
     }
 
     return update;

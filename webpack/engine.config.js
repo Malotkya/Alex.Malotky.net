@@ -53,6 +53,11 @@ module.exports = (props) => {
                     exclude: /node_modules/,
                 },
                 {
+                    test: /.md$/i,
+                    type:'asset/source',
+                    exclude: /node_modules/,
+                },
+                {
                     test: /\.s?css$/,
                     type:'asset/source',
                     exclude: /node_modules/,

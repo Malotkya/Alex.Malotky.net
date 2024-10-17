@@ -149,7 +149,7 @@ export default class ProtoResponse extends Transform{
      * @param {URL} url 
      * @param {number} status 
      */
-    redirect(url:URL, status:number = 301){
+    redirect(url:URL, status:number = 302){
         this.#redirect = url;
         this.#status = status;
         this.working = false;

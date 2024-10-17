@@ -1,5 +1,5 @@
 import { Content, Context, createContent as _} from "Engine";
-import { RenderFunction } from "Engine/View";
+import { RenderFunction, RenderUpdate } from "Engine/View";
 import HttpError, { getMessage } from "Engine/HttpError";
 
 function showMenu(){
@@ -71,40 +71,12 @@ function Footer():Content {
     )
 }
 
-export function ErrorContent(err:any, ctx:Context):Promise<Response> {
-    switch (typeof err){
-        case "string":
-            err = new HttpError(500, err);
-            break;
-
-        case "bigint":
-            err = new HttpError(Number(err));
-            break;
-
-        case "number":
-            err = new HttpError(err);
-            break;
-
-        case "object":
-            if( !(err instanceof Error) ){
-                if( err.message === undefined || (err.status === undefined && err.code == undefined) ){
-                    err = new HttpError(500, JSON.stringify(err));
-                }
-            }
-            break;
-
-        default:
-            err = new HttpError(500, "An unknown Error occured!");
-    }
-
-    const status = err.code || err.status || 500;
-    const message = `${status}: ${err.message}`;
-
-    ctx.render({
+export function ErrorContent(status:number, message:string, err:Error):RenderUpdate {
+    return {
         head: {
             title: getMessage(status) || "Error"
         },
-        body: _("p", {class: "error"}, message),
+        body: _("p", {class: "error", id: "error"}, message),
         update: {
             error: message
         },
@@ -114,6 +86,5 @@ export function ErrorContent(err:any, ctx:Context):Promise<Response> {
             cause: err.cause,
             status: status
         }
-    });
-    return ctx.flush()
+    }
 }

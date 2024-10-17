@@ -1,5 +1,5 @@
 import jwt from '@tsndr/cloudflare-worker-jwt';
-import Engine, {Content} from "Engine";
+import Engine, {Content, Context, HttpError} from "Engine";
 import View from "Engine/View";
 import Authorization from 'Engine/Authorization';
 import Template, { NavLink, ErrorContent } from "./template";
@@ -79,7 +79,48 @@ auth.set(async(res, user)=>{
 app.auth(auth);
 
 //Error Handler
-app.error(ErrorContent);
+app.error((err:any, ctx:Context)=>{
+    switch (typeof err){
+        case "string":
+            err = new HttpError(500, err);
+            break;
+
+        case "bigint":
+            err = new HttpError(Number(err));
+            break;
+
+        case "number":
+            err = new HttpError(err);
+            break;
+
+        case "object":
+            if( !(err instanceof Error) ){
+                if( err.message === undefined || (err.status === undefined && err.code == undefined) ){
+                    err = new HttpError(500, JSON.stringify(err));
+                }
+            }
+            break;
+
+        default:
+            err = new HttpError(500, "An unknown Error occured!");
+    }
+
+    const status = Number(err.code || err.status || 500);
+    const message = `${status}: ${err.message}`;
+    const contentType = (ctx.request.headers.get("Content-Type") || "").toLocaleLowerCase();
+
+    ctx.status(status);
+
+    if(ctx.expectsRender() || contentType.includes("html")) {
+        ctx.render(ErrorContent(status, message, err))
+    } else if(contentType.includes("json")) {
+        ctx.json({status, message});
+    } else {
+        ctx.text(message);
+    }
+
+    return ctx.flush();
+});
 
 import Home from "./routes/home";
 import Resume from './routes/resume';
@@ -102,9 +143,9 @@ navBar.push(NavLink(Resume.path, "Resume"));
 navBar.push(NavLink(Portfolio.path, "Protfolio"));
 navBar.push(NavLink(About.path, "About Me"));
 
-//why??
+//export default app;
 export default {
-    fetch(req:Request, env:Env, ctx:unknown){
+    fetch(req:Request, env:Env){
         return app.fetch(req, env);
     }
 };

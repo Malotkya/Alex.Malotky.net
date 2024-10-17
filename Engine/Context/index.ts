@@ -191,6 +191,16 @@ export default class Context{
         return this;
     }
 
+    /** Expects Render
+     * 
+     * Checks headers to test if request is expecting render object.
+     * 
+     * @returns {boolean}
+     */
+    expectsRender():boolean {
+        return this._request.headers.get(HEADER_KEY) === HEADER_VALUE;
+    }
+
     /** Reunder Update Content
      * 
      * @param {ContentUpdate} value 
@@ -200,7 +210,7 @@ export default class Context{
             throw new Error("No view to render with!");
         this._response.headers.set(HEADER_KEY, HEADER_VALUE);
 
-        if(this._request.headers.get(HEADER_KEY) === HEADER_VALUE) {
+        if(this.expectsRender()) {
             this.json(this._view.update(value));
         } else {
             this.html(this._view.render(value));

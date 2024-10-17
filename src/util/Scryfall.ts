@@ -4,16 +4,31 @@
  * 
  * @author Alex Malotky
  */
+import { IDBPDatabase, openDB} from 'idb';
 
 const URI = "https://cards.malotky.net/";
-const cache:Dictionary<string> = {};
+const WEEK = 604800000;
 
-/** Card Interface
+/** Scryfall Card Data
  * 
  * Information of a card and optional information from
  * scryfall.
  */
-export interface DatabaseCard{
+export interface ScryfallData{
+    name?: string,
+    manaCost?: string,
+    manaValue?: number,
+    typeLine?: string, 
+    oracle?: string,
+    art?: string,
+    sets?: Record<string, Array<string>>
+}
+
+/** Scryfall Card
+ * 
+ * Information of a card from scryfall.
+ */
+export interface ScryfallCard{
     name: string,
     manaCost: string,
     manaValue: number,
@@ -23,12 +38,13 @@ export interface DatabaseCard{
     sets: Record<string, Array<string>>
 }
 
+
 /** Query For Card
  * 
  * @param {string} name 
  * @returns {Promise<Card>} card
  */
-export async function queryForCard(name:string):Promise<DatabaseCard|null>{
+export async function queryForCard(name:string):Promise<ScryfallCard|null>{
     let shardName = "?";
 
     const match = name.match(/[a-zA-Z0-9_]/);
@@ -82,9 +98,21 @@ function compareNames(lhs:string, rhs:string):number{
  * @returns {string}
  */
 export async function getShard(shard:string):Promise<string>{
-    if(cache[shard])
-        return cache[shard];
+    const db = await openDB("Scryfall");
 
+    const cache = await checkCache(db, shard);
+    if(cache)
+        return cache;
+
+    const file = await fetchShard(shard);
+    setCache(db, shard, file);
+
+    db.close();
+    
+    return file;
+}
+
+async function fetchShard(shard:string):Promise<string> {
     const response = await fetch(URI+shard);
 
     if(response.status !== 200)
@@ -95,6 +123,32 @@ export async function getShard(shard:string):Promise<string>{
     if(fileText.match("<!DOCTYPE html>"))
         throw new Error("Unable to find Shard!");
 
-    cache[shard] = fileText;
     return fileText;
+}
+
+async function checkCache(db:IDBPDatabase, shard:string):Promise<string|null> {
+    const tx = db.transaction('shard', 'readwrite');
+    const store = tx.objectStore('shard');
+    const result = await store.get(shard) as {value:string, ttl:number}|undefined;
+    await tx.done;
+
+    if(result){
+        if(result.ttl < Date.now())
+            return null;
+
+        return result.value;
+    }
+
+    return null;
+}
+
+async function setCache(db:IDBPDatabase, shard:string, value:string):Promise<void> {
+    const tx = db.transaction('shard', 'readwrite');
+    const store = tx.objectStore('shard');
+    
+    await store.add({
+        ttl: Date.now() + WEEK,
+        value
+    }, shard)
+    await tx.done;
 }

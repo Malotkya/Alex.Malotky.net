@@ -59,7 +59,7 @@ export default class Tracker {
         const lstDefault = Object.getOwnPropertyNames(defaults);
         const lstUpdate = Object.getOwnPropertyNames(update);
         
-        for(let name of element.getAttributeNames()) {
+        for(let name of lstDefault) {
             const index = lstUpdate.indexOf(name);
 
             if(index !== -1){

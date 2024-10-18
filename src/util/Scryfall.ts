@@ -4,10 +4,10 @@
  * 
  * @author Alex Malotky
  */
-import { IDBPDatabase, openDB} from 'idb';
+import { openDB, checkCache, setCache } from "@/routes/magic/element/CacheDownloader";
 
 const URI = "https://cards.malotky.net/";
-const WEEK = 604800000;
+
 
 /** Scryfall Card Data
  * 
@@ -98,21 +98,21 @@ function compareNames(lhs:string, rhs:string):number{
  * @returns {string}
  */
 export async function getShard(shard:string):Promise<string>{
-    const db = await openDB("Scryfall");
+    const db = await openDB();
 
     const cache = await checkCache(db, shard);
     if(cache)
         return cache;
 
     const file = await fetchShard(shard);
-    setCache(db, shard, file);
+    await setCache(db, shard, file);
 
     db.close();
     
     return file;
 }
 
-async function fetchShard(shard:string):Promise<string> {
+export async function fetchShard(shard:string):Promise<string> {
     const response = await fetch(URI+shard);
 
     if(response.status !== 200)
@@ -126,29 +126,3 @@ async function fetchShard(shard:string):Promise<string> {
     return fileText;
 }
 
-async function checkCache(db:IDBPDatabase, shard:string):Promise<string|null> {
-    const tx = db.transaction('shard', 'readwrite');
-    const store = tx.objectStore('shard');
-    const result = await store.get(shard) as {value:string, ttl:number}|undefined;
-    await tx.done;
-
-    if(result){
-        if(result.ttl < Date.now())
-            return null;
-
-        return result.value;
-    }
-
-    return null;
-}
-
-async function setCache(db:IDBPDatabase, shard:string, value:string):Promise<void> {
-    const tx = db.transaction('shard', 'readwrite');
-    const store = tx.objectStore('shard');
-    
-    await store.add({
-        ttl: Date.now() + WEEK,
-        value
-    }, shard)
-    await tx.done;
-}

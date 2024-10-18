@@ -61,6 +61,7 @@ function merge<U, I extends U&{name?:string}>(init:Array<I> = [], update:Diction
         //@ts-ignore
         output.push({
             ...update[name],
+            name
         })
     }
 

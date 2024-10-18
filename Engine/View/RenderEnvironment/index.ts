@@ -1,4 +1,5 @@
 import {RenderUpdate, RenderContent} from "..";
+import { compressContent } from "../Html";
 import { getRouteInfo, findOrCreateElement, hashObject } from "./Util";
 import { HeadUpdate } from "../Html/Head";
 import HeadEnvironment from "./Head";
@@ -22,7 +23,6 @@ export default class RenderEnvironment {
      * 
      */
     constructor(){
-        
         this._routing = false;
         this._head = new HeadEnvironment();
         this._headHash = 0;
@@ -102,6 +102,14 @@ export default class RenderEnvironment {
         window.open(href, '_blank' , 'noopener,noreferrer')
     }
 
+    /** Run Script
+     * 
+     * @param script 
+     */
+    run(script:string) {
+        new Function("env", script)(this);
+    }
+
     async update(update:RenderUpdate){
         if(update.head){
             await this.updateHead(update.head);
@@ -132,7 +140,17 @@ export default class RenderEnvironment {
             return console.warn("Body didn't change!");
         }
         RenderEnvironment.render(this._main, update);
+        this.scripts(compressContent(update).match(/<script .*>.*<\/script>/gm));
         this._mainHash = hash;
+    }
+
+    private scripts(update:RegExpMatchArray|null){
+        if(update === null)
+            return;
+
+        for(let script of update) {
+            this.run(script.replace(/<script .*>(.*)<\/script>/gm, "$1"));
+        }
     }
 
     private updateChanges(update:Dictionary<RenderContent>){

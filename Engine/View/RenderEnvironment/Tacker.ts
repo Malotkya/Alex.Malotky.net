@@ -3,7 +3,7 @@ import { AttributeList } from "../Html/Attributes";
 
 export default class Tracker {
     private _defaults:Dictionary<AttributeList>;
-    private _current:Dictionary<Element>;
+    protected _current:Dictionary<Element>;
     private _name:string;
 
     constructor(head:HTMLElement, name:string){

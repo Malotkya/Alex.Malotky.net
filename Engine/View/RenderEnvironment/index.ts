@@ -47,7 +47,7 @@ export default class RenderEnvironment {
                 window.history.pushState({}, "", data.redirect);
                 return this.handler();
             }
-            this.update(data);
+            await this.update(data);
         } catch (e){
             console.error(e);
             //window.location.reload();
@@ -102,9 +102,9 @@ export default class RenderEnvironment {
         window.open(href, '_blank' , 'noopener,noreferrer')
     }
 
-    update(update:RenderUpdate){
+    async update(update:RenderUpdate){
         if(update.head){
-            this.updateHead(update.head);
+            await this.updateHead(update.head);
         }
         if(update.body){
             this.updateBody(update.body);
@@ -116,13 +116,13 @@ export default class RenderEnvironment {
 
     /// Private Update Methods ///
 
-    private updateHead(update:HeadUpdate) {
+    private async updateHead(update:HeadUpdate) {
         const hash = hashObject(update);
         if(hash === this._headHash){
             return console.warn("Head didn't change!");
         }
 
-        this._head.update(update);
+        await this._head.update(update);
         this._headHash = hash;
     }
 

@@ -2,12 +2,13 @@ import {findOrCreateElement} from "./Util";
 import { HeadUpdate } from "../Html/Head";
 import { AttributeList } from "../Html/Attributes";
 import Tracker from "./Tacker";
+import Scripts from "./Scripts";
 
 export default class HeadEnvironment {
     private _meta:Tracker;
     private _links:Tracker;
     private _styles:Tracker;
-    private _scripts:Tracker;
+    private _scripts:Scripts;
 
     private _title:HTMLTitleElement;
     private _defaultTitle:string;
@@ -18,7 +19,7 @@ export default class HeadEnvironment {
         this._meta = new Tracker(head, "meta");
         this._links = new Tracker(head, "links");
         this._styles = new Tracker(head, "styles");
-        this._scripts = new Tracker(head, "scripts");
+        this._scripts = new Scripts(head);
 
         this._title = head.querySelector("title") as HTMLTitleElement;
         this._defaultTitle = this._title.textContent || "";
@@ -29,7 +30,7 @@ export default class HeadEnvironment {
         }
     }
 
-    update(update:HeadUpdate) {
+    async update(update:HeadUpdate) {
         if(this._defaultTitle === ""){
             this._title.textContent = update.title || "";
         } else if(update.title === undefined || update.title === ""){
@@ -48,6 +49,6 @@ export default class HeadEnvironment {
         this._meta.update(meta);
         this._links.update(update.links!);
         this._styles.update(update.styles!);
-        this._scripts.update(update.scripts!);
+        await this._scripts.update(update.scripts!);
     }
 }

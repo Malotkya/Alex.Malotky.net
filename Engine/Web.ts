@@ -61,3 +61,10 @@ document.body.addEventListener("submit", async function submit_event(event){
         env.update(data);
     }
 });
+
+window.addEventListener("DOMContentLoaded", ()=>{
+    document.querySelectorAll("script[env]")?.forEach(script=>{
+        if(script.getAttribute("type")?.includes("blocked"))
+            env.run(script.innerHTML);
+    })
+})

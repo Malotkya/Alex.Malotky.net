@@ -69,8 +69,13 @@ Editor.post("/:id", async(ctx)=>{
         throw new HttpError(400, `Invalid deck!\n${e.message || String(e)}`)
     }
 
-    await ctx.env.DB.prepare("UPDATE Deck Set name = ?, description = ?, commanders = ?, main_deck = ?, color_identity = ?, art = ? WHERE id = ?")
+    try {
+        await ctx.env.DB.prepare("UPDATE Decks Set name = ?, description = ?, commanders = ?, main_deck = ?, color_identity = ?, art = ? WHERE id = ?")
                                    .bind(name, description, commanders, main_deck, color_identity, art, id).run();
+    } catch (e){
+        console.error(e);
+        throw new HttpError(500, "There was a problem saving the deck!");
+    }
 
     ctx.render({
         head: {

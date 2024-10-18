@@ -1,6 +1,10 @@
-import { createContent as _ } from "Engine";
+import { createContent as _, RenderEnvironment } from "Engine";
 import { DeckItem } from "../types";
 import CardView from "./card";
+
+function fixImages(env:RenderEnvironment){
+    console.log(env);
+}
 
 export default function DeckView(deck:DeckItem) {
     const main_deck = [];
@@ -24,6 +28,7 @@ export default function DeckView(deck:DeckItem) {
         ),
         _("div", {class: "catagory-list grid", dataMasonry:'{ "itemSelector": ".category", "columnWidth": ".category" }'},
             main_deck
-        )
+        ),
+        _("script", {env: true}, fixImages)
     ]
 }

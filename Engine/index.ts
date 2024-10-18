@@ -8,6 +8,7 @@ import Context from "./Context";
 import View from "./View";
 import { EndPoint, Middleware } from "./Routing/Layer";
 import Authorization from "./Authorization";
+import RenderEnvironment from "./View/RenderEnvironment";
 
 
 //Exports
@@ -16,7 +17,7 @@ import { createElement } from "./View/Html/Element";
 import { RenderContent } from "./View";
 import HttpError from "./HttpError";
 export {Router, Context, createElement as createContent, HttpError};
-export type {RenderContent as Content, Middleware};
+export type {RenderContent as Content, Middleware, RenderEnvironment};
 
 export default class Engine extends Routing {
     private _view:View|undefined;

@@ -15,8 +15,6 @@ const BLANK_CARD:Card = {
     foil: true,
 }
 
-const cache:Dictionary<Array<string>> = {};
-
 /** CardElement Class
  * 
  * Html Representation of the Card Interface.
@@ -139,11 +137,13 @@ export default class CardInput extends HTMLElement {
     }
 
     private static async getListFromShard(value:string = ""):Promise<Array<string>>{
-        value = value.charAt(0).toUpperCase();
-        if(cache[value] === undefined)
-            cache[value] = (await getShard(value)).match(/(?<="name":").*?(?=")/gm)!;
-
-        return cache[value];
+        value = value.trim();
+        if(value){
+            const char = value.charAt(0).toUpperCase();
+            return (await getShard(char)).match(/(?<="name":").*?(?=")/gm)!;
+        }
+        
+        return [];
     }
 
     /** Connected Callback

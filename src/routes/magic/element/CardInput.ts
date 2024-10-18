@@ -166,7 +166,7 @@ export default class CardInput extends HTMLElement {
             //Card Count Input
             input.value = String(this._value.count);
             input.type = "number";
-            input.style.width = "3ch";
+            input.style.width = "6ch";
             input.addEventListener("change", ()=>{
                 let number:number = Number(input.value);
                 if(isNaN(number)){

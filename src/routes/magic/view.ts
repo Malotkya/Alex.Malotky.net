@@ -6,6 +6,7 @@
 import {Buffer} from "node:buffer";
 import {createContent as _, Content} from "Engine";
 import { DeckItem } from "./types";
+import Deck from "./view/deck";
 
 const style = _("style", require("./style.scss"));
 
@@ -15,21 +16,9 @@ const style = _("style", require("./style.scss"));
  * @returns {Content}
  */
 export function DeckView(deck:DeckItem): Content{
-    const data = Buffer.from(
-        JSON.stringify({
-            commanders: deck.commanders,
-            main_deck: deck.main_deck
-        })
-    ).toString("base64");
-
     return [
         style,
-        _("aside", {id:"deckHeader"},
-            _("h1", deck.name),
-            _("p", deck.description)
-        ),
-        _("a", {class: "btn", href: "/Decks"}, "Back"),
-        _("deck-view", {data})
+        Deck(deck)
     ]
 }
 

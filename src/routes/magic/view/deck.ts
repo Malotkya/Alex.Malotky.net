@@ -13,7 +13,6 @@ export default function DeckView(deck:DeckItem) {
     }
 
     return [
-        _("script", {src: "https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js", defer: true}),
         _("aside", {id:"deckHeader"},
             _("h1", deck.name),
             _("p", deck.description)

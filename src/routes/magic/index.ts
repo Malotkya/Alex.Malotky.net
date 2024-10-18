@@ -151,6 +151,9 @@ Magic.get("/:id", async(ctx)=>{
             title: `Deck (${id})`,
             meta: {
                 description: "Magic the Gathering Deck Editor."
+            },
+            scripts: {
+                "masonry": {src: "https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"}
             }
         },
         body: DeckView(convertProtoDeck(deck))

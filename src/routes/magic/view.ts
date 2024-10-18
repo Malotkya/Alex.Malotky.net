@@ -61,6 +61,7 @@ export function DeckListView(list:Array<DeckItem>, edit:boolean = false):Content
     
     return [
         style,
+        edit? _("cache-downloader"): undefined,
         _("h1", "Magic the Gathering Decks"),
         edit? _("a", {class: "btn", href: "/Decks/Edit/New"}, "Create New Deck"): null,
         _("ol", {id: "deck-list"},

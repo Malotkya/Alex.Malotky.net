@@ -63,6 +63,7 @@ export default class View{
      */
     update(update:RenderUpdate):RenderUpdate {
         update.head = mergeUpdateToUpdate(this.#defaultHead, update.head);
+        update.body = compressContent(update.body);
         return update;
     }
 }

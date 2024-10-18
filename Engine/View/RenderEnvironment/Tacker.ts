@@ -59,7 +59,7 @@ export default class Tracker {
         const lstDefault = Object.getOwnPropertyNames(defaults);
         const lstUpdate = Object.getOwnPropertyNames(update);
         
-        for(let name of lstDefault) {
+        for(let name of element.getAttributeNames()) {
             const index = lstUpdate.indexOf(name);
 
             if(index !== -1){
@@ -68,10 +68,14 @@ export default class Tracker {
 
             } else if(lstDefault.indexOf(name) !== -1){
                 element.setAttribute(name, String(defaults[name]));
-
+                lstDefault.splice(index, 1);
             } else {
                 element.removeAttribute(name);
             }
+        }
+
+        for(let name of lstDefault){
+            element.setAttribute(name, String(defaults[name]));
         }
 
         for(let name of lstUpdate){

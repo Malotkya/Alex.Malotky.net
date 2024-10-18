@@ -55,7 +55,7 @@ export default class Tracker {
         }
     }
 
-    private static updateElement(element:Element, defaults:AttributeList, update:AttributeList = {}){
+    static updateElement(element:Element, defaults:AttributeList, update:AttributeList = {}){
         const lstDefault = Object.getOwnPropertyNames(defaults);
         const lstUpdate = Object.getOwnPropertyNames(update);
         

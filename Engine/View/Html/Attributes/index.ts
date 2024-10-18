@@ -2,6 +2,7 @@
  * 
  */
 import AriaGlobalAttributes, {toString as toAriaString} from "./Aria";
+import {toString as functionToString} from "../Function";
 
 type Attribute = string|number|boolean|Array<string>|Date|EventListener;
 export default Attribute;
@@ -47,9 +48,7 @@ export function buildAttributesString(attributes:AttributeList):string {
 export function toString(name:string, value:Attribute|undefined):string {
     switch (typeof value){
         case "function":
-            value = ""+value;
-            value = value.substring(value.indexOf("{")+1, value.lastIndexOf("}")-1)
-                         .replace(/\s+/g, " ").trim();
+            value = functionToString(value);
 
         case "string":
             if(value !== "")

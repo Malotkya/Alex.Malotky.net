@@ -1,4 +1,6 @@
-type Content = string|number|boolean|null|undefined|Array<Content>;
+import { toString } from "../Function";
+
+type Content = string|number|boolean|null|undefined|Function|Array<Content>;
 export default Content;
 
 /** Compress Content
@@ -14,9 +16,20 @@ export function compressContent(content:Content):string {
         return buffer;
     } else if(content === null || content === undefined){
         return "";
-    } else if(typeof content !== "string") {
-        return String(content);
-    }
+    } else {
+        switch (typeof content){
+            case "function":
+                return toString(content);
 
-    return content;
+            case "object":
+                return JSON.stringify(content);
+
+            case "string":
+                return content;
+
+            default:
+                return String(content);
+        }
+        
+    }
 }

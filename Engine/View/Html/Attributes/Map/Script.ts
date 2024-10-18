@@ -22,5 +22,7 @@ export default interface ScriptAttributes extends GlobalAttributes{
     charset?:"utf-8",
     language?:string,
     
-    name?:string /* unofficial */
+    /* unofficial */
+    name?:string
+    env?: boolean
 }

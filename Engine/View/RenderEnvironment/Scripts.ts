@@ -15,7 +15,7 @@ export default class Scripts extends Tracker{
             const script = this._current[name] as HTMLScriptElement;
 
             waits.push(new Promise(res=>{
-                script.addEventListener("load", ()=>res());
+                script.addEventListener("load", ()=>res(), {once: true});
             }));
         }
 

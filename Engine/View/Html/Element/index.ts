@@ -17,6 +17,7 @@ export function createElement<K extends keyof HTMLClosedElementAttriburesMap>(na
 export function createElement<K extends keyof HTMLElementAttriburesMap>(name:K, attributes?:HTMLElementAttriburesMap[K]|Content, ...children:Array<Content>):HTMLElement
 export function createElement(customName:string, attributes?:AttributeList|Content, ...children:Array<Content>):HTMLElement 
 export function createElement(name:string, attributes:AttributeList|Content = {}, ...children:Array<Content>):HTMLElement {
+    name = name.toLocaleLowerCase();
 
     if(typeof attributes !== "object" || Array.isArray(attributes) || attributes === null) {
         children.unshift(attributes);
@@ -28,6 +29,11 @@ export function createElement(name:string, attributes:AttributeList|Content = {}
         attributes.is = name;
         name = custom;
     }
+
+    if(name === "script" && attributes.env) {
+        attributes.type = "javascript/blocked";
+    }
+        
 
     const selfClosing = SELF_CLOSING.indexOf(name) >= 0;
 

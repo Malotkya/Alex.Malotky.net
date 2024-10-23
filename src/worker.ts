@@ -1,5 +1,6 @@
 import jwt from '@tsndr/cloudflare-worker-jwt';
 import Engine, {Content, Context, HttpError} from "Engine";
+import { getMessage } from 'Engine/HttpError';
 import View from "Engine/View";
 import Authorization from 'Engine/Authorization';
 import Template, { NavLink, ErrorContent } from "./template";
@@ -80,33 +81,27 @@ app.auth(auth);
 
 //Error Handler
 app.error((err:any, ctx:Context)=>{
+    let status:number;
+    let message:string;
     switch (typeof err){
         case "string":
-            err = new HttpError(500, err);
+            status = 500;
+            message = err;
             break;
 
         case "bigint":
-            err = new HttpError(Number(err));
-            break;
+            err = Number(err);
 
         case "number":
-            err = new HttpError(err);
-            break;
-
-        case "object":
-            if( !(err instanceof Error) ){
-                if( err.message === undefined || (err.status === undefined && err.code == undefined) ){
-                    err = new HttpError(500, JSON.stringify(err));
-                }
-            }
+            status = err;
+            message = getMessage(err) || "An unknown Error occured!";
             break;
 
         default:
-            err = new HttpError(500, "An unknown Error occured!");
+            status = Number(err.code || err.status || 500);
+            message = err.message || String(err);
     }
 
-    const status = Number(err.code || err.status || 500);
-    const message = `${status}: ${err.message}`;
     const contentType = (ctx.request.headers.get("Accept") || "").toLocaleLowerCase();
 
     ctx.status(status);

@@ -72,6 +72,7 @@ function Footer():Content {
 }
 
 export function ErrorContent(status:number, message:string):RenderUpdate {
+    message = `${status}: ${message}`;
     return {
         head: {
             title: getMessage(status) || "Error"

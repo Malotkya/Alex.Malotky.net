@@ -4,7 +4,7 @@
  */
 import HTMLElement from "..";
 import MetaInit from "../Attributes/Map/Meta";
-import { dictionaryInclude } from "Engine/Util";
+import { dictionaryInclude } from "../../../Util";
 
 export type {MetaInit}
 export type MetaUpdate = string;

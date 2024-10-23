@@ -111,7 +111,7 @@ export function toString(name:string, value:unknown):string {
             break;
 
         case "boolean":
-            return " "+name+"=\""+value?"true":"false"+"\"";
+            return " "+name+"=\""+(value?"true":"false")+"\"";
 
         case "undefined":
             return "";

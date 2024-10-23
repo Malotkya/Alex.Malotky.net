@@ -10,11 +10,17 @@ interface FetchOptions extends RequestInit{
     headers?:Dictionary<string>
 }
 
+interface Event {
+    type:string,
+    listener:EventListener
+}
+
 export default class RenderEnvironment {
     private _head:HeadEnvironment;
     private _headHash:number;
     private _main:HTMLElement;
     private _mainHash:number;
+    private _events:Array<Event>;
 
     private _routing:boolean;
     private _delay:{url:string|URL, body?:FormData}|undefined;
@@ -28,6 +34,7 @@ export default class RenderEnvironment {
         this._headHash = 0;
         this._main = findOrCreateElement("#main");
         this._mainHash = 0;
+        this._events = [];
     }
 
     /** Main Route Handler
@@ -73,6 +80,7 @@ export default class RenderEnvironment {
     route(url:string|URL, body?:FormData){
         if(!this._routing) {
             window.history.pushState({}, "", url);
+            this.clear();
             this.handler(body).then(anchor=>{
                 this.scroll(anchor);
             })
@@ -110,6 +118,25 @@ export default class RenderEnvironment {
         new Function("env", script)(this);
     }
 
+    /** Add Event
+     * 
+     * @param update 
+     */
+    event(type:string, listener:EventListener){
+        if(typeof type !== "string")
+            throw new TypeError("Unknown event!");
+
+        if(typeof listener !== "function")
+            throw new TypeError("Unknown listener!");
+
+        this._events.push({type, listener});
+        window.addEventListener(type, listener);
+    }
+
+    /** Update Environment
+     * 
+     * @param {RenderUpdate} update 
+     */
     async update(update:RenderUpdate){
         if(update.head){
             await this.updateHead(update.head);
@@ -124,6 +151,10 @@ export default class RenderEnvironment {
 
     /// Private Update Methods ///
 
+    /** Update Head
+     * 
+     * @param {HeadUpdate} update 
+     */
     private async updateHead(update:HeadUpdate) {
         const hash = hashObject(update);
         if(hash === this._headHash){
@@ -134,6 +165,9 @@ export default class RenderEnvironment {
         this._headHash = hash;
     }
 
+    /** Update Body
+     * 
+     */
     private updateBody(update:RenderContent) {
         const hash = hashObject(update);
         if(hash === this._mainHash){
@@ -144,6 +178,10 @@ export default class RenderEnvironment {
         this._mainHash = hash;
     }
 
+    /** Run Scripts
+     * 
+     * @param {RegExpMatchArray} update 
+     */
     private scripts(update:RegExpMatchArray|null){
         if(update === null)
             return;
@@ -153,6 +191,10 @@ export default class RenderEnvironment {
         }
     }
 
+    /** Update Changes
+     * 
+     * @param {Dictionary<RenderContent>} update 
+     */
     private updateChanges(update:Dictionary<RenderContent>){
         for(const id in update){
             const element = document.getElementById(id);
@@ -162,6 +204,15 @@ export default class RenderEnvironment {
                 console.warn(`Unable to find element with id '${id}'!`)
             }
                 
+        }
+    }
+    /** Clear Events
+     * 
+     */
+    private clear(){
+        while(this._events.length > 0){
+            const {type, listener} = this._events.pop()!;
+            window.removeEventListener(type, listener);
         }
     }
 

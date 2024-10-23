@@ -3,7 +3,36 @@ import { DeckItem } from "../types";
 import CardView from "./card";
 
 function fixImages(env:RenderEnvironment){
-    console.log(env);
+    async function handleFix(){
+        console.debug("fixing!");
+        const main = document.querySelector("main")!;
+        const limit = main.getBoundingClientRect().bottom;
+
+        (document.querySelectorAll(".figure") as NodeListOf<HTMLElement>).forEach((figure)=>{
+            figure.style.top = "";
+            const {bottom} = figure.getBoundingClientRect();
+            if(bottom > limit){
+                figure.style.top = `${limit-bottom}px`;
+            }
+        });
+    }
+
+    //Fix Images after all images are loaded
+    const wait:Promise<HTMLImageElement>[] = [];
+
+    document.querySelectorAll("img").forEach(image=>{
+        wait.push(new Promise(res=>{
+            image.addEventListener("load", ()=>res(image));
+        }))
+    });
+
+    Promise.all(wait).then(list=>{
+        console.log(list);
+        handleFix();
+    }).catch(console.error);
+
+    //Fix Images after the page has resized.
+    env.event("resize", handleFix);
 }
 
 export default function DeckView(deck:DeckItem) {

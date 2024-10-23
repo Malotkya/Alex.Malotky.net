@@ -3,6 +3,15 @@ import { Pokemon, MoveData, Nature, GameVersion } from "../types";
 import { MASTER_NATURE_INDEX, MASTER_ITEM_INDEX, MASTER_ABILITY_INDEX} from "../data"
 import { formatURI } from "../Serebii";
 
+/** Pokemon Sprite
+ * 
+ */
+function Sprit(data:Pokemon, name:string, version?:GameVersion, ) {
+    const alt = `${data.shiney? "Shiney ":""}${data.name} ${name} Sprite`;
+
+     return _("img", {src: formatURI(data, version), alt})
+}
+
 /** Gender Icon Module
  * 
  * @param {boolean} gender 
@@ -265,7 +274,7 @@ export default function PokemonItem(data:Pokemon, gameName:string, version?:Game
         ),
         _("p", {class: "pokemon-level"}, `Level: ${level}`),
         _("figure", {class: "pokemon-image"},
-            _("img", {src: formatURI(data, version), alt: `${name} ${gameName} Sprite`}),
+            Sprit(data, gameName, version),
             _("figcaption", data.name, GenerIcon(gender))
         ),
         _("ol", {class: "pokemon-stats-list"},

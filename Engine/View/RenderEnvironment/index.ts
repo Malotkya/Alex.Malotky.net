@@ -187,7 +187,7 @@ export default class RenderEnvironment {
             return;
 
         for(let script of update) {
-            this.run(script.replace(/<\/?script.*?>/gmi, ""));
+            this.run(script.replace(/<\/?script.*?>/i, ""));
         }
     }
 

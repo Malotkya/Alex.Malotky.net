@@ -11,11 +11,11 @@ const PAGE_SIZE = 30;
 const Magic = new Router("/Decks");
 const Editor = new Router("/Edit");
 
-Editor.use(async(ctx)=>{
+Editor.all("*", async(ctx)=>{
     const user = await ctx.getAuth();
 
     if(user === null){
-        return ctx.redirect("/Login");
+        ctx.redirect("/Login");
     }
 });
 

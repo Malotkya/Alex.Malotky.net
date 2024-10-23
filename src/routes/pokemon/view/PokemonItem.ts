@@ -1,4 +1,4 @@
-import { createElement as _, Element } from "../../../util/Element";
+import { createContent as _, Content } from "Engine";
 import { Pokemon, MoveData, Nature, GameVersion } from "../types";
 import { MASTER_NATURE_INDEX, MASTER_ITEM_INDEX, MASTER_ABILITY_INDEX} from "../data"
 import { formatURI } from "../Serebii";
@@ -6,9 +6,9 @@ import { formatURI } from "../Serebii";
 /** Gender Icon Module
  * 
  * @param {boolean} gender 
- * @returns {Element}
+ * @returns {Content}
  */
-function GenerIcon(gender?:boolean) {
+function GenerIcon(gender?:boolean):Content{
     if(gender === null || gender === undefined)
         return null;
 
@@ -19,9 +19,9 @@ function GenerIcon(gender?:boolean) {
  * 
  * @param {string} name 
  * @param {number} value 
- * @returns {Element}
+ * @returns {Content}
  */
-function statsListItem(name:string, nature:Nature, value:number = -1): Element{
+function statsListItem(name:string, nature:Nature, value:number = -1): Content{
     let extra:string = "";
     if(name === nature.inc){
         extra += " inc";
@@ -39,9 +39,9 @@ function statsListItem(name:string, nature:Nature, value:number = -1): Element{
 /** Pokemon Move Module
  * 
  * @param {MoveData|string} data 
- * @returns {Element}
+ * @returns {Content}
  */
-function MoveElement(data: MoveData|string):Element{
+function MoveElement(data: MoveData|string):Content{
     if(typeof data === "string") {
         return _("li", {class: MOVE_ELEMENT_CLASS_NAME}, data );
     }
@@ -86,15 +86,15 @@ const MOVE_ELEMENT_CLASS_NAME = "pokmeon-move-item";
 
 /** Create Optional List Item
  * 
- * @param {Dictionary<Element>} data 
- * @returns {Element}
+ * @param {Dictionary<Content>} data 
+ * @returns {Content}
  */
-function OptionalList(data:Dictionary<Element>): Element{
-    const list:Element = [];
+function OptionalList(data:Dictionary<Content>): Content{
+    const list:Content = [];
 
     for(let name in data){
-        let content:Element = data[name];
-        let additional:Array<Element> = [];
+        let content:Content = data[name];
+        let additional:Array<Content> = [];
 
         if(Array.isArray(content)){
             additional = content;
@@ -120,8 +120,8 @@ function OptionalList(data:Dictionary<Element>): Element{
 
 /** Get Nature
  * 
- * @param name 
- * @returns 
+ * @param {string} name 
+ * @returns {Nature}
  */
 export function getNature(name:string = ""):Nature {
     const temp:Nature = MASTER_NATURE_INDEX[name.toUpperCase()];
@@ -134,9 +134,9 @@ export function getNature(name:string = ""):Nature {
 /** Nature Description Tool Tip
  * 
  * @param {string} name 
- * @returns {Element}
+ * @returns {Content}
  */
-function getNatureDescription(name?:string):Element {
+function getNatureDescription(name?:string):Content {
     if(name === undefined)
         return null;
 
@@ -144,7 +144,7 @@ function getNatureDescription(name?:string):Element {
         return _("i", "none")
 
     const temp:Nature = MASTER_NATURE_INDEX[name.toUpperCase()];
-    let tip:Element;
+    let tip:Content;
     if(temp) {
         if(temp.inc === temp.dec)
             tip = "Does nothing to adjust stats.";
@@ -167,9 +167,9 @@ function getNatureDescription(name?:string):Element {
 /** Item Description Tool Tip
  * 
  * @param {string} name 
- * @returns {Element}
+ * @returns {Content}
  */
-function getItemDescription(name?:string):Element {
+function getItemDescription(name?:string):Content {
     if(name === undefined)
         return null;
 
@@ -185,9 +185,9 @@ function getItemDescription(name?:string):Element {
 /** Terra Type
  * 
  * @param {string} type
- * @returns {Element}
+ * @returns {Content}
  */
-function getTerraType(type?:string):Element{
+function getTerraType(type?:string):Content{
     if(type === undefined)
         return null;
 
@@ -197,9 +197,9 @@ function getTerraType(type?:string):Element{
 /** Ability Description Tool Tip
  * 
  * @param {string} name 
- * @returns {Element}
+ * @returns {Content}
  */
-export function getAbilityDescription(name?:string):Element {
+export function getAbilityDescription(name?:string):Content {
     if(name === undefined)
         return null;
 
@@ -216,9 +216,9 @@ export function getAbilityDescription(name?:string):Element {
  * 
  * @param {number} dynamax,
  * @param {boolean} gigantamax, 
- * @returns {Element}
+ * @returns {Content}
  */
-function getDynamaxInfo(dynamax:number = Number.NaN, gigantamax?:boolean):Element {
+function getDynamaxInfo(dynamax:number = Number.NaN, gigantamax?:boolean):Content {
     if(isNaN(dynamax))
         return null;
 
@@ -231,7 +231,7 @@ function getDynamaxInfo(dynamax:number = Number.NaN, gigantamax?:boolean):Elemen
 /** Pokemon-Element
  * 
  */
-export default function PokemonTile(data:Pokemon, version?:GameVersion, gameName:string = ""):HTMLElement {
+export default function PokemonItem(data:Pokemon, gameName:string, version?:GameVersion):Content {
     const {
         name = "Misingno!",
         level = 0,
@@ -256,7 +256,7 @@ export default function PokemonTile(data:Pokemon, version?:GameVersion, gameName
 
     const NATURE = getNature(nature);
 
-    return _("div", {class: "pokemon"},
+    return _("li", {class: "pokemon"},
         _("h4", {class: "pokemon-title"}, 
             _("span", {class: "pokemon-name"}, name)
         ),

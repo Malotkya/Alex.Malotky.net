@@ -1,7 +1,5 @@
 import { createContent as _, Content } from "Engine";
 
-const TEXT = "Hello,\r\nMy name is Alex Malotky.";
-
 export default function Home():Content {
     //if(typeof (window as any).visited === "undefined"){
     //    (window as any).visited = true;
@@ -13,7 +11,7 @@ export default function Home():Content {
         _("style", require("./style.scss")),
         _("h1", "Welcome!"),
         _("div", {id: "home-container"},
-            _("animated-text", {text:TEXT}),
+            _("animated-text", "Hello,\r\nMy name is Alex Malotky."),
             _("article",
                 _("p", "I have just graduated from UW-Platteville, and I am excited to get into the programming field!")
             ),

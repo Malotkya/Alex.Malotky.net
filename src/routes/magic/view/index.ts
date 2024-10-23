@@ -8,7 +8,7 @@ import {createContent as _, Content} from "Engine";
 import { DeckItem } from "../types";
 import Deck from "./deck";
 
-const style = _("style", require("./style.scss"));
+const style = _("style", require("../style.scss"));
 
 /** Deck View Module
  * 

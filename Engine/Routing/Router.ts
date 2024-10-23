@@ -96,7 +96,7 @@ export default class Router extends Layer{
     use(middleware:Middleware|Router){
         switch(typeof middleware){
             case "function":
-                this._methods.add("MIDDLEWARE", new Layer(middleware));
+                this._methods.add("MIDDLEWARE", new Layer("*", middleware));
                 break;
 
             case "object":

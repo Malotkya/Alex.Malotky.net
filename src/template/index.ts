@@ -61,9 +61,11 @@ function Footer():Content {
             _("a", {href:"https://github.com/Malotkya", target:"_blank"},
                 _("img", {src: "/media/github.svg", alt:"GitHub", class:"icon"} )
             ),
+            " ",
             _("a", {href:"https://www.linkedin.com/in/amalotky/", target:"_blank"},
                 _("img", {src: "/media/linkedin.svg", alt:"LinkedIn", class:"icon"} )
             ),
+            " ",
             _("a", {href:"mailto: Malotkya@outlook.com"},
                 _("img", {src: "/media/email.png", alt:"Email", class:"icon"} )
             )

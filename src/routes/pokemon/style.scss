@@ -5,6 +5,9 @@
     flex-flow: row wrap;
     justify-content: space-around;
     width: 100%;
+    padding: 0;
+    height: 0;
+    overflow: hidden;
 
     .pokemon {
         width: 33%;
@@ -143,6 +146,7 @@
             flex-flow: row wrap;
             border: black 0.5px solid;
             border-radius: 5px;
+            margin-top: .5em;
 
             li {
                 list-style: none;
@@ -194,9 +198,10 @@
         .pokmeon-optional-list {
             width: 100%;
             margin-left: 20px;
+            margin-right: 20px;
             border: 2px black solid;
             border-radius: 5px;
-            margin-right: 20px;
+            margin-top: .5em;
             padding: 0.2rem;
 
             li {
@@ -218,21 +223,31 @@
     }
 }
 
-pokemon-game-element {
-    display: flex;
-    flex-flow: row wrap;
-
-    .game-name, .game-info {
-        width: 100%;
-    }
-
-    game-team-view, .game-comments {
-        width: 100%;
-    }
-}
-
-#pokemon-game-view {
+.pokemon-game-view {
     width: 100%;
+
+    .detail-summary {
+        font-weight: normal;
+        width: auto;
+        background-color: $accent-dark;
+        color: $white;
+        display: inline-block;
+        padding: 5px;
+        margin: 2px;
+
+        &:hover, &:focus {
+            background-color: $accent-light;
+            color: $dark;
+        }
+    }
+
+    .detail-toggle {
+        display: none;
+
+        &:checked + .pokemon-view {
+            height: auto;
+        }
+    }
 }
 
 .pokemon-game-select {
@@ -247,6 +262,9 @@ pokemon-game-element {
         margin: 0;
         padding: 0;
         width: 100%;
+        gap: 2px;
+        padding: 2px;
+        background-color: $dark;
 
         li {
             list-style: none;
@@ -261,18 +279,41 @@ pokemon-game-element {
             ul {
                 display: none;
                 position: absolute;
-
+                background-color: $dark;
+                gap: 2px;
+                padding: 2px;
+                width: 100%;
+                min-width: 100px;
+                max-width: 200px;
             }
 
             &:hover > ul,
             &:focus-within > ul{
-                display: block;
+                display: flex;
+                flex-flow: column nowrap;
             }
         }
     }
 
-    button {
+    .pokemon-nav-item,
+    .pokemon-nav-item:visited,
+    .pokemon-nav-item:link {
+        background-color: $accent-dark;
+        display: inline-block;
+        color: $white;
+        text-decoration: none;
+        border-radius: 0;
+        margin: 0;
+        padding: 5px;
+        border: none;
         width: 100%;
+        text-align: center;
+    }
+
+    .pokemon-nav-item:hover,
+    .pokemon-nav-item:link {
+        background-color: $accent-light;
+        color: $dark
     }
 }
 

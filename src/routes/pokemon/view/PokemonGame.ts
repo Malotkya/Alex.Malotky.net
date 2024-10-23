@@ -13,9 +13,7 @@ import PokemonItem from "./PokemonItem";
 function PokemonList(list:Array<Pokemon>, details:string, gameName:string, version?:GameVersion, open?:boolean):Content {
     return _("details", {name:gameName, open},
         _("summary", details),
-        _("ul", {class: "pokemon-view"},
-            list.map(p=>PokemonItem(p, gameName, version))
-        )
+        
     )
 }
 
@@ -41,7 +39,17 @@ export default function PokemonGame(data:Game):Content {
             _("br"),
             `Region: ${region}`
         ),
-        PokemonList(team, "Main Pokemon", game, version, true),
-        others.length > 0? PokemonList(others, "Other Pokemon", game, version) : null
+        _("label", {for: "main-pokemon", class: "detail-summary"}, "Main Pokemon"),
+        others.length > 0? _("label", {for: "other-pokemon", class: "detail-summary"}, "Other Pokemon"):null,
+        _("input", {type: "radio", id: "main-pokemon", class: "detail-toggle", name: game, checked: true}),
+        _("ul", {class: "pokemon-view"},
+            team.map(p=>PokemonItem(p, game, version))
+        ),
+        others.length > 0 ? [
+            _("input", {type: "radio", id: "other-pokemon", class: "detail-toggle", name: game}),
+            _("ul", {class: "pokemon-view"},
+                others.map(p=>PokemonItem(p, game, version))
+            )
+        ]: null
     )
 }

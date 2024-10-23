@@ -33,9 +33,9 @@ function Spotlight(): Content{
         ),
         _("section",
             _("p", 
-                "It is currently hosted on firebase at ",
+                "It is currently hosted on cloudflare ",
                 _("a", {href: "https://Phasmo.Malotky.net/"},
-                    "Phasmophobiahelper.web.app"
+                    "here"
                 ),
                 "."
             ),

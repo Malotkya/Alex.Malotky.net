@@ -5,8 +5,8 @@
  */
 import {Buffer} from "node:buffer";
 import {createContent as _, Content} from "Engine";
-import { DeckItem } from "./types";
-import Deck from "./view/deck";
+import { DeckItem } from "../types";
+import Deck from "./deck";
 
 const style = _("style", require("./style.scss"));
 

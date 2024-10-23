@@ -174,7 +174,7 @@ export default class RenderEnvironment {
             return console.warn("Body didn't change!");
         }
         RenderEnvironment.render(this._main, update);
-        this.scripts(compressContent(update).match(/<script.*?>.*?<\/script.*?>/gmi));
+        this.scripts(compressContent(update).match(/<script.*?>.*?<\/script.*?>/gi));
         this._mainHash = hash;
     }
 
@@ -187,7 +187,7 @@ export default class RenderEnvironment {
             return;
 
         for(let script of update) {
-            this.run(script.replace(/<\/?script.*?>/gi, ""));
+            this.run(script.replace(/^<script.*?>.*?<\/script.*?>$/gi, "$1"));
         }
     }
 

@@ -4,6 +4,7 @@ import CardView from "./card";
 
 function fixImages(env:RenderEnvironment){
     async function handleFix(){
+        console.debug("Start Fix!");
         const main = document.querySelector("main")!;
         const limit = main.getBoundingClientRect().bottom;
 
@@ -19,9 +20,9 @@ function fixImages(env:RenderEnvironment){
     //Fix Images after all images are loaded
     const wait:Promise<HTMLImageElement>[] = [];
 
-    document.querySelectorAll("img").forEach(image=>{
+    document.querySelector("main")!.querySelectorAll("img").forEach(image=>{
         wait.push(new Promise(res=>{
-            image.addEventListener("load", ()=>res(image));
+            image.addEventListener("load", ()=>res(image), {once: true});
         }))
     });
 

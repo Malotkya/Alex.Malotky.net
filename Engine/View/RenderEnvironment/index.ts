@@ -158,7 +158,7 @@ export default class RenderEnvironment {
     private async updateHead(update:HeadUpdate) {
         const hash = hashObject(update);
         if(hash === this._headHash){
-            return console.warn("Head didn't change!");
+            return console.info("Head didn't change!");
         }
 
         await this._head.update(update);
@@ -171,7 +171,7 @@ export default class RenderEnvironment {
     private updateBody(update:RenderContent) {
         const hash = hashObject(update);
         if(hash === this._mainHash){
-            return console.warn("Body didn't change!");
+            return console.info("Body didn't change!");
         }
         RenderEnvironment.render(this._main, update);
         this.scripts(compressContent(update).match(/<script.*?>.*?<\/script.*?>/gi));

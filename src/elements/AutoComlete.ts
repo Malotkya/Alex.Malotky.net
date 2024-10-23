@@ -13,7 +13,7 @@ type updateFunction = (s?:string) => Array<string>|Promise<Array<string>>
 /** Auto Complete Element
  * 
  */
-class AutoComplete extends HTMLElement {
+export default class AutoComplete extends HTMLElement {
     private _input: HTMLInputElement|null;
     private _updateList:updateFunction|undefined;
     private _autoCompleteList: AutoCompleteList; 
@@ -24,11 +24,11 @@ class AutoComplete extends HTMLElement {
      * 
      * @param {Array<string>|updateFunction} list 
      */
-    constructor(list:Array<string>|updateFunction = []){
+    constructor(list:Array<string>|updateFunction = [], input:HTMLInputElement|null = null){
         super();
         this._autoCompleteList = new AutoCompleteList();
         this.list = list;
-        this._input = null;
+        this._input = input;
         //@ts-ignore
         this._autoCompleteList.addEventListener("update", (event:UpdateEvent)=>{
             if(this._input)
@@ -77,10 +77,15 @@ class AutoComplete extends HTMLElement {
      */
     connectedCallback(){
         this.appendChild(this._autoCompleteList);
-        this._input = this.querySelector("input");
+        if(this._input){
+            this.appendChild(this._input);
+        } else {
+            this._input = this.querySelector("input");
+        }
 
         if(this._input) {
             this._input.addEventListener("input", async(event)=>{
+                event.stopPropagation();
                 const value = this._input?.value.toUpperCase();
                 this._autoCompleteList.close();
     

@@ -1,9 +1,9 @@
-@import "styles/normalize.scss";
+@import "template/styles/normalize.scss";
 
 /*! Alex.Malotky.net */
-@import "styles/colors.scss";
-@import "styles/breakpoints.scss";
-@import "styles/navbar.scss"; 
+@import "template/styles/colors.scss";
+@import "template/styles/breakpoints.scss";
+@import "template/styles/navbar.scss"; 
 
 
 /*************** Global Styling ***************/
@@ -92,6 +92,17 @@ img, video {
     height: auto;
 }
 
+input, textarea, select {
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+label {
+    font-weight: bold;
+    width: 100%;
+    display: block;
+}
+
 aside {
     background-color: $medium;
     color: $white;
@@ -128,6 +139,12 @@ button{
 .btn:hover, button:hover {
     background-color: $grey;
     cursor: pointer;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
 }
 
 /*************** Web Component Styling ***************/
@@ -176,7 +193,7 @@ tool-tip-text {
     border-radius: 5px;
 }
 
-mark-down {
+mark-down, .markdown {
     font-size: 1rem;
     display: block;
     padding: .2rem;
@@ -195,6 +212,3 @@ mark-down {
     h5 { font-size: 1.15rem}
     h6 { font-size: 1.0rem}
 }
-
-/*************** Import Other Styling ***************/
-//@import "routes/portfolio/style.scss";

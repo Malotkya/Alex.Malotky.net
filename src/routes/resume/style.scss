@@ -1,0 +1,150 @@
+@import "@/template/styles/colors.scss";
+@import "@/template/styles/breakpoints.scss";
+
+.resume-card-list{
+    padding: 0;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+    width: 100%;
+
+}
+
+.resume-card {
+    display: flex;
+    flex-flow: row wrap;
+    background-color: $medium;
+    list-style-type: none;
+    color: $white;
+    margin-bottom: 1em;
+    border-radius: 0.5em;
+    padding: 0.5em;
+    width: 80%;
+
+    .resume-title {
+        color: $accent-light;
+        font-size: 1.25em;
+        margin: 0;
+        flex: 1;
+
+            a:link, a:visited{
+                text-decoration: none;
+                color: inherit;
+            }
+    }
+
+    .resume-date {
+        margin: 0;
+        text-align: right;
+    }
+
+    .resume-sub-title,
+    .resume-comments {
+        width: 100%;
+        margin: 0;
+    }
+
+    .resume-comments {
+        border-top: 3px solid $white;
+    }
+}
+
+.resume-detailed{
+    text-align: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    .resume-date {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .resume-about {
+        grid-column: 1 / 3;
+
+        ul, p {
+            width: 75%;
+            text-align: left;
+            margin: 0 auto;
+        }
+
+        ol {
+            width: 75%;
+            text-align: left;
+            margin: 0 auto;
+            padding-left: 0;
+            li {
+                list-style: none;
+
+                P{
+                    margin-left: 2em;
+                    margin-right: 0;
+                }
+            }
+        }
+    }
+}
+
+.compact-resume {
+    .resume-card {
+        max-width: 300px;
+    }
+
+    .resume-about {
+        display: none;
+    }
+}
+
+.resume-editor {
+    max-width: 800px;
+    margin: 0 auto;
+
+    P, h2 {
+        text-align: center;
+    }
+}
+
+list-input {
+    .input-line{
+        display: flex;
+
+        input {
+            flex-grow: 1;
+        }
+    }
+
+    .button {
+        list-style: none;
+    }
+}
+
+skill-input {
+    display: flex;
+    flex-flow: row wrap;
+
+    .skill-section {
+        width: 33.33%;
+        min-width: 200px;
+        padding: 5px;
+
+        .header {
+            display: flex;
+
+            label {
+                flex-grow: 1;
+            }
+        }
+
+        textarea {
+            resize: vertical;
+        }
+    }
+}
+
+@media (min-width: 850px){
+    .compact-resume .resume-card {
+        max-width: 400px;
+    }
+}
+

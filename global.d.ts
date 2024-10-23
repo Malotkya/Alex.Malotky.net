@@ -1,4 +1,4 @@
-declare module '*.html' {
+declare module '*.md' {
     const content: any;
     export default content;
 }
@@ -11,12 +11,15 @@ declare module '*.scss' {
 interface Dictionary<t> {
     [index:string]:t
 }
-declare type BodyData = Dictionary<string>|FormData|Map<string, string>
 
-declare interface Window { 
-    route: (href:string, body?:BodyData)=>void; 
+interface Env {
+    ASSETS: Fetcher
+    DB: D1Database
 }
 
-declare interface HTMLElement {
-    readyCallback():void;
+interface User {
+    username:string,
+    password:string
 }
+
+declare const VERSION = "#.#.#.?"

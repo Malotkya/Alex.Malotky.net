@@ -1,44 +1,33 @@
 const TEXT_DELAY = 15;//ms
 
 export default class AnimatedText extends HTMLElement {
-    private _text: string;
-    private _running:boolean;
+    private _text: string[];
 
-    constructor(text:string = ""){
+    constructor(){
         super();
-
-        this._text = text;
-        this._running = false;
+        this._text = [];
     }
 
-    static get observedAttributes(){
-        return ["text"]
-    }
-
-    attributeChangedCallback(name:string, oldValue:string, newValue:string){
-        if(name === "text"){
-            this._text = newValue;
-        }
+    disconnectedCallback(){
+        this.textContent += this._text.join("");
+        this._text = [];
     }
 
     connectedCallback(){
-        if(!this._running) {
+        this._text = this.innerText.split("");
+        this.innerText = "";
 
-            this._running = true;
-            let index:number = 0;
-            this.innerText = "";
+        const placeChar = () => {
 
-            const placeChar = () => {
-                this.textContent += this._text[index++];
+            if(this.isConnected){
+                this.textContent += this._text.splice(0,1).join("");
         
-                if(index < this._text.length)
+                if(this._text.length > 0)
                     window.setTimeout(placeChar, TEXT_DELAY);
-                else
-                    this._running = false;
             }
-
-            placeChar();
         }
+
+        placeChar();
     }
 }
 

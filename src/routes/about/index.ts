@@ -2,24 +2,21 @@
  * 
  * @author Alex Malotky
  */
-import {Router, Context} from "zim-engine";
+import {Router, Context} from "Engine";
 
 /** About Me Router
  * 
  */
-const AboutMe = new Router();
-const Title = "About Me";
-const Path = "/About";
+const AboutMe = new Router("/About");
 
 AboutMe.all(async(ctx:Context)=>{
-    const header = {
-        title: Title,
-        description: "More about Alex."
-    }
-
-    const content = require("./index.html");
-    
-    ctx.render({header, content});
+    ctx.render({
+        head:{
+            title: "About Me",
+            meta: {description: "More about Alex."}
+        }, 
+        body: require("./index.html")
+    });
 });
 
-export default {Path, Title, Router:AboutMe}
+export default AboutMe;

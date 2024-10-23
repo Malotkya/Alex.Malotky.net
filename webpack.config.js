@@ -1,5 +1,5 @@
 const path = require("path");
-const WorkerConfig = require("zim-engine/webpack");
+const WorkerConfig = require("./webpack/engine.config");
 const AppConfig = require("./webpack/app.config");
 
 //directories used multiple times

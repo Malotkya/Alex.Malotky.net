@@ -1,6 +1,4 @@
-import { createContent as _, Content } from "zim-engine";
-
-const TEXT = "Hello,\r\nMy name is Alex Malotky.";
+import { createContent as _, Content } from "Engine";
 
 export default function Home():Content {
     //if(typeof (window as any).visited === "undefined"){
@@ -13,7 +11,7 @@ export default function Home():Content {
         _("style", require("./style.scss")),
         _("h1", "Welcome!"),
         _("div", {id: "home-container"},
-            _("animated-text", {text:TEXT}),
+            _("animated-text", "Hello,\r\nMy name is Alex Malotky."),
             _("article",
                 _("p", "I have just graduated from UW-Platteville, and I am excited to get into the programming field!")
             ),
@@ -35,9 +33,9 @@ function Spotlight(): Content{
         ),
         _("section",
             _("p", 
-                "It is currently hosted on firebase at ",
-                _("a", {href: "https://phasmophobiahelper.web.app/"},
-                    "Phasmophobiahelper.web.app"
+                "It is currently hosted on cloudflare ",
+                _("a", {href: "https://Phasmo.Malotky.net/"},
+                    "here"
                 ),
                 "."
             ),

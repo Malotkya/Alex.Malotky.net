@@ -2,24 +2,18 @@
  * 
  * @author Alex Malotky
  */
-import {Context, Router} from "zim-engine";
+import {Context, Router} from "Engine";
 import homeView from "./view";
 
 /** Home Module
  *
  */
-const Home = new Router();
-const Title = "Home"
-const Path = "/"
+const Home = new Router("/");
 
 Home.all(async(ctx:Context)=>{
-    const header = {
-        title: Title
-    }
-
-    const content = homeView();
-
-    ctx.render({header, content})
+    ctx.render({
+        body: homeView()
+    })
 });
 
-export default {Title, Path, Router:Home}
+export default Home;

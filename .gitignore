@@ -67,6 +67,7 @@ build
 .env
 
 .wrangler
+wrangler.toml
 
 *.db 
 pokemon.json

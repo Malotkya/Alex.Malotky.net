@@ -3,11 +3,18 @@
         /* Language and Environment */
         "target": "ES2022",
         "lib": ["es2022", "dom"],
+        "paths": {
+            "Engine": ["./Engine/index.ts"],
+            "Engine/*": ["./Engine/*"],
+            "@/*": ["./src/*"]
+        },
 
         /* Modules */
         "module": "es2022",
-        "moduleResolution": "node",
-        "types" : ["@cloudflare/workers-types/2023-07-01", "./global.d.ts", "@types/node"],
+        "moduleResolution": "Bundler",
+        "isolatedModules": true,
+        "types" : ["@cloudflare/workers-types/2023-07-01", "@types/node"],
+        "resolveJsonModule": true,
 
         /* Interop Constraints */
 		"allowSyntheticDefaultImports": true,

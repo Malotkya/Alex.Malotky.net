@@ -57,7 +57,7 @@ export default class DeckInput extends HTMLFormElement {
         } = this._data || {};
 
         appendChildren(this, [
-            _("a", {href: "/Decks/Editor", class:"btn", clear:"true"}, "Back"),
+            _("a", {href: "/Decks/Edit", class:"btn", clear:"true"}, "Back"),
             _("a", {href: `/Decks/${id}`, id: "btnView", class: "btn", clear:"true"}, "View"),
             _("button", {id:"submit"}, "Save Changes"),
             _("h1", "Deck Editor"),

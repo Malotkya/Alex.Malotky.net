@@ -60,7 +60,9 @@ export default class Router extends Layer{
 
             for(const {name, layer} of this._methods) {
                 if(name === "MIDDLEWARE"){
-                    await layer.handle(context);
+                    const response = await layer.handle(context);
+                    if(response)
+                        return response
                 } else if(name === context.method || name === "ALL") {
                     const response = await layer.handle(context);
                     if(response)

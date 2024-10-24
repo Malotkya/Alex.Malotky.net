@@ -3,18 +3,24 @@
  * @author Alex Malotky
  */
 import {HtmlDocument, HTMLInit} from "./Html";
-import Content from "./Html/Element/Content";
+import Content, {toUpdate} from "./Html/Content";
 import { HeadInit, HeadUpdate, mergeUpdateToInit, mergeUpdateToUpdate } from "./Html/Head";
 import {AttributeList} from "./Html/Attributes";
 
 export type RenderFunction = (update:Dictionary<Content>)=>Content;
-export type {Content}
 
 export interface RenderUpdate {
     head?: HeadUpdate,
     body?: Dictionary<Content>,
     redirect?:string,
     update?: Dictionary<Content>,
+}
+
+export interface FetchUpdate {
+    head:HeadUpdate,
+    body?:Dictionary<string>,
+    redirect?:string,
+    update?: Dictionary<string>
 }
 
 /** View Class
@@ -49,7 +55,7 @@ export default class View{
 
     /** Render Content
      * 
-     * @param {ContentUpdate} update 
+     * @param {RenderUpdate} update 
      * @returns {string}
      */
     render(update:RenderUpdate):string{
@@ -58,11 +64,15 @@ export default class View{
 
     /** Update Content
      * 
-     * @param {ContentUpdate} update
-     * @returns {string}
+     * @param {RenderUpdate} update
+     * @returns {FetchUpdate}
      */
-    update(update:RenderUpdate):RenderUpdate {
-        update.head = mergeUpdateToUpdate(this.#defaultHead, update.head);
-        return update;
+    update(value:RenderUpdate):FetchUpdate {
+        return {
+            head: mergeUpdateToUpdate(this.#defaultHead, value.head),
+            body: toUpdate(value.body),
+            redirect: value.redirect,
+            update: toUpdate(value.update)
+        }
     }
 }

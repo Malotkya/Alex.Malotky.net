@@ -37,3 +37,15 @@ export function compressContent(content:Content):string {
         
     }
 }
+
+export function toUpdate(value:Dictionary<Content>|undefined):Dictionary<string>|undefined {
+    if(value === undefined)
+        return undefined;
+
+    const output:Dictionary<string> = {};
+    for(const name in value){
+        output[name] = compressContent(value[name]);
+    }
+
+    return output;
+}

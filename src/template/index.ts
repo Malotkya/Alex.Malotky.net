@@ -30,13 +30,13 @@ export default function Template():[Array<Content>, View]{
                     {src: `/bundle.js?${VERSION}`, defer: true}
                 ]
             },
-            (content:Content) => [
+            (args) => [
                 _("header", 
                     _("a", {class: "skip", href:"#main"}, "Skip Link"),
                     Navigation(navBar),
                 ),
                 _("noscript", "Javascript is needed for some pages to be viewed properly."),
-                _("main", {id: "main"}, content),
+                _("main", {id: "main"}, args["main"]),
                 Footer()
             ]
         )
@@ -49,7 +49,9 @@ export function ErrorContent(status:number, message:string):RenderUpdate {
         head: {
             title: getMessage(status) || "Error"
         },
-        body: _("p", {class: "error", id: "error"}, message),
+        body: {
+            main: _("p", {class: "error", id: "error"}, message),
+        },
         update: {
             error: message
         }

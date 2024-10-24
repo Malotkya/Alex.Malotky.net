@@ -11,10 +11,6 @@
     box-sizing: border-box;
 }
 
-html {
-    background-color: black;
-}
-
 /* Body Styling */
 body {
     background-color: $white;
@@ -220,4 +216,11 @@ tool-tip-text {
     h4 { font-size: 1.25rem }
     h5 { font-size: 1.15rem}
     h6 { font-size: 1.0rem}
+}
+
+/** HTML Styling **/
+html {
+    background-color: black;
+    visibility: visible !important;
+    opacity: 1 !important;
 }

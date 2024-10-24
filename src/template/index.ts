@@ -28,6 +28,9 @@ export default function Template():[Array<Content>, View]{
                 ],
                 scripts: [
                     {src: `/bundle.js?${VERSION}`, defer: true}
+                ],
+                styles: [
+                    {value: "html{ visibility: hidden; opacity:0; transition: opacity 250ms; }"}
                 ]
             },
             (args) => [

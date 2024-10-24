@@ -48,6 +48,11 @@ export default class Tracker {
     }
 
     static updateElement(element:Element, update:AttributeList = {}){
+        if(update.value) {
+            element.innerHTML = update.value as string;
+            delete update.value;
+        }
+
         const lstUpdate = Object.getOwnPropertyNames(update);
         
         for(let name of element.getAttributeNames()) {

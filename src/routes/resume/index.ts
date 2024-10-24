@@ -39,7 +39,9 @@ Editor.get("/:table/New", async(ctx)=>{
                 description: DESCRIPTION
             }
         },
-        body: SingleEditView(table, null)
+        body: {
+            main: SingleEditView(table, null)
+        }
     });
 });
 Editor.post("/:table/New", async(ctx)=>{
@@ -87,7 +89,9 @@ function QueryTable(view:(t:string, r:Record<string,unknown>[])=>Content):Middle
                         description: DESCRIPTION
                     },
                 },
-                body: view(table, results)
+                body: {
+                    main: view(table, results)
+                }
             })
     
         } catch (e){
@@ -129,7 +133,9 @@ function QueryRecord(view:(t:string, r:Record<string,unknown>)=>Content):Middlew
                         description: DESCRIPTION
                     }
                 },
-                body: view(table, result)
+                body: {
+                    main: view(table, result)
+                }
             });
         } catch (e){
             console.error(e);
@@ -180,7 +186,9 @@ Editor.post("/:table/:id", async(ctx:Context)=>{
                     description: DESCRIPTION
                 }
             },
-            body: SingleEditView(table, result, "Update Successful!")
+            body: {
+                main: SingleEditView(table, result, "Update Successful!")
+            }
         });
     } catch (e){
         console.error(e);
@@ -205,7 +213,9 @@ Resume.get(async(ctx)=>{
                     description: DESCRIPTION
                 }
             },
-            body: ResumeView(jobs.map(j=>validateJobItem(j)), school.map(s=>validateSchoolItem(s)), skills.map(s=>validateSkillItem(s)))
+            body: {
+                main: ResumeView(jobs.map(j=>validateJobItem(j)), school.map(s=>validateSchoolItem(s)), skills.map(s=>validateSkillItem(s)))
+            }
         })
 
     } catch (e){
@@ -225,7 +235,9 @@ Editor.get(async(ctx)=>{
                 description: DESCRIPTION
             }
         },
-        body: EditMainView()
+        body: {
+            main: EditMainView()
+        }
     })
 })
 

@@ -18,7 +18,9 @@ Portfolio.all(async(ctx:Context)=>{
                 description: "A list of projects that Alex has worked on."
             }
         },
-        body: PortfolioView()
+        body: {
+            main: PortfolioView()
+        }
     });
 });
 

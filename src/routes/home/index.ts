@@ -12,7 +12,9 @@ const Home = new Router("/");
 
 Home.all(async(ctx:Context)=>{
     ctx.render({
-        body: homeView()
+        body: {
+            main: homeView()
+        }
     })
 });
 

@@ -15,7 +15,9 @@ AboutMe.all(async(ctx:Context)=>{
             title: "About Me",
             meta: {description: "More about Alex."}
         }, 
-        body: require("./index.html")
+        body: {
+            main: require("./index.html")
+        }
     });
 });
 

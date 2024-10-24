@@ -19,7 +19,9 @@ Pokemon.all(async(ctx:Context)=>{
             }
             
         },
-        body: pokemonView(ctx.search.get("game"))
+        body: {
+            main: pokemonView(ctx.search.get("game"))
+        }
     });
 });
 

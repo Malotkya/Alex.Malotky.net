@@ -84,7 +84,9 @@ Editor.post("/:id", async(ctx)=>{
                 description: "Magic the Gathering Deck Editor."
             }
         },
-        body: DeckEdit(deck)
+        body: {
+            main: DeckEdit(deck)
+        }
     });
 });
 
@@ -104,9 +106,9 @@ Editor.get("/:id", async(ctx)=>{
                 description: "Magic the Gathering Deck Editor."
             }
         },
-        body: DeckEdit(convertProtoDeck(deck)),
-        //@ts-ignore
-        update: deck
+        body: {
+            main: DeckEdit(convertProtoDeck(deck)),
+        }
     });
 });
 
@@ -130,8 +132,10 @@ Editor.all(async(ctx)=>{
                 description: "List of magic decks to edit."
             }
         },
-        //@ts-ignore
-        body: DeckListView(results.map(convertProtoDeck), true)
+        body: {
+            //@ts-ignore
+            main: DeckListView(results.map(convertProtoDeck), true)
+        }
     });
 });
 
@@ -156,7 +160,9 @@ Magic.get("/:id", async(ctx)=>{
                 "masonry": {src: "https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"}
             }
         },
-        body: DeckView(convertProtoDeck(deck))
+        body: {
+            main: DeckView(convertProtoDeck(deck))
+        }
     });
 })
 
@@ -180,8 +186,10 @@ Magic.all(async(ctx)=>{
                 description: "List of magic decks."
             }
         },
-        //@ts-ignore
-        body: DeckListView(results.map(convertProtoDeck))
+        body: {
+            //@ts-ignore
+            main: DeckListView(results.map(convertProtoDeck))
+        }
     })
 });
 

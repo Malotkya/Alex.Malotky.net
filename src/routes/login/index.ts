@@ -14,7 +14,9 @@ Login.get(async(ctx)=>{
         head: {
             title: "Login",
         },
-        body: LoginForm()
+        body: {
+            main: LoginForm()
+        }
     });
 });
 
@@ -39,7 +41,9 @@ Login.post(async(ctx)=>{
         head: {
             title: "Login",
         },
-        body: LoginForm(username, password, error)
+        body: {
+            main: LoginForm(username, password, error)
+        }
     });
 });
 
@@ -48,7 +52,9 @@ export const Logout = new Router("/Logout");
 Logout.all(async(ctx)=>{
     await ctx.setAuth(null);
     ctx.render({
-        body: LogoutRedirect()
+        body: {
+            main: LogoutRedirect()
+        }
     })
 });
 

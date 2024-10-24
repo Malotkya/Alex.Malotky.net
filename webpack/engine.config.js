@@ -87,7 +87,13 @@ module.exports = (props) => {
         optimization: {
             minimize: props.inProduction,
             minimizer: [
-                new TerserPlugin()
+                new TerserPlugin({
+                    terserOptions: {
+                        mangle: {
+                            reserved: ["env", "event"]
+                        }
+                    }
+                })
             ],
             usedExports: true
         },

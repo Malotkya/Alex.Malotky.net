@@ -1,4 +1,4 @@
-import {RenderUpdate, RenderContent} from "..";
+import {RenderUpdate, Content} from "..";
 import { compressContent } from "../Html";
 import { getRouteInfo, findOrCreateElement, hashObject } from "./Util";
 import { HeadUpdate } from "../Html/Head";
@@ -18,8 +18,7 @@ interface Event {
 export default class RenderEnvironment {
     private _head:HeadEnvironment;
     private _headHash:number;
-    private _main:HTMLElement;
-    private _mainHash:number;
+    private _bodyHash:number;
     private _events:Array<Event>;
 
     private _routing:boolean;
@@ -32,8 +31,7 @@ export default class RenderEnvironment {
         this._routing = false;
         this._head = new HeadEnvironment();
         this._headHash = 0;
-        this._main = findOrCreateElement("#main");
-        this._mainHash = 0;
+        this._bodyHash = 0;
         this._events = [];
     }
 
@@ -144,9 +142,6 @@ export default class RenderEnvironment {
         if(update.body){
             this.updateBody(update.body);
         }
-        if(update.update){
-            this.updateChanges(update.update);
-        }
     }
 
     /// Private Update Methods ///
@@ -168,44 +163,41 @@ export default class RenderEnvironment {
     /** Update Body
      * 
      */
-    private updateBody(update:RenderContent) {
+    private updateBody(update:Dictionary<Content>) {
         const hash = hashObject(update);
-        if(hash === this._mainHash){
+        const scripts: Array<string> = [];
+
+        if(hash === this._bodyHash){
             return console.info("Body didn't change!");
         }
-        RenderEnvironment.render(this._main, update);
-        this.scripts(compressContent(update).match(/<script.*?>.*?<\/script.*?>/gi));
-        this._mainHash = hash;
+
+        for(const id in update){
+            const element = document.getElementById(id);
+            if(element){
+                RenderEnvironment.render(element, update[id]);
+                const match = compressContent(update[id]).match(/<script.*?>.*?<\/script.*?>/gi);
+                if(match){
+                    scripts.push(...match);
+                }
+            } else {
+                console.warn(`Unable to find element with id '${id}'!`);
+            }
+        }
+
+        this.scripts(scripts);
+        this._bodyHash = hash;
     }
 
     /** Run Scripts
      * 
      * @param {RegExpMatchArray} update 
      */
-    private scripts(update:RegExpMatchArray|null){
-        if(update === null)
-            return;
-
+    private scripts(update:Array<string>){
         for(let script of update) {
             this.run(script.replace(/^<script.*?>(.*?)<\/script.*?>$/gi, "$1"));
         }
     }
 
-    /** Update Changes
-     * 
-     * @param {Dictionary<RenderContent>} update 
-     */
-    private updateChanges(update:Dictionary<RenderContent>){
-        for(const id in update){
-            const element = document.getElementById(id);
-            if(element) {
-                RenderEnvironment.render(element, update[id]);
-            } else {
-                console.warn(`Unable to find element with id '${id}'!`)
-            }
-                
-        }
-    }
     /** Clear Events
      * 
      */
@@ -223,7 +215,7 @@ export default class RenderEnvironment {
      * @param {HTMLElement} target 
      * @param {RenderContent} content 
      */
-    static render(target:HTMLElement&{value?:string}, content:RenderContent){
+    static render(target:HTMLElement&{value?:string}, content:Content){
 
         if(target.value){ //If it takes value.
 
@@ -235,7 +227,7 @@ export default class RenderEnvironment {
 
         } else {
             
-            const append = (value:RenderContent) => {
+            const append = (value:Content) => {
                 if(Array.isArray(value)){
                     for(let c of value){
                         append(c);
@@ -271,10 +263,6 @@ export default class RenderEnvironment {
             }
 
             const data:RenderUpdate = await response.json();
-
-            if(data.update && data.update.error === undefined){
-                data.update.error = "";
-            }
             
             if(data.redirect === undefined && data.head === undefined && data.body === undefined && data.update === undefined){
                 throw new Error("Recieved either an empty or invalid response!");

@@ -118,8 +118,17 @@ aside {
 }
 
 /* Error Styling */
-.error{
+.error {
     color: red !important;
+}
+
+noscript {
+    display: block;
+    text-align: center;
+    background-color: $medium;
+    color: $accent-light;
+    height: 3rem;
+    font-size: 2rem;
 }
 
 /* Button Styling */
@@ -193,7 +202,7 @@ tool-tip-text {
     border-radius: 5px;
 }
 
-mark-down, .markdown {
+.markdown {
     font-size: 1rem;
     display: block;
     padding: .2rem;

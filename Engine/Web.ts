@@ -1,4 +1,4 @@
-import { RenderUpdate } from "./View";
+import { FetchUpdate } from "./View";
 import RenderEnvironment from "./View/RenderEnvironment";
 import { getRouteInfo } from "./View/RenderEnvironment/Util";
 
@@ -69,7 +69,7 @@ document.body.addEventListener("submit", async function submit_event(event){
     }
     
     const body = new FormData(form);
-    let data: RenderUpdate
+    let data: FetchUpdate
     try {
         data = await RenderEnvironment.fetch(url, {method, body});
     } catch (e){

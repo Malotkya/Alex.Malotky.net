@@ -1,12 +1,6 @@
 import { createContent as _, Content } from "Engine";
 
 export default function Home():Content {
-    //if(typeof (window as any).visited === "undefined"){
-    //    (window as any).visited = true;
-    //    console.log("Welcome to Alex.Malotky.net!");
-    //    console.log("This is being printed from a file that is being loaded and executed dynamically!")
-    //}
-
     return [
         _("h1", "Welcome!"),
         _("div", {id: "home-container"},
@@ -20,6 +14,15 @@ export default function Home():Content {
                     Spotlight()
                 )
             )
+        ),
+        _("script", {env: true},
+            ()=>{
+                if(typeof (window as any).visited === "undefined"){
+                    (window as any).visited = true;
+                    console.log("Welcome to Alex.Malotky.net!");
+                    console.log("This is being printed from a script that is being loaded and executed dynamically!")
+                }
+            }
         )
     ]
 }

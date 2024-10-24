@@ -1,21 +1,7 @@
 import { createContent as _, Content } from "Engine";
-import { GameVersion, Pokemon, Game } from "../types";
+import { Game } from "../types";
 import PokemonItem from "./PokemonItem";
 
-/** Pokemon View List
- * 
- * @param {Array<Pokemon>} list 
- * @param {string} details 
- * @param {string} gameName 
- * @param {GameVersion} version 
- * @returns {Content}
- */
-function PokemonList(list:Array<Pokemon>, details:string, gameName:string, version?:GameVersion, open?:boolean):Content {
-    return _("details", {name:gameName, open},
-        _("summary", details),
-        
-    )
-}
 
 /** Pokemon Game View
  * 

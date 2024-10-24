@@ -1,4 +1,4 @@
-import {createContent as _} from "Engine";
+import {createElement as _} from "Engine";
 
 export default function LoginForm(username?:string, password?:string, error?:string){
     return _("form", {method: "post"},

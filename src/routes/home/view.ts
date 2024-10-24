@@ -1,4 +1,4 @@
-import { createContent as _, Content } from "Engine";
+import { createElement as _, Content } from "Engine";
 
 export default function Home():Content {
     return [

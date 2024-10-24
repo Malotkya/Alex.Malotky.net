@@ -1,4 +1,4 @@
-import { createContent as _ } from "Engine";
+import { createElement as _ } from "Engine";
 import { formatDate } from "@/util";
 
 export interface JobItem {

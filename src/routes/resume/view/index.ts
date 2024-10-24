@@ -1,4 +1,4 @@
-import { createContent as _, Content } from "Engine";
+import { createElement as _, Content } from "Engine";
 import { SchoolItem, SchoolCard, SchoolDetailed, validateSchoolItem, EditSchool } from "./school"
 import { JobItem, JobCard, JobDetailed, validateJobItem, EditJob} from "./job";
 import { SkillItem, SkillCard, SkillDetailed, validateSkillItem, EditSkill } from "./skill";
@@ -46,7 +46,7 @@ export function SingleEditView(table:string, value:Dictionary<unknown>|null, mes
 }
 
 
-type Card = (value:Dictionary<unknown>, edit?:boolean)=>string;
+type Card = (value:Dictionary<unknown>, edit?:boolean)=>Content;
 export function getCard(table:string):{card:Card, title:string} {
     switch (table){
         case "school":

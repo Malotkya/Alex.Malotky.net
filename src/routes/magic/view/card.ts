@@ -1,4 +1,4 @@
-import { createContent as _ } from "Engine";
+import { createElement as _ } from "Engine";
 import { Card } from "../types";
 
 export default function CardView(card:Card){

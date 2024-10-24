@@ -1,4 +1,4 @@
-import { createContent as _, Content } from "Engine";
+import { createElement as _, Content } from "Engine";
 import ALL_GAMES, {DEFAULT_INIT} from "../games";
 import PokemonGame from "./PokemonGame";
 import { Game, Region as KnownRegion } from "../types";

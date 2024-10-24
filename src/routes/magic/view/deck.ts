@@ -1,4 +1,4 @@
-import { createContent as _, RenderEnvironment } from "Engine";
+import { createElement as _, RenderEnvironment } from "Engine";
 import { DeckItem } from "../types";
 import CardView from "./card";
 

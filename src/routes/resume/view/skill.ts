@@ -1,4 +1,4 @@
-import { createContent as _ } from "Engine";
+import { createElement as _ } from "Engine";
 import {Buffer} from "node:buffer";
 
 export interface SkillItem{

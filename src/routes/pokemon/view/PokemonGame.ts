@@ -1,4 +1,4 @@
-import { createContent as _, Content } from "Engine";
+import { createElement as _, Content } from "Engine";
 import { Game } from "../types";
 import PokemonItem from "./PokemonItem";
 

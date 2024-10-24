@@ -1,4 +1,4 @@
-import { createContent as _, Content } from "Engine";
+import { createElement as _, Content } from "Engine";
 import { Pokemon, MoveData, Nature, GameVersion } from "../types";
 import { MASTER_NATURE_INDEX, MASTER_ITEM_INDEX, MASTER_ABILITY_INDEX} from "@/util/Serebii/data"
 import { formatURI } from "@/util/Serebii/Serebii";

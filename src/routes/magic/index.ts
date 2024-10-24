@@ -2,7 +2,7 @@
  * 
  * @author Alex Malotky
  */
-import {Router, createContent as _, HttpError} from "Engine";
+import {Router, HttpError} from "Engine";
 import { DeckItem, ProtoDeck, validateInput, convertProtoDeck } from "./types";
 import { DeckEdit, DeckView, DeckListView } from "./view";
 import styles from "./style.scss";

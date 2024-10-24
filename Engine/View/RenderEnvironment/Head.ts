@@ -18,7 +18,7 @@ export default class HeadEnvironment {
 
         this._meta = new Tracker(head, "meta");
         this._links = new Tracker(head, "links");
-        this._styles = new Tracker(head, "styles");
+        this._styles = new Tracker(head, "style");
         this._scripts = new Scripts(head);
 
         this._title = head.querySelector("title") as HTMLTitleElement;

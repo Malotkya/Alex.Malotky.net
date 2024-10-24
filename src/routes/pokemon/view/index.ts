@@ -2,7 +2,7 @@ import { createContent as _, Content } from "Engine";
 import ALL_GAMES, {DEFAULT_INIT} from "../games";
 import PokemonGame from "./PokemonGame";
 import { Game, Region as KnownRegion } from "../types";
-import { REGION_MASTER_ARRAY_INDEX } from "../data";
+import { REGION_MASTER_ARRAY_INDEX } from "@/util/Serebii/data";
 
 const style = _("style", require("../style.scss"));
 

@@ -1,7 +1,7 @@
 import { createContent as _, Content } from "Engine";
 import { Pokemon, MoveData, Nature, GameVersion } from "../types";
-import { MASTER_NATURE_INDEX, MASTER_ITEM_INDEX, MASTER_ABILITY_INDEX} from "../data"
-import { formatURI } from "../Serebii";
+import { MASTER_NATURE_INDEX, MASTER_ITEM_INDEX, MASTER_ABILITY_INDEX} from "@/util/Serebii/data"
+import { formatURI } from "@/util/Serebii/Serebii";
 
 /** Pokemon Sprite
  * 
@@ -21,7 +21,7 @@ function GenerIcon(gender?:boolean):Content{
     if(gender === null || gender === undefined)
         return null;
 
-    return _("span", {class: "pokemon-gender", "aria-label": gender? "male": "female"}, gender? ' ♂': ' ♀');
+    return _("span", {class: "pokemon-gender", ariaLabel: gender? "male": "female"}, gender? ' ♂': ' ♀');
 }
 
 /** Stats List Item Module
@@ -52,7 +52,7 @@ function statsListItem(name:string, nature:Nature, value:number = -1): Content{
  */
 function MoveElement(data: MoveData|string):Content{
     if(typeof data === "string") {
-        return _("li", {class: MOVE_ELEMENT_CLASS_NAME}, data );
+        return _("li", {class: "pokmeon-move-item"}, data );
     }
     
     const {
@@ -64,7 +64,7 @@ function MoveElement(data: MoveData|string):Content{
         effect
     } = data;
 
-    return _("li", {class: MOVE_ELEMENT_CLASS_NAME},
+    return _("li", {class: "pokmeon-move-item"},
         _("tool-tip", {"fixed-width": "true"}, name,
             _("tool-tip-text", {class: "pokemon-move-info"},
                 _("span",
@@ -90,8 +90,6 @@ function MoveElement(data: MoveData|string):Content{
         )
     );
 }
-const MOVE_ELEMENT_CLASS_NAME = "pokmeon-move-item";
-
 
 /** Create Optional List Item
  * 

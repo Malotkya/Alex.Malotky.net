@@ -1,6 +1,7 @@
-import { toString } from "../Function";
+import { toString as funToString } from "./Function";
+import Element,{ isElement, compileElement } from "./Element";
 
-type Content = string|number|boolean|null|undefined|Function|Array<Content>;
+type Content = string|number|boolean|null|undefined|Function|Element|Array<Content>;
 export default Content;
 
 /** Compress Content
@@ -19,9 +20,12 @@ export function compressContent(content:Content):string {
     } else {
         switch (typeof content){
             case "function":
-                return toString(content);
+                return funToString(content);
 
             case "object":
+                if(isElement(content)) {
+                    return compileElement(content)
+                }
                 return JSON.stringify(content);
 
             case "string":

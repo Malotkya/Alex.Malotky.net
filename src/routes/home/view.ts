@@ -8,7 +8,6 @@ export default function Home():Content {
     //}
 
     return [
-        _("style", require("./style.scss")),
         _("h1", "Welcome!"),
         _("div", {id: "home-container"},
             _("animated-text", "Hello,\r\nMy name is Alex Malotky."),

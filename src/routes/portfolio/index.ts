@@ -4,6 +4,7 @@
  */
 import {Router, Context} from "Engine";
 import PortfolioView from "./view";
+import styles from "./style.scss";
 
 /** Portfolio Router
  * 
@@ -13,6 +14,7 @@ const Portfolio = new Router("/Portfolio");
 Portfolio.all(async(ctx:Context)=>{
     ctx.render({
         head:{
+            styles,
             title: "Portfolio",
             meta: {
                 description: "A list of projects that Alex has worked on."

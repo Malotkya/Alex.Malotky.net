@@ -5,6 +5,7 @@
 import {Router, createContent as _, HttpError} from "Engine";
 import { DeckItem, ProtoDeck, validateInput, convertProtoDeck } from "./types";
 import { DeckEdit, DeckView, DeckListView } from "./view";
+import styles from "./style.scss";
 
 const PAGE_SIZE = 30;
 
@@ -79,6 +80,7 @@ Editor.post("/:id", async(ctx)=>{
 
     ctx.render({
         head: {
+            styles,
             title: `Edit Deck (${id})`,
             meta: {
                 description: "Magic the Gathering Deck Editor."
@@ -101,6 +103,7 @@ Editor.get("/:id", async(ctx)=>{
 
     ctx.render({
         head: {
+            styles,
             title: `Edit Deck (${id})`,
             meta: {
                 description: "Magic the Gathering Deck Editor."
@@ -127,6 +130,7 @@ Editor.all(async(ctx)=>{
 
     ctx.render({
         head: {
+            styles,
             title: "List of Decks",
             meta: {
                 description: "List of magic decks to edit."
@@ -152,6 +156,7 @@ Magic.get("/:id", async(ctx)=>{
 
     ctx.render({
         head: {
+            styles,
             title: `Deck (${id})`,
             meta: {
                 description: "Magic the Gathering Deck Editor."
@@ -181,6 +186,7 @@ Magic.all(async(ctx)=>{
 
     ctx.render({
         head: {
+            styles,
             title: "List of Decks",
             meta: {
                 description: "List of magic decks."

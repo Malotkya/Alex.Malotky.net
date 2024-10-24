@@ -5,11 +5,6 @@ import { SkillItem, SkillCard, SkillDetailed, validateSkillItem, EditSkill } fro
 
 export const ROUTE = (table:string, edit:boolean = false, id?:unknown) => `/Resume${edit?"/Edit":""}/${table.charAt(0).toLocaleUpperCase()+table.substring(1)}${id?"/"+String(id):""}`;
 
-/** Styling Element
- * 
- */
-const style = _("style", require("../style.scss"));
-
 /** Single Table View
  * 
  * @param {string} table 
@@ -19,13 +14,13 @@ const style = _("style", require("../style.scss"));
 export function SingleView(table:string, value:Dictionary<unknown>):Content{
     switch (table){
         case "school":
-            return [style, SchoolDetailed(validateSchoolItem(value))];
+            return SchoolDetailed(validateSchoolItem(value));
 
         case "jobs":
-            return [style, JobDetailed(validateJobItem(value))];
+            return JobDetailed(validateJobItem(value));
 
         case "skills":
-            return [style, SkillDetailed(validateSkillItem(value))];
+            return SkillDetailed(validateSkillItem(value));
     }
 
     throw new Error("Unable to find detailed table!");
@@ -40,13 +35,13 @@ export function SingleView(table:string, value:Dictionary<unknown>):Content{
 export function SingleEditView(table:string, value:Dictionary<unknown>|null, message?:string):Content{
     switch(table){
         case "school":
-            return [style, EditSchool(value?validateSchoolItem(value):null, message)];
+            return EditSchool(value?validateSchoolItem(value):null, message);
 
         case "jobs":
-            return [style, EditJob(value?validateJobItem(value):null, message)];
+            return EditJob(value?validateJobItem(value):null, message);
 
         case "skills":
-            return [style, EditSkill(value?validateSkillItem(value):null, message)];
+            return EditSkill(value?validateSkillItem(value):null, message);
     }
 }
 
@@ -71,7 +66,6 @@ export function ListView(table:string, value:Array<Dictionary<unknown>>){
     const {card, title} = getCard(table);
 
     return [
-        style,
         _("h1", title),
         _("ul", {class: "resume-card-list"},
             value.map((v)=>card(v))
@@ -83,7 +77,6 @@ export function ListEditView(table:string, value:Array<Dictionary<unknown>>){
     const {card, title} = getCard(table);
 
     return [
-        style,
         _("a", {href: "/Resume/Edit", class: "btn"}, "Back"),
         _("h1", `Edit ${title}`),
         _("ul", {class: "resume-card-list"},
@@ -95,7 +88,6 @@ export function ListEditView(table:string, value:Array<Dictionary<unknown>>){
 
 export function EditMainView(){
     return [
-        style,
         _("a", {href: "/Resume", class: "btn"}, "Back"),
         _("h1", "Resume Editor"),
         _("section", {class: "resume-editor"},
@@ -113,7 +105,6 @@ export function EditMainView(){
 
 export default function Resume(jobs:JobItem[], school:SchoolItem[], skills:SkillItem[]){
     return [
-        style,
         _("h1", "Resume"),
         _("article", {class: "resume-chunk"},
             _("h2", 

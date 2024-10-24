@@ -4,8 +4,6 @@ import PokemonGame from "./PokemonGame";
 import { Game, Region as KnownRegion } from "../types";
 import { REGION_MASTER_ARRAY_INDEX } from "@/util/Serebii/data";
 
-const style = _("style", require("../style.scss"));
-
 /** Get Pokemon Region
  * 
  * @param {string} string 
@@ -72,7 +70,6 @@ function buildNav(data:Dictionary<Game>):Content {
 
 export default function PokemonView(init:string = DEFAULT_INIT):Content {
     return [
-        style,
         _("h1", "Pokemon Game Marathon"),
         _("aside", {id: "pokemon-about"},
             _("h2", "About:"),

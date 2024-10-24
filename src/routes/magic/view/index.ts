@@ -8,18 +8,13 @@ import {createContent as _, Content} from "Engine";
 import { DeckItem } from "../types";
 import Deck from "./deck";
 
-const style = _("style", require("../style.scss"));
-
 /** Deck View Module
  * 
  * @param {DeckItem} deck 
  * @returns {Content}
  */
 export function DeckView(deck:DeckItem): Content{
-    return [
-        style,
-        Deck(deck)
-    ]
+    return Deck(deck)
 }
 
 /** Deck Edit Module
@@ -32,24 +27,20 @@ export function DeckEdit(deck:DeckItem): Content{
         JSON.stringify(deck)
     ).toString("base64");
 
-    return [
-        style,
-        _("form",
-            {
-                data,
-                is: "deck-input",
-                id: "deck-input",
-                method: "POST"
-            }
-        )
-    ];
+    return  _("form",
+        {
+            data,
+            is: "deck-input",
+            id: "deck-input",
+            method: "POST"
+        }
+    );
 }
 
 export function DeckListView(list:Array<DeckItem>, edit:boolean = false):Content {
     //TODO: Add pagenation numbers.
     
     return [
-        style,
         edit? _("cache-downloader"): undefined,
         _("h1", "Magic the Gathering Decks"),
         edit? _("a", {class: "btn", href: "/Decks/Edit/New"}, "Create New Deck"): null,

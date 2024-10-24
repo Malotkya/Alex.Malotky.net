@@ -9,6 +9,7 @@ import { validateSchoolItem } from "./view/school";
 import { validateJobItem } from "./view/job";
 import { validateSkillItem } from "./view/skill";
 import { UPDATE_QUERY, INSERT_QUERY, TABLES, ORDER_BY, DELETE, queryWrapper } from "./database";
+import styles from "./style.scss";
 
 const DESCRIPTION = "Alex's resume and other skills.";
 const title = (table:string, id?:string) => `Resume - ${table}${id? `(${id})`: ""}`;
@@ -34,6 +35,7 @@ Editor.get("/:table/New", async(ctx)=>{
     const table = (ctx.params.get("table") as string).toLocaleLowerCase();
     return ctx.render({
         head: {
+            styles,
             title: title(table, "New"),
             meta: {
                 description: DESCRIPTION
@@ -84,6 +86,7 @@ function QueryTable(view:(t:string, r:Record<string,unknown>[])=>Content):Middle
     
             ctx.render({
                 head: {
+                    styles,
                     title: title(table),
                     meta: {
                         description: DESCRIPTION
@@ -128,6 +131,7 @@ function QueryRecord(view:(t:string, r:Record<string,unknown>)=>Content):Middlew
     
             return ctx.render({
                 head: {
+                    styles,
                     title: title(table, result["title"] as string || result["name"] as string || id),
                     meta: {
                         description: DESCRIPTION
@@ -181,6 +185,7 @@ Editor.post("/:table/:id", async(ctx:Context)=>{
 
         return ctx.render({
             head: {
+                styles,
                 title: title(table, result["title"] as string || result["name"] as string || id),
                 meta: {
                     description: DESCRIPTION
@@ -208,6 +213,7 @@ Resume.get(async(ctx)=>{
         
         ctx.render({
             head: {
+                styles,
                 title: "Resume",
                 meta: {
                     description: DESCRIPTION
@@ -230,6 +236,7 @@ Resume.get(async(ctx)=>{
 Editor.get(async(ctx)=>{
     ctx.render({
         head: {
+            styles,
             title: "Resume Editor",
             meta: {
                 description: DESCRIPTION

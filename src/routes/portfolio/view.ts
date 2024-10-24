@@ -1,15 +1,12 @@
 import { createContent as _ } from "Engine";
 import { MarkDown } from "@/util";
 
-const style = require("./style.scss");
-
 const mdPortfolio = MarkDown(require("./data/portfolio.md"));
 const mdCapstone  = MarkDown(require("./data/capstone.md"));
 const mdDuck      = MarkDown(require("./data/duck.md"));
 
 export default function Portfolio(){
     return [
-        _("style", style),
         _("h1", "Portfolio"),
 
         //Portfolio

@@ -18,10 +18,10 @@ export default function Template():[Array<Content>, View]{
             {
                 title: "Alex.Malotky.net",
                 meta: [
-                    { charset: "utf-8"},
-                    { name: "viewport",    content: "width=device-width, initial-scale=1"},
-                    { name: "author",      content: "Alex Malotky"},
-                    { name: "description", content: "Portfolio website for Alex Malotky."}
+                    { charset: "utf-8" },
+                    { name: "viewport",    content: "width=device-width, initial-scale=1" },
+                    { name: "author",      content: "Alex Malotky" },
+                    { name: "description", content: "Portfolio website for Alex Malotky." }
                 ],
                 links: [
                     {rel: "stylesheet", href: `/style.css?${VERSION}`}
@@ -35,7 +35,7 @@ export default function Template():[Array<Content>, View]{
                     _("a", {class: "skip", href:"#main"}, "Skip Link"),
                     Navigation(navBar),
                 ),
-                _("noscript", "Javascript is currently needed to view some pages."),
+                _("noscript", "Javascript is needed for some pages to be viewed properly."),
                 _("main", {id: "main"}, content),
                 Footer()
             ]

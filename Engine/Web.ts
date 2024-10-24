@@ -1,8 +1,30 @@
+import { RenderUpdate } from "./View";
 import RenderEnvironment from "./View/RenderEnvironment";
 import { getRouteInfo } from "./View/RenderEnvironment/Util";
 
-
 const env = new RenderEnvironment();
+
+/** Close Dialog
+ * 
+ * Created because override submit function doesn't seem to allowing defaulting to
+ * browser.
+ * 
+ * Recursivly calls itself.
+ * 
+ * @param {HTMLElement} element 
+ */
+function closeDailog(element:HTMLElement|null){
+    if(element === null || element === document.body)
+        return;
+
+    if(element.tagName === "DIALOG"){
+        //@ts-ignore
+        element.open = false;
+        element.style.display = "none";
+    } else {
+        closeDailog(element.parentElement);
+    }
+}
 
 window.addEventListener("popstate", function state_change(event){
     env.handler().then(anchor=>{
@@ -35,18 +57,25 @@ document.body.addEventListener("click", function click_event(event){
 });
 
 document.body.addEventListener("submit", async function submit_event(event){
+    event.preventDefault();
     const form = event.target as HTMLFormElement;
 
     const url = form.action || window.location.pathname;
     const method = (form.getAttribute("method") || "GET").toLocaleUpperCase();
     
-    if(method === "dialog")
-        //Do nothing and let the browser handdle it.
+    if(method === "DIALOG") {
+        closeDailog(form);
         return;
-
-    event.preventDefault();
+    }
+    
     const body = new FormData(form);
-    const data = await RenderEnvironment.fetch(url, {method, body});
+    let data: RenderUpdate
+    try {
+        data = await RenderEnvironment.fetch(url, {method, body});
+    } catch (e){
+        RenderEnvironment.error(e);
+        return;
+    }
     
     if(data.redirect){
         env.route(data.redirect);
@@ -66,5 +95,5 @@ window.addEventListener("DOMContentLoaded", ()=>{
     document.querySelectorAll("script[env]")?.forEach(script=>{
         if(script.getAttribute("type")?.includes("blocked"))
             env.run(script.innerHTML);
-    })
+    });
 })

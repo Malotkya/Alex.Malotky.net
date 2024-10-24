@@ -1,5 +1,4 @@
-import {RenderUpdate, Content} from "..";
-import { compressContent } from "../Html";
+import {FetchUpdate} from "..";
 import { getRouteInfo, hashObject } from "./Util";
 import { HeadUpdate } from "../Html/Head";
 import HeadEnvironment from "./Head";
@@ -134,7 +133,7 @@ export default class RenderEnvironment {
      * 
      * @param {RenderUpdate} update 
      */
-    async update(update:RenderUpdate){
+    async update(update:FetchUpdate){
         if(update.head){
             await this.updateHead(update.head);
         }
@@ -162,7 +161,7 @@ export default class RenderEnvironment {
     /** Update Body
      * 
      */
-    private updateBody(update:Dictionary<Content>) {
+    private updateBody(update:Dictionary<string>) {
         const hash = hashObject(update);
         const scripts: Array<string> = [];
 
@@ -173,9 +172,8 @@ export default class RenderEnvironment {
         for(const id in update){
             const element = document.getElementById(id);
             if(element){
-                const value = compressContent(update[id]);
-                RenderEnvironment.render(element, value);
-                const match = value.match(/<script.*?>.*?<\/script.*?>/gi);
+                RenderEnvironment.render(element, update[id]);
+                const match = update[id].match(/<script.*?>.*?<\/script.*?>/gi);
                 if(match){
                     scripts.push(...match);
                 }
@@ -215,30 +213,12 @@ export default class RenderEnvironment {
      * @param {HTMLElement} target 
      * @param {RenderContent} content 
      */
-    static render(target:HTMLElement&{value?:string}, content:Content){
+    static render(target:HTMLElement&{value?:string}, content:string){
 
-        if(target.value){ //If it takes value.
-
-            if(typeof content === "object"){
-                target.value = JSON.stringify(content);
-            } else {
-                target.value = String(content);
-            }
-
+        if(target.value){ 
+            target.value = content;
         } else {
-            
-            const append = (value:Content) => {
-                if(Array.isArray(value)){
-                    for(let c of value){
-                        append(c);
-                    }
-                } else {
-                    target.innerHTML += value;
-                }
-            } //Append
-
-            target.innerHTML = "";
-            append(content);
+            target.innerHTML = content;
         }
     }
 
@@ -248,7 +228,7 @@ export default class RenderEnvironment {
      * @param {FetchOptions} opts 
      * @returns {Promise<RenderUpdate>}
      */
-    static async fetch(url:string|URL, opts:FetchOptions):Promise<RenderUpdate> {
+    static async fetch(url:string|URL, opts:FetchOptions):Promise<FetchUpdate> {
         if(opts.headers === undefined)
             opts.headers = {};
         opts.headers[HEADER_KEY] = HEADER_VALUE;
@@ -262,7 +242,7 @@ export default class RenderEnvironment {
                 throw new Error("Did not recieve JSON response!");
             }
 
-            const data:RenderUpdate = await response.json();
+            const data:FetchUpdate = await response.json();
             
             if(data.redirect === undefined && data.head === undefined && data.body === undefined && data.update === undefined){
                 throw new Error("Recieved either an empty or invalid response!");

@@ -4,7 +4,7 @@
  */
 import HTMLElement from "..";
 import { buildAttributesString } from "../Attributes";
-import HeadAttributes from "../Attributes/Map/Head";
+import HeadAttributes from "../Element/Head";
 import Title, {updateTitle, TitleInit, TitleUpdate} from "./Title";
 import Base, {BaseInit} from "./Base";
 import Link, {LinkInit, LinkUpdate} from "./Link";

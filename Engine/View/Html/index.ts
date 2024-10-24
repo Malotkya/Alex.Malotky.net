@@ -1,7 +1,7 @@
 import {buildAttributesString} from "./Attributes";
-import HTMLAttributes from "./Attributes/Map/Html";
+import HTMLAttributes from "./Element/Html";
 import { createElement } from "./Element";
-import Content, {compressContent} from "./Element/Content";
+import Content, {compressContent} from "./Content";
 import Head, {HeadInit} from "./Head"
 
 type HTMLElement = string;
@@ -33,3 +33,4 @@ function body(children:Array<Content>|Content):HTMLElement {
 export function HtmlDocument(att:HTMLInit, head:HeadInit, content:Array<Content>|Content):HTMLElement{
     return "<!DOCTYPE html>"+html(att, Head(head), body(content));
 }
+

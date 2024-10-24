@@ -4,7 +4,7 @@
  */
 import HTMLElement from "..";
 import { AttributeList, buildAttributesString } from "../Attributes";
-import StyleAttributes from "../Attributes/Map/Style";
+import StyleAttributes from "../Element/Style";
 
 export interface StyleInit extends StyleAttributes {
     name?:string /* unofficial */

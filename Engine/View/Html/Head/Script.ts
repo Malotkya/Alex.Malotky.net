@@ -4,7 +4,7 @@
  */
 import HTMLElement from "..";
 import { buildAttributesString, AttributeList } from "../Attributes";
-import ScriptAttributes from "../Attributes/Map/Script";
+import ScriptAttributes from "../Element/Script";
 
 export interface ScriptInit extends ScriptAttributes {
     value?:string /* unofficial */

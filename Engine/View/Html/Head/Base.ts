@@ -3,7 +3,7 @@
  * @author Alex Malotky
  */
 import HTMLElement from "..";
-import BaseInit from "../Attributes/Map/Base";
+import BaseInit from "../Element/Base";
 
 export type {BaseInit};
 

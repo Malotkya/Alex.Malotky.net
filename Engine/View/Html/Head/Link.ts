@@ -4,7 +4,7 @@
  */
 import HTMLElement from "..";
 import { AttributeList, RefferPolicy, buildAttributesString } from "../Attributes";
-import LinkInit from "../Attributes/Map/Link";
+import LinkInit from "../Element/Link";
 
 export type {LinkInit}
 export interface LinkUpdate extends AttributeList{

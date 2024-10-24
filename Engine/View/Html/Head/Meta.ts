@@ -3,7 +3,7 @@
  * @author Alex Malotky
  */
 import HTMLElement from "..";
-import MetaInit from "../Attributes/Map/Meta";
+import MetaInit from "../Element/Meta";
 import { dictionaryInclude } from "../../../Util";
 
 export type {MetaInit}

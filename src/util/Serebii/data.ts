@@ -653,7 +653,7 @@ export const MASTER_NATURE_INDEX: Dictionary<Nature> = {
     TIMID:   {inc: "Speed",       dec: "Attack"},
 }
 
-//Scraped for Serebii
+//Scraped from Serebii
 export const MASTER_POKEMON_LIST = [
     "Bulbasaur",
     "Ivysaur",

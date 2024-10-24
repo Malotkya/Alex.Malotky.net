@@ -8,31 +8,10 @@ import {parse, serialize} from "cookie";
 
 const MAX_LOGIN_AGE = 604800;
 
-const navBar:Array<Content> = []
+const [navBar, view] = Template();
 
 const app = new Engine();
-app.view(new View(
-    {
-        lang: "en",
-        dir: "ltr"
-    },
-    {
-        title: "Alex.Malotky.net",
-        meta: [
-            { charset: "utf-8"},
-            { name: "viewport",    content: "width=device-width, initial-scale=1"},
-            { name: "author",      content: "Alex Malotky"},
-            { name: "description", content: "Portfolio website for Alex Malotky."}
-        ],
-        links: [
-            {rel: "stylesheet", href: `/style.css?${VERSION}`}
-        ],
-        scripts: [
-            {src: `/bundle.js?${VERSION}`, defer: true}
-        ]
-    },
-    Template(navBar)
-));
+app.view(view);
 
 //Authentication Handler
 const auth = new Authorization();

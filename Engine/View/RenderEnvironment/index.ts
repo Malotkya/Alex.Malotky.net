@@ -1,6 +1,6 @@
 import {RenderUpdate, Content} from "..";
 import { compressContent } from "../Html";
-import { getRouteInfo, findOrCreateElement, hashObject } from "./Util";
+import { getRouteInfo, hashObject } from "./Util";
 import { HeadUpdate } from "../Html/Head";
 import HeadEnvironment from "./Head";
 import { HEADER_KEY, HEADER_VALUE } from "../../Util";
@@ -174,8 +174,9 @@ export default class RenderEnvironment {
         for(const id in update){
             const element = document.getElementById(id);
             if(element){
-                RenderEnvironment.render(element, update[id]);
-                const match = compressContent(update[id]).match(/<script.*?>.*?<\/script.*?>/gi);
+                const value = compressContent(update[id]);
+                RenderEnvironment.render(element, value);
+                const match = value.match(/<script.*?>.*?<\/script.*?>/gi);
                 if(match){
                     scripts.push(...match);
                 }

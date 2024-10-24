@@ -48,7 +48,7 @@ export default class HeadEnvironment {
 
         this._meta.update(meta);
         this._links.update(update.links!);
-        this._styles.update(update.styles!);
+        this._styles.update(update.styles! as Dictionary<AttributeList>);
         await this._scripts.update(update.scripts!);
     }
 }

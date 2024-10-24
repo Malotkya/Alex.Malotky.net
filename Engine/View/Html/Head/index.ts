@@ -26,7 +26,7 @@ export interface HeadUpdate {
     title?:TitleUpdate,
     links?:Dictionary<LinkUpdate>,
     meta?:Dictionary<MetaUpdate>,
-    styles?:Dictionary<StyleUpdate>,
+    styles?:Dictionary<StyleUpdate>|string,
     scripts?:Dictionary<ScriptUpdate>
 }
 
@@ -87,6 +87,14 @@ function toUpdate<U extends {name?:string}>(value:Array<U>):Dictionary<U> {
  * @returns {HeadInit}
  */
 export function mergeUpdateToInit(init:HeadInit, update:HeadUpdate = {}):HeadInit{
+    if(typeof update.styles === "string"){
+        update.styles = {
+            default: {
+                value: update.styles
+            }
+        }
+    }
+    
     return {
         base: init.base,
         title: updateTitle(init.title, update.title),
@@ -105,6 +113,15 @@ export function mergeUpdateToInit(init:HeadInit, update:HeadUpdate = {}):HeadIni
  * @returns {HeadInit}
  */
 export function mergeUpdateToUpdate(init:HeadInit, update:HeadUpdate = {}):HeadUpdate{
+    
+    if(typeof update.styles === "string"){
+        update.styles = {
+            default: {
+                value: update.styles
+            }
+        }
+    }
+    
     return {
         title: update.title,
         meta: updateMeta(init.meta, update.meta),

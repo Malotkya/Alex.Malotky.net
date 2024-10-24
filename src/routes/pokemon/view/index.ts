@@ -56,9 +56,11 @@ function buildNav(data:Dictionary<Game>):Content {
 
     for(const name in map){
         list.push(_("li", {class: "region"},
-            _("button", {class: "pokemon-nav-item"}, name),
-            _("ul", {ariaHaspopup: true},
-                map[name].map(b=>_("li", b))
+            _("button", {class: "pokemon-nav-header"}, name),
+            _("div", {class: "sub-menu-container"},
+                _("ul", {ariaHaspopup: true},
+                    map[name].map(b=>_("li", b))
+                )
             )
         ));
     }

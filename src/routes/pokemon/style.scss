@@ -250,6 +250,17 @@
     }
 }
 
+@mixin pokemon-nav-base() {
+    text-decoration: none;
+    border-radius: 0;
+    margin: 0;
+    padding: 5px;
+    border: none;
+    width: 100%;
+    text-align: center;
+    display: inline-block;
+}
+
 .pokemon-game-select {
     padding: 0;
     width: 100%;
@@ -268,52 +279,61 @@
 
         li {
             list-style: none;
-            min-width: 100px;
+            min-width: 200px;
             max-width: 200px;
         }
 
         > li {
-            min-width: 125px;
             flex: 1 1 0;
+            max-width: 300px;
+
+            .sub-menu-container {
+                width: 200px;
+                margin: 0 auto;
+                display: none;
+            }
 
             ul {
-                display: none;
                 position: absolute;
                 background-color: $dark;
                 gap: 2px;
                 padding: 2px;
-                width: 100%;
-                min-width: 100px;
-                max-width: 200px;
             }
 
-            &:hover > ul,
-            &:focus-within > ul{
+            &:hover > .sub-menu-container,
+            &:focus-within > .sub-menu-container{
                 display: flex;
                 flex-flow: column nowrap;
             }
         }
     }
 
-    .pokemon-nav-item,
-    .pokemon-nav-item:visited,
-    .pokemon-nav-item:link {
-        background-color: $accent-dark;
-        display: inline-block;
-        color: $white;
-        text-decoration: none;
-        border-radius: 0;
-        margin: 0;
-        padding: 5px;
-        border: none;
-        width: 100%;
-        text-align: center;
+    .pokemon-nav-item {
+        &, &:visited, &:link {
+            @include pokemon-nav-base;
+            background-color: $accent-dark;
+            color: $white;
+        }
+
+        &:hover, &:link {
+            background-color: $accent-light;
+            color: $dark;
+        }
     }
 
-    .pokemon-nav-item:hover,
-    .pokemon-nav-item:link {
-        background-color: $accent-light;
-        color: $dark
+    .pokemon-nav-header {
+        &, &:visited, &:link {
+            @include pokemon-nav-base;
+            background-color: $accent-dark;
+            color: $white;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        &:hover, &:link {
+            background-color: $accent-light;
+            color: $dark;
+        }
     }
 }
 

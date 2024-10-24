@@ -54,8 +54,7 @@ export default class RenderEnvironment {
             }
             await this.update(data);
         } catch (e){
-            console.error(e);
-            //window.location.reload();
+            RenderEnvironment.error(e);
         }
 
         this._routing = false;
@@ -273,6 +272,57 @@ export default class RenderEnvironment {
         } catch (e){
             throw e;
         }
+    }
+
+    static error(value:any) {
+        const dialog = document.createElement("dialog");
+        dialog.style.position = "absolute";
+        dialog.style.width = "100%";
+        dialog.style.height = "100%";
+        dialog.style.top = "0";
+        dialog.style.left = "0";
+        dialog.style.display = "flex";
+        dialog.style.alignItems = "center";
+        dialog.style.justifyContent = "center";
+        dialog.style.background = "rgba(0,0,0,0.5)";
+
+        dialog.addEventListener("click", ()=>{
+            document.body.removeChild(dialog);
+        });
+
+        const modal = document.createElement("div");
+        modal.style.backgroundColor = "white";
+        modal.style.padding = "5px";
+
+        modal.addEventListener("click", (event)=>{
+            event.stopPropagation();
+        });
+
+        const header = document.createElement("h1");
+        header.style.color = "red";
+        header.style.textAlign = "center";
+        header.textContent = "Error";
+        modal.appendChild(header);
+
+        const message = document.createElement("p");
+        message.style.color = "red";
+        message.style.textAlign = "center";
+        message.textContent = String(value);
+        modal.appendChild(message);
+
+        const close = document.createElement("button");
+        close.style.display = "block";
+        close.style.margin = "0 auto";
+        close.textContent = "Ok";
+        modal.appendChild(close);
+
+        close.addEventListener("click", ()=>{
+            document.body.removeChild(dialog);
+        });
         
+        dialog.appendChild(modal);
+        dialog.open = true;
+        document.body.appendChild(dialog);
+        console.error(value);
     }
 }

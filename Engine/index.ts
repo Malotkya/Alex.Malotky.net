@@ -14,10 +14,10 @@ import RenderEnvironment from "./View/RenderEnvironment";
 //Exports
 import Router from "./Routing/Router";
 import { createElement } from "./View/Html/Element";
-import { RenderContent } from "./View";
+import { Content } from "./View";
 import HttpError from "./HttpError";
 export {Router, Context, createElement as createContent, HttpError, View};
-export type {RenderContent as Content, Middleware, RenderEnvironment};
+export type {Content, Middleware, RenderEnvironment};
 
 export default class Engine extends Routing {
     private _view:View|undefined;

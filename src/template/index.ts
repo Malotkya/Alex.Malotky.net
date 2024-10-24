@@ -1,20 +1,6 @@
-import { Content, Context, createContent as _} from "Engine";
+import { Content, createContent as _} from "Engine";
 import { RenderFunction, RenderUpdate } from "Engine/View";
-import HttpError, { getMessage } from "Engine/HttpError";
-
-function showMenu(){
-    const menu = document.querySelector("#top-nav-menu") as HTMLElement;
-
-    if(menu){
-        if( menu.style.display ) {
-            menu.style.display = "";
-        } else {
-            menu.style.display = "flex";
-        }
-    } else {
-        console.warn("Unable to find menu!");
-    }
-}
+import { getMessage } from "Engine/HttpError";
 
 export default function WireFrame(navList:Content):RenderFunction{
     return function Template(content:Content){
@@ -37,8 +23,7 @@ export function HamburgerButton():Content {
         {
             id: "top-nav-button",
             ariaLabel: "Show/Hide Navigation",
-            ariaHaspopup: "menu",
-            onclick: showMenu
+            ariaHaspopup: "menu"
         },
         _("div"),
         _("div"),
@@ -48,9 +33,11 @@ export function HamburgerButton():Content {
 
 function Navigation(list:Content):Content {
     return _("nav", {id:"top-nav-bar"},
-        HamburgerButton(),
         _("a", {id: "top-nav-title", class: "top-nav-item", href: "/"}, "Alex.Malotky.net"),
-        _("ul", {id: "top-nav-menu"}, list)
+        HamburgerButton(),
+        _("div", {class: "top-nav-menu-wrapper"},
+            _("ul", {id: "top-nav-menu"}, list)
+        )
     );
 }
 

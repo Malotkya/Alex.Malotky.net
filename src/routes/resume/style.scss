@@ -2,12 +2,11 @@
 @import "@/template/styles/breakpoints.scss";
 
 .resume-card-list{
-    padding: 0;
+    padding: 10px 5px;
     display: flex;
     flex-flow: row wrap;
     justify-content: space-evenly;
-    width: 100%;
-
+    gap: 5px;
 }
 
 .resume-card {
@@ -16,10 +15,9 @@
     background-color: $medium;
     list-style-type: none;
     color: $white;
-    margin-bottom: 1em;
-    border-radius: 0.5em;
     padding: 0.5em;
     width: 80%;
+    border-radius: 5px;
 
     .resume-title {
         color: $accent-light;
@@ -93,6 +91,31 @@
 
     .resume-about {
         display: none;
+    }
+}
+
+.resume-chunk {
+    background-color: $light-grey;
+    border: solid 2px $accent-dark;
+    margin-bottom: 10px;
+    border-radius: 5px;
+
+    h2 {
+        background-color: $medium;
+        text-align: center;
+        margin: 0;
+        padding: 20px 0;
+
+        a:visited, a:link {
+            color:  $accent-light;
+        }
+    }
+
+    > ul {
+        background-color: $white;
+        margin: 15px;
+        border: solid 2px $light;
+        border-radius: 5px;
     }
 }
 

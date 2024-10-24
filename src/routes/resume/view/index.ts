@@ -115,7 +115,7 @@ export default function Resume(jobs:JobItem[], school:SchoolItem[], skills:Skill
     return [
         style,
         _("h1", "Resume"),
-        _("article",
+        _("article", {class: "resume-chunk"},
             _("h2", 
                 _("a", {href: "/Resume/Jobs"}, "Work History:")
             ),
@@ -123,7 +123,7 @@ export default function Resume(jobs:JobItem[], school:SchoolItem[], skills:Skill
                 jobs.map((value)=>JobCard(value))
             )
         ),
-        _("article",
+        _("article", {class: "resume-chunk"},
             _("h2", 
                 _("a", {href: "/Resume/School"}, "School History:")
             ),
@@ -131,7 +131,7 @@ export default function Resume(jobs:JobItem[], school:SchoolItem[], skills:Skill
                 school.map((value)=>SchoolCard(value))
             )
         ),
-        _("article",
+        _("article", {class: "resume-chunk"},
             _("h2", 
                 _("a", {href: "/Resume/Skills"}, "Skills:")
             ),

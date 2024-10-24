@@ -8,7 +8,7 @@ const style = _("style", require("../style.scss"));
 
 /** Get Pokemon Region
  * 
- * @param {String} string 
+ * @param {string} string 
  * @returns {Region}
  */
 function getRegion(string:string):KnownRegion|"Unknown" {
@@ -21,6 +21,12 @@ function getRegion(string:string):KnownRegion|"Unknown" {
     return "Unknown";
 }
 
+/** Get Pokemon Game
+ * 
+ * @param {Dictionary<Game>} data
+ * @param {string} init
+ * @returns {Content}
+ */
 function getGame(data:Dictionary<Game>, init:string):Content {
     for(const name in data) {
         if(name === init)
@@ -30,6 +36,11 @@ function getGame(data:Dictionary<Game>, init:string):Content {
     return PokemonGame(data[DEFAULT_INIT]);
 }
 
+/** Build Pokemon Navigation
+ * 
+ * @param {Dictionary<Game>} data 
+ * @returns {Content}
+ */
 function buildNav(data:Dictionary<Game>):Content {
     const map:Dictionary<Array<Content>> = {};
     const list:Array<Content> = [];

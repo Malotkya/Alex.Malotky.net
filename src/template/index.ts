@@ -1,4 +1,4 @@
-import { Content, createContent as _, View} from "Engine";
+import { Content, createElement as _, View} from "Engine";
 import { getMessage } from "Engine/HttpError";
 import { RenderUpdate } from "Engine/View";
 import Navigation, {NavLink} from "./navBar";

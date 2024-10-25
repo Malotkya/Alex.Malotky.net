@@ -4,8 +4,6 @@
         "target": "ES2022",
         "lib": ["es2022", "dom"],
         "paths": {
-            "Engine": ["./Engine/index.ts"],
-            "Engine/*": ["./Engine/*"],
             "@/*": ["./src/*"]
         },
 

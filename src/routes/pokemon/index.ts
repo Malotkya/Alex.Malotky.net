@@ -2,7 +2,7 @@
  * 
  * @author Alex Malotky
  */
-import {Context, Router} from "Engine";
+import {Context, Router} from "zim-engine";
 import pokemonView from "./view";
 import styles from "./style.scss";
 

@@ -1,4 +1,4 @@
-import { createElement as _ } from "Engine";
+import { createElement as _ } from "zim-engine";
 import { Card } from "../types";
 
 export default function CardView(card:Card){

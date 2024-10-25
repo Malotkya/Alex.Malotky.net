@@ -2,7 +2,7 @@
  * 
  * @author Alex Malotky
  */
-import {Router, Context} from "Engine";
+import {Router, Context} from "zim-engine";
 
 /** About Me Router
  * 

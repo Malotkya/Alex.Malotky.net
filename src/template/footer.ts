@@ -2,7 +2,7 @@
  * 
  * @author Alex Malotky
  */
-import { Content, createElement as _} from "Engine";
+import { Content, createElement as _} from "zim-engine";
 
 export default function Footer():Content {
     return _("footer", 

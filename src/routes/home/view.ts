@@ -1,4 +1,4 @@
-import { createElement as _, Content } from "Engine";
+import { createElement as _, Content } from "zim-engine";
 
 export default function Home():Content {
     return [

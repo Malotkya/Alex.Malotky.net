@@ -1,4 +1,4 @@
-import { createElement as _, Content } from "Engine";
+import { createElement as _, Content } from "zim-engine";
 import { SchoolItem, SchoolCard, SchoolDetailed, validateSchoolItem, EditSchool } from "./school"
 import { JobItem, JobCard, JobDetailed, validateJobItem, EditJob} from "./job";
 import { SkillItem, SkillCard, SkillDetailed, validateSkillItem, EditSkill } from "./skill";

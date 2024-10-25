@@ -2,7 +2,7 @@
  * 
  * @author Alex Malotky
  */
-import {Router, Context} from "Engine";
+import {Router, Context} from "zim-engine";
 import PortfolioView from "./view";
 import styles from "./style.scss";
 

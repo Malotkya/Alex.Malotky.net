@@ -1,4 +1,4 @@
-import { createElement as _ } from "Engine";
+import { createElement as _ } from "zim-engine";
 import {Buffer} from "node:buffer";
 
 export interface SkillItem{

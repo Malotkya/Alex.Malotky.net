@@ -2,8 +2,7 @@
  * 
  * @author Alex Malotky
  */
-import { Router, Middleware, Content, Context } from "Engine";
-import HttpError from "Engine/HttpError";
+import { Router, Middleware, Content, Context, HttpError } from "zim-engine";
 import ResumeView , { SingleView, ListView, SingleEditView, ListEditView, EditMainView, ROUTE } from "./view";
 import { validateSchoolItem } from "./view/school";
 import { validateJobItem } from "./view/job";

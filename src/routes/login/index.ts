@@ -1,4 +1,4 @@
-import { Router } from "Engine";
+import { Router } from "zim-engine";
 import LoginForm, {LogoutRedirect} from "./view";
 
 const Login = new Router("/Login");
@@ -22,8 +22,8 @@ Login.get(async(ctx)=>{
 
 
 Login.post(async(ctx)=>{
-    const username = ctx.formData.get("username");
-    const password = ctx.formData.get("password");
+    const username = ctx.formData.get("username") as string;
+    const password = ctx.formData.get("password") as string;
     let error:string;
 
     if(username ===  undefined){

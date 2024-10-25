@@ -2,7 +2,7 @@
  * 
  * @author Alex Malotky
  */
-import {Router, HttpError} from "Engine";
+import {Router, HttpError} from "zim-engine";
 import { DeckItem, ProtoDeck, validateInput, convertProtoDeck } from "./types";
 import { DeckEdit, DeckView, DeckListView } from "./view";
 import styles from "./style.scss";
@@ -39,27 +39,27 @@ Editor.get("/New", async(ctx)=>{
 Editor.post("/:id", async(ctx)=>{
     const id = Number(ctx.params.get("id")!);
 
-    const name = ctx.formData.get("name");
+    const name = ctx.formData.get("name") as string;
     if(name === undefined)
         throw new HttpError(400, "Must set name value!");
 
-    const description = ctx.formData.get("description");
+    const description = ctx.formData.get("description") as string;
     if(description === undefined)
         throw new HttpError(400, "Must set description value!");
 
-    const commanders = ctx.formData.get("commanders");
+    const commanders = ctx.formData.get("commanders") as string;
     if(commanders === undefined)
         throw new HttpError(400, "Must set commander value!");
 
-    const main_deck = ctx.formData.get("main_deck");
+    const main_deck = ctx.formData.get("main_deck") as string;
     if(main_deck === undefined)
         throw new HttpError(400, "Must set main_deck value!");
 
-    const color_identity = ctx.formData.get("color_identity");
+    const color_identity = ctx.formData.get("color_identity") as string;
     if(color_identity === undefined)
         throw new HttpError(400, "Must set color_identity value!");
 
-    const art = ctx.formData.get("art");
+    const art = ctx.formData.get("art") as string;
     if(art === undefined)
         throw new HttpError(400, "Must set art value!");
 

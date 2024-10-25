@@ -1,4 +1,4 @@
-import { createElement as _, RenderEnvironment } from "Engine";
+import { createElement as _, RenderEnvironment } from "zim-engine";
 import { DeckItem } from "../types";
 import CardView from "./card";
 

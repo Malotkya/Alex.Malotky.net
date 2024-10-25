@@ -2,7 +2,7 @@
  * 
  * @author Alex Malotky
  */
-import { Content, createElement as _} from "Engine";
+import { Content, createElement as _} from "zim-engine";
 
 export function NavLink(href:string, title:string):Content{
     return  _("li",

@@ -2,7 +2,7 @@
  * 
  * @author Alex Malotky
  */
-import {Context, Router} from "Engine";
+import {Context, Router} from "zim-engine";
 import homeView from "./view";
 import style from "./style.scss";
 

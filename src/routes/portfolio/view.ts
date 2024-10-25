@@ -1,4 +1,4 @@
-import { createElement as _ } from "Engine";
+import { createElement as _ } from "zim-engine";
 import { MarkDown } from "@/util";
 
 const mdPortfolio = MarkDown(require("./data/portfolio.md"));

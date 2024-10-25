@@ -4,7 +4,7 @@
  * @author Alex Malotky
  */
 import {Buffer} from "node:buffer";
-import {createElement as _, Content} from "Engine";
+import {createElement as _, Content} from "zim-engine";
 import { DeckItem } from "../types";
 import Deck from "./deck";
 

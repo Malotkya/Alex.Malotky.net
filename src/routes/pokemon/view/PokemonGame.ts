@@ -1,4 +1,4 @@
-import { createElement as _, Content } from "Engine";
+import { createElement as _, Content } from "zim-engine";
 import { Game } from "../types";
 import PokemonItem from "./PokemonItem";
 

@@ -1,4 +1,4 @@
-import {createElement as _} from "Engine";
+import {createElement as _} from "zim-engine";
 
 export default function LoginForm(username?:string, password?:string, error?:string){
     return _("form", {method: "post"},

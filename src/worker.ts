@@ -1,8 +1,6 @@
 import jwt from '@tsndr/cloudflare-worker-jwt';
-import Engine, {Content, Context, HttpError} from "Engine";
-import { getMessage } from 'Engine/HttpError';
-import View from "Engine/View";
-import Authorization from 'Engine/Authorization';
+import Engine, {Content, Context, HttpError, Authorization} from "zim-engine";
+import { getMessage } from 'zim-engine/lib/HttpError';
 import Template, { NavLink, ErrorContent } from "./template";
 import {parse, serialize} from "cookie";
 
@@ -92,8 +90,6 @@ app.error((err:any, ctx:Context)=>{
     } else {
         ctx.text(message);
     }
-
-    return ctx.flush();
 });
 
 import Home from "./routes/home";

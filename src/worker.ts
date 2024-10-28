@@ -1,6 +1,6 @@
 import jwt from '@tsndr/cloudflare-worker-jwt';
-import Engine, {Content, Context, HttpError, Authorization} from "zim-engine";
-import { getMessage } from 'zim-engine/lib/HttpError';
+import Engine, {Context, Authorization} from "zim-engine";
+import { getMessage } from 'zim-engine/HttpError';
 import Template, { NavLink, ErrorContent } from "./template";
 import {parse, serialize} from "cookie";
 

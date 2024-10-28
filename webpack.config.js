@@ -1,6 +1,6 @@
 const path = require('path');
 const fs = require('fs');
-const EngineConfig = require("zim-engine/webpack");
+const EngineConfig = require("zim-engine/Webpack");
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const TerserPlugin = require("terser-webpack-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
@@ -79,8 +79,10 @@ staticFiles.push({
     from: path.join(source_directory, 'static')
 });
 
+const target = path.join(source_directory, "worker.ts");
+
 module.exports = [
-    EngineConfig({inProduction, build_directory, source_directory}),
+    EngineConfig({inProduction, buildTarget: build_directory, sourceFile:target}),
     {
         mode: inProduction? "production": "development",
         entry: elements,

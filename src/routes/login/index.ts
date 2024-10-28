@@ -22,8 +22,8 @@ Login.get(async(ctx)=>{
 
 
 Login.post(async(ctx)=>{
-    const username = ctx.formData.get("username") as string;
-    const password = ctx.formData.get("password") as string;
+    const username = ctx.formData.get("username");
+    const password = ctx.formData.get("password");
     let error:string;
 
     if(username ===  undefined){

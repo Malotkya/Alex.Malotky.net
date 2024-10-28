@@ -40,7 +40,7 @@ export const DELETE:Dictionary<string|undefined> = {
  * @param {string|number} id (stirng = update / number = insert)
  * @returns {{query:string|undefined, data:Array<unknown>, result:Record<string, unknown>}}
  */
-export function UPDATE_QUERY(table:string, data:Map<string, string|Blob>, id:string|number):{query:string|undefined, data:Array<unknown>, result:Record<string, unknown>} {
+export function UPDATE_QUERY(table:string, data:Map<string, string>, id:string|number):{query:string|undefined, data:Array<unknown>, result:Record<string, unknown>} {
     id = Number(id);
     let name:string|undefined;
     switch (table){
@@ -60,7 +60,7 @@ export function UPDATE_QUERY(table:string, data:Map<string, string|Blob>, id:str
             }
 
         case "school":
-            name = data.get("name") as string;
+            name = data.get("name");
             const graduated = data.get("graduated");
             const degree = data.get("degree");
             const other = data.get("other");
@@ -74,7 +74,7 @@ export function UPDATE_QUERY(table:string, data:Map<string, string|Blob>, id:str
             }
 
         case "skills":
-            name = data.get("name") as string;
+            name = data.get("name");
             const info = data.get("info");
             
             const skill = {name, info, id};
@@ -100,7 +100,7 @@ export function UPDATE_QUERY(table:string, data:Map<string, string|Blob>, id:str
  * @param {number} id
  * @returns {{query:string|undefined, data:Array<unknown>, result:Record<string, unknown>}}
  */
-export function INSERT_QUERY(table:string, data:Map<string, string|Blob>, id:number):{query:string|undefined, data:Array<unknown>, result:Record<string, unknown>} {
+export function INSERT_QUERY(table:string, data:Map<string, string>, id:number):{query:string|undefined, data:Array<unknown>, result:Record<string, unknown>} {
     let name:string|undefined;
     switch (table){
         case "jobs":
@@ -119,7 +119,7 @@ export function INSERT_QUERY(table:string, data:Map<string, string|Blob>, id:num
             }
 
         case "school":
-            name = data.get("name") as string;
+            name = data.get("name");
             const graduated = data.get("graduated");
             const degree = data.get("degree");
             const other = data.get("other");
@@ -133,7 +133,7 @@ export function INSERT_QUERY(table:string, data:Map<string, string|Blob>, id:num
             }
 
         case "skills":
-            name = data.get("name") as string;
+            name = data.get("name");
             const info = data.get("info");
             
             const skill = {name, info, id};

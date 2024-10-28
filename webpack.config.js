@@ -61,8 +61,8 @@ function allTsFiles(dir){
     return output;
 }
 
-const build_directory = path.resolve(__dirname, "lib", "View");
-const source_directory = path.resolve(__dirname, "src", "View");
+const build_directory = path.resolve(__dirname, "build");
+const source_directory = path.resolve(__dirname, "src");
 const inProduction = process.argv.includes('prod');
 const routes = path.join(source_directory, "routes");
 const {elements, staticFiles} = bundleContent(routes, build_directory);

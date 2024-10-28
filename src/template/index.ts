@@ -1,6 +1,5 @@
-import { Content, createElement as _, View,} from "zim-engine";
-import { getMessage } from "zim-engine/lib/HttpError";
-import { RenderUpdate } from "zim-engine/lib/View";
+import { Content, createElement as _, View, RenderUpdate} from "zim-engine";
+import { getMessage } from "zim-engine/HttpError";
 import Navigation, {NavLink} from "./navBar";
 import Footer from "./footer";
 

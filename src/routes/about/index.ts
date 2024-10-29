@@ -3,6 +3,7 @@
  * @author Alex Malotky
  */
 import {Router, Context} from "zim-engine";
+import AboutView from "./view";
 
 /** About Me Router
  * 
@@ -16,7 +17,7 @@ AboutMe.all(async(ctx:Context)=>{
             meta: {description: "More about Alex."}
         }, 
         body: {
-            main: require("./index.html")
+            main: AboutView()
         }
     });
 });

@@ -63,7 +63,7 @@ function buildNav(data:Dictionary<Game>):Content {
         ));
     }
 
-    return _("nav", { class: "pokemon-game-select"},
+    return _("menu", { class: "pokemon-game-select"},
         _("ul", list)
     )
 }

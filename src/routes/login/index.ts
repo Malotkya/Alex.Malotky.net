@@ -1,5 +1,6 @@
 import { Router } from "zim-engine";
 import LoginForm, {LogoutRedirect} from "./view";
+import {USERNAME, PASSWORD} from "@/secrets.json";
 
 const Login = new Router("/Login");
 
@@ -30,7 +31,7 @@ Login.post(async(ctx)=>{
         error = "Please enter a username!";
     } else if(password === undefined){
         error = "Please enter a password!";
-    } else if(username !== "test" || password !== "12345"){
+    } else if(username !== USERNAME || password !== PASSWORD){
         error = "Wrong Username or Password!";
     } else {
         await ctx.setAuth({username, password});

@@ -3,6 +3,7 @@ import Engine, {Context, Authorization} from "zim-engine";
 import { getMessage } from 'zim-engine/HttpError';
 import Template, { NavLink, ErrorContent } from "./template";
 import {parse, serialize} from "cookie";
+import {SECRET} from "./secrets.json";
 
 const MAX_LOGIN_AGE = 604800;
 
@@ -19,7 +20,7 @@ auth.get(async(req)=>{
     if(typeof auth !== "string")
         return null;
 
-    if( !(await jwt.verify(auth, "secret")) )
+    if( !(await jwt.verify(auth, SECRET)) )
         return null;
     
     const {payload} = jwt.decode(auth);
@@ -41,7 +42,7 @@ auth.set(async(res, user)=>{
         const token = await jwt.sign({
             ...user,
             exp: Math.floor(Date.now() / 1000) + MAX_LOGIN_AGE
-        }, "secret");
+        }, SECRET);
     
         res.headers.set("Set-Cookie",
             serialize("auth", token, {

@@ -124,7 +124,6 @@ export default class CatagoryInput extends HTMLElement {
         this._dialog.promptEvent(()=>{      
             this._categories.clear();
             this.connectedCallback(false);
-            this.update();
         });
 
         this._input = new CategoryElement();
@@ -240,6 +239,8 @@ export default class CatagoryInput extends HTMLElement {
         this._values["main_deck"].value = JSON.stringify(main_deck);
         this._values["color_identity"].value = JSON.stringify(color_identity);
         this._values["art"].value = art;
+
+        this.appendChild(this._input);
     }
 
     /** Get Deck Object
@@ -351,7 +352,7 @@ export default class CatagoryInput extends HTMLElement {
             this.appendChild(this._categories.get(cat)!);
         }
 
-        this.appendChild(this._input);
+        this.update();
     }
 }
 

@@ -143,3 +143,7 @@ export function MarkDown(markdown:string):string {
         .replace(/`(.*?)`/gm, "<code>$1</code>")                                //Code lines
         .replace(/\n$/gim, '<br/>')                                             //Line Break          
 }
+
+export function sleep(n:number = 1):Promise<void> {
+    return new Promise((r)=>setTimeout(r, n));
+}

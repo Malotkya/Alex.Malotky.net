@@ -4,9 +4,11 @@
  * 
  * @author Alex Malotky
  */
-import { openDB, checkCache, setCache } from "@/routes/magic/element/CacheDownloader";
-
+import Cache from "./Cache";
 const URI = "https://cards.malotky.net/";
+
+export const CACHE_NAME = "Scryfall";
+export const CACHE_TTL  = 604800000;
 
 
 /** Scryfall Card Data
@@ -98,16 +100,19 @@ function compareNames(lhs:string, rhs:string):number{
  * @returns {string}
  */
 export async function getShard(shard:string):Promise<string>{
-    const db = await openDB();
+    if(shard.length > 1)
+        shard = shard.substring(0, 1);
 
-    const cache = await checkCache(db, shard);
-    if(cache)
-        return cache;
+    const cache = new Cache(CACHE_NAME, CACHE_TTL);
+
+    const storedValue = await cache.get(shard);
+    if(storedValue)
+        return storedValue;
 
     const file = await fetchShard(shard);
-    await setCache(db, shard, file);
+    await cache.set(shard, file);
 
-    db.close();
+    await cache.close();
     
     return file;
 }

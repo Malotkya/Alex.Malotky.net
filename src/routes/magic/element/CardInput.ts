@@ -5,6 +5,7 @@
 import { queryForCard, getShard } from "@/util/Scryfall";
 import { createElement as _ } from "@/util/Element";
 import AutoComplete from "@/elements/AutoComlete";
+import { sleep } from "@/util";
 import { Card } from "../types";
 
 const BLANK_CARD:Card = {
@@ -22,7 +23,7 @@ const BLANK_CARD:Card = {
  */
 export default class CardInput extends HTMLElement {
     //@ts-ignore
-    private _value:Card
+    private _value:Card|undefined;
 
     /** Constructor
      * 
@@ -70,6 +71,14 @@ export default class CardInput extends HTMLElement {
         }
     }
 
+    async value():Promise<Card|null> {
+        while(this._value === BLANK_CARD) {
+            await sleep();
+        }
+        
+        return this.card;
+    }
+
     /** Create and Populate Select.
      * 
      * @param sets 
@@ -96,10 +105,10 @@ export default class CardInput extends HTMLElement {
 
             select.appendChild(option);
         }
-        select.value = JSON.stringify(this._value.image);
+        select.value = JSON.stringify(this._value!.image);
 
         select.addEventListener("change", event=>{
-            this._value.image = JSON.parse(select.value);
+            this._value!.image = JSON.parse(select.value);
         });
 
         return select;
@@ -109,7 +118,7 @@ export default class CardInput extends HTMLElement {
      * 
      */
     private delete(){
-        if(window.confirm(`Are you sure you want to remove ${this._value.name}?`)){
+        if(window.confirm(`Are you sure you want to remove ${this._value!.name}?`)){
             this.parentElement!.removeChild(this);
         }
     }
@@ -133,6 +142,9 @@ export default class CardInput extends HTMLElement {
     private set(string:string){
         createCardFromString(string).then(card=>{
             this._value = card;
+        }).catch(e =>{
+            console.error(e);
+            this._value = undefined;
         });
     }
 
@@ -174,7 +186,7 @@ export default class CardInput extends HTMLElement {
                     input.value = "0";
                 }
 
-                this._value.count = number;
+                this._value!.count = number;
             });
             nameElement.appendChild(input);
 
@@ -187,7 +199,7 @@ export default class CardInput extends HTMLElement {
             const foilInput = document.createElement("input");
             foilInput.type = "checkbox";
             foilInput.addEventListener("change", ()=>{
-                this._value.foil = foilInput.checked;
+                this._value!.foil = foilInput.checked;
             });
             foilInput.checked = this._value.foil;
             foilInput.style.width = "auto";
@@ -204,7 +216,7 @@ export default class CardInput extends HTMLElement {
                     if(buffer !== null)
                         this.appendChild(this.populate(buffer.sets));
                     else
-                        this.appendChild(this.populate(this._value.sets));
+                        this.appendChild(this.populate(this._value!.sets));
                     this.appendChild(btnDelete);
                 });
             } else {

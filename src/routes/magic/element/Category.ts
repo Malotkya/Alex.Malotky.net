@@ -53,18 +53,17 @@ export default class CategoryElement extends HTMLElement {
      * 
      * List of cards in category;
      */
-    get value():Array<Card>{
+    async value():Promise<Card[]>{
         const output: Array<Card> = [];
 
-        //@ts-ignore
-        this._list.childNodes.forEach((element:CardElement)=>{
-            const value:Card|null = element.card;
+        for(const element of Array.from(this._list.childNodes)){
+            const value:Card|null = await (element as CardElement).value();
 
             if(value !== null){
                 output.push(value);
             }
-        });
-
+        }
+        
         return output;
     }
 

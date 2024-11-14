@@ -123,8 +123,8 @@ export default class CatagoryInput extends HTMLElement {
         this._dialog = new DeckListDialog();
         this._dialog.promptEvent(()=>{      
             this._categories.clear();
-            this.connectedCallback();
-            this.dispatchEvent(new Event("input"));
+            this.connectedCallback(false);
+            this.update();
         });
 
         this._input = new CategoryElement();
@@ -233,8 +233,8 @@ export default class CatagoryInput extends HTMLElement {
     /** Update Hidden Values for Submit
      * 
      */
-    private update(){
-        const {commanders, main_deck, color_identity, art} = this.getDeckObject();
+    private async update(){
+        const {commanders, main_deck, color_identity, art} = await this.getDeckObject();
         
         this._values["commanders"].value = JSON.stringify(commanders);
         this._values["main_deck"].value = JSON.stringify(main_deck);
@@ -246,7 +246,7 @@ export default class CatagoryInput extends HTMLElement {
      * 
      * @returns {Deck}
      */
-    public getDeckObject():Deck {
+    public async getDeckObject():Promise<Deck> {
         const output:Deck = {
             commanders: [],
             main_deck: {},
@@ -259,9 +259,9 @@ export default class CatagoryInput extends HTMLElement {
             if(list instanceof CategoryElement){
                 const name = list.id;
                 if(name === CARD_TYPE_PRIORITY[0]) {
-                    output.commanders = list.value;
+                    output.commanders = await list.value();
                 } else if(name !== ""){
-                    output.main_deck[name] = list.value;
+                    output.main_deck[name] = await list.value();
                 }
 
             }
@@ -303,10 +303,10 @@ export default class CatagoryInput extends HTMLElement {
         return output;
     }
 
-    private getDeckList():string{
+    private async getDeckList():Promise<string>{
         const cardToString = (card:Card):string =>`${card.count} ${card.name} [${card.set}:${card.collector_number}] ${card.foil?"F":""}`;
 
-        const deck = this.getDeckObject();
+        const deck = await this.getDeckObject();
         let output:string = "//Commanders\n" + deck.commanders.map(cardToString).join("\n");
 
         for(let cat in deck.main_deck){
@@ -319,20 +319,22 @@ export default class CatagoryInput extends HTMLElement {
     /** Connected Callback
      * 
      */
-    public connectedCallback(){
+    public connectedCallback(init:boolean = true){
         this.innerHTML = "";
         for(let name in this._values) {
             this.appendChild(this._values[name]);
         }
 
         this.appendChild(this._dialog);
-        const btnShowDialog = _("button", {type: "button"});
-        btnShowDialog.addEventListener("click", ()=>{
-            this.value = this.getDeckList();
-            this._dialog.show();
-        });
-        btnShowDialog.textContent = "Edit Deck List";
-        this.parentElement?.insertBefore(btnShowDialog, this);
+        if(init){
+            const btnShowDialog = _("button", {type: "button"});
+            btnShowDialog.addEventListener("click", async()=>{
+                this.value = await this.getDeckList();
+                this._dialog.show();
+            });
+            btnShowDialog.textContent = "Edit Deck List";
+            this.parentElement?.insertBefore(btnShowDialog, this);
+        }
 
         this.propagete();
         const order: Array<string> = Array.from(this._categories.keys()).sort((lhs:string, rhs:string):number=>{

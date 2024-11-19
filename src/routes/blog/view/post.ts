@@ -17,12 +17,14 @@ export function validatePost(value:Dictionary<unknown>):Post {
 }
 
 export function EditPost(data:Post): Content {
-    const buffer = Buffer.from(data.content).toString("base64");
+    const buffer = Buffer.from(data.content || "").toString("base64");
 
     return _("form", {id: "blog-post-form"},
         _("div", {class: "row"},
-            _("label", {for: "post-title", class: "post-title"}, "Post Title:"),
-            _("input", {id: "post-title", name: "title", value: data.title}),
+            _("div", {class: "post-title"},
+                _("label", {for: "post-title"}, "Post Title:"),
+                _("input", {id: "post-title", name: "title", value: data.title})
+            ),
 
             _("p", {id: "post-date"}, formatDate(data.id, "%M %D, %Y", "")),
         ),
@@ -39,6 +41,6 @@ export function ViewPost(post:Post): Content {
     return [
         _("h2", {class: "post-title"}, post.title),
         _("p", formatDate(post.id, "%M %D, %Y")),
-        _("div", {class: "mark-down"}, MarkDown(post.content))
+        _("div", {class: "markdown"}, MarkDown(post.content))
     ]
 }

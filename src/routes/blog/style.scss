@@ -17,17 +17,17 @@
 
     label{
         padding: 0.2em;
-
-        input, textarea {
-            width: 100%;
-        }
-
-        textarea, #content-preview {
-            resize: none;
-            height: 90%;
-            overflow-y: scroll;
-        };
     }
+
+    input, textarea {
+        width: 100%;
+    }
+
+    textarea, #content-preview {
+        resize: none;
+        height: 90%;
+        overflow-y: scroll;
+    };
 
     .post-title {
         width: 80%;

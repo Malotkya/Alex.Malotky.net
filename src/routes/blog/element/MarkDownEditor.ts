@@ -8,7 +8,7 @@ export default class MarkDownEditor extends HTMLElement {
     constructor(){
         super();
         this._input = _("textarea", {id: "post-content", }) as HTMLTextAreaElement;
-        this._preview = _("div", {id: "content-preview"});
+        this._preview = _("div", {id: "content-preview", class: "markdown"});
 
         this._input.addEventListener("input", ()=>{
             this._preview.innerHTML = MarkDown(this._input.value)
@@ -31,11 +31,14 @@ export default class MarkDownEditor extends HTMLElement {
 
     connectedCallback(){
         appendChildren(this, [
-            _("label", {for: "post-content"}, "Mark Down Editor:"),
-            this._input,
-
-            _("label", {for: "content-preview"}, "Mark Down Preview:"),
-            this._preview
+            _("div", {class: "post-content"},
+                _("label", {for: "post-content"}, "Mark Down Editor:"),
+                this._input
+            ),
+            _("div", {class: "content-preview"},
+                _("label", {for: "content-preview"}, "Mark Down Preview:"),
+                this._preview
+            )
         ])
     }
 }

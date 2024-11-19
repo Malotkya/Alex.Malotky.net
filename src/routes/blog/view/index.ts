@@ -35,6 +35,6 @@ function Result(post:Post, edit?:boolean):Content {
         _("h2", {class: "post-title"}, title),
         _("p", formatDate(id, "%M %D, %Y")),
         edit? _("div", {class: "post-buttons"}, editButton, deleteButton)
-            : _("div", {class: "mark-down"}, MarkDown(content))
+            : _("div", {class: "markdown"}, MarkDown(content))
     );
 }

@@ -9,10 +9,7 @@ import Post, {ViewPost, EditPost, validatePost} from "./view/post";
 
 const PAGE_SIZE = 30;
 
-/** Blog Router
- * 
- */
-export const Blog = new Router("/Blog");
+const Blog = new Router("/Blog");
 
 const Editor = new Router("/Edit");
 Blog.use(Editor);
@@ -136,14 +133,14 @@ Blog.get("/:id", async(ctx:Context)=>{
 
     let post:Post|null;
     try {
-        post = await ctx.env.DB.prepare("SELECT * FROM Post where id = ?")
+        post = await ctx.env.DB.prepare("SELECT * FROM Blog where id = ?")
                 .bind(id).first();
     } catch (e){
         throw new HttpError(500, "There was a problem getting the Blog Post!");
     }
 
     if(post === null)
-        throw new HttpError(404, `Unable to find Blog Post iwht id '${id}'!`);
+        throw new HttpError(404, `Unable to find Blog Post with id '${id}'!`);
     
     ctx.render({
         head: {
@@ -154,7 +151,7 @@ Blog.get("/:id", async(ctx:Context)=>{
             }
         },
         body: {
-            main: ViewPost(post)
+            main: ViewPost(validatePost(post))
         }
     });
 });
@@ -166,7 +163,7 @@ Blog.all(async(ctx:Context)=> {
     else
         --page;
 
-    const {results, error} = await ctx.env.DB.prepare("SELECT * FROM Decks ORDER BY id DESC LIMIT ? OFFSET ?")
+    const {results, error} = await ctx.env.DB.prepare("SELECT * FROM Blog ORDER BY id DESC LIMIT ? OFFSET ?")
             .bind(PAGE_SIZE, PAGE_SIZE * page).all();
 
     if(error)
@@ -185,3 +182,5 @@ Blog.all(async(ctx:Context)=> {
         }
     })
 });
+
+export default Blog;

@@ -80,6 +80,9 @@ app.error((err:any, ctx:Context)=>{
             message = err.message || String(err);
     }
 
+    if(isNaN(status))
+        status = 500;
+
     const contentType = (ctx.request.headers.get("Accept") || "").toLocaleLowerCase();
 
     ctx.status(status);
@@ -100,6 +103,7 @@ import Portfolio from "./routes/portfolio";
 import Pokemon from "./routes/pokemon";
 import Login, {Logout} from "./routes/login";
 import Magic from "./routes/magic";
+import Blog from './routes/blog';
 
 app.use(Home);
 app.use(Resume);
@@ -109,10 +113,12 @@ app.use(Pokemon);
 app.use(Magic);
 app.use(Login);
 app.use(Logout);
+app.use(Blog);
 
 navBar.push(NavLink(Resume.path, "Resume"));
 navBar.push(NavLink(Portfolio.path, "Protfolio"));
 navBar.push(NavLink(About.path, "About Me"));
+navBar.push(NavLink(Blog.path, "Blog"));
 
 //export default app;
 export default {

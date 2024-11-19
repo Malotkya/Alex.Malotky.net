@@ -30,10 +30,37 @@ Editor.delete("/:id", async(ctx:Context)=>{
 });
 
 Editor.get("/New", async(ctx:Context)=>{
+    ctx.render({
+        head: {
+            styles,
+            title: `Edit Blog Post (New)`,
+            meta: {
+                description: "Blog Post Editor."
+            }
+        },
+        body: {
+            main: EditPost()
+        }
+    });
+});
+
+Editor.post("/New", async(ctx:Context)=>{
     const id = Date.now();
 
-    await ctx.env.DB.prepare("INSERT INTO Blog(id) VALUES(?)")
-        .bind(id).run();
+    const title = ctx.formData.get("title");
+    if(title === undefined)
+        throw new HttpError(400, "Must set title value!");
+
+    const content = ctx.formData.get("content");
+    if(content === undefined)
+        throw new HttpError(400, "Must set content value!");
+
+    try {
+        await ctx.env.DB.prepare("INSERT INTO Blog(id, title, content) Values(?, ?, ?)")
+                .bind(title, content, id).run();
+    } catch (e){
+        throw new HttpError(500, "There was a problem updating the blog post!");
+    }
 
     ctx.redirect(`/Blog/Edit/${id}`);
 });

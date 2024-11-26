@@ -1,20 +1,7 @@
 import { createElement as _, Content } from "zim-engine";
 import { formatDate, MarkDown } from "@/util";
 import { Buffer } from "node:buffer";
-
-export default interface Post {
-    id: number,
-    title: string,
-    content:string
-}
-
-export function validatePost(value:Dictionary<unknown>|Post):Post {
-    const id = Number(value["id"]);
-    const title = value["title"]? String(value["title"]): "Title Not Found!";
-    const content = value["content"]? String(value["content"]): "";
-
-    return {id, title, content};
-}
+import Post from "../data/post";
 
 export function EditPost(data?:Post): Content {
     const {id = 0, title = "", content = ""} = data || {};

@@ -1,6 +1,6 @@
 import { createElement as _, Content } from "zim-engine";
 import { formatDate, MarkDown } from "@/util";
-import Post from "./post";
+import Post from "../data/post";
 
 export default function BlogResults(list:Array<Post>, edit?:boolean):Content {
     return [

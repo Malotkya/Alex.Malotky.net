@@ -5,7 +5,8 @@
 import {Context, HttpError, Router} from "zim-engine";
 import styles from "./style.scss";
 import BlogResults from "./view";
-import Post, {ViewPost, EditPost, validatePost} from "./view/post";
+import {ViewPost, EditPost} from "./view/post";
+import Post, {BlogPost} from "./data/post";
 
 const PAGE_SIZE = 30;
 
@@ -23,9 +24,8 @@ Editor.use(async(ctx:Context) =>{
 });
 
 Editor.delete("/:id", async(ctx:Context)=>{
-    await ctx.env.DB.prepare("DELETE FROM Blog WHERE id = ?")
-        .bind(ctx.params.get("id")).run();
-
+    const id = ctx.params.get("id")!;
+    ctx.query().delete(BlogPost, {id});
     ctx.redirect("/Blog/Edit");
 });
 
@@ -45,40 +45,24 @@ Editor.get("/New", async(ctx:Context)=>{
 });
 
 Editor.post("/New", async(ctx:Context)=>{
-    const id = Date.now();
-
-    const title = ctx.formData.get("title");
-    if(title === undefined)
-        throw new HttpError(400, "Must set title value!");
-
-    const content = ctx.formData.get("content");
-    if(content === undefined)
-        throw new HttpError(400, "Must set content value!");
+    const post = await ctx.formData(BlogPost);
+    post.id = Date.now();
 
     try {
-        await ctx.env.DB.prepare("INSERT INTO Blog(id, title, content) Values(?, ?, ?)")
-                .bind(title, content, id).run();
+        await ctx.query().insert(BlogPost, post);  
     } catch (e){
         throw new HttpError(500, "There was a problem updating the blog post!");
     }
 
-    ctx.redirect(`/Blog/Edit/${id}`);
+    ctx.redirect(`/Blog/Edit/${post.id}`);
 });
 
 Editor.post("/:id", async(ctx:Context)=>{
     const id = Number(ctx.params.get("id")!);
-
-    const title = ctx.formData.get("title");
-    if(title === undefined)
-        throw new HttpError(400, "Must set title value!");
-
-    const content = ctx.formData.get("content");
-    if(content === undefined)
-        throw new HttpError(400, "Must set content value!");
+    const post = await ctx.formData(BlogPost);
 
     try {
-        await ctx.env.DB.prepare("UPDATE Blog Set title = ?, content = ? WHERE id = ?")
-                .bind(title, content, id).run();
+        await ctx.query().update(BlogPost, post, {id});
     } catch (e){
         throw new HttpError(500, "There was a problem updating the blog post!");
     }
@@ -92,7 +76,7 @@ Editor.post("/:id", async(ctx:Context)=>{
             }
         },
         body: {
-            main: EditPost({id, title, content})
+            main: EditPost(post)
         }
     });
 });
@@ -101,17 +85,10 @@ Editor.post("/:id", async(ctx:Context)=>{
 
 Editor.get("/:id", async(ctx:Context)=>{
     const id = ctx.params.get("id")!;
-
-    let post:Post|null;
-    try {
-        post = await ctx.env.DB.prepare("SELECT * FROM Blog WHERE id = ?")
-                        .bind(id).first();
-    } catch (e){
-        throw new HttpError(500, "There was a problem getting the Blog Post!");
-    }
+    const post:Post|null = await ctx.query().get(BlogPost, {id});
 
     if(post === null) {
-        throw new HttpError(404, `Unable to find Blog Post iwht id '${id}'!`);
+        throw new HttpError(404, `Unable to find Blog Post with id '${id}'!`);
     }
 
     ctx.render({
@@ -129,17 +106,14 @@ Editor.get("/:id", async(ctx:Context)=>{
 });
 
 Editor.all(async(ctx: Context)=>{
-    let page = Number(ctx.search.get("page"));
+    /*let page = Number(ctx.search.get("page"));
     if(isNaN(page) || page < 0)
         page = 0;
     else
         --page;
+    */
 
-    const {results, error} = await ctx.env.DB.prepare("SELECT * FROM Blog ORDER BY id DESC LIMIT ? OFFSET ?")
-            .bind(PAGE_SIZE, PAGE_SIZE * page).all();
-
-    if(error)
-        throw error;
+    const results = await ctx.query().getAll(BlogPost);
 
     ctx.render({
         head: {
@@ -150,21 +124,14 @@ Editor.all(async(ctx: Context)=>{
             }
         },
         body: {
-            main: BlogResults(results.map(validatePost), true)
+            main: BlogResults(results, true)
         }
     });
 });
 
 Blog.get("/:id", async(ctx:Context)=>{
     const id = ctx.params.get("id")!;
-
-    let post:Post|null;
-    try {
-        post = await ctx.env.DB.prepare("SELECT * FROM Blog where id = ?")
-                .bind(id).first();
-    } catch (e){
-        throw new HttpError(500, "There was a problem getting the Blog Post!");
-    }
+    const post:Post|null = await ctx.query().get(BlogPost, {id});
 
     if(post === null)
         throw new HttpError(404, `Unable to find Blog Post with id '${id}'!`);
@@ -178,23 +145,20 @@ Blog.get("/:id", async(ctx:Context)=>{
             }
         },
         body: {
-            main: ViewPost(validatePost(post))
+            main: ViewPost(post)
         }
     });
 });
 
 Blog.all(async(ctx:Context)=> {
-    let page = Number(ctx.search.get("page"));
+    /*let page = Number(ctx.search.get("page"));
     if(isNaN(page) || page < 0)
         page = 0;
     else
         --page;
+    */
 
-    const {results, error} = await ctx.env.DB.prepare("SELECT * FROM Blog ORDER BY id DESC LIMIT ? OFFSET ?")
-            .bind(PAGE_SIZE, PAGE_SIZE * page).all();
-
-    if(error)
-        throw error;
+    const results = await ctx.query().getAll(BlogPost);
 
     ctx.render({
         head: {
@@ -205,7 +169,7 @@ Blog.all(async(ctx:Context)=> {
             }
         },
         body: {
-            main: BlogResults(results.map(validatePost))
+            main: BlogResults(results)
         }
     })
 });

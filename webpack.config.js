@@ -5,7 +5,6 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const TerserPlugin = require("terser-webpack-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 
-
 /** Bundle Content
  * 
  * @param {string} routeDir 
@@ -70,8 +69,9 @@ const {elements, staticFiles} = bundleContent(routes, build_directory);
 //Add global elements
 allTsFiles(path.join(source_directory, "elements")).forEach(item=>elements.push(item));
 
-//Add styliing file
+//Adding other files
 elements.push(path.join(source_directory, 'index.scss'));
+elements.push(EngineConfig.BundlePath);
 
 //Add base static directory
 staticFiles.push({

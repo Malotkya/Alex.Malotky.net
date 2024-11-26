@@ -10,7 +10,7 @@ const MAX_LOGIN_AGE = 604800;
 const [navBar, view] = Template();
 
 const app = new Engine();
-app.view(view);
+app.view(view, false);
 
 //Authentication Handler
 const auth = new Authorization();

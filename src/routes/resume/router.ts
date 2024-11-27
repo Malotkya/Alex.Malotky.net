@@ -6,9 +6,9 @@ import { SkillItem } from "./data/skill";
 import styles from "./style.scss";
 
 const DATA_OBJECTS = {
-    "Skill": SkillItem,
+    "Skills": SkillItem,
     "School": SchoolItem,
-    "Job": JobItem
+    "Jobs": JobItem
 } as const;
 
 type SingleView<T extends keyof typeof DATA_OBJECTS> = (value:TypeOf<typeof DATA_OBJECTS[T]>)=>Content;
@@ -28,16 +28,6 @@ export default class ResumeRouter<T extends keyof typeof DATA_OBJECTS> extends R
 
        if(edit) {
 
-            /** Validate Login
-             * 
-             */
-            this.all("*", async(ctx)=>{
-                const user = await ctx.getAuth();
-                if(user === null) {
-                    ctx.redirect("/Login");
-                }
-            });
-
             /** Delete Record Handler
              * 
              */
@@ -45,7 +35,7 @@ export default class ResumeRouter<T extends keyof typeof DATA_OBJECTS> extends R
                 const id = ctx.params.get("id")!;
 
                 try {
-                    await ctx.query().delete(DATA_OBJECTS[name] as any, {id});
+                    await ctx.query(DATA_OBJECTS[name] as any).delete({id});
                 } catch (e){
                     console.error(e);
                     throw new HttpError(500, `There was a probem deleted from ${name}!`);
@@ -62,7 +52,7 @@ export default class ResumeRouter<T extends keyof typeof DATA_OBJECTS> extends R
                 const data = await ctx.formData(DATA_OBJECTS[name] as any);
 
                 try {
-                    ctx.query().update(DATA_OBJECTS[name] as any, data, {id});
+                    ctx.query(DATA_OBJECTS[name] as any).update(data, {id});
                 } catch (e){
                     console.error(e);
                     throw new HttpError(500, `There was a probem updating to ${name}!`);
@@ -109,7 +99,7 @@ export default class ResumeRouter<T extends keyof typeof DATA_OBJECTS> extends R
                 data["id"] = id;
             
                 try {
-                    await ctx.query().insert(DATA_OBJECTS[name] as any, data);
+                    await ctx.query(DATA_OBJECTS[name] as any).insert(data);
                 } catch (e){
                     console.error(e);
                     throw new HttpError(500, `There was a probem inserting into ${name}!`);
@@ -126,7 +116,7 @@ export default class ResumeRouter<T extends keyof typeof DATA_OBJECTS> extends R
             const id = ctx.params.get("id")!;
             let result:any|null;
             try {
-                result = await ctx.query().get(DATA_OBJECTS[name] as any, {id});
+                result = await ctx.query(DATA_OBJECTS[name] as any).get({id});
             } catch (e){
                 console.error(e);
                 throw new HttpError(500, `There was a problem querying ${name}!`);
@@ -156,7 +146,7 @@ export default class ResumeRouter<T extends keyof typeof DATA_OBJECTS> extends R
         this.get(async(ctx)=>{
             let results:any[];
             try {
-                results = await ctx.query().getAll(DATA_OBJECTS[name] as any);
+                results = await ctx.query(DATA_OBJECTS[name] as any).getAll();
             } catch (e){
                 console.error(e);
                 throw new HttpError(500, `There was a problem querying ${name}!`);

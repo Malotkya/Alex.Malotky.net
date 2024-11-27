@@ -25,7 +25,7 @@ Editor.use(async(ctx:Context) =>{
 
 Editor.delete("/:id", async(ctx:Context)=>{
     const id = ctx.params.get("id")!;
-    ctx.query().delete(BlogPost, {id});
+    ctx.query(BlogPost).delete({id});
     ctx.redirect("/Blog/Edit");
 });
 
@@ -49,7 +49,7 @@ Editor.post("/New", async(ctx:Context)=>{
     post.id = Date.now();
 
     try {
-        await ctx.query().insert(BlogPost, post);  
+        await ctx.query(BlogPost).insert(post);  
     } catch (e){
         throw new HttpError(500, "There was a problem updating the blog post!");
     }
@@ -62,7 +62,7 @@ Editor.post("/:id", async(ctx:Context)=>{
     const post = await ctx.formData(BlogPost);
 
     try {
-        await ctx.query().update(BlogPost, post, {id});
+        await ctx.query(BlogPost).update(post, {id});
     } catch (e){
         throw new HttpError(500, "There was a problem updating the blog post!");
     }
@@ -85,7 +85,7 @@ Editor.post("/:id", async(ctx:Context)=>{
 
 Editor.get("/:id", async(ctx:Context)=>{
     const id = ctx.params.get("id")!;
-    const post:Post|null = await ctx.query().get(BlogPost, {id});
+    const post:Post|null = await ctx.query(BlogPost).get({id});
 
     if(post === null) {
         throw new HttpError(404, `Unable to find Blog Post with id '${id}'!`);
@@ -113,7 +113,7 @@ Editor.all(async(ctx: Context)=>{
         --page;
     */
 
-    const results = await ctx.query().getAll(BlogPost);
+    const results = await ctx.query(BlogPost).getAll();
 
     ctx.render({
         head: {
@@ -131,7 +131,7 @@ Editor.all(async(ctx: Context)=>{
 
 Blog.get("/:id", async(ctx:Context)=>{
     const id = ctx.params.get("id")!;
-    const post:Post|null = await ctx.query().get(BlogPost, {id});
+    const post:Post|null = await ctx.query(BlogPost).get({id});
 
     if(post === null)
         throw new HttpError(404, `Unable to find Blog Post with id '${id}'!`);
@@ -158,7 +158,7 @@ Blog.all(async(ctx:Context)=> {
         --page;
     */
 
-    const results = await ctx.query().getAll(BlogPost);
+    const results = await ctx.query(BlogPost).getAll();
 
     ctx.render({
         head: {

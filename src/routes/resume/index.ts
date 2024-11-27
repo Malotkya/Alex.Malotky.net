@@ -15,10 +15,20 @@ import styles from "./style.scss";
 
 const Editor = new Router("/Edit");
 
+/** Validate Login
+ * 
+ */
+Editor.all("*", async(ctx)=>{
+    const user = await ctx.getAuth();
+    if(user === null) {
+        ctx.redirect("/Login");
+    }
+});
+
 //Editor Table Handlers
-Editor.use(new ResumeRouter("Job", EditJob, JobEditListView, true));
+Editor.use(new ResumeRouter("Jobs", EditJob, JobEditListView, true));
 Editor.use(new ResumeRouter("School", EditSchool, SchoolEditListView, true));
-Editor.use(new ResumeRouter("Skill", EditSkill, SkillEditListView, true));
+Editor.use(new ResumeRouter("Skills", EditSkill, SkillEditListView, true));
 
 /** Default Editor Handler
  * 
@@ -41,9 +51,9 @@ Editor.get(async(ctx)=>{
 const Resume = new Router("/Resume");
 Resume.use(Editor);
 
-Resume.use(new ResumeRouter("Job", JobDetailed, JobListView))
+Resume.use(new ResumeRouter("Jobs", JobDetailed, JobListView))
 Resume.use(new ResumeRouter("School", SchoolDetailed, SchoolListView));
-Resume.use(new ResumeRouter("Skill", SkillDetailed, SkillListView));
+Resume.use(new ResumeRouter("Skills", SkillDetailed, SkillListView));
 
 /** Default Resume Handler
  * 
@@ -52,11 +62,11 @@ Resume.get(async(ctx)=>{
 
     try {
         //"SELECT * FROM Jobs ORDER BY startDate DESC LIMIT 6"
-        const jobs = await ctx.query().getAll(JobItem)
+        const jobs = await ctx.query(JobItem).getAll()
         //"SELECT * FROM School ORDER BY graduated DESC LIMIT 6"
-        const school = await ctx.query().getAll(SchoolItem);
+        const school = await ctx.query(SchoolItem).getAll();
         //"SELECT * FROM Skills"
-        const skills = await ctx.query().getAll(SkillItem);
+        const skills = await ctx.query(SkillItem).getAll();
         
         ctx.render({
             head: {

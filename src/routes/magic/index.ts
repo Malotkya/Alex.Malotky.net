@@ -38,28 +38,23 @@ Editor.get("/New", async(ctx)=>{
 
 Editor.post("/:id", async(ctx)=>{
     const id = Number(ctx.params.get("id")!);
+    const {name, description, commanders, main_deck, color_identity, art} = await ctx.formData();
 
-    const name = ctx.formData.get("name");
     if(name === undefined)
         throw new HttpError(400, "Must set name value!");
 
-    const description = ctx.formData.get("description");
     if(description === undefined)
         throw new HttpError(400, "Must set description value!");
 
-    const commanders = ctx.formData.get("commanders");
     if(commanders === undefined)
         throw new HttpError(400, "Must set commander value!");
 
-    const main_deck = ctx.formData.get("main_deck");
     if(main_deck === undefined)
         throw new HttpError(400, "Must set main_deck value!");
 
-    const color_identity = ctx.formData.get("color_identity");
     if(color_identity === undefined)
         throw new HttpError(400, "Must set color_identity value!");
 
-    const art = ctx.formData.get("art");
     if(art === undefined)
         throw new HttpError(400, "Must set art value!");
 

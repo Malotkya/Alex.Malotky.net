@@ -1,7 +1,7 @@
-import DataObject, {Optional, number, string, TypeOf} from "zim-engine/Validation";
+import DataObject, {optional, number, string, TypeOf} from "zim-engine/Validation";
 
 export const BlogPost = new DataObject("Blog", {
-    id: Optional(number()),
+    id: optional(number()),
     title: string("Title not Found!"),
     content: string("")
 });

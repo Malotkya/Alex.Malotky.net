@@ -39,7 +39,11 @@ export function SkillListView(list:Array<Skill>){
 
 export function SkillEditListView(list:Array<Skill>){
     return [
+        _("a", {class: "btn", href: "/Resume/Edit"}, "Back"),
         _("h1", "Edit Skills"),
+        _("aside", {class: "new-button"},
+            _("a", {class: "btn", href: "/Resume/Edit/Skills/New"}, "New Skill")
+        ),
         _("ul", {class: "resume-card-list"},
             list.map((v)=>SkillCard(v, true))
         )

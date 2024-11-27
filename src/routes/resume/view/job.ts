@@ -45,7 +45,11 @@ export function JobListView(list:Array<Job>){
 
 export function JobEditListView(list:Array<Job>){
     return [
+        _("a", {class: "btn", href: "/Resume/Edit"}, "Back"),
         _("h1", "Edit Work Hisotry"),
+        _("aside", {class: "new-button"},
+            _("a", {class: "btn", href: "/Resume/Edit/Jobs/New"}, "New Job" )
+        ),
         _("ul", {class: "resume-card-list"},
             list.map((v)=>JobCard(v, true))
         )

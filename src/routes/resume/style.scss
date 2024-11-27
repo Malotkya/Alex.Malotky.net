@@ -9,6 +9,12 @@
     gap: 5px;
 }
 
+.new-button {
+    background-color: $white;
+    display: flex;
+    justify-content: center;
+}
+
 .resume-card {
     display: flex;
     flex-flow: row wrap;

@@ -42,7 +42,11 @@ export function SchoolListView(list:Array<School>){
 
 export function SchoolEditListView(list:Array<School>){
     return [
+        _("a", {class: "btn", href: "/Resume/Edit"}, "Back"),
         _("h1", "Edit Schooling"),
+        _("aside", {class: "new-button"},
+            _("a", {class: "btn", href: "/Resume/Edit/School/New"}, "New School")
+        ),
         _("ul", {class: "resume-card-list"},
             list.map((v)=>SchoolCard(v, true))
         )
@@ -51,8 +55,10 @@ export function SchoolEditListView(list:Array<School>){
 
 export function SchoolDetailed(item:School){
     const graduated = formatDate(item.graduated, "%M, %Y", "Currently Enrolled");
+    const other = item.other || [];
 
     return [
+        _("a", {class: "btn", href: "/Resume/Edit"}, "Back"),
         _("h1", item.degree),
         _("article", {class: "resume-detailed"},
             _("h2", item.name),
@@ -60,7 +66,7 @@ export function SchoolDetailed(item:School){
                 _("span", `Graduated: ${graduated}`)
             ),
             _("div", {class: "resume-about"},
-                _("ul", item.other.map(a=>_("li", a)))
+                _("ul", other.map(a=>_("li", a)))
             )
         )
     ]

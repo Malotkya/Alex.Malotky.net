@@ -5,7 +5,7 @@ export const SchoolItem = new DataObject("School", {
     name: string(),
     degree: string(),
     graduated: optional(date()),
-    other: list(string())
+    other: optional(list(string()))
 });
 
 type School = TypeOf<typeof SchoolItem>;

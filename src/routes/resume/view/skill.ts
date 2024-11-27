@@ -1,37 +1,8 @@
 import { createElement as _ } from "zim-engine";
 import {Buffer} from "node:buffer";
+import Skill from "../data/skill";
 
-export interface SkillItem{
-    id: number,
-    name: string,
-    info: Dictionary<string|undefined|Array<string>>
-}
-
-export function validateSkillItem(value:Dictionary<unknown>, transform:boolean = true):SkillItem {
-    if(typeof value["id"] !== "number" || isNaN(value["id"])) 
-        throw new TypeError("Invalid Skill id!");
-
-    if(transform && value["name"] === null){
-        value["name"] = "";
-    } else if (typeof value["name"] !== "string") {
-        throw new TypeError("Invalid Skill Name!");
-    }
-
-    if(typeof value["info"] === "string"){
-        if(transform)
-            value["info"] = JSON.parse(value["info"]);
-    } else if(value["info"] === null){
-        if(transform)
-            value["info"] = {};
-    } else {
-        throw new TypeError("Invalid Skill Info!");
-    }
-
-    //@ts-ignore
-    return value;
-}
-
-export function SkillCard(item:SkillItem, edit:boolean = false){
+export function SkillCard(item:Skill, edit:boolean = false){
     const list = Object.getOwnPropertyNames(item.info);
 
     return _("li", {class: "resume-card"},
@@ -57,7 +28,25 @@ export function SkillCard(item:SkillItem, edit:boolean = false){
     )
 }
 
-export function SkillDetailed(item:SkillItem){
+export function SkillListView(list:Array<Skill>){
+    return [
+        _("h1", "Skills"),
+        _("ul", {class: "resume-card-list"},
+            list.map((v)=>SkillCard(v))
+        )
+    ]
+}
+
+export function SkillEditListView(list:Array<Skill>){
+    return [
+        _("h1", "Edit Skills"),
+        _("ul", {class: "resume-card-list"},
+            list.map((v)=>SkillCard(v, true))
+        )
+    ]
+}
+
+export function SkillDetailed(item:Skill){
     const list = Object.getOwnPropertyNames(item.info);
 
     return [
@@ -82,7 +71,7 @@ export function SkillDetailed(item:SkillItem){
     ]
 }
 
-export function EditSkill(item: SkillItem|null, message?:string){
+export function EditSkill(item: Skill|null, message?:string){
     const data = Buffer.from(
         JSON.stringify(item?.info || {})
     ).toString("base64");

@@ -1,51 +1,8 @@
 import { createElement as _ } from "zim-engine";
 import { formatDate } from "@/util";
+import School from "../data/school";
 
-export interface SchoolItem {
-    id: number,
-    name: string,
-    degree: string,
-    graduated: number,
-    other: Array<string>
-}
-
-export function validateSchoolItem(value:Dictionary<unknown>, transform:boolean = true):SchoolItem {
-    if(typeof value["id"] !== "number"|| isNaN(value["id"])) 
-        throw new TypeError("Invalid School id!");
-        
-    if(transform && value["name"] === null){
-        value["name"] = "";
-    } else if (typeof value["name"] !== "string") {
-        throw new TypeError("Invalid School Name!");
-    }
-    
-    if(transform && value["degree"] === null){
-        value["degree"] = "";
-    } else if (typeof value["degree"] !== "string") {
-        throw new TypeError("Invalid School Degree!");
-    }
-
-    if(transform && value["graduated"] === null){
-        value["graduated"] = "";
-    } else if (typeof value["graduated"] !== "string") {
-        throw new TypeError("Invalid School Graduated!");
-    }
-
-    if(typeof value["other"] === "string"){
-        if(transform)
-            value["other"] = JSON.parse(value["other"]);
-    } else if(value["other"] === null){
-        if(transform)
-            value["other"] = [];
-    } else {
-        throw new TypeError("Invalid School Other!");
-    }
-
-    //@ts-ignore
-    return value;
-}
-
-export function SchoolCard(item:SchoolItem, edit:boolean = false){
+export function SchoolCard(item:School, edit:boolean = false){
     const graduated = formatDate(item.graduated, "%m, %Y", "Current");
     const other = item.other || [];
 
@@ -74,9 +31,26 @@ export function SchoolCard(item:SchoolItem, edit:boolean = false){
     )
 }
 
-export function SchoolDetailed(item:SchoolItem){
+export function SchoolListView(list:Array<School>){
+    return [
+        _("h1", "Schooling"),
+        _("ul", {class: "resume-card-list"},
+            list.map((v)=>SchoolCard(v))
+        )
+    ]
+}
+
+export function SchoolEditListView(list:Array<School>){
+    return [
+        _("h1", "Edit Schooling"),
+        _("ul", {class: "resume-card-list"},
+            list.map((v)=>SchoolCard(v, true))
+        )
+    ]
+}
+
+export function SchoolDetailed(item:School){
     const graduated = formatDate(item.graduated, "%M, %Y", "Currently Enrolled");
-    const other = item.other || [];
 
     return [
         _("h1", item.degree),
@@ -91,7 +65,7 @@ export function SchoolDetailed(item:SchoolItem){
         )
     ]
 }
-export function EditSchool(item: SchoolItem|null, message?:string){
+export function EditSchool(item: School|null, message?:string){
     return _("form", {method: "post", class: "resume-editor"},
         _("a", {class: "btn", href: "/Resume/Edit/School"}, "Back"),
         _("h1", "Edit School"),

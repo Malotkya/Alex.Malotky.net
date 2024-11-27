@@ -1,52 +1,8 @@
 import { createElement as _ } from "zim-engine";
 import { formatDate } from "@/util";
+import Job from "../data/job";
 
-export interface JobItem {
-    id: number,
-    title: string,
-    employer?: string,
-    startDate: number,
-    endDate?: number,
-    about: Array<string>
-}
-
-export function validateJobItem(value:Dictionary<unknown>, transform:boolean = true):JobItem {
-    if(typeof value["id"] !== "number" || isNaN(value["id"])) 
-        throw new TypeError("Invalid Job id!");
-
-    if(transform && value["title"] === null){
-        value["title"] = "";
-    } else if (typeof value["title"] !== "string") {
-        throw new TypeError("Invalid Job Title!");
-    }
-
-    if(value["employer"] !== null && typeof value["employer"] !== "string")
-        throw new TypeError("Invalid Job Employer!");
-
-    if(transform && value["startDate"] === null) {
-        value["startDate"] = "";
-    }if(typeof value["startDate"] !== "string") {
-        throw new TypeError("Invalid Job Start Date!");
-    }
-    
-    if(value["endDate"] !== null && typeof value["endDate"] !== "string")
-        throw new TypeError("Invalid Job End Date!");
-
-    if(typeof value["about"] === "string"){
-        if(transform)
-            value["about"] = JSON.parse(value["about"]);
-    } else if(value["about"] === null){
-        if(transform)
-            value["about"] = [];
-    } else {
-        throw new TypeError("Invalid Job About!");
-    }
-
-    //@ts-ignore
-    return value;
-}
-
-export function JobCard(item: JobItem, edit:boolean = false){
+export function JobCard(item: Job, edit:boolean = false){
     const startDate: string = formatDate(item.startDate, "%m, %Y");
     const endDate: string   = formatDate(item.endDate, "%m, %Y", "Current");
     const about: Array<string> = item.about || [];
@@ -78,7 +34,25 @@ export function JobCard(item: JobItem, edit:boolean = false){
     );
 }
 
-export function JobDetailed(item: JobItem){
+export function JobListView(list:Array<Job>){
+    return [
+        _("h1", "Work History"),
+        _("ul", {class: "resume-card-list"},
+            list.map((v)=>JobCard(v))
+        )
+    ]
+}
+
+export function JobEditListView(list:Array<Job>){
+    return [
+        _("h1", "Edit Work Hisotry"),
+        _("ul", {class: "resume-card-list"},
+            list.map((v)=>JobCard(v, true))
+        )
+    ]
+}
+
+export function JobDetailed(item: Job){
     const startDate: string = formatDate(item.startDate, "%M, %Y");
     const endDate: string   = formatDate(item.endDate, "%M, %Y", "Currently Employed");
 
@@ -98,7 +72,7 @@ export function JobDetailed(item: JobItem){
     ]
 }
 
-export function EditJob(item: JobItem|null, message?:string){
+export function EditJob(item: Job|null, message?:string){
     return _("form", {method: "post", class: "resume-editor"},
         _("a", {class: "btn", href: "/Resume/Edit/Jobs"}, "Back"),
         _("h1", "Edit Job"),

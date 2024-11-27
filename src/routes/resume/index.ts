@@ -61,11 +61,11 @@ Resume.use(new ResumeRouter("Skills", SkillDetailed, SkillListView));
 Resume.get(async(ctx)=>{
 
     try {
-        //"SELECT * FROM Jobs ORDER BY startDate DESC LIMIT 6"
-        const jobs = await ctx.query(JobItem).getAll()
-        //"SELECT * FROM School ORDER BY graduated DESC LIMIT 6"
-        const school = await ctx.query(SchoolItem).getAll();
-        //"SELECT * FROM Skills"
+        //SELECT * FROM Jobs ORDER BY startDate DESC LIMIT 6
+        const jobs = await ctx.query(JobItem).getAll(undefined, {orderBy:{startDate: "DESC"}, limit: 6});
+        //SELECT * FROM School ORDER BY graduated DESC LIMIT 6
+        const school = await ctx.query(SchoolItem).getAll(undefined, {orderBy: {graduated: "DESC"}, limit: 6});
+        //SELECT * FROM Skills
         const skills = await ctx.query(SkillItem).getAll();
         
         ctx.render({

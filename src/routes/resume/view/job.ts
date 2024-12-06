@@ -36,6 +36,7 @@ export function JobCard(item: Job, edit:boolean = false){
 
 export function JobListView(list:Array<Job>){
     return [
+        _("a", {class: "btn", href: "."}, "Back"),
         _("h1", "Work History"),
         _("ul", {class: "resume-card-list"},
             list.map((v)=>JobCard(v))
@@ -45,7 +46,7 @@ export function JobListView(list:Array<Job>){
 
 export function JobEditListView(list:Array<Job>){
     return [
-        _("a", {class: "btn", href: "/Resume/Edit"}, "Back"),
+        _("a", {class: "btn", href: "."}, "Back"),
         _("h1", "Edit Work Hisotry"),
         _("aside", {class: "new-button"},
             _("a", {class: "btn", href: "/Resume/Edit/Jobs/New"}, "New Job" )
@@ -63,6 +64,7 @@ export function JobDetailed(item: Job){
     const about: Array<string> = item.about || [];
 
     return [
+        _("a", {class: "btn", href: "."}, "Back"),
         _("h1", item.title),
         _("article", {class: "resume-detailed"},
             _("h2", item.employer),
@@ -78,7 +80,7 @@ export function JobDetailed(item: Job){
 
 export function EditJob(item: Job|null, message?:string){
     return _("form", {method: "post", class: "resume-editor"},
-        _("a", {class: "btn", href: "/Resume/Edit/Jobs"}, "Back"),
+        _("a", {class: "btn", href: "."}, "Back"),
         _("h1", "Edit Job"),
         _("p", {class: "error", id: "error"}),
         _("p", {class: "message"}, message),

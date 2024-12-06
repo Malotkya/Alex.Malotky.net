@@ -5,7 +5,8 @@
 import CategoryElement from "./Category";
 import DeckListDialog from "./DeckListDialog";
 import CardElement from "./CardInput";
-import {Card, Deck} from "../types";
+import Card from "../data/card";
+import Deck from "../data/deck";
 import { createElement as _ } from "@/util/Element";
 
 
@@ -305,7 +306,7 @@ export default class CatagoryInput extends HTMLElement {
     }
 
     private async getDeckList():Promise<string>{
-        const cardToString = (card:Card):string =>`${card.count} ${card.name} [${card.set}:${card.collector_number}] ${card.foil?"F":""}`;
+        //const cardToString = (card:Card):string =>`${card.count} ${card.name} [${card.set}:${card.collector_number}] ${card.foil?"F":""}`;
 
         const deck = await this.getDeckObject();
         let output:string = "//Commanders\n" + deck.commanders.map(cardToString).join("\n");

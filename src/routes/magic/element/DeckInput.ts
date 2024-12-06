@@ -1,5 +1,5 @@
 import { createElement as _, appendChildren } from "@/util/Element";
-import { DeckItem } from "../types";
+import { DeckItem } from "../data/deck";
 import CatagoryInput from "./CatagoryInput";
 
 export default class DeckInput extends HTMLFormElement {
@@ -66,7 +66,7 @@ export default class DeckInput extends HTMLFormElement {
             _("label", {for:"description"}, "Description:"),
             _("textarea", {id:"description", name: "description"}, description),
             _("label", {for: "deckList"}, "Deck List:"),
-            new CatagoryInput(commanders, main_deck)
+            new CatagoryInput(commanders as any, main_deck as any)
         ]);
     }
 }

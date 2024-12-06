@@ -1,19 +1,18 @@
 import { createElement as _ } from "zim-engine";
-import { Card } from "../types";
+import Card from "../data/card";
 
 export default function CardView(card:Card){
     const {
         name = "Missing Name",
         count = 1,
-        image = [],
         typeLine = "Type Line",
         oracle = "Oracle Text",
         foil = false
     } = card;
-
+    const image = card.image || [];
     const altText = altTextGenerator(name);
 
-    //Needed for apple devices
+                                    //Needed for apple devices
     return _("li", {class: "card", onclick:(event)=>(event.target as HTMLElement).focus()},
         _("span", {class: "name"}, `${count} ${name.replace("//", "<br>&nbsp;&nbsp;")}`),
         _("span", 

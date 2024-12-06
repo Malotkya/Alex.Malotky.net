@@ -4,7 +4,7 @@
  */
 import { createElement as _ } from "@/util/Element";
 import CardElement from "./CardInput";
-import {Card} from "../types";
+import Card from "../data/card";
 
 /** Category Element
  * 

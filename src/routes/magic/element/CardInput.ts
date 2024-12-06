@@ -6,7 +6,7 @@ import { queryForCard, getShard } from "@/util/Scryfall";
 import { createElement as _ } from "@/util/Element";
 import AutoComplete from "@/elements/AutoComlete";
 import { sleep } from "@/util";
-import { Card } from "../types";
+import Card from "../data/card";
 
 const BLANK_CARD:Card = {
     count: -1,
@@ -14,6 +14,8 @@ const BLANK_CARD:Card = {
     set: "",
     collector_number: "",
     foil: true,
+    image: undefined,
+    art: undefined
 }
 
 /** CardElement Class
@@ -324,7 +326,9 @@ async function createCardFromString(string:string):Promise<Card>{
             count: count,
             foil: foil,
             collector_number: number,
-            set: set
+            set: set,
+            image: undefined,
+            art: undefined
         };
 
         console.warn("'" + cardName + "' not found!");
@@ -335,8 +339,9 @@ async function createCardFromString(string:string):Promise<Card>{
             count: count,
             set: set,
             foil: foil,
-            collector_number: number
-
+            collector_number: number,
+            image: undefined,
+            art: undefined
         }
 
         //Get possible missing information.

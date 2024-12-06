@@ -24,7 +24,7 @@ Login.get(async(ctx)=>{
 
 Login.post(async(ctx)=>{
     const {username, password} = await ctx.formData();
-    let error:string;
+    let error:string|undefined;
 
     if(username ===  undefined){
         error = "Please enter a username!";
@@ -42,7 +42,7 @@ Login.post(async(ctx)=>{
             title: "Login",
         },
         body: {
-            main: LoginForm(username, password, error)
+            main: LoginForm(username as string, password as string, error)
         }
     });
 });

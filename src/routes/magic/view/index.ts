@@ -5,7 +5,7 @@
  */
 import {Buffer} from "node:buffer";
 import {createElement as _, Content} from "zim-engine";
-import { DeckItem } from "../types";
+import { DeckItem } from "../data/deck";
 import Deck from "./deck";
 
 /** Deck View Module
@@ -22,9 +22,9 @@ export function DeckView(deck:DeckItem): Content{
  * @param {DeckItem} deck 
  * @returns {Content}
  */
-export function DeckEdit(deck:DeckItem): Content{
+export function DeckEdit(deck?:DeckItem): Content{
     const data = Buffer.from(
-        JSON.stringify(deck)
+        JSON.stringify(deck || {})
     ).toString("base64");
 
     return  _("form",

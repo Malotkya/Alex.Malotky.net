@@ -22,7 +22,7 @@ export interface ScryfallData{
     manaValue?: number,
     typeLine?: string, 
     oracle?: string,
-    art?: string,
+    art?: string|null,
     sets?: Record<string, Array<string>>
 }
 

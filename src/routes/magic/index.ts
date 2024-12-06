@@ -173,7 +173,7 @@ Magic.all(async(ctx)=>{
             }
         },
         body: {
-            main: DeckListView(results, true)
+            main: DeckListView(results)
         }
     });
 });

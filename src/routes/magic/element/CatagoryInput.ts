@@ -43,7 +43,7 @@ const POSSIBLE_COMMANDERS = [
  * @param {String} typeLine
  * @return {String} Card Type
  */
-function getTypeFromLine(typeLine:string|undefined):string{
+function getTypeFromLine(typeLine:string|undefined|null):string{
     if(typeof typeLine === "string"){
         for(let i=0; i<CARD_TYPE_PRIORITY.length; i++){
             if(typeLine.indexOf(CARD_TYPE_PRIORITY[i]) >= 0) {

@@ -1,4 +1,4 @@
-import {object, string, boolean, TypeOf, number, list, url, optional} from "zim-engine/Validation";
+import {object, string, boolean, TypeOf, number, list, url, optional, record} from "zim-engine/Validation";
 import { ScryfallData } from "@/util/Scryfall";
 
 export const CardObject = object({
@@ -8,8 +8,15 @@ export const CardObject = object({
     collector_number: string(),
     foil: boolean(),
     image: optional(list(url())),
-    art: optional(url())
+    
+    //Possible Scryfall data
+    manaCost: optional(string()),
+    manaValue: optional(number()),
+    typeLine: optional(string()),
+    oracle: optional(string()),
+    art: optional(url()),
+    sets: optional(record(list(string())))
 })
 
-type Card = ScryfallData&TypeOf<typeof CardObject>;
+type Card = TypeOf<typeof CardObject>;
 export default Card;

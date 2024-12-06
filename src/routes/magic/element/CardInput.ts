@@ -8,14 +8,13 @@ import AutoComplete from "@/elements/AutoComlete";
 import { sleep } from "@/util";
 import Card from "../data/card";
 
+//@ts-ignore
 const BLANK_CARD:Card = {
     count: -1,
     name: "",
     set: "",
     collector_number: "",
     foil: true,
-    image: undefined,
-    art: undefined
 }
 
 /** CardElement Class
@@ -66,7 +65,8 @@ export default class CardInput extends HTMLElement {
                 typeLine: this._value.typeLine || "Error",
                 oracle: this._value.oracle || "Not Found",
                 manaValue: this._value.manaValue? this._value.manaValue: -1,
-                manaCost: this._value.manaCost || ""
+                manaCost: this._value.manaCost || "",
+                sets: undefined
             };
         } else {
             return null;
@@ -321,27 +321,25 @@ async function createCardFromString(string:string):Promise<Card>{
     let result = await queryForCard(cardName)
     let card:Card;
     if(result === null){
+        //@ts-ignore
         card = {
             name: cardName,
             count: count,
             foil: foil,
             collector_number: number,
-            set: set,
-            image: undefined,
-            art: undefined
+            set: set
         };
 
         console.warn("'" + cardName + "' not found!");
 
     } else {
+        //@ts-ignore
         card = {
             ...result,
             count: count,
             set: set,
             foil: foil,
-            collector_number: number,
-            image: undefined,
-            art: undefined
+            collector_number: number
         }
 
         //Get possible missing information.

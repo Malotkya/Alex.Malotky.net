@@ -142,7 +142,7 @@ export default class Cache{
 
         ttl += Date.now();
 
-        await tx.store.add({ttl,value}, key);
+        await tx.store.put({ttl,value}, key);
         await tx.done;
     }
 

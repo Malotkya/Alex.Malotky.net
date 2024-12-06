@@ -71,6 +71,10 @@
 .top-nav-menu-wrapper {
     display: none;
     flex-basis: 100%;
+
+    &:hover, &:focus-within {
+        display: flex;
+    }
 }
 
 @media (min-width: $tablet){

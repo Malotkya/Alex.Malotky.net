@@ -3,7 +3,7 @@
  * @author Alex Malotky
  */
 import {Router, HttpError} from "zim-engine";
-import { DeckItem, ProtoDeck, validateInput, convertProtoDeck } from "./types";
+import { DeckItemObject } from "./data/deck";
 import { DeckEdit, DeckView, DeckListView } from "./view";
 import styles from "./style.scss";
 
@@ -21,57 +21,42 @@ Editor.all("*", async(ctx)=>{
 });
 
 Editor.delete("/:id", async(ctx)=>{
-    await ctx.env.DB.prepare("DELETE FROM Decks WHERE id = ?")
-        .bind(ctx.params.get("id")).run();
-
+    const id = Number(ctx.params.get("id")!);
+    await ctx.query(DeckItemObject).delete({id});
     ctx.redirect("/Decks/Edit");
 });
 
-Editor.get("/New", async(ctx)=>{
+Editor.post("/New", async(ctx)=>{
     const id = Date.now();
+    
+    const deck = await ctx.formData(DeckItemObject);
+    deck.id = id;
 
-    await ctx.env.DB.prepare("INSERT INTO Decks(id) VALUES(?)")
-        .bind(id).run();
+    await ctx.query(DeckItemObject).insert(deck);
 
     ctx.redirect(`/Decks/Edit/${id}`);
 });
 
+Editor.get("/New", async(ctx)=>{
+    ctx.render({
+        head: {
+            styles,
+            title: `Edit Deck (New)`,
+            meta: {
+                description: "Magic the Gathering Deck Editor."
+            }
+        },
+        body: {
+            main: DeckEdit(),
+        }
+    });
+});
+
 Editor.post("/:id", async(ctx)=>{
     const id = Number(ctx.params.get("id")!);
-    const {name, description, commanders, main_deck, color_identity, art} = await ctx.formData();
+    const deck = await ctx.formData(DeckItemObject);
 
-    if(name === undefined)
-        throw new HttpError(400, "Must set name value!");
-
-    if(description === undefined)
-        throw new HttpError(400, "Must set description value!");
-
-    if(commanders === undefined)
-        throw new HttpError(400, "Must set commander value!");
-
-    if(main_deck === undefined)
-        throw new HttpError(400, "Must set main_deck value!");
-
-    if(color_identity === undefined)
-        throw new HttpError(400, "Must set color_identity value!");
-
-    if(art === undefined)
-        throw new HttpError(400, "Must set art value!");
-
-    let deck:DeckItem;
-    try {
-        deck = validateInput({id, name, description, commanders, main_deck, color_identity, art});
-    } catch (e:any){
-        throw new HttpError(400, `Invalid deck!\n${e.message || String(e)}`)
-    }
-
-    try {
-        await ctx.env.DB.prepare("UPDATE Decks Set name = ?, description = ?, commanders = ?, main_deck = ?, color_identity = ?, art = ? WHERE id = ?")
-                                   .bind(name, description, commanders, main_deck, color_identity, art, id).run();
-    } catch (e){
-        console.error(e);
-        throw new HttpError(500, "There was a problem saving the deck!");
-    }
+    await ctx.query(DeckItemObject).update(deck, {id});
 
     ctx.render({
         head: {
@@ -88,10 +73,9 @@ Editor.post("/:id", async(ctx)=>{
 });
 
 Editor.get("/:id", async(ctx)=>{
-    const id = ctx.params.get("id")!;
+    const id = Number(ctx.params.get("id")!);
 
-    const deck:ProtoDeck|null = await ctx.env.DB.prepare("SELECT * FROM Decks where id = ?")
-                                    .bind(id).first();
+    const deck = await ctx.query(DeckItemObject).get({id});
 
     if(deck === null)
         throw new HttpError(404, `Unable to find deck with id '${id}'!`);
@@ -105,7 +89,7 @@ Editor.get("/:id", async(ctx)=>{
             }
         },
         body: {
-            main: DeckEdit(convertProtoDeck(deck)),
+            main: DeckEdit(deck),
         }
     });
 });
@@ -117,11 +101,14 @@ Editor.all(async(ctx)=>{
     else
         --page;
 
-    const {results, error} = await ctx.env.DB.prepare("SELECT * FROM Decks ORDER BY id DESC LIMIT ? OFFSET ?")
-            .bind(PAGE_SIZE, PAGE_SIZE * page).all();
-
-    if(error)
-        throw error;
+    //SELECT * FROM Decks ORDER BY id DESC LIMIT ? OFFSET ?
+    const results = await ctx.query(DeckItemObject).getAll(undefined,
+        {
+            orderBy: {id: "DESC"},
+            limit: PAGE_SIZE,
+            offset: PAGE_SIZE * page
+        }
+    );
 
     ctx.render({
         head: {
@@ -132,8 +119,7 @@ Editor.all(async(ctx)=>{
             }
         },
         body: {
-            //@ts-ignore
-            main: DeckListView(results.map(convertProtoDeck), true)
+            main: DeckListView(results, true)
         }
     });
 });
@@ -141,10 +127,9 @@ Editor.all(async(ctx)=>{
 Magic.use(Editor);
 
 Magic.get("/:id", async(ctx)=>{
-    const id = ctx.params.get("id")!;
+    const id = Number(ctx.params.get("id")!);
 
-    const deck:ProtoDeck|null = await ctx.env.DB.prepare("SELECT * FROM Decks where id = ?")
-                                    .bind(id).first();
+    const deck = await ctx.query(DeckItemObject).get({id});
 
     if(deck === null)
         throw new HttpError(404, `Unable to find deck with id '${id}'!`);
@@ -152,16 +137,13 @@ Magic.get("/:id", async(ctx)=>{
     ctx.render({
         head: {
             styles,
-            title: `Deck (${id})`,
+            title: `Magic Deck (${id})`,
             meta: {
                 description: "Magic the Gathering Deck Editor."
-            },
-            scripts: {
-                "masonry": {src: "https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"}
             }
         },
         body: {
-            main: DeckView(convertProtoDeck(deck))
+            main: DeckView(deck)
         }
     });
 })
@@ -173,25 +155,27 @@ Magic.all(async(ctx)=>{
     else
         --page;
 
-    const {results, error} = await ctx.env.DB.prepare("SELECT * FROM Decks ORDER BY id DESC LIMIT ? OFFSET ?")
-            .bind(PAGE_SIZE, PAGE_SIZE * page).all();
-
-    if(error)
-        throw error;
+    //SELECT * FROM Decks ORDER BY id DESC LIMIT ? OFFSET ?
+    const results = await ctx.query(DeckItemObject).getAll(undefined,
+        {
+            orderBy: {id: "DESC"},
+            limit: PAGE_SIZE,
+            offset: PAGE_SIZE * page
+        }
+    );
 
     ctx.render({
         head: {
             styles,
-            title: "List of Decks",
+            title: "Magic Decks",
             meta: {
                 description: "List of magic decks."
             }
         },
         body: {
-            //@ts-ignore
-            main: DeckListView(results.map(convertProtoDeck))
+            main: DeckListView(results, true)
         }
-    })
+    });
 });
 
 export default Magic;

@@ -1,11 +1,12 @@
 import { createElement as _, RenderEnvironment } from "zim-engine";
-import { DeckItem } from "../types";
+import { DeckItem } from "../data/deck";
 import CardView from "./card";
 
 function fixImages(env:RenderEnvironment){
+    const main = document.querySelector("main")!;
+
     async function handleFix(){
         console.debug("Start Fix!");
-        const main = document.querySelector("main")!;
         const limit = main.getBoundingClientRect().bottom;
 
         (document.querySelectorAll(".figure") as NodeListOf<HTMLElement>).forEach((figure)=>{
@@ -18,18 +19,18 @@ function fixImages(env:RenderEnvironment){
     }
 
     //Fix Images after all images are loaded
-    const wait:Promise<HTMLImageElement>[] = [];
+    const allImagesLoaded:Promise<void>[] = [];
 
-    document.querySelector("main")!.querySelectorAll("img").forEach(image=>{
-        wait.push(new Promise(res=>{
-            image.addEventListener("load", ()=>res(image), {once: true});
+    main.querySelectorAll("img").forEach(image=>{
+        allImagesLoaded.push(new Promise(res=>{
+            image.addEventListener("load", ()=>res(), {once: true});
         }))
     });
 
     //Sometimes script doesn't work without this debug line.
-    console.debug("Waiting for images to load.\n", wait);
+    //console.debug("Waiting for images to load.\n", allImagesLoaded);
 
-    Promise.all(wait).then(()=>{
+    Promise.all(allImagesLoaded).then(()=>{
         handleFix();
     }).catch(console.error);
 

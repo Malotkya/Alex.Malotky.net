@@ -1,9 +1,13 @@
-/** /tmplate/footer
+/** /template/footer
  * 
  * @author Alex Malotky
  */
 import { Content, createElement as _} from "zim-engine";
 
+/** Footer Content
+ * 
+ * @returns {COntent}
+ */
 export default function Footer():Content {
     return _("footer", 
         _("p", _("strong", "Where to find me:")),

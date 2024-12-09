@@ -1,3 +1,7 @@
+/** /template
+ * 
+ * @author Alex Malotky
+ */
 import { Content, createElement as _, View, RenderUpdate} from "zim-engine";
 import { getMessage } from "zim-engine/HttpError";
 import Navigation, {NavLink} from "./navBar";
@@ -5,6 +9,10 @@ import Footer from "./footer";
 
 export {NavLink};
 
+/** Build View Template
+ * 
+ * @returns {[Array, View]}
+ */
 export default function Template():[Array<Content>, View]{
     const navBar:Array<Content> = [];
     return [
@@ -45,6 +53,12 @@ export default function Template():[Array<Content>, View]{
     ]
 }
 
+/** Error Content
+ * 
+ * @param {number} status 
+ * @param {string} message 
+ * @returns {RenderUpdate}
+ */
 export function ErrorContent(status:number, message:string):RenderUpdate {
     message = `${status}: ${message}`;
     return {

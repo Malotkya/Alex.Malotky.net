@@ -1,7 +1,16 @@
-import { createElement as _ } from "zim-engine";
+/** /routes/magic/view/card
+ * 
+ * @author Alex Malotky
+ */
+import { createElement as _, Content } from "zim-engine";
 import Card from "../data/card";
 
-export default function CardView(card:Card){
+/** Card View
+ * 
+ * @param {Card} card 
+ * @returns {Content}
+ */
+export default function CardView(card:Card):Content{
     const {
         name = "Missing Name",
         count = 1,

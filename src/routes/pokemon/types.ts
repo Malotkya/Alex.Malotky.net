@@ -1,3 +1,7 @@
+/** /routes/pokemon/types
+ * 
+ * @author Alex Malotky
+ */
 import { Pokemon, GameVersion, Type, Region, MoveData, Nature } from "@/util/Serebii/types";
 export type {Pokemon, GameVersion, Type, Region, MoveData, Nature};
 

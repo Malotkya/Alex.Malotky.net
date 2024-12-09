@@ -1,3 +1,7 @@
+/** /routes/portfolio/view
+ * 
+ * @author Alex Malotky
+ */
 import { createElement as _ } from "zim-engine";
 import { MarkDown } from "@/util";
 

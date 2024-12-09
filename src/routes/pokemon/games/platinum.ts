@@ -1,5 +1,12 @@
+/** /routes/pokemon/games/platinum
+ * 
+ * @author Alex Malotky
+ */
 import { Game } from "../types";
 
+/** Platinum Content
+ * 
+ */
 export const platinum:Game = {
     game: "Platinum",
     generation: 4,

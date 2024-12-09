@@ -1,4 +1,4 @@
-/** /routes/mtg/content/elements/DeckEditor.ts
+/** /routes/magic/element/CaregoryInput
  * 
  * @author Alex Malotky
  */

@@ -1,3 +1,7 @@
+/** /routes/about/view
+ * 
+ * @author Alex Malotky
+ */
 import { createElement as _, Content } from "zim-engine";
 
 export default function AboutView():Content {

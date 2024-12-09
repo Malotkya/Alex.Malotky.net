@@ -1,4 +1,4 @@
-/** /Router/Home.ts
+/** /routes/home
  * 
  * @author Alex Malotky
  */

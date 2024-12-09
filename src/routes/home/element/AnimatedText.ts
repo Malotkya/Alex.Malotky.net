@@ -1,5 +1,12 @@
+/** /routes/home/element/AnimatedText
+ * 
+ * @author Alex Malotky
+ */
 const TEXT_DELAY = 15;//ms
 
+/** Animated TExt Element
+ * 
+ */
 export default class AnimatedText extends HTMLElement {
     private _text: string[];
 

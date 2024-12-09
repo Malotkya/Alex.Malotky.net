@@ -1,3 +1,12 @@
+/** /routes/pokemon/games
+ * 
+ * @author Alex Malotky
+ */
+import { Game } from "../types";
+
+/** Alpha Sapphire Content
+ * 
+ */
 import { yellow } from "./yellow";
 import { crystal } from "./crystal";
 import { ruby } from "./ruby";
@@ -14,7 +23,10 @@ import {black} from "./black2";
 import {shield} from "./shield";
 import {violet} from "./violet";
 
+//Default/Latest Game
 export const DEFAULT_INIT = "violet";
+
+//Export All Games
 export default {
     yellow, red, eevee,
     crystal, gold,

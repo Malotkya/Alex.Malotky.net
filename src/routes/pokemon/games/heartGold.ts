@@ -1,5 +1,12 @@
+/** /routes/pokemon/games/heartGold
+ * 
+ * @author Alex Malotky
+ */
 import { Game } from "../types";
 
+/** Heart Gold Content
+ * 
+ */
 export const gold:Game = {
     game: "Heart Gold",
     generation: 4,

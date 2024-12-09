@@ -1,8 +1,18 @@
-import { createElement as _ } from "zim-engine";
+/** /routes/resume/view/school
+ * 
+ * @author Alex Malotky
+ */
+import { createElement as _, Content } from "zim-engine";
 import { formatDate } from "@/util";
 import School from "../data/school";
 
-export function SchoolCard(item:School, edit:boolean = false){
+/** School List Item Card
+ * 
+ * @param {School} item 
+ * @param {boolean} edit 
+ * @returns {Content}
+ */
+export function SchoolCard(item:School, edit:boolean = false):Content {
     const graduated = formatDate(item.graduated, "%m, %Y", "Current");
     const other = item.other || [];
 
@@ -31,7 +41,12 @@ export function SchoolCard(item:School, edit:boolean = false){
     )
 }
 
-export function SchoolListView(list:Array<School>){
+/** School List View
+ * 
+ * @param {School[]} list 
+ * @returns {Content}
+ */
+export function SchoolListView(list:Array<School>):Content {
     return [
         _("a", {class: "btn", href: "."}, "Back"),
         _("h1", "Schooling"),
@@ -41,7 +56,12 @@ export function SchoolListView(list:Array<School>){
     ]
 }
 
-export function SchoolEditListView(list:Array<School>){
+/** Edit School List View
+ * 
+ * @param {School[]} list 
+ * @returns {Content}
+ */
+export function SchoolEditListView(list:Array<School>):Content{
     return [
         _("a", {class: "btn", href: "."}, "Back"),
         _("h1", "Edit Schooling"),
@@ -54,7 +74,12 @@ export function SchoolEditListView(list:Array<School>){
     ]
 }
 
-export function SchoolDetailed(item:School){
+/** Detailed School View
+ * 
+ * @param {School} item 
+ * @returns {Content}
+ */
+export function SchoolDetailed(item:School):Content {
     const graduated = formatDate(item.graduated, "%M, %Y", "Currently Enrolled");
     const other = item.other || [];
 
@@ -72,7 +97,14 @@ export function SchoolDetailed(item:School){
         )
     ]
 }
-export function EditSchool(item: School|null, message?:string){
+
+/** Edit School View
+ * 
+ * @param {School} item 
+ * @param {string} message 
+ * @returns {Content}
+ */
+export function EditSchool(item: School|null, message?:string):Content {
     return _("form", {method: "post", class: "resume-editor"},
         _("a", {class: "btn", href: "."}, "Back"),
         _("h1", "Edit School"),

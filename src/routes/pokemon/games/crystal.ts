@@ -1,5 +1,12 @@
+/** /routes/pokemon/games/crystal
+ * 
+ * @author Alex Malotky
+ */
 import { Game } from "../types";
 
+/** Crystal Content
+ * 
+ */
 export const crystal:Game = {
     game: "Crystal",
     version: {

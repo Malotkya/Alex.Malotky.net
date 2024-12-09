@@ -1,4 +1,4 @@
-/** /Routes/Resume
+/** /routes/resume
  * 
  * @author Alex Malotky
  */

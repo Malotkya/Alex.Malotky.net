@@ -1,5 +1,12 @@
+/** /routes/pokemon/games/white
+ * 
+ * @author Alex Malotky
+ */
 import { Game } from "../types";
 
+/** White Content
+ * 
+ */
 export const white:Game = {
     game: "White",
     generation: 5,

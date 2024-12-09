@@ -1,5 +1,12 @@
+/** /routes/pokemon/games/x
+ * 
+ * @author Alex Malotky
+ */
 import { Game } from "../types";
 
+/** X Content
+ * 
+ */
 export const x:Game = {
     game: "X",
     generation: 6,

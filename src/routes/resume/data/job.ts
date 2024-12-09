@@ -1,3 +1,7 @@
+/** /routes/resume/data/job
+ * 
+ * @author Alex Malotky
+ */
 import DataObject, {optional, number, string, date, list, TypeOf} from "zim-engine/Validation";
 
 export const JobItem = new DataObject("Jobs", {

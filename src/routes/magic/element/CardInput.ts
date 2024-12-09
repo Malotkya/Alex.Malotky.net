@@ -1,10 +1,10 @@
-/** /routes/mtg/content/elements/CardInputElement.ts
+/** /routes/magic/element/CardInput
  * 
  * @author Alex Malotky
  */
 import { queryForCard, getShard } from "@/util/Scryfall";
 import { createElement as _ } from "@/util/Element";
-import AutoComplete from "@/elements/AutoComlete";
+import AutoComplete from "@/elements/AutoComplete";
 import { sleep } from "@/util";
 import Card from "../data/card";
 
@@ -23,7 +23,6 @@ const BLANK_CARD:Card = {
  * 
  */
 export default class CardInput extends HTMLElement {
-    //@ts-ignore
     private _value:Card|undefined;
 
     /** Constructor

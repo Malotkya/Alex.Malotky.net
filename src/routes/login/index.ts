@@ -1,5 +1,9 @@
+/** /routes/login
+ * 
+ * @author Alex Malotky
+ */
 import { Router } from "zim-engine";
-import LoginForm, {LogoutRedirect} from "./view";
+import LoginForm, {LogoutView} from "./view";
 import {USERNAME, PASSWORD} from "@/secrets.json";
 
 const Login = new Router("/Login");
@@ -53,7 +57,7 @@ Logout.all(async(ctx)=>{
     await ctx.setAuth(null);
     ctx.render({
         body: {
-            main: LogoutRedirect()
+            main: LogoutView()
         }
     })
 });

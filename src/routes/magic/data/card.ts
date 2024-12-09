@@ -1,5 +1,8 @@
+/** /routes/magic/data/card
+ * 
+ * @author Alex Malotky
+ */
 import {object, string, boolean, TypeOf, number, list, url, optional, record} from "zim-engine/Validation";
-import { ScryfallData } from "@/util/Scryfall";
 
 export const CardObject = object({
     count: number(),

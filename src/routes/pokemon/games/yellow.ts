@@ -1,5 +1,12 @@
+/** /routes/pokemon/games/yellow
+ * 
+ * @author Alex Malotky
+ */
 import { Game } from "../types";
 
+/** Yellow Content
+ * 
+ */
 export const yellow: Game = {
     game: "Yellow",
     version: {

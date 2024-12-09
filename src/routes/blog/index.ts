@@ -1,4 +1,4 @@
-/** /routes/Blog.ts
+/** /routes/blog
  * 
  * @author Alex Malotky
  */

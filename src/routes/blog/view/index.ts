@@ -1,7 +1,17 @@
+/** /routes/blog/view
+ * 
+ * @author Alex Malotky
+ */
 import { createElement as _, Content } from "zim-engine";
 import { formatDate, MarkDown } from "@/util";
 import Post from "../data/post";
 
+/** Blog Results View
+ * 
+ * @param {Post[]} list 
+ * @param {boolean} edit 
+ * @returns {Content} 
+ */
 export default function BlogResults(list:Array<Post>, edit?:boolean):Content {
     return [
         _("h1", "Blog Posts!"),
@@ -12,6 +22,12 @@ export default function BlogResults(list:Array<Post>, edit?:boolean):Content {
     ]
 }
 
+/** Result
+ * 
+ * @param {post} post 
+ * @param {boolean} edit 
+ * @returns {Content}
+ */
 function Result(post:Post, edit?:boolean):Content {
     const {id, title, content} = post;
 

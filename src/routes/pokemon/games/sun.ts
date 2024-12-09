@@ -1,5 +1,12 @@
+/** /routes/pokemon/games/sun
+ * 
+ * @author Alex Malotky
+ */
 import { Game } from "../types";
 
+/** Ultra Sun Content
+ * 
+ */
 export const sun: Game = {
     game: "Ultra Sun",
     generation: 7,

@@ -1,4 +1,4 @@
-/** /Router/Pokemon.ts
+/** /routes/pokemon
  * 
  * @author Alex Malotky
  */

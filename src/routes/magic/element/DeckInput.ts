@@ -1,7 +1,14 @@
+/** /routes/magic/element/DeckInput
+ * 
+ * @author Alex Malotky
+ */
 import { createElement as _, appendChildren } from "@/util/Element";
 import { DeckItem } from "../data/deck";
 import CatagoryInput from "./CatagoryInput";
 
+/** Deck Input Element
+ * 
+ */
 export default class DeckInput extends HTMLFormElement {
     _data:DeckItem|undefined;
 

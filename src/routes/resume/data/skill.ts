@@ -1,3 +1,7 @@
+/** /routes/resume/data/skill
+ * 
+ * @author Alex Malotky
+ */
 import DataObject, {optional, number, string, record, list, TypeOf} from "zim-engine/Validation";
 
 export const SkillItem = new DataObject("Skills", {

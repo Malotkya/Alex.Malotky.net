@@ -1,3 +1,7 @@
+/** /routes/blog/elemnt/MarkDownEditor
+ * 
+ * @author Alex Malotky
+ */
 import { createElement as _, appendChildren } from "@/util/Element";
 import { MarkDown } from "@/util";
 

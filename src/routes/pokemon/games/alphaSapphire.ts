@@ -1,5 +1,12 @@
+/** /routes/pokemon/games/alphaSapphire
+ * 
+ * @author Alex Malotky
+ */
 import { Game } from "../types";
 
+/** Alpha Sapphire Content
+ * 
+ */
 export const sapphire:Game = {
     game : "Alpha Sapphire",
     generation: 6,

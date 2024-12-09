@@ -1,3 +1,7 @@
+/** /routes/resume/element/ListInput
+ * 
+ * @author Alex Malotky
+ */
 import { createElement as _ } from "@/util/Element";
 
 function InputLine(value:string, update:EventListener){

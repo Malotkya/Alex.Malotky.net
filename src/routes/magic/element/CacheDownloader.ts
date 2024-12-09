@@ -1,3 +1,7 @@
+/** /routes/magic/element/CacheDownloader
+ * 
+ * @author Alex Malotky
+ */
 import { fetchShard, CACHE_NAME, CACHE_TTL } from "@/util/Scryfall";
 import Cache from "@/util/Cache";
 import { createElement as _ } from "@/util/Element";
@@ -5,6 +9,9 @@ import { createElement as _ } from "@/util/Element";
 const A = "A".charCodeAt(0);
 const Z = "Z".charCodeAt(0);
 
+/** Cache Downloader Element
+ * 
+ */
 export default class CacheDownloader extends HTMLElement {
     async connectedCallback(){
         const header = _("h2", "Cache Downloading...");

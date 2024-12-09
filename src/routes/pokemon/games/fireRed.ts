@@ -1,5 +1,12 @@
+/** /routes/pokemon/games/fireRed
+ * 
+ * @author Alex Malotky
+ */
 import { Game } from "../types";
 
+/** Fire Red Content
+ * 
+ */
 export const red:Game = {
     game: "Fire Red",
     generation: 3,

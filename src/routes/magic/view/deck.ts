@@ -1,7 +1,15 @@
-import { createElement as _, RenderEnvironment } from "zim-engine";
+/** /routes/magic/view/deck
+ * 
+ * @author Alex Malotky
+ */
+import { createElement as _, Content, RenderEnvironment } from "zim-engine";
 import { DeckItem } from "../data/deck";
 import CardView from "./card";
 
+/** Fix Images
+ * 
+ * @param {RenderEnvironment} env 
+ */
 function fixImages(env:RenderEnvironment){
     const main = document.querySelector("main")!;
 
@@ -27,9 +35,6 @@ function fixImages(env:RenderEnvironment){
         }))
     });
 
-    //Sometimes script doesn't work without this debug line.
-    //console.debug("Waiting for images to load.\n", allImagesLoaded);
-
     Promise.all(allImagesLoaded).then(()=>{
         handleFix();
     }).catch(console.error);
@@ -38,7 +43,12 @@ function fixImages(env:RenderEnvironment){
     env.event("resize", handleFix);
 }
 
-export default function DeckView(deck:DeckItem) {
+/** Deck View
+ * 
+ * @param {DeckItem} deck 
+ * @returns {Content}
+ */
+export default function DeckView(deck:DeckItem):Content {
     const main_deck = [];
     for(const name in deck.main_deck){
         const cat = deck.main_deck[name];

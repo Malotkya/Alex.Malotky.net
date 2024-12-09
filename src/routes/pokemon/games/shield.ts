@@ -1,5 +1,12 @@
+/** /routes/pokemon/games/shield
+ * 
+ * @author Alex Malotky
+ */
 import { Game } from "../types";
 
+/** Shield Content
+ * 
+ */
 export const shield:Game = {
     game: "Shield",
     generation: 8,

@@ -1,3 +1,7 @@
+/** /routes/pokemon/view
+ * 
+ * @author Alex Malotky
+ */
 import { createElement as _, Content } from "zim-engine";
 import ALL_GAMES, {DEFAULT_INIT} from "../games";
 import PokemonGame from "./PokemonGame";

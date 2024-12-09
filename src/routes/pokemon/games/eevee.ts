@@ -1,5 +1,12 @@
+/** /routes/pokemon/games/eevee
+ * 
+ * @author Alex Malotky
+ */
 import { Game } from "../types";
 
+/** Let's Go Eevee Content
+ * 
+ */
 export const eevee:Game = {
     game: "Let's Go Eevee",
     generation: 7,

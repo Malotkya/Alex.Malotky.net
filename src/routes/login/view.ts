@@ -1,6 +1,17 @@
-import {createElement as _} from "zim-engine";
+/** /routes/login/view
+ * 
+ * @author Alex Malotky
+ */
+import {createElement as _, Content} from "zim-engine";
 
-export default function LoginForm(username?:string, password?:string, error?:string){
+/** Login Form
+ * 
+ * @param {string} username 
+ * @param {string} password 
+ * @param {string} error 
+ * @returns {Content}
+ */
+export default function LoginForm(username?:string, password?:string, error?:string):Content{
     return _("form", {method: "post"},
         _("h2", "Login"),
         error? _("p", {class: "error"}, error): null,
@@ -14,14 +25,22 @@ export default function LoginForm(username?:string, password?:string, error?:str
     )
 }
 
-export function LogoutRedirect(){
-    const fun = ""+(()=>{
-        window.setTimeout(()=>{
-            window.location.replace("/");
-        }, 3000)
-    });
+/** Redirect Home
+ * 
+ */
+function redirectHome(){
+    window.setTimeout(()=>{
+        window.location.replace("/");
+    }, 3000)
+}
+
+/** Logout View
+ * 
+ * @returns {Content}
+ */
+export function LogoutView():Content{
     return [
-        _("script", fun.substring(fun.indexOf("{")+1, fun.lastIndexOf("}")-1)),
+        _("script", redirectHome),
         _("style", "h2, p { text-align: center }"),
         _("h2", "You have been successfully logged out!"),
         _("p",

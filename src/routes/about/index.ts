@@ -1,4 +1,4 @@
-/** /Routes/AboutMe.ts
+/** /routes/about
  * 
  * @author Alex Malotky
  */

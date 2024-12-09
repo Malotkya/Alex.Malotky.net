@@ -1,3 +1,6 @@
+/** /routes/resume/router
+ * @author Alex Malotky
+ */
 import { Router, Middleware, Content, Context, HttpError } from "zim-engine";
 import {TypeOf} from "zim-engine/Validation";
 import { SchoolItem } from "./data/school";
@@ -5,20 +8,30 @@ import { JobItem } from "./data/job";
 import { SkillItem } from "./data/skill";
 import styles from "./style.scss";
 
+//Resume Data Objects
 const DATA_OBJECTS = {
     "Skills": SkillItem,
     "School": SchoolItem,
     "Jobs": JobItem
 } as const;
 
+//View Types
 type SingleView<T extends keyof typeof DATA_OBJECTS> = (value:TypeOf<typeof DATA_OBJECTS[T]>)=>Content;
 type SingleEditView<T extends keyof typeof DATA_OBJECTS> = (value:TypeOf<typeof DATA_OBJECTS[T]>|null, message?:string)=>Content;
 type GroupView<T extends keyof typeof DATA_OBJECTS>  = (value:TypeOf<typeof DATA_OBJECTS[T]>[])=>Content;
 
+//Resume Description
 export const DESCRIPTION = "Alex's resume and other skills.";
+
+//Resume Title
 export const title = (table:string, id?:string) => `Resume - ${table}${id? `(${id})`: ""}`;
+
+//Resume Route
 export const ROUTE = (table:string, edit:boolean = false, id?:unknown) => `/Resume${edit?"/Edit":""}/${table.charAt(0).toLocaleUpperCase()+table.substring(1)}${id?"/"+String(id):""}`;
 
+/** Resume Data Router
+ * 
+ */
 export default class ResumeRouter<T extends keyof typeof DATA_OBJECTS> extends Router {
     constructor(name:T, recordView:SingleEditView<T>, tableView:GroupView<T>, edit:true)
     constructor(name:T, recordView:SingleView<T>, tableView:GroupView<T>, edit:false)

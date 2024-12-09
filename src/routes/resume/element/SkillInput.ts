@@ -1,3 +1,7 @@
+/** /routes/resume/element/SkillInput
+ * 
+ * @author Alex Malotky
+ */
 import { createElement as _ } from "@/util/Element";
 
 function Section(index:number, name:string, data:Array<string> = [], update:EventListener){

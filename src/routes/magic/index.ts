@@ -1,4 +1,4 @@
-/** /Router/Magic
+/** /routes/magic
  * 
  * @author Alex Malotky
  */

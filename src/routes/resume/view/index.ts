@@ -1,3 +1,7 @@
+/** /routes/resume/view
+ * 
+ * @author Alex Malotky
+ */
 import { createElement as _, Content } from "zim-engine";
 import { SchoolCard } from "./school"
 import { JobCard} from "./job";
@@ -6,7 +10,11 @@ import School from "../data/school";
 import Job from "../data/job";
 import Skill from "../data/skill";
 
-export function EditMainView(){
+/** Edit Resume View
+ * 
+ * @returns {Content}
+ */
+export function EditMainView():Content{
     return [
         _("a", {href: "/Resume", class: "btn"}, "Back"),
         _("h1", "Resume Editor"),
@@ -23,7 +31,14 @@ export function EditMainView(){
     ]
 }
 
-export default function Resume(jobs:Job[], school:School[], skills:Skill[]){
+/** Resume View
+ * 
+ * @param {Job[]} jobs 
+ * @param {School[]} school 
+ * @param {Skill[]} skills 
+ * @returns {Content}
+ */
+export default function Resume(jobs:Job[], school:School[], skills:Skill[]):Content{
     return [
         _("h1", "Resume"),
         _("article", {class: "resume-chunk"},

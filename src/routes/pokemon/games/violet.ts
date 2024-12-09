@@ -1,5 +1,12 @@
+/** /routes/pokemon/games/violet
+ * 
+ * @author Alex Malotky
+ */
 import { Game } from "../types";
 
+/** Violet Content
+ * 
+ */
 export const violet:Game = {
     game: "Violet",
     generation: 9,

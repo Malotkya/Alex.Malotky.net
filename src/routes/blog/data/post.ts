@@ -1,3 +1,7 @@
+/** /routes/blog/data/post
+ * 
+ * @author Alex Malotky
+ */
 import DataObject, {optional, number, string, TypeOf} from "zim-engine/Validation";
 
 export const BlogPost = new DataObject("Blog", {

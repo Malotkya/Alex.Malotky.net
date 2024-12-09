@@ -1,7 +1,10 @@
+/** /routes/pokemon/PokemonGame
+ * 
+ * @author Alex Malotky
+ */
 import { createElement as _, Content } from "zim-engine";
 import { Game } from "../types";
 import PokemonItem from "./PokemonItem";
-
 
 /** Pokemon Game View
  * 

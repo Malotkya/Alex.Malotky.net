@@ -1,5 +1,12 @@
+/** /routes/pokemon/games/ruby
+ * 
+ * @author Alex Malotky
+ */
 import { Game } from "../types";
 
+/** Ruby Content
+ * 
+ */
 export const ruby:Game = {
     game: "Ruby",
     generation: 3,

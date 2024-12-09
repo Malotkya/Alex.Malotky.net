@@ -1,5 +1,12 @@
+/** /routes/pokemon/games/black2
+ * 
+ * @author Alex Malotky
+ */
 import { Game } from "../types";
 
+/** Black 2 Content
+ * 
+ */
 export const black:Game = {
     game: "Black 2",
     generation: 5,

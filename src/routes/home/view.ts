@@ -1,5 +1,13 @@
+/** /routes/home/view
+ * 
+ * @author Alex Malotky
+ */
 import { createElement as _, Content } from "zim-engine";
 
+/** Home View
+ * 
+ * @returns {Content}
+ */
 export default function Home():Content {
     return [
         _("h1", "Welcome!"),
@@ -27,6 +35,10 @@ export default function Home():Content {
     ]
 }
 
+/** Spotlight Content
+ * 
+ * @returns {Content}
+ */
 function Spotlight(): Content{
     return [
         _("h3", "Phasmophobia Helper"),

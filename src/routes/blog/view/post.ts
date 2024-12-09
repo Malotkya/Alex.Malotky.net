@@ -1,12 +1,20 @@
+/** /routes/blog/view/post
+ * 
+ * @author Alex Malotky
+ */
 import { createElement as _, Content } from "zim-engine";
 import { formatDate, MarkDown } from "@/util";
 import { Buffer } from "node:buffer";
 import Post from "../data/post";
 
-export function EditPost(data?:Post): Content {
-    const {id = 0, title = "", content = ""} = data || {};
+/** Edit Post
+ * @param {Post} post 
+ * @returns {Content}
+ */
+export function EditPost(post?:Post): Content {
+    const {id = 0, title = "", content = ""} = post || {};
 
-    const buffer = Buffer.from(content).toString("base64");
+    const data = Buffer.from(content).toString("base64");
 
     return _("form", {id: "blog-post-form", method: "post"},
         _("div", {class: "row"},
@@ -18,7 +26,7 @@ export function EditPost(data?:Post): Content {
             _("p", {id: "post-date"}, formatDate(id, "%M %D, %Y", "")),
         ),
         
-        _("mark-down-editor", {class: "row main", name: "content", data: buffer}),
+        _("mark-down-editor", {class: "row main", name: "content", data}),
 
         _("div", {class: "row"},
             _("button", {id: "submit", class: "btn"}, "Submit")
@@ -26,6 +34,11 @@ export function EditPost(data?:Post): Content {
     );
 }
 
+/** View Post
+ * 
+ * @param {Post} post 
+ * @returns {Content}
+ */
 export function ViewPost(post:Post): Content {  
     return _("div", {class: "blog-post"},
         _("h2", {class: "post-title"}, post.title),

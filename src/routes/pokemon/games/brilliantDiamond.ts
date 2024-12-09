@@ -1,5 +1,12 @@
+/** /routes/pokemon/games/brilliantDiamond
+ * 
+ * @author Alex Malotky
+ */
 import { Game } from "../types";
 
+/** Brilliant Dimaond Content
+ * 
+ */
 export const diamond:Game = {
     game: "Brilliant Diamond",
     generation: 8,

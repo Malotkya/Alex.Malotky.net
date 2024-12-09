@@ -1,21 +1,13 @@
-
-/** /routes/mtg/content/Deck.ts
+/** /routes/magic/view
  * 
  * @author Alex Malotky
  */
 import {Buffer} from "node:buffer";
 import {createElement as _, Content} from "zim-engine";
 import { DeckItem } from "../data/deck";
-import Deck from "./deck";
 
-/** Deck View Module
- * 
- * @param {DeckItem} deck 
- * @returns {Content}
- */
-export function DeckView(deck:DeckItem): Content{
-    return Deck(deck)
-}
+import DeckView from "./deck";
+export {DeckView};
 
 /** Deck Edit Module
  * 
@@ -37,6 +29,12 @@ export function DeckEdit(deck?:DeckItem): Content{
     );
 }
 
+/** List View
+ * 
+ * @param {Array<DeckItem>} list 
+ * @param {Boolean} edit 
+ * @returns {Content}
+ */
 export function DeckListView(list:Array<DeckItem>, edit:boolean = false):Content {
     //TODO: Add pagenation numbers.
     

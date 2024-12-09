@@ -1,4 +1,8 @@
-import DataObject, {object, string, boolean, TypeOf, number, list, record, optional} from "zim-engine/Validation";
+/** /routes/magic/data/deck
+ * 
+ * @author Alex Malotky
+ */
+import DataObject, {object, string, TypeOf, number, list, record, optional} from "zim-engine/Validation";
 import {CardObject} from "./card";
 
 export const DeckObject = object({

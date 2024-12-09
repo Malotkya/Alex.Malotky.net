@@ -1,8 +1,18 @@
-import { createElement as _ } from "zim-engine";
+/** /routes/resume/view/job
+ * 
+ * @author Alex Malotky
+ */
+import { createElement as _, Content } from "zim-engine";
 import { formatDate } from "@/util";
 import Job from "../data/job";
 
-export function JobCard(item: Job, edit:boolean = false){
+/** Job List Item Card
+ * 
+ * @param {Job} item 
+ * @param {boolean} edit 
+ * @returns {Content}
+ */
+export function JobCard(item: Job, edit:boolean = false):Content {
     const startDate: string = formatDate(item.startDate, "%m, %Y");
     const endDate: string   = formatDate(item.endDate, "%m, %Y", "Current");
     const about: Array<string> = item.about || [];
@@ -34,7 +44,12 @@ export function JobCard(item: Job, edit:boolean = false){
     );
 }
 
-export function JobListView(list:Array<Job>){
+/** Job List View
+ * 
+ * @param {Job[]} list 
+ * @returns {Content} 
+ */
+export function JobListView(list:Array<Job>):Content {
     return [
         _("a", {class: "btn", href: "."}, "Back"),
         _("h1", "Work History"),
@@ -44,7 +59,12 @@ export function JobListView(list:Array<Job>){
     ]
 }
 
-export function JobEditListView(list:Array<Job>){
+/** Edit Job List View
+ * 
+ * @param {Job[]} list 
+ * @returns {Content}
+ */
+export function JobEditListView(list:Array<Job>):Content {
     return [
         _("a", {class: "btn", href: "."}, "Back"),
         _("h1", "Edit Work Hisotry"),
@@ -57,7 +77,12 @@ export function JobEditListView(list:Array<Job>){
     ]
 }
 
-export function JobDetailed(item: Job){
+/** Detailed Job View
+ * 
+ * @param {Job} item 
+ * @returns {Content}
+ */
+export function JobDetailed(item: Job):Content {
     const startDate: string = formatDate(item.startDate, "%M, %Y");
     const endDate: string   = formatDate(item.endDate, "%M, %Y", "Currently Employed");
 
@@ -78,7 +103,13 @@ export function JobDetailed(item: Job){
     ]
 }
 
-export function EditJob(item: Job|null, message?:string){
+/** Edit Job View
+ * 
+ * @param {Job} item 
+ * @param {string} message 
+ * @returns {Content}
+ */
+export function EditJob(item: Job|null, message?:string):Content {
     return _("form", {method: "post", class: "resume-editor"},
         _("a", {class: "btn", href: "."}, "Back"),
         _("h1", "Edit Job"),

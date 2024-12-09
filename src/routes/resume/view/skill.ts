@@ -1,8 +1,18 @@
-import { createElement as _ } from "zim-engine";
+/** /routes/resume/view/skill
+ * 
+ * @author Alex Malotky
+ */
+import { createElement as _, Content } from "zim-engine";
 import {Buffer} from "node:buffer";
 import Skill from "../data/skill";
 
-export function SkillCard(item:Skill, edit:boolean = false){
+/** SKill List Item Card
+ * 
+ * @param {Skill} item 
+ * @param {boolean} edit 
+ * @returns {Content}
+ */
+export function SkillCard(item:Skill, edit:boolean = false):Content {
     const list = Object.getOwnPropertyNames(item.info);
 
     return _("li", {class: "resume-card"},
@@ -28,7 +38,12 @@ export function SkillCard(item:Skill, edit:boolean = false){
     )
 }
 
-export function SkillListView(list:Array<Skill>){
+/** Skill List View
+ * 
+ * @param {Skill[]} list 
+ * @returns {Content}
+ */
+export function SkillListView(list:Array<Skill>):Content {
     return [
         _("a", {class: "btn", href: "."}, "Back"),
         _("h1", "Skills"),
@@ -38,7 +53,12 @@ export function SkillListView(list:Array<Skill>){
     ]
 }
 
-export function SkillEditListView(list:Array<Skill>){
+/** Edit Skill List View
+ * 
+ * @param {Skill[]} list 
+ * @returns {Content}
+ */
+export function SkillEditListView(list:Array<Skill>):Content {
     return [
         _("a", {class: "btn", href: "."}, "Back"),
         _("h1", "Edit Skills"),
@@ -51,7 +71,12 @@ export function SkillEditListView(list:Array<Skill>){
     ]
 }
 
-export function SkillDetailed(item:Skill){
+/** Detailed Skill View
+ * 
+ * @param {Skill} item 
+ * @returns {Content}
+ */
+export function SkillDetailed(item:Skill):Content {
     const list = Object.getOwnPropertyNames(item.info);
 
     return [
@@ -77,7 +102,13 @@ export function SkillDetailed(item:Skill){
     ]
 }
 
-export function EditSkill(item: Skill|null, message?:string){
+/** Edit Skill View
+ * 
+ * @param {Skill} item 
+ * @param {string} message 
+ * @returns {Content}
+ */
+export function EditSkill(item: Skill|null, message?:string):Content {
     const data = Buffer.from(
         JSON.stringify(item?.info || {})
     ).toString("base64");

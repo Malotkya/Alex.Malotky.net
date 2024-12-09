@@ -1,3 +1,11 @@
+/** /elements/TOolTip
+ * 
+ * @author Alex Malotky
+ */
+
+/** Tool Tip Element
+ * 
+ */
 class ToolTip extends HTMLElement {
     private _text: ToolTipText|null;
     private _fixed: boolean;
@@ -121,6 +129,9 @@ class ToolTip extends HTMLElement {
     
 }
 
+/** Tool Tip Text Element
+ * 
+ */
 class ToolTipText extends HTMLElement {
     private _text: string|undefined;
 
@@ -135,5 +146,6 @@ class ToolTipText extends HTMLElement {
             this.textContent = this._text;
     }
 }
+
 customElements.define("tool-tip-text", ToolTipText);
 customElements.define("tool-tip", ToolTip);

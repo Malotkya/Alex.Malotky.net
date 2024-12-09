@@ -1,4 +1,4 @@
-/** /util/CustomElements/AutoComlete
+/** /elements/AutoComplete
  * 
  * Made following this tutorial:
  * https://www.w3schools.com/howto/howto_js_autocomplete.asp

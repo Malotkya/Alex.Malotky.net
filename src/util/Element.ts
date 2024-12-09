@@ -1,3 +1,7 @@
+/** /util/Element
+ * 
+ * @author Alex Malotky
+ */
 export type Element = string|number|boolean|undefined|HTMLElement|null|Array<Element>;
 
 /** Creates HTML Element

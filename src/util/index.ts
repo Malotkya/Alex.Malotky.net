@@ -1,3 +1,9 @@
+/** /util
+ * 
+ * @author Alex Malotky
+ */
+
+//Date Formatting Constants
 const LONG_MONTH = [
     "January", "Febuary", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"

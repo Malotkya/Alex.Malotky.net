@@ -40,7 +40,6 @@ export interface ScryfallCard{
     sets: Record<string, Array<string>>
 }
 
-
 /** Query For Card
  * 
  * @param {string} name 

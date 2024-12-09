@@ -1,9 +1,17 @@
+/** /util/Serebii/types
+ * 
+ * @author Alex Malotky
+ */
+
+//Pokemon Element Types
 export type Type = "Normal"|"Fire"|"Water"|"Grass"|"Flying"|"Fighting"|
                    "Poison"|"Electric"|"Ground"|"Rock"|"Psychic"|"Ice"|
                    "Bug"|"Ghost"|"Steel"|"Dragon"|"Dark"|"Fairy";
 
+//Pokemon Regions
 export type Region = "Kanto"|"Johto"|"Hoenn"|"Sinnoh"|"Unova"|"Kalos"|"Alola"|"Galar"|"Paldea"
 
+//Pokemon Data
 export interface Pokemon {
     name: string,
     modifier?: string,
@@ -29,6 +37,7 @@ export interface Pokemon {
     }
 }
 
+//Pokemon Move Data
 export interface MoveData {
     name: string,
     type: Type,
@@ -38,12 +47,14 @@ export interface MoveData {
     effect?: string
 }
 
+//Serebii Game Version Data
 export interface GameVersion {
     normal: string,
     shiney?: string,
     override?:string
 }
 
+//Pokmeon Nature
 export interface Nature {
     inc: string,
     dec: string

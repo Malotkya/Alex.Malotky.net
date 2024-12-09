@@ -1,8 +1,15 @@
+/** /util/Serebii/data
+ * 
+ * @author Alex Malotky
+ */
 import { Nature, Region } from "./types";
+
+//Array Index Type
 type ArrayIndex = {
     [name in Region]: Array<string>;
 };
 
+//Regions Master Index
 export const REGION_MASTER_ARRAY_INDEX:ArrayIndex = {
     Kanto:  ["Kanto"],
     Johto:  ["Johto", "Johto // Kanto"],

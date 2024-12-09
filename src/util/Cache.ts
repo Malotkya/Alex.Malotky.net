@@ -1,6 +1,4 @@
-/** /Util/Cache
- * 
- * @author Alex Malotky
+/** /util/Cache
  */
 import { openDB, IDBPDatabase, deleteDB, IDBPTransaction } from 'idb';
 import {sleep} from ".";
@@ -64,7 +62,7 @@ export default class Cache{
     /** Create Cache Store
      * 
      * @param {string} name
-     * @param {number} defaultTtl = Week
+     * @param {number} defaultTtl
      */
     constructor(name:string, defaultTtl:number = -1){
         this._name = name;

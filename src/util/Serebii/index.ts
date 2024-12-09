@@ -1,3 +1,7 @@
+/** /util/Serebii
+ * 
+ * @author Alex Malotky
+ */
 import { Pokemon, GameVersion } from "./types";
 import {MASTER_POKEMON_LIST} from "./data"
 

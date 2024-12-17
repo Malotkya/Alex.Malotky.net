@@ -63,7 +63,7 @@ export default class ResumeRouter<T extends keyof typeof DATA_OBJECTS> extends R
             this.post("/:id", async(ctx:Context)=>{
                 const id = ctx.params.get("id")!;
                 const data = await ctx.formData(DATA_OBJECTS[name] as any);
-                delete data.id;
+
                 try {
                     await ctx.query(DATA_OBJECTS[name] as any).update(data, {id});
                 } catch (e){

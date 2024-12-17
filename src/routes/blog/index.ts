@@ -60,7 +60,6 @@ Editor.post("/New", async(ctx:Context)=>{
 Editor.post("/:id", async(ctx:Context)=>{
     const id = Number(ctx.params.get("id")!);
     const post = await ctx.formData(BlogPost);
-    delete post.id;
 
     try {
         await ctx.query(BlogPost).update(post, {id});

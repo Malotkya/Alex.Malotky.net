@@ -55,7 +55,6 @@ Editor.get("/New", async(ctx)=>{
 Editor.post("/:id", async(ctx)=>{
     const id = Number(ctx.params.get("id")!);
     const deck = await ctx.formData(DeckItemObject);
-    delete deck.id;
     
     await ctx.query(DeckItemObject).update(deck, {id});
 

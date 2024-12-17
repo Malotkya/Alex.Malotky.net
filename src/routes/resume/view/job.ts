@@ -126,7 +126,7 @@ export function EditJob(item: Job|null, message?:string):Content {
         _("input",  {type: "date", name: "endDate", id: "end", value: item?.endDate}),
         _("hr"),
         _("label", {for: "about"}, "About:"),
-        _("list-input", {name: "about", id:"about", value: JSON.stringify(item?.about || [])}),
+        _("textarea", {name: "about", id:"about"}, item?.about.join("\n")),
         _("hr"),
         _("div", {class: "button-container"},
             _("button", {type: "submit"}, "Save Changes"),

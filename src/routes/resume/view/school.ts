@@ -119,7 +119,7 @@ export function EditSchool(item: School|null, message?:string):Content {
         _("input", {type: "date", name: "graduated", id: "graduated", value: item?.graduated}),
         _("hr"),
         _("label", {for: "other"}, "Other Info:"),
-        _("list-input", {name: "other", id:"other", value: JSON.stringify(item?.other || [])}),
+        _("textarea", {name: "other", id:"other"}, item?.other.join("\n")),
         _("hr"),
         _("div", {class: "button-container"},
             _("button", {type: "submit"}, "Save Changes"),

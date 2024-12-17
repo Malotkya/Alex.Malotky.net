@@ -9,7 +9,7 @@ export const SchoolItem = new DataObject("School", {
     name: string(),
     degree: string(),
     graduated: optional(date()),
-    other: optional(list(string()))
+    other: list(string(), "\n", [])
 });
 
 type School = TypeOf<typeof SchoolItem>;

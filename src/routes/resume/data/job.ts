@@ -10,7 +10,7 @@ export const JobItem = new DataObject("Jobs", {
     employer: optional(string()),
     startDate: date(),
     endDate: optional(date()),
-    about: list(string(), undefined, [])
+    about: list(string(), "\n", [])
 })
 
 type Job = TypeOf<typeof JobItem>;

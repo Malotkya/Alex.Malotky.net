@@ -63,9 +63,9 @@ export default class ResumeRouter<T extends keyof typeof DATA_OBJECTS> extends R
             this.post("/:id", async(ctx:Context)=>{
                 const id = ctx.params.get("id")!;
                 const data = await ctx.formData(DATA_OBJECTS[name] as any);
-
+                delete data.id;
                 try {
-                    ctx.query(DATA_OBJECTS[name] as any).update(data, {id});
+                    await ctx.query(DATA_OBJECTS[name] as any).update(data, {id});
                 } catch (e){
                     console.error(e);
                     throw new HttpError(500, `There was a probem updating to ${name}!`);

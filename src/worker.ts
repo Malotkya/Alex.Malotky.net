@@ -3,8 +3,7 @@
  * @author Alex Malotky
  */
 import jwt from '@tsndr/cloudflare-worker-jwt';
-import Engine, {Context, Authorization} from "zim-engine";
-import { getMessage } from 'zim-engine/HttpError';
+import Engine, {Authorization} from "zim-engine";
 import Template, { NavLink, ErrorContent } from "./template";
 import {parse, serialize} from "cookie";
 
@@ -61,42 +60,15 @@ auth.set(async(res, user)=>{
 app.auth(auth);
 
 //Error Handler
-app.error((err:any, ctx:Context)=>{
-    let status:number;
-    let message:string;
-    switch (typeof err){
-        case "string":
-            status = 500;
-            message = err;
-            break;
-
-        case "bigint":
-            err = Number(err);
-
-        case "number":
-            status = err;
-            message = getMessage(err) || "An unknown Error occured!";
-            break;
-
-        default:
-            status = Number(err.code || err.status || 500);
-            message = err.message || String(err);
-    }
+app.error((err, ctx)=>{
+    let status  = Number(err.status);
+    let message = String(err.message);
 
     if(isNaN(status))
         status = 500;
 
-    const contentType = (ctx.request.headers.get("Accept") || "").toLocaleLowerCase();
-
-    ctx.status(status);
-
-    if(ctx.expectsRender() || contentType.includes("html")) {
-        ctx.render(ErrorContent(status, message))
-    } else if(contentType.includes("json")) {
-        ctx.json({status, message});
-    } else {
-        ctx.text(message);
-    }
+    ctx.status(status)
+        .render(ErrorContent(status, message))
 });
 
 import Home from "./routes/home";

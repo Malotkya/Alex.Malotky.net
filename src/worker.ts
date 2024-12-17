@@ -1,12 +1,15 @@
+/** /worker
+ * 
+ * @author Alex Malotky
+ */
 import jwt from '@tsndr/cloudflare-worker-jwt';
 import Engine, {Context, Authorization} from "zim-engine";
 import { getMessage } from 'zim-engine/HttpError';
 import Template, { NavLink, ErrorContent } from "./template";
 import {parse, serialize} from "cookie";
-import {SECRET} from "./secrets.json";
 
 const MAX_LOGIN_AGE = 604800;
-
+const {SECRET} = require("./secrets.json");
 const [navBar, view] = Template();
 
 const app = new Engine();

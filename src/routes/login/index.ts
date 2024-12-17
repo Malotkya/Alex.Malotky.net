@@ -4,7 +4,7 @@
  */
 import { Router } from "zim-engine";
 import LoginForm, {LogoutView} from "./view";
-import {USERNAME, PASSWORD} from "@/secrets.json";
+const {USERNAME, PASSWORD} = require("@/secrets.json");
 
 const Login = new Router("/Login");
 
@@ -30,9 +30,9 @@ Login.post(async(ctx)=>{
     const {username, password} = await ctx.formData();
     let error:string|undefined;
 
-    if(username ===  undefined){
+    if(typeof username !==  "string"){
         error = "Please enter a username!";
-    } else if(password === undefined){
+    } else if(typeof password !==  "string"){
         error = "Please enter a password!";
     } else if(username !== USERNAME || password !== PASSWORD){
         error = "Wrong Username or Password!";

@@ -48,7 +48,7 @@ export function SchoolCard(item:School, edit:boolean = false):Content {
  */
 export function SchoolListView(list:Array<School>):Content {
     return [
-        _("a", {class: "btn", href: "."}, "Back"),
+        _("a", {class: "btn", href: ".."}, "Back"),
         _("h1", "Schooling"),
         _("ul", {class: "resume-card-list"},
             list.map((v)=>SchoolCard(v))
@@ -63,7 +63,7 @@ export function SchoolListView(list:Array<School>):Content {
  */
 export function SchoolEditListView(list:Array<School>):Content{
     return [
-        _("a", {class: "btn", href: "."}, "Back"),
+        _("a", {class: "btn", href: ".."}, "Back"),
         _("h1", "Edit Schooling"),
         _("aside", {class: "new-button"},
             _("a", {class: "btn", href: "/Resume/Edit/School/New"}, "New School")
@@ -84,7 +84,7 @@ export function SchoolDetailed(item:School):Content {
     const other = item.other || [];
 
     return [
-        _("a", {class: "btn", href: "."}, "Back"),
+        _("a", {class: "btn", href: ".."}, "Back"),
         _("h1", item.degree),
         _("article", {class: "resume-detailed"},
             _("h2", item.name),
@@ -106,7 +106,7 @@ export function SchoolDetailed(item:School):Content {
  */
 export function EditSchool(item: School|null, message?:string):Content {
     return _("form", {method: "post", class: "resume-editor"},
-        _("a", {class: "btn", href: "."}, "Back"),
+        _("a", {class: "btn", href: ".."}, "Back"),
         _("h1", "Edit School"),
         _("p", {class: "error", id: "error"}),
         _("p", {class: "message"}, message),

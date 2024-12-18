@@ -45,7 +45,7 @@ export function SkillCard(item:Skill, edit:boolean = false):Content {
  */
 export function SkillListView(list:Array<Skill>):Content {
     return [
-        _("a", {class: "btn", href: "."}, "Back"),
+        _("a", {class: "btn", href: ".."}, "Back"),
         _("h1", "Skills"),
         _("ul", {class: "resume-card-list"},
             list.map((v)=>SkillCard(v))
@@ -60,7 +60,7 @@ export function SkillListView(list:Array<Skill>):Content {
  */
 export function SkillEditListView(list:Array<Skill>):Content {
     return [
-        _("a", {class: "btn", href: "."}, "Back"),
+        _("a", {class: "btn", href: ".."}, "Back"),
         _("h1", "Edit Skills"),
         _("aside", {class: "new-button"},
             _("a", {class: "btn", href: "/Resume/Edit/Skills/New"}, "New Skill")
@@ -80,7 +80,7 @@ export function SkillDetailed(item:Skill):Content {
     const list = Object.getOwnPropertyNames(item.info);
 
     return [
-        _("a", {class: "btn", href: "."}, "Back"),
+        _("a", {class: "btn", href: ".."}, "Back"),
         _("h1", item.name),
         _("article", {class: "resume-detailed"},
             _("div", {class: "resume-about"}, 
@@ -114,7 +114,7 @@ export function EditSkill(item: Skill|null, message?:string):Content {
     ).toString("base64");
 
     return _("form", {method: "post", class: "resume-editor"},
-        _("a", {class: "btn", href: "."}, "Back"),
+        _("a", {class: "btn", href: ".."}, "Back"),
         _("h1", "Edit Skill"),
         _("p", {class: "error", id: "error"}),
         _("p", {class: "message"}, message),

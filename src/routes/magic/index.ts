@@ -110,7 +110,7 @@ Editor.all(async(ctx)=>{
             styles,
             title: "List of Decks",
             meta: {
-                description: "List of magic decks to edit."
+                description: "List of Magic the Gathering decks."
             }
         },
         body: {
@@ -133,8 +133,11 @@ Magic.get("/:id", async(ctx)=>{
         head: {
             styles,
             title: `Magic Deck (${id})`,
+            scripts: {
+                masonry: {src: "https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"}
+            },
             meta: {
-                description: "Magic the Gathering Deck Editor."
+                description: "Magic the Gathering deck."
             }
         },
         body: {

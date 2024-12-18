@@ -3,6 +3,7 @@
  * @author Alex Malotky
  */
 import {Router, HttpError} from "zim-engine";
+import { RequireLoginHandler } from "../login";
 import { DeckItemObject } from "./data/deck";
 import { DeckEdit, DeckView, DeckListView } from "./view";
 import styles from "./style.scss";
@@ -12,13 +13,7 @@ const PAGE_SIZE = 30;
 const Magic = new Router("/Decks");
 const Editor = new Router("/Edit");
 
-Editor.all("*", async(ctx)=>{
-    const user = await ctx.getAuth();
-
-    if(user === null){
-        ctx.redirect("/Login");
-    }
-});
+Editor.all("*", RequireLoginHandler);
 
 Editor.delete("/:id", async(ctx)=>{
     const id = Number(ctx.params.get("id")!);

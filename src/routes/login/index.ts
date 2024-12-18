@@ -2,9 +2,16 @@
  * 
  * @author Alex Malotky
  */
-import { Router } from "zim-engine";
+import { Context, Router } from "zim-engine";
 import LoginForm, {LogoutView} from "./view";
 const {USERNAME, PASSWORD} = require("@/secrets.json");
+
+export async function RequireLoginHandler(ctx:Context){
+    const user = await ctx.getAuth();
+    if(user === null) {
+        ctx.redirect(`/Login?return=${encodeURIComponent(ctx.url.pathname)}`);
+    }
+}
 
 const Login = new Router("/Login");
 

@@ -3,6 +3,7 @@
  * @author Alex Malotky
  */
 import {Context, HttpError, Router} from "zim-engine";
+import { RequireLoginHandler } from "../login";
 import styles from "./style.scss";
 import BlogResults from "./view";
 import {ViewPost, EditPost} from "./view/post";
@@ -13,15 +14,8 @@ const PAGE_SIZE = 30;
 const Blog = new Router("/Blog");
 
 const Editor = new Router("/Edit");
+Editor.use("*", RequireLoginHandler);
 Blog.use(Editor);
-
-Editor.use(async(ctx:Context) =>{
-    const user = await ctx.getAuth();
-
-    if( user === null ){
-        ctx.redirect("/Login");
-    }
-});
 
 Editor.delete("/:id", async(ctx:Context)=>{
     const id = ctx.params.get("id")!;

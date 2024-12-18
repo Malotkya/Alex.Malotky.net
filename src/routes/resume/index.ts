@@ -4,6 +4,7 @@
  */
 import { Router, HttpError } from "zim-engine";
 import ResumeRouter, {DESCRIPTION} from "./router";
+import { RequireLoginHandler } from "../login";
 import { JobDetailed, EditJob, JobEditListView, JobListView } from "./view/job";
 import { JobItem } from "./data/job";
 import { SchoolDetailed, EditSchool, SchoolEditListView, SchoolListView } from "./view/school";
@@ -14,16 +15,7 @@ import ResumeView , { EditMainView } from "./view";
 import styles from "./style.scss";
 
 const Editor = new Router("/Edit");
-
-/** Validate Login
- * 
- */
-Editor.all("*", async(ctx)=>{
-    const user = await ctx.getAuth();
-    if(user === null) {
-        ctx.redirect("/Login");
-    }
-});
+Editor.all("*", RequireLoginHandler);
 
 //Editor Table Handlers
 Editor.use(new ResumeRouter("Jobs", EditJob, JobEditListView, true));

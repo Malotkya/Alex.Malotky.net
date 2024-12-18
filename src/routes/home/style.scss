@@ -2,12 +2,13 @@
 @import "@/template/styles/breakpoints.scss";
 
 #home-container{
-    article, p {
+    animated-text, p {
         padding: 0 0.5em;
     }
 }
 
 animated-text {
+    display: block;
     white-space: pre;
     color: $accent-dark;
 }

@@ -10,9 +10,10 @@ const Login = new Router("/Login");
 
 Login.get(async(ctx)=>{
     const user = await ctx.getAuth();
+    const back = ctx.search.get("return");
 
     if(user){
-        return ctx.redirect("back");
+        return ctx.redirect(back || "/");
     }
 
     ctx.render({
@@ -28,6 +29,7 @@ Login.get(async(ctx)=>{
 
 Login.post(async(ctx)=>{
     const {username, password} = await ctx.formData();
+    const back = ctx.search.get("return");
     let error:string|undefined;
 
     if(typeof username !==  "string"){
@@ -38,7 +40,7 @@ Login.post(async(ctx)=>{
         error = "Wrong Username or Password!";
     } else {
         await ctx.setAuth({username, password});
-        return ctx.redirect("back");
+        return ctx.redirect(back || "/");
     }
 
     ctx.render({

@@ -4,14 +4,33 @@
  */
 import { createElement as _ } from "@/util/Element";
 
+const A = "A".charCodeAt(0);
+const Z = "Z".charCodeAt(0);
+const a = "a".charCodeAt(0);
+const z = "z".charCodeAt(0);
+
+function formatId(value:string):string {
+    if(value.length === 0)
+        return "";
+
+    const first = value.charCodeAt(0);
+    if((first < A && first > Z) && (first < a &&  first > z))
+        value = "a"+value;
+
+    return value
+        .replaceAll(/\s/g, "")
+        .replaceAll(/[^a-zA-Z0-9]/g, "_");
+}
+
 function Section(index:number, name:string, data:Array<string> = [], update:EventListener){
     const title = `name${index}`;
 
     const txtName = _("input", {id:title, class: "name", value: name}) as HTMLInputElement;
-    const txtAbout = _("textarea", {id: name}, data.join("\n")) as HTMLTextAreaElement;
+    const txtAbout = _("textarea", {id: formatId(name)}, data.join("\n")) as HTMLTextAreaElement;
     txtAbout.addEventListener("input", update);
     txtName.addEventListener("input", (event)=>{
-        txtAbout.id = txtName.value;
+
+        txtAbout.id = formatId(txtName.value);
         update(event);
     });
 
@@ -107,8 +126,8 @@ export default class SkillInput extends HTMLElement{
         this.querySelectorAll(".name").forEach((txtName:HTMLInputElement)=>{
             const name = txtName.value;
             if(name){
-                const about = this.querySelector(`#${name}`) as HTMLTextAreaElement;
-                info[name] = about.value.split("\n");
+                const about = this.querySelector("#"+formatId(name)) as HTMLTextAreaElement;
+                info[name] = about.value.split("\n").filter(s=>s);
             }
         });
 

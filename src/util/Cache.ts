@@ -138,7 +138,8 @@ export default class Cache{
     async set(key:string, value:string, ttl:number = this._ttl):Promise<void> {
         const tx = await this._ready("readwrite");
 
-        ttl += Date.now();
+        if(ttl > -1)
+            ttl += Date.now();
 
         await tx.store.put({ttl,value}, key);
         await tx.done;
@@ -173,7 +174,6 @@ export default class Cache{
                 await tx.store.add(result, key);
             }
 
-            //Close transactiona after store might be updated.
             await tx.done;
 
             if(ttl >= 0 && ttl < Date.now()) {

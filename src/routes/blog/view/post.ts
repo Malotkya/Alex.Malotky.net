@@ -12,7 +12,7 @@ import Post from "../data/post";
  * @returns {Content}
  */
 export function EditPost(post?:Post): Content {
-    const {id = 0, title = "", content = ""} = post || {};
+    const {id, title = "", content = ""} = post || {};
 
     const data = Buffer.from(content).toString("base64");
 

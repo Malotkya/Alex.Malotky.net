@@ -60,13 +60,12 @@ export default function Template():[Array<Content>, View]{
  * @returns {RenderUpdate}
  */
 export function ErrorContent(status:number, message:string):RenderUpdate {
-    message = `${status}: ${message}`;
     return {
         head: {
             title: getMessage(status) || "Error"
         },
         body: {
-            main: _("p", {class: "error", id: "error"}, message),
+            main: _("p", {class: "error", id: "error"},  `${status}: ${message}`),
         },
         update: {
             error: message

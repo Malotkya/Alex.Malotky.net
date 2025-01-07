@@ -124,8 +124,8 @@ interface MarkdownElement {
     lines:string[]
 }
 
-const ONE        = "1".charCodeAt(0);
 const ZERO       = "0".charCodeAt(0);
+const NINE       = "9".charCodeAt(0);
 const HEADER     = "#".charCodeAt(0);
 const LIST_STAR  = "*".charCodeAt(0);
 const LIST_DASH  = "-".charCodeAt(0);
@@ -165,7 +165,7 @@ function getElement(line:string):MarkdownElement|null {
             }
         }
 
-        case (first > ONE && first < ZERO):{
+        case (first >= ZERO && first <= NINE):{
             const next = line.charAt(0);
             const space = line.charAt(1);
 

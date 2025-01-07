@@ -92,7 +92,9 @@ export default class CategoryElement extends HTMLElement {
         this.innerHTML = "";
 
         const header = document.createElement("h3");
-        
+        this.appendChild(header);
+        this.appendChild(this._list);
+
         if(this._name){
             const name = document.createElement("span");
             name.textContent = this._name;
@@ -122,13 +124,7 @@ export default class CategoryElement extends HTMLElement {
             li.appendChild(btnAdd);
             this._list.appendChild(li);
             this._list.removeChild(this._input);
-
-            this.appendChild(header);
-            this.appendChild(this._list);
         }
-
-        this.appendChild(header);
-        this.appendChild(this._list);
     }
 }
 

@@ -70,7 +70,7 @@ Editor.post("/:id", async(ctx:Context)=>{
             }
         },
         body: {
-            main: EditPost(post)
+            main: EditPost({...post, id})
         }
     });
 });
@@ -107,7 +107,7 @@ Editor.all(async(ctx: Context)=>{
         --page;
     */
 
-    const results = await ctx.query(BlogPost).getAll();
+    const results = await ctx.query(BlogPost).getAll(undefined, {orderBy: {id: "DESC"}})
 
     ctx.render({
         head: {
@@ -152,7 +152,7 @@ Blog.all(async(ctx:Context)=> {
         --page;
     */
 
-    const results = await ctx.query(BlogPost).getAll();
+    const results = await ctx.query(BlogPost).getAll(undefined, {orderBy: {id: "DESC"}})
 
     ctx.render({
         head: {

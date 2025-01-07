@@ -119,35 +119,127 @@ export function createBlock(string:string, element:string, regex:RegExp, dilimit
     return output;
 }
 
+interface MarkdownElement {
+    name:string,
+    lines:string[]
+}
+
+const ONE        = "1".charCodeAt(0);
+const ZERO       = "0".charCodeAt(0);
+const HEADER     = "#".charCodeAt(0);
+const LIST_STAR  = "*".charCodeAt(0);
+const LIST_DASH  = "-".charCodeAt(0);
+const FORMAT     = "`".charCodeAt(0);
+const BLOCKQUOTE = "&".charCodeAt(0);
+
+function getElement(line:string):MarkdownElement|null {
+    const first = line.charCodeAt(0);
+    line = line.substring(1);
+
+    switch(true){
+        case (first === HEADER):{
+            let char = line.charAt(0);
+            let count = 3;
+            while(char === "#") {
+                ++count;
+                char = line.charAt(0,);
+                line = line.substring(1);
+            }
+
+            if(char !== " ")
+                return null;
+
+            if(count > 6)
+                count = 6;
+
+            return {
+                name: `h${count}`,
+                lines: [line]
+            }
+        }
+
+        case (first === FORMAT):{
+            return {
+                name: "pre",
+                lines: [line]
+            }
+        }
+
+        case (first > ONE && first < ZERO):{
+            const next = line.charAt(0);
+            const space = line.charAt(1);
+
+            if(next !== ")" && next !== ".")
+                return null;
+
+            if(space !== " ")
+                return null;
+
+            return {
+                name: "ol",
+                lines: ["<li>"+line.substring(2)+"</li>"]
+            }
+        }
+
+        case (first === LIST_STAR || first === LIST_DASH):{
+            if(line.slice(0) !== " ")
+                return null;
+
+            return {
+                name: "ul",
+                lines: ["<li>"+line.substring(1)+"</li>"]
+            }
+        }
+
+        case (first === BLOCKQUOTE):{
+            if(line.slice(0, 4) !== "gt; ")
+                return null;
+
+            return {
+                name: "blockquote",
+                lines: [line.substring(4)]
+            }
+        }
+    }
+
+    return null;
+}
+
 export function MarkDown(markdown:string):string {
-    //Escape Html;
-    markdown = markdown.replace(/</g, '&lt;').replace(/>/g, '&gt;');
-
-    //Code Block
-    markdown = createBlock(markdown, "pre", /\n`/gm);
-
-    //Blockquotes
-    markdown = createBlock(markdown, "blockquote", /\n&gt;/gm);
-
-    //Ordered List
-    markdown = createBlock(markdown, "ol", /\n\s*\d+./gm, "•");
-
-    //Unordered List
-    markdown = createBlock(markdown, "ul", /\n\s*[*+-] /gm, "•");
-
-    return markdown
+    const input:Array<string> = markdown
+        .replace(/</g, '&lt;').replace(/>/g, '&gt;')                            //Escape Html
         .replace(/(^[*-]+$)/gm, "<hr/>")                                        //Horizontal Rule
-        .replace(/^#{1} (.*?)$/gim, '<h3>$1</h3>')                           //Headers 1
-        .replace(/^#{2} (.*?)$/gim, '<h4>$1</h4>')                           //Headers 2
-        .replace(/^#{3} (.*?)$/gim, '<h5>$1</h5>')                           //Headers 3
-        .replace(/^#+ (.*?)$/gim,   '<h6>$1</h6>')                           //Headers 4+
         .replace(/[*_]{2}([^*_].*?)[*_]{2}/gm, '<strong>$1</strong>')           //Bold
         .replace(/[*_]{1}(.*?)[*_]{1}/gm, '<em>$1</em>')                        //Italics
-        .replace(/^•(.*)$/gm, '<li>$1</li>')                                 //List Item
         .replace(/!\[(.*?)\]\((.*?)\)/gm, "<img alt='$1' src='$2' />")          //Image
         .replace(/\[(.*?)\]\((.*?)\)/gm, "<a href='$2' target='_blank'>$1</a>") //Links
         .replace(/`(.*?)`/gm, "<code>$1</code>")                                //Code lines
-        .replace(/\n$/gim, '<br/>')                                             //Line Break          
+            .split("\n");
+    const output:Array<MarkdownElement> = [];
+
+    for(let string of input){
+        string = string.trim();
+        if(string){
+            const element = getElement(string);
+
+            if(element){
+    
+                if(output.length > 0 && output[output.length-1].name === element.name){
+                    output[output.length-1].lines = output[output.length-1].lines.concat(element.lines);
+                } else {
+                    output.push(element);
+                }
+    
+            } else {
+                output.push({
+                    name: "p",
+                    lines: [string]
+                });
+            }
+        }
+    }
+
+    return output.map(elm=>`<${elm.name}>${elm.lines.join("")}</${elm.name}>`).join("");
 }
 
 export function sleep(n:number = 1):Promise<void> {

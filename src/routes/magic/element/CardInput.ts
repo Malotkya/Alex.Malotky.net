@@ -2,20 +2,27 @@
  * 
  * @author Alex Malotky
  */
-import { queryForCard, getShard } from "@/util/Scryfall";
+import { queryForCard, getShard, ScryfallCard } from "@/util/Scryfall";
 import { createElement as _ } from "@/util/Element";
-import AutoComplete from "@/elements/AutoComplete";
+
 import { sleep } from "@/util";
 import Card from "../data/card";
 
-//@ts-ignore
-const BLANK_CARD:Card = {
-    count: -1,
-    name: "",
-    set: "",
-    collector_number: "",
-    foil: true,
+type StoredCard = Card&{
+    sets?:Record<string, string[]>
+    arts?:Record<string, string>
 }
+
+type RetreivedCard = ScryfallCard&{
+    count:number,
+    foil:boolean,
+    collector_number:string,
+    set:string,
+    image:string[]
+};
+
+//@ts-ignore
+const BLANK_CARD:StoredCard = {}
 
 /** CardElement Class
  * 
@@ -23,29 +30,26 @@ const BLANK_CARD:Card = {
  * 
  */
 export default class CardInput extends HTMLElement {
-    private _value:Card|undefined;
+    private _value:StoredCard;
+    private _ready:boolean|undefined;
 
     /** Constructor
      * 
      * @param {Card|string} card 
      */
-    constructor(card?:Card|string){
+    constructor(card:Card|string){
         super();
-        if(card)
-            this.card = card;
-            
-    }
-
-    /** Value Setter
-     * 
-     */
-    set card(card:Card|string){
         if(typeof card === "string") {
             this._value = BLANK_CARD;
-            this.set(card);
+            createCardFromString(card).then(card=>{
+                this._value = card;
+            }).catch(e =>{
+                console.error(e);
+            });
         } else {
             this._value = card;
         }
+        
     }
 
     /** Value Getter
@@ -59,13 +63,12 @@ export default class CardInput extends HTMLElement {
                 set: this._value.set,
                 collector_number: this._value.collector_number,
                 foil: this._value.foil,
-                image: this._value.image || [],
-                art: this._value.art || "",
+                image: this._value.image,
+                art: this._value.art,
                 typeLine: this._value.typeLine || "Error",
                 oracle: this._value.oracle || "Not Found",
-                manaValue: this._value.manaValue? this._value.manaValue: -1,
+                manaValue: this._value.manaValue || 0,
                 manaCost: this._value.manaCost || "",
-                sets: undefined
             };
         } else {
             return null;
@@ -73,11 +76,19 @@ export default class CardInput extends HTMLElement {
     }
 
     async value():Promise<Card|null> {
-        while(this._value === BLANK_CARD) {
+        while(!this.ready) {
             await sleep();
         }
         
         return this.card;
+    }
+
+    get ready():boolean {
+        if(this.isConnected){
+            return this._ready!;
+        }
+
+        return this.card !== BLANK_CARD
     }
 
     /** Create and Populate Select.
@@ -85,7 +96,7 @@ export default class CardInput extends HTMLElement {
      * @param sets 
      * @returns 
      */
-    private populate(sets: any): HTMLSelectElement{
+    private populate(sets:Record<string,string[]>, art:Record<string,string>): HTMLSelectElement{
         const select = document.createElement("select");
 
         if(typeof sets === "undefined"){
@@ -102,15 +113,23 @@ export default class CardInput extends HTMLElement {
         for(let name in sets){
             let option = document.createElement("option");
             option.textContent = name;
-            option.value = JSON.stringify(sets[name]);
+            option.value = name;
 
             select.appendChild(option);
         }
-        select.value = JSON.stringify(this._value!.image);
 
-        select.addEventListener("change", event=>{
-            this._value!.image = JSON.parse(select.value);
+        select.addEventListener("input", event=>{
+            this._value.image = sets[select.value];
+            this._value.art = art[select.value];
+            const [set, number] = select.value.split(":");
+            this._value.set = set;
+            this._value.collector_number = number;
         });
+
+        const value = `${this._value.set}:${this._value.collector_number}`;
+        select.value = value;
+        this._value.image = sets[value];
+        this._value.art = art[value];
 
         return select;
     }
@@ -119,44 +138,9 @@ export default class CardInput extends HTMLElement {
      * 
      */
     private delete(){
-        if(window.confirm(`Are you sure you want to remove ${this._value!.name}?`)){
+        if(window.confirm(`Are you sure you want to remove ${this._value.name}?`)){
             this.parentElement!.removeChild(this);
         }
-    }
-
-    /** Adds card to the list.
-     * 
-     * @param cardName 
-     */
-    private find(cardName:string){
-        createCardFromString(cardName).then((card:Card)=>{
-            console.debug(card);
-            this.parentElement!.insertBefore(new CardInput(card), this);
-            this.dispatchEvent(new CustomEvent("input", {bubbles: true, cancelable: true}));
-        });
-    }
-
-    /** Set new Card
-     * 
-     * @param {string} string 
-     */
-    private set(string:string){
-        createCardFromString(string).then(card=>{
-            this._value = card;
-        }).catch(e =>{
-            console.error(e);
-            this._value = undefined;
-        });
-    }
-
-    private static async getListFromShard(value:string = ""):Promise<Array<string>>{
-        value = value.trim();
-        if(value){
-            const char = value.charAt(0).toUpperCase();
-            return (await getShard(char)).match(/(?<="name":").*?(?=")/gm)!;
-        }
-        
-        return [];
     }
 
     /** Connected Callback
@@ -165,6 +149,7 @@ export default class CardInput extends HTMLElement {
      */
     public connectedCallback(){
         this.innerHTML = "";
+        this._ready = false;
 
         const nameElement = document.createElement("div");
         const input = document.createElement("input");
@@ -180,14 +165,14 @@ export default class CardInput extends HTMLElement {
             input.value = String(this._value.count);
             input.type = "number";
             input.style.width = "6ch";
-            input.addEventListener("change", ()=>{
+            input.addEventListener("input", ()=>{
                 let number:number = Number(input.value);
                 if(isNaN(number)){
                     number = 0;
                     input.value = "0";
                 }
 
-                this._value!.count = number;
+                this._value.count = number;
             });
             nameElement.appendChild(input);
 
@@ -200,7 +185,7 @@ export default class CardInput extends HTMLElement {
             const foilInput = document.createElement("input");
             foilInput.type = "checkbox";
             foilInput.addEventListener("change", ()=>{
-                this._value!.foil = foilInput.checked;
+                this._value.foil = foilInput.checked;
             });
             foilInput.checked = this._value.foil;
             foilInput.style.width = "auto";
@@ -215,35 +200,17 @@ export default class CardInput extends HTMLElement {
             if(typeof this._value.sets === "undefined") {
                 queryForCard(this._value.name).then((buffer)=>{
                     if(buffer !== null)
-                        this.appendChild(this.populate(buffer.sets));
+                        this.appendChild(this.populate(buffer.sets, buffer.art));
                     else
-                        this.appendChild(this.populate(this._value!.sets));
+                        throw new Error("Unable to find card set information!");
                     this.appendChild(btnDelete);
+                    this._ready = true;
                 });
             } else {
-                this.appendChild(this.populate(this._value.sets));
+                this.appendChild(this.populate(this._value.sets!, this._value.arts!));
                 this.appendChild(btnDelete);
+                this._ready = true;
             }
-
-        } else {
-            //Name Input
-            const autoComplete = new AutoComplete(CardInput.getListFromShard, input);
-
-            nameElement.appendChild(autoComplete);
-            input.placeholder = "Card Name";
-
-            //Submit Name Button
-            const btnFind = _("button", {type: "button"});
-            btnFind.textContent = "+";
-
-            btnFind.addEventListener("click", ()=>{
-                this.find(input.value);
-                input.value = "";
-            });
-
-            autoComplete.addEventListener("submit", ()=>btnFind.click());
-
-            this.appendChild(btnFind);
         }
     }
 }
@@ -266,7 +233,7 @@ customElements.define("card-input", CardInput);
      * 
      * @param {string} string
      */
-async function createCardFromString(string:string):Promise<Card>{
+export async function createCardFromString(string:string):Promise<StoredCard>{
     //get count from string
     let buffer = string.match(/^\d*[Xx]?/gm)![0];
     string = string.substring(buffer.length);
@@ -318,7 +285,7 @@ async function createCardFromString(string:string):Promise<Card>{
 
     //Get and Add info already aquired.
     let result = await queryForCard(cardName)
-    let card:Card;
+    let card:RetreivedCard;
     if(result === null){
         //@ts-ignore
         card = {
@@ -364,9 +331,11 @@ async function createCardFromString(string:string):Promise<Card>{
                     
         }
     }
-
-    
-    
-
-    return card;
+    const arts = card.art;
+            
+    return {
+        ...card, arts,
+        art: arts[card.set],
+        image: card.sets[card.set]
+    };
 }

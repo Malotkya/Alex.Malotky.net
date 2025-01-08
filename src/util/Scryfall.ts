@@ -22,7 +22,7 @@ export interface ScryfallData{
     manaValue?: number,
     typeLine?: string, 
     oracle?: string,
-    art?: string,
+    art?: Record<string, string>,
     sets?: Record<string, Array<string>>
 }
 
@@ -36,7 +36,7 @@ export interface ScryfallCard{
     manaValue: number,
     typeLine: string, 
     oracle: string,
-    art?: string,
+    art: Record<string, string>,
     sets: Record<string, Array<string>>
 }
 

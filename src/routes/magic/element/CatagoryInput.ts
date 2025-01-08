@@ -115,6 +115,7 @@ export default class CatagoryInput extends HTMLElement {
     private _categories:Map<string, CategoryElement>;
     private _input: NewCategoryElement;
     private _values: Dictionary<HTMLInputElement>;
+    private _ready:boolean;
 
     /** Constructor
      * 
@@ -129,6 +130,7 @@ export default class CatagoryInput extends HTMLElement {
         });
 
         this._input = new NewCategoryElement();
+        this._ready = true;
 
         let temp:string = "//Commander\n" + commanders.map(cardToString).join("\n");
         for(let cat in mainDeck){
@@ -235,6 +237,7 @@ export default class CatagoryInput extends HTMLElement {
      * 
      */
     private async update(){
+        this._ready = false;
         const {commanders, main_deck, color_identity, art} = await this.getDeckObject();
         
         this._values["commanders"].value = JSON.stringify(commanders);
@@ -243,6 +246,7 @@ export default class CatagoryInput extends HTMLElement {
         this._values["art"].value = art;
 
         this.appendChild(this._input);
+        this._ready = true;
     }
 
     /** Get Deck Object
@@ -355,6 +359,10 @@ export default class CatagoryInput extends HTMLElement {
         }
 
         this.update();
+    }
+
+    get ready():boolean {
+        return this._ready;
     }
 }
 

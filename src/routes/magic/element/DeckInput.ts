@@ -63,6 +63,16 @@ export default class DeckInput extends HTMLFormElement {
                 main_deck = {}
         } = this._data || {};
 
+        const input = new CatagoryInput(commanders as any, main_deck as any);
+
+        this.addEventListener("submit", (event)=>{
+            if(!input.ready) {
+                event.preventDefault();
+                event.stopPropagation();
+                alert("Form not ready to submit!");
+            }
+        })
+
         appendChildren(this, [
             _("a", {href: "/Decks/Edit", class:"btn", clear:"true"}, "Back"),
             _("a", {href: `/Decks/${id}`, id: "btnView", class: "btn", clear:"true"}, "View"),
@@ -73,7 +83,7 @@ export default class DeckInput extends HTMLFormElement {
             _("label", {for:"description"}, "Description:"),
             _("textarea", {id:"description", name: "description"}, description),
             _("label", {for: "deckList"}, "Deck List:"),
-            new CatagoryInput(commanders as any, main_deck as any)
+            input
         ]);
     }
 }

@@ -3,6 +3,7 @@
  * @author Alex Malotky
  */
 import CategoryElement from "./Category";
+import NewCategoryElement from "./NewCategory";
 import DeckListDialog from "./DeckListDialog";
 import CardElement from "./CardInput";
 import Card from "../data/card";
@@ -112,7 +113,7 @@ function cardToString(card:Card):string {
 export default class CatagoryInput extends HTMLElement {
     private _dialog: DeckListDialog;
     private _categories:Map<string, CategoryElement>;
-    private _input: CategoryElement;
+    private _input: NewCategoryElement;
     private _values: Dictionary<HTMLInputElement>;
 
     /** Constructor
@@ -127,7 +128,7 @@ export default class CatagoryInput extends HTMLElement {
             this.connectedCallback(false);
         });
 
-        this._input = new CategoryElement();
+        this._input = new NewCategoryElement();
 
         let temp:string = "//Commander\n" + commanders.map(cardToString).join("\n");
         for(let cat in mainDeck){

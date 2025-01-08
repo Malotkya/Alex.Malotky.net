@@ -4,13 +4,14 @@
  */
 import { createElement as _ } from "@/util/Element";
 import CardElement from "./CardInput";
+import NewCardInput from "./NewCardInput";
 import Card from "../data/card";
 
 /** Category Element
  * 
  */
 export default class CategoryElement extends HTMLElement {
-    _input: CardElement;
+    _input: NewCardInput;
     _list: HTMLUListElement;
     _name: string;
 
@@ -19,11 +20,10 @@ export default class CategoryElement extends HTMLElement {
      * @param {string} name 
      * @param {string|Array} list 
      */
-    constructor(name?:string, list:string|Array<string> = []){
+    constructor(name:string, list:string|Array<string> = []){
         super();
         
-        if(name)
-            this.id = name;
+        this.id = name;
         this._name = name || "";
 
         if(typeof list === "string")
@@ -34,7 +34,7 @@ export default class CategoryElement extends HTMLElement {
         for(let line of list)
             this._list.appendChild(new CardElement(line));
         
-        this._input = new CardElement();
+        this._input = new NewCardInput();
         this._list.appendChild(this._input);
     }
 
@@ -67,15 +67,6 @@ export default class CategoryElement extends HTMLElement {
         return output;
     }
 
-    /** Create New Category
-     * 
-     * @param {string} name 
-     */
-    private create(name:string){
-        this.parentElement!.insertBefore(new CategoryElement(name), this);
-        this.dispatchEvent(new Event("input"));
-    }
-
     /** Delete Category
      * 
      */
@@ -92,39 +83,18 @@ export default class CategoryElement extends HTMLElement {
         this.innerHTML = "";
 
         const header = document.createElement("h3");
+        const name = document.createElement("span");
+        name.textContent = this._name;
+
+        const btnDelete = _("button", {type: "button"}, "Delete");
+        btnDelete.style.fontSize = "0.8em";
+        btnDelete.addEventListener("click", ()=>this.delete());
+
+        header.appendChild(name);
+        header.appendChild(btnDelete);
+
         this.appendChild(header);
         this.appendChild(this._list);
-
-        if(this._name){
-            const name = document.createElement("span");
-            name.textContent = this._name;
-
-            const btnDelete = _("button", {type: "button"}, "Delete");
-            btnDelete.style.fontSize = "0.8em";
-            btnDelete.addEventListener("click", ()=>this.delete());
-
-            header.appendChild(name);
-            header.appendChild(btnDelete);
-            
-        } else {
-            const input = document.createElement("input");
-            input.placeholder = "Category Name";
-            header.appendChild(input);
-
-            const btnAdd = _("button", {type: "button"}, "Create Category");
-            btnAdd.style.margin = "0 auto";
-            btnAdd.style.display = "block";
-            btnAdd.addEventListener("click", ()=>{
-                this.create(input.value);
-                input.value = "";
-            }); 
-
-            const li = document.createElement("li");
-            li.style.listStyle = "none";
-            li.appendChild(btnAdd);
-            this._list.appendChild(li);
-            this._list.removeChild(this._input);
-        }
     }
 }
 

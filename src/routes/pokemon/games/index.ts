@@ -2,7 +2,6 @@
  * 
  * @author Alex Malotky
  */
-import { Game } from "../types";
 
 /** Alpha Sapphire Content
  * 
@@ -21,7 +20,9 @@ import { gold } from "./heartGold";
 import { sapphire } from "./alphaSapphire";
 import {black} from "./black2";
 import {shield} from "./shield";
+import {arceus} from "./arceus";
 import {violet} from "./violet";
+import {scarlet} from "./scarlet"
 
 //Default/Latest Game
 export const DEFAULT_INIT = "violet";
@@ -35,6 +36,6 @@ export default {
     white, black,
     x,
     sun,
-    shield,
-    violet
+    shield, arceus,
+    violet, scarlet
 };

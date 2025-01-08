@@ -173,6 +173,7 @@ export const arceus:Game = {
         {   name: "Gastrodon",
             level: 79,
             gender: true,
+            modifier: "-e",
             types:[
                 "Water",
                 "Ground"

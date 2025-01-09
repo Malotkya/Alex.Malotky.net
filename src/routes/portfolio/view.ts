@@ -5,7 +5,7 @@
 import { createElement as _ } from "zim-engine";
 import { MarkDown } from "@/util";
 
-const mdPortfolio = MarkDown(require("./data/portfolio.md"));
+const mdPortfolio = MarkDown(require("@/../README.md"));
 const mdCapstone  = MarkDown(require("./data/capstone.md"));
 const mdDuck      = MarkDown(require("./data/duck.md"));
 

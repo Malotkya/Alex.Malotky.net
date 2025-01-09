@@ -29,13 +29,7 @@ export default class DeckInput extends HTMLFormElement {
             throw new TypeError("Deck name must be a string!");
 
         if(typeof temp.description !== "string")
-            throw new TypeError("Deck description must be a string!");
-
-        if(typeof temp.art !== "string")
-            throw new TypeError("Deck art must be a string!");
-
-        if(!Array.isArray(temp.color_identity))
-            throw new TypeError("Color identity list must be an array!");
+            throw new TypeError("Deck description must be a string!")
 
         if(!Array.isArray(temp.commanders))
             throw new TypeError("Commander list must be an array!");
@@ -56,14 +50,14 @@ export default class DeckInput extends HTMLFormElement {
            return;
         }
 
-        const { id = "undefined",
+        const { id = null,
                 name = "",
                 description = "", 
                 commanders = [],
                 main_deck = {}
         } = this._data || {};
 
-        const input = new CatagoryInput(commanders as any, main_deck as any);
+        const input = new CatagoryInput(commanders, main_deck);
 
         this.addEventListener("submit", (event)=>{
             if(!input.ready) {

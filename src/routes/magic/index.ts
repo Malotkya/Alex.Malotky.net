@@ -97,13 +97,13 @@ Editor.all(async(ctx)=>{
         --page;
 
     //SELECT * FROM Decks ORDER BY id DESC LIMIT ? OFFSET ?
-    const results = await ctx.query(DeckItemObject).getAll(undefined,
+    const results = await ctx.query(DeckItemObject).getAll(); /*undefined,
         {
             orderBy: {id: "DESC"},
             limit: PAGE_SIZE,
             offset: PAGE_SIZE * page
         }
-    );
+    ); */
 
     ctx.render({
         head: {

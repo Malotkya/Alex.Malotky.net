@@ -29,6 +29,13 @@ export function DeckEdit(deck?:DeckItem): Content{
     );
 }
 
+function confirmDelete(event:Event){
+    if(!confirm("Are you sure?")) {
+        event.preventDefault();
+        event.stopPropagation();
+    }
+}
+
 /** List View
  * 
  * @param {Array<DeckItem>} list 
@@ -49,16 +56,6 @@ export function DeckListView(list:Array<DeckItem>, edit:boolean = false):Content
                         _("img", {src: deck.art || "/missing.jpg", alt: `${deck.name} Deck Art`})
                     ),
                     _("h2", deck.name),
-                    edit? _("p",
-                        _(  "a",
-                            {
-                                href: "./Delete",
-                                class: "btn",
-                                onClick: `confirm('Are you sure?')`
-                            },
-                            "Delete"
-                        )
-                    ): null,
                     _("p", {class: "color_identity"},
                         deck.color_identity.length === 0
                             ? _("span", {
@@ -74,7 +71,10 @@ export function DeckListView(list:Array<DeckItem>, edit:boolean = false):Content
                                 }
                             ))
                     )
-                )
+                ),
+                edit? _(  "form", {method: "delete", onsubmit: confirmDelete, action: `/Decks/Edit/${deck.id}`},
+                    _("button", "Delete")
+                ): null,
             ))
         )
     ]

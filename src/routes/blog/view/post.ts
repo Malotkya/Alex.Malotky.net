@@ -17,6 +17,7 @@ export function EditPost(post?:Post): Content {
     const data = Buffer.from(content).toString("base64");
 
     return _("form", {id: "blog-post-form", method: "post"},
+        _("a", {href: "..", class: "btn"}, "Back"),
         _("div", {class: "row"},
             _("div", {class: "post-title"},
                 _("label", {for: "post-title"}, "Post Title:"),

@@ -2,7 +2,7 @@
  * 
  * @author Alex Malotky
  */
-import DataObject, {object, string, TypeOf, number, list, record, optional} from "zim-engine/Validation";
+import DataObject, {object, string, TypeOf, number, list, record, optional, url} from "zim-engine/Validation";
 import {CardObject} from "./card";
 
 export const DeckObject = object({
@@ -22,7 +22,7 @@ export const DeckItemObject = new DataObject("Decks", {
     commanders: list(CardObject.clone()),
     main_deck: record(list(CardObject.clone())),
     color_identity: list(string()),
-    art: string()
+    art: optional(url())
 });
 
 export type DeckItem = TypeOf<typeof DeckItemObject>

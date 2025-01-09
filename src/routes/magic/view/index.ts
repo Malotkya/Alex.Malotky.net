@@ -50,7 +50,7 @@ export function DeckListView(list:Array<DeckItem>, edit:boolean = false):Content
         _("h1", "Magic the Gathering Decks"),
         edit? _("a", {class: "btn", href: "/Decks/Edit/New"}, "Create New Deck"): null,
         _("ol", {id: "deck-list"},
-            list.map(deck=>_("li",
+            list.map(deck=>_("li", {class: edit? "deck-edit-item": "deck-list-item"},
                 _("a", {href: edit? `/Decks/Edit/${deck.id}`: `/Decks/${deck.id}`},
                     _("figure", {class: "deck-art"},
                         _("img", {src: deck.art || "/missing.jpg", alt: `${deck.name} Deck Art`})
@@ -63,13 +63,13 @@ export function DeckListView(list:Array<DeckItem>, edit:boolean = false):Content
                                 role: "img",
                                 ariaLabel: "colorless mana symbol"
                             })
-                            :deck.color_identity.map(color=>_("span",
+                            :deck.color_identity.map(color=>[_("span",
                                 {
                                     class: "mana-symbol "+color,
                                     role: "img",
                                     ariaLabel: color+" mana symbol"
                                 }
-                            ))
+                            ), " "])
                     )
                 ),
                 edit? _(  "form", {method: "delete", onsubmit: confirmDelete, action: `/Decks/Edit/${deck.id}`},

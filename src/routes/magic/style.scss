@@ -1,4 +1,5 @@
 @import "@/template/styles/breakpoints.scss";
+@import "@/template/styles/colors.scss";
 
 .mana-symbol {
     background-image: url("/Mana Symbols.png");
@@ -225,19 +226,82 @@
 
 #deck-list {
     padding: 0;
+    display: flex;
+    flex-flow: row wrap;
+    list-style: none;
+    justify-content: space-around;
+    gap: 5px;
 
-    li a{
-        list-style: none;
-        display: grid;
-        grid-template-columns: 200px auto auto;
-        width: 100%;
+    li {
+        min-width: 380px;
+        max-width: 25%;
+        flex: 1 1 0px;
+        padding: .1em;
 
-        .color_identity {
-            font-size: 1.25em;
+        
+
+        a {
+            display: grid;
+            grid-template-columns: 150px auto;
+            grid-template-rows: 1fr 1fr;
+            width: 100%;
+            gap: .5rem;
+            padding: .05rem;
+
+            &:link, &:visited {
+                text-decoration: none;
+            }
+
+            h2 {
+                margin: 0;
+            }
+        
+            .color_identity {
+                font-size: 1.25em;
+                margin: 0;
+            }
+        
+            .deck-art {
+                grid-row: 1 / 3;
+                margin: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+        }
+    }
+
+    .deck-list-item {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &:hover, &:focus {
+            background-color: $accent-light;
+
+            h2 {
+                color: $dark !important;
+            }
+        }
+    }
+
+    .deck-edit-item {
+        display: flex;
+        flex-flow: row nowrap;
+        min-width: 400px;
+        max-width: 50%;
+
+        a {
+            grid-template-columns: 100px auto;
+            max-width: 75%;
         }
 
-        .deck-art {
-            grid-row: 1 / 3;
+        form {
+            max-width: 25%;
+
+            button {
+                margin: 0.83em 0;
+            }
         }
     }
 }

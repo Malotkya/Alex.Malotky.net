@@ -29,3 +29,8 @@ I decided to go with typescript over plane javascript because I wanted to have s
 ### Webpack
 I wanted to use webpack to minify all of my files and copy the code into a build folder rather then have my compiled and uncompleted code next to each other.  I also felt that bundling my code into a single file would give my code the best performance results. 
 
+## TO DO
+1) Repopulate the blog & mtg decks with entries from old database
+2) Add search to the mtg decks
+3) Add tags to blog
+4) Add pagenation to mtg decks & blog

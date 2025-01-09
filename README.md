@@ -21,7 +21,7 @@ In past projects I wanted to use template HTML files for rendering, but found th
 ## Technology
 
 ### Cloudflare
-I decided to go with cloudflare pages to host me project because, and most importantly, it is cheep.  Cloudflare also allows me to host files as well as have a middleware function that can intercept those calls, and modify the calls before sending them to the hosted files, or send back a different response.  This allowed be to create a middleware engine that functinos similar to express that can run in the workers environement.
+I decided to go with cloudflare pages to host my project because, and most importantly, it is cheep.  Cloudflare also allows me to host files as well as have a middleware function that can intercept those calls, and modify the calls before sending them to the hosted files, or send back a different response.  This allowed be to create a middleware engine that functinos similar to express that can run in the workers environement.
 
 ### Typescript
 I decided to go with typescript over plane javascript because I wanted to have stricter typing then javascript has natively.  I thought working with typescript would be fun especially because I would already be going through the process of bundling my code with webpack.

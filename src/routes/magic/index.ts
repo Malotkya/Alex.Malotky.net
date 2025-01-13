@@ -62,7 +62,7 @@ Editor.post("/:id", async(ctx)=>{
             }
         },
         body: {
-            main: DeckEdit(deck)
+            main: DeckEdit({...deck, id})
         }
     });
 });

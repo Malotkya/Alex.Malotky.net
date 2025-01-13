@@ -119,11 +119,16 @@ export function createBlock(string:string, element:string, regex:RegExp, dilimit
     return output;
 }
 
+/** Mark Down Element
+ * 
+ */
 interface MarkdownElement {
     name:string,
+    attributes?:string,
     lines:string[]|string
 }
 
+//Const used by getMarkdownElement function
 const ZERO       = "0".charCodeAt(0);
 const NINE       = "9".charCodeAt(0);
 const HEADER     = "#".charCodeAt(0);
@@ -131,8 +136,14 @@ const LIST_STAR  = "*".charCodeAt(0);
 const LIST_DASH  = "-".charCodeAt(0);
 const FORMAT     = "`".charCodeAt(0);
 const BLOCKQUOTE = "&".charCodeAt(0);
+const TABLE      = "|".charCodeAt(0);
 
-function getElement(line:string):MarkdownElement|null {
+/** getMarkdownElement
+ * 
+ * @param {string} line 
+ * @returns {MarkdownElement|null}
+ */
+function getMarkdownElement(line:string):MarkdownElement|null {
     const first = line.charCodeAt(0);
     line = line.substring(1);
 
@@ -178,7 +189,7 @@ function getElement(line:string):MarkdownElement|null {
         }
 
     } else if(first === LIST_STAR) {
-        if(line.slice(0) !== " ")
+        if(line.charAt(0) !== " ")
             return null;
 
         return {
@@ -187,11 +198,12 @@ function getElement(line:string):MarkdownElement|null {
         }
 
     } else if (first === LIST_DASH) {
-        if(line.slice(0) !== " ")
+        if(line.charAt(0) !== " ")
             return null;
 
         return {
-            name: "ul ",
+            name: "ul",
+            attributes: "dash",
             lines: ["<li>"+line.substring(1)+"</li>"]
         }
         
@@ -203,10 +215,116 @@ function getElement(line:string):MarkdownElement|null {
             name: "blockquote",
             lines: [line.substring(4)]
         }
+
+    } else if(first === TABLE) {
+        const end = line.length-1;
+        if(line.charCodeAt(end) === TABLE) {
+            return {
+                name: "table",
+                lines: [line.substring(0, end)]
+            }
+        }
+
+        return null;
     }
 
     return null;
 }
+
+/** getAttributesForTable
+ * 
+ * @param table 
+ */
+function getAttributesForTable(table:string[]):string[]|null {
+    if(table.length < 2)
+        return null;
+
+    const test = table[1].split("|");
+    const output = [];
+    let valid = true;
+
+    for(const value of test){
+        if(value.match(/^ ?:-+: ?$/)) {
+            output.push("center");
+        } else if(value.match(/^ ?-+: ?$/)) {
+            output.push("right")
+        } else if(value.match(/^ ?:-+ ?$/)) {
+            output.push("left")
+        } else if(value.match(/^ ?-+ ?$/) === null){
+            valid = false;
+            break;
+        }
+    }
+
+    if(valid){
+        table.splice(1, 1);
+        return output;
+    }
+
+    return null;
+}
+
+/** format Markdown Elements
+ * 
+ * @param {MarkdownElement} element 
+ * @returns {string}
+ */
+function formatMarkdownElements(element:MarkdownElement):string {
+    let open:string, close:string, content:string = "";
+    if(element.name === "table") {
+        open = element.name;
+        close = element.name;
+
+        const table = typeof element.lines === "string"
+            ? element.lines.split("\n")
+            : element.lines;
+
+        let attributes = getAttributesForTable(table);
+        if(attributes) {
+            const head = table.shift()!.split("|");
+            content += "<tr>";
+
+            for(let index=0; index<head.length; ++index){
+                const value = head[index];
+                const att = attributes[index];
+
+                content += `<th${att? ` class="${att}"`: ""}>${value}</th>`
+            }
+
+            content += "</tr>";
+        } else {
+            attributes = [];
+        }
+
+        for(const string of table){
+            const row = string.split("|");
+            content += "<tr>";
+
+            for(let index=0; index<row.length; index++){
+                const att = attributes[index];
+                content += `<td${att? ` class="${att}"`: ""}>${row[index]}</td>`
+            }
+            content += "</tr>"
+        }
+
+    } else {
+        open = element.name;
+        close = element.name;
+
+        if(element.attributes){
+            open += ` class="${element.attributes}"`;
+        }
+
+        if(Array.isArray(element.lines)) {
+            content = element.lines.join("");
+        } else {
+            content = element.lines;
+        }
+    }
+
+    return `<${open}>${content}</${close}>`
+}
+
 
 export function MarkDown(markdown:string):string {
     const input:Array<string> = markdown
@@ -221,16 +339,16 @@ export function MarkDown(markdown:string):string {
     const output:Array<MarkdownElement> = [];
 
     for(let string of input){
-        string = string.trim();
-        if(string){
-            const element = getElement(string);
+
+        if(string.trim()){
+            const element = getMarkdownElement(string);
 
             if(element){
     
                 if(output.length > 0) {
                     const last = output.pop()!;
 
-                    if(last.name === element.name){
+                    if(last.name === element.name && last.attributes === element.attributes){
                         if(Array.isArray(last.lines)) {
                             last.lines = last.lines.concat(element.lines);
                             output.push(last);
@@ -241,7 +359,7 @@ export function MarkDown(markdown:string):string {
 
                     } else {
                         if(Array.isArray(last.lines)) {
-                            last.lines = last.lines.join("");
+                            last.lines = last.lines.join("\n");
                         }
 
                         output.push(last);
@@ -270,7 +388,7 @@ export function MarkDown(markdown:string):string {
         }
     } 
 
-    return output.map(elm=>`<${elm.name}>${Array.isArray(elm.lines)?elm.lines.join(""):elm.lines}</${elm.name}>`).join("");
+    return output.map(formatMarkdownElements).join("");
 }
 
 export function sleep(n:number = 1):Promise<void> {

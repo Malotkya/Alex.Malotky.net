@@ -208,6 +208,22 @@ tool-tip-text {
         list-style: disc;
     }
 
+    ul.dash {
+        list-style:  "━  ";
+    }
+
+    td.left, th.left {
+        text-align: left;
+    }
+
+    td.center, th.center {
+        text-align: center;
+    }
+
+    td.right, th.right {
+        text-align: right;
+    }
+
     h3, h4, h5, h6 {
         margin: 1rem 0;
     }

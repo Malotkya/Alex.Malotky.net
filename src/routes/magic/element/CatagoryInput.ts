@@ -277,27 +277,30 @@ export default class CatagoryInput extends HTMLElement {
         //Get color identity
         const identity:Set<string> = new Set();
         output.commanders.forEach(card=>{
-            const buffer = JSON.stringify(card);
+            if(card.identity){
+                for(let color of card.identity) {
+                    color = color.toLocaleLowerCase();
 
-            //White
-            if(buffer.match(/{.{0,4}W{1}.{0,4}}/g))
-                identity.add("white");
+                    if(color === "w" || color === "white") {
+                        identity.add("white");
 
-            //Blue
-            if(buffer.match(/{.{0,4}U{1}.{0,4}}/g))
-                identity.add("blue");
+                    } else if(color === "u" || color === "blue"){
+                        identity.add("blue");
 
-            //Black
-            if(buffer.match(/{.{0,4}B{1}.{0,4}}/g))
-                identity.add("black");
+                    } else if(color === "b" || color === "black"){
+                        identity.add("black");
 
-            //Red
-            if(buffer.match(/{.{0,4}R{1}.{0,4}}/g))
-                identity.add("red");
+                    } else if(color === "r" || color === "red"){
+                        identity.add("red");
 
-            //Green
-            if(buffer.match(/{.{0,4}G{1}.{0,4}}/g))
-                identity.add("green");
+                    } else if(color === "g" || color === "green"){
+                        identity.add("green");
+
+                    } else {
+                        console.error(new TypeError(`Unknown color identity '${color}'!`))
+                    }
+                }
+            }
         });
         output.color_identity = [...identity];
 

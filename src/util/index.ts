@@ -121,7 +121,7 @@ export function createBlock(string:string, element:string, regex:RegExp, dilimit
 
 interface MarkdownElement {
     name:string,
-    lines:string[]
+    lines:string[]|string
 }
 
 const ZERO       = "0".charCodeAt(0);
@@ -136,69 +136,72 @@ function getElement(line:string):MarkdownElement|null {
     const first = line.charCodeAt(0);
     line = line.substring(1);
 
-    switch(true){
-        case (first === HEADER):{
-            let char = line.charAt(0);
-            let count = 3;
-            while(char === "#") {
-                ++count;
-                char = line.charAt(0,);
-                line = line.substring(1);
-            }
-
-            if(char !== " ")
-                return null;
-
-            if(count > 6)
-                count = 6;
-
-            return {
-                name: `h${count}`,
-                lines: [line]
-            }
+    if (first === HEADER) { 
+        let char = line.charAt(0);
+        let count = 3;
+        while(char === "#") {
+            ++count;
+            char = line.charAt(0,);
+            line = line.substring(1);
         }
 
-        case (first === FORMAT):{
-            return {
-                name: "pre",
-                lines: [line]
-            }
+        if(char !== " ")
+            return null;
+
+        if(count > 6)
+            count = 6;
+
+        return {
+            name: `h${count}`,
+            lines: line
         }
 
-        case (first >= ZERO && first <= NINE):{
-            const next = line.charAt(0);
-            const space = line.charAt(1);
-
-            if(next !== ")" && next !== ".")
-                return null;
-
-            if(space !== " ")
-                return null;
-
-            return {
-                name: "ol",
-                lines: ["<li>"+line.substring(2)+"</li>"]
-            }
+    } else if (first === FORMAT){
+        return {
+            name: "pre",
+            lines: [line]
         }
 
-        case (first === LIST_STAR || first === LIST_DASH):{
-            if(line.slice(0) !== " ")
-                return null;
+    } else if(first >= ZERO && first <= NINE) {
+        const next = line.charAt(0);
+        const space = line.charAt(1);
 
-            return {
-                name: "ul",
-                lines: ["<li>"+line.substring(1)+"</li>"]
-            }
+        if(next !== ")" && next !== ".")
+            return null;
+
+        if(space !== " ")
+            return null;
+
+        return {
+            name: "ol",
+            lines: ["<li>"+line.substring(2)+"</li>"]
         }
 
-        case (first === BLOCKQUOTE):{
-            if(line.slice(0, 4) !== "gt; ")
-                return null;
+    } else if(first === LIST_STAR) {
+        if(line.slice(0) !== " ")
+            return null;
 
-            return {
-                name: "blockquote",
-                lines: [line.substring(4)]
-            }
+        return {
+            name: "ul",
+            lines: ["<li>"+line.substring(1)+"</li>"]
+        }
+
+    } else if (first === LIST_DASH) {
+        if(line.slice(0) !== " ")
+            return null;
+
+        return {
+            name: "ul ",
+            lines: ["<li>"+line.substring(1)+"</li>"]
+        }
+        
+    } else if(first === BLOCKQUOTE) {
+        if(line.slice(0, 4) !== "gt; ")
+            return null;
+
+        return {
+            name: "blockquote",
+            lines: [line.substring(4)]
         }
     }
 
@@ -224,8 +227,27 @@ export function MarkDown(markdown:string):string {
 
             if(element){
     
-                if(output.length > 0 && output[output.length-1].name === element.name){
-                    output[output.length-1].lines = output[output.length-1].lines.concat(element.lines);
+                if(output.length > 0) {
+                    const last = output.pop()!;
+
+                    if(last.name === element.name){
+                        if(Array.isArray(last.lines)) {
+                            last.lines = last.lines.concat(element.lines);
+                            output.push(last);
+                        } else {
+                            output.push(last);
+                            output.push(element);
+                        }
+
+                    } else {
+                        if(Array.isArray(last.lines)) {
+                            last.lines = last.lines.join("");
+                        }
+
+                        output.push(last);
+                        output.push(element);
+                    }
+
                 } else {
                     output.push(element);
                 }
@@ -233,13 +255,22 @@ export function MarkDown(markdown:string):string {
             } else {
                 output.push({
                     name: "p",
-                    lines: [string]
+                    lines: string
                 });
             }
-        }
-    }
 
-    return output.map(elm=>`<${elm.name}>${elm.lines.join("")}</${elm.name}>`).join("");
+        } else if(output.length > 0) {
+            const last = output.pop()!;
+
+            if(Array.isArray(last.lines)) {
+                last.lines = last.lines.join("\n");
+            }
+
+            output.push(last);
+        }
+    } 
+
+    return output.map(elm=>`<${elm.name}>${Array.isArray(elm.lines)?elm.lines.join(""):elm.lines}</${elm.name}>`).join("");
 }
 
 export function sleep(n:number = 1):Promise<void> {

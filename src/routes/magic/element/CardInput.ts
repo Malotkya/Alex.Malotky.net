@@ -65,6 +65,7 @@ export default class CardInput extends HTMLElement {
                 foil: this._value.foil,
                 image: this._value.image,
                 art: this._value.art,
+                identity: this._value.identity,
                 typeLine: this._value.typeLine || "Error",
                 oracle: this._value.oracle || "Not Found",
                 manaValue: this._value.manaValue || 0,

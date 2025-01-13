@@ -243,7 +243,7 @@
         a {
             display: grid;
             grid-template-columns: 150px auto;
-            grid-template-rows: 1fr 1fr;
+            grid-template-rows: auto auto;
             width: 100%;
             gap: .5rem;
             padding: .05rem;

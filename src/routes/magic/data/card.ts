@@ -14,6 +14,7 @@ export const CardObject = object({
     art: optional(url()),
     
     //Possible Scryfall data
+    identity: optional(list(string())),
     manaCost: optional(string()),
     manaValue: optional(number()),
     typeLine: optional(string()),

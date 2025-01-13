@@ -10,22 +10,6 @@ const URI = "https://cards.malotky.net/";
 export const CACHE_NAME = "Scryfall";
 export const CACHE_TTL  = 604800000;
 
-
-/** Scryfall Card Data
- * 
- * Information of a card and optional information from
- * scryfall.
- */
-export interface ScryfallData{
-    name?: string,
-    manaCost?: string,
-    manaValue?: number,
-    typeLine?: string, 
-    oracle?: string,
-    art?: Record<string, string>,
-    sets?: Record<string, Array<string>>
-}
-
 /** Scryfall Card
  * 
  * Information of a card from scryfall.
@@ -37,6 +21,7 @@ export interface ScryfallCard{
     typeLine: string, 
     oracle: string,
     art: Record<string, string>,
+    identity: Array<string>,
     sets: Record<string, Array<string>>
 }
 

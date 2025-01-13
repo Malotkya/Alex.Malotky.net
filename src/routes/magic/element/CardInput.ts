@@ -140,7 +140,9 @@ export default class CardInput extends HTMLElement {
      */
     private delete(){
         if(window.confirm(`Are you sure you want to remove ${this._value.name}?`)){
-            this.parentElement!.removeChild(this);
+            const parrent = this.parentElement!;
+            parrent.removeChild(this);
+            parrent.dispatchEvent(new CustomEvent("input", {bubbles: true}));
         }
     }
 

@@ -394,3 +394,17 @@ export function MarkDown(markdown:string):string {
 export function sleep(n:number = 1):Promise<void> {
     return new Promise((r)=>setTimeout(r, n));
 }
+
+/** Get Number Or Backup
+ * 
+ * If value isNaN returns or instead
+ * 
+ * @param value 
+ * @param or 
+ */
+export function Number_Or(value:unknown, or:number):number {
+    const number = Number(value);
+    if(isNaN(number))
+        return or;
+    return number;
+}

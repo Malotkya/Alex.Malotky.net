@@ -13,7 +13,30 @@ export const MoveObject = object({
     effect: string()
 });
 
-export type Move = TypeOf<typeof MoveObject>
+export type Move = TypeOf<typeof MoveObject>;
+
+export const StatsObject = object({
+    attack: number(),
+    defense: number(),
+    speed: number(),
+    health: number(),
+    special: optional(number()),
+    specialAttack: optional(number()),
+    specialDefence: optional(number())
+});
+
+export type Stats = TypeOf<typeof StatsObject>;
+
+export const ModObject = object({
+    item: optional(string()),
+    nature: optional(string()),
+    ability: optional(string()),
+    dynamax: optional(number()),
+    gigantamax: optional(boolean()),
+    terraType: optional(string())
+});
+
+export type Modifer = TypeOf<typeof ModObject>;
 
 export const PokemonObject = object({
     name: string(),
@@ -24,23 +47,9 @@ export const PokemonObject = object({
     moves: list(MoveObject),
     gender: optional(boolean()),
     shiney: optional(boolean()),
-    modifiers: object({
-        item: optional(string()),
-        nature: optional(string()),
-        ability: optional(string()),
-        dynamax: optional(number()),
-        gigantamax: optional(boolean()),
-        terraType: optional(string())
-    }),
-    stats: object({
-        attack: number(),
-        defense: number(),
-        speed: number(),
-        health: number(),
-        special: optional(number()),
-        specialAttack: optional(number()),
-        specialDefence: optional(number())
-    })
+    version: optional(string()),
+    stats: StatsObject,
+    modifiers: ModObject
 })
 
 type Pokemon = TypeOf<typeof PokemonObject>;

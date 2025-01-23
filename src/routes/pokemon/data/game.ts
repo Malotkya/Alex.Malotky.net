@@ -10,7 +10,7 @@ export const GameObject = new DataObject("Pokemon", {
     generation: number(),
     region: string(),
     team: list(PokemonObject),
-    others: optional(list(PokemonObject))
+    others: list(PokemonObject)
 });
 
 type Game = TypeOf<typeof GameObject>;

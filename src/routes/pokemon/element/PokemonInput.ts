@@ -6,7 +6,12 @@ import ModsInput from "./ModsInput";
 
 const EMPTY_POKEMON:Pokemon = {} as any;
 const EMPTY_POKEMON_DATA:PokemonData = {
-
+    number: -1,
+    name: "Mising No.",
+    types: ["???"],
+    versions: [],
+    abilities: [],
+    moves: ["Struggle"]
 }
 
 export default class PokemonInput extends HTMLElement {
@@ -162,8 +167,6 @@ export default class PokemonInput extends HTMLElement {
         appendChildren(this._statsList, wrapper);
         this._stats = inputs;
 
-        this._mods.init(value.modifiers);
-
         if(this.isConnected)
             this.conncetedCallback()
 
@@ -194,6 +197,8 @@ export default class PokemonInput extends HTMLElement {
      */
     init(){
         this._selName.value = this._pokemon.name;
+
+        this._mods.init(this._game.modifiers, {"abilities": this._pokemon.abilities});
         
         const [moveItems, moveInputs] = buildMoveInputs(this._pokemon.moves);
         this._moves = moveInputs;
@@ -211,7 +216,7 @@ export default class PokemonInput extends HTMLElement {
         ))
     }
 
-    /** Set Pokemon Name
+    /** Set Pokemon Value
      * 
      */
     set value(value:Pokemon) {
@@ -227,6 +232,13 @@ export default class PokemonInput extends HTMLElement {
                 this.unlock();
             });
         }
+    }
+
+    /** Get Pokemon Value
+     * 
+     */
+    get value():Pokemon|null{
+        return this._data || null;
     }
 
     /** Update Specific Pokemon Data
@@ -294,7 +306,33 @@ export default class PokemonInput extends HTMLElement {
     conncetedCallback(){
         this.innerHTML = "";
 
-        
+        appendChildren(this,[
+            _("p", {class: "pokemon-title"},
+                _("label", {for: "name"}, "Name: "),
+                this._selName
+            ),
+            _("figure", {class: "pokmeon-image"},
+                this._sprite
+            ),
+            this._types,
+            _("ul", {class: "pokemon-sprite-input"},
+                _("li", {class: "sprite-input-item"},
+                    _("label", {for: "version"}, "Version: "),
+                    this._selVersion
+                ),
+                _("li", {class: "sprite-innput-item"},
+                    this._chbShiney,
+                    _("label", {for: "shiney"}, "Shiney")
+                )
+            ),
+            _("p", {class: "pokemon-level"},
+                _("label", {for: "level"}, "Level: "),
+                this._numLevel
+            ),
+            this._statsList,
+            this._moveList,
+            this._mods
+        ]);
     }
 }
 

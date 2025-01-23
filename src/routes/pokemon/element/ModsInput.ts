@@ -8,22 +8,23 @@ import { Number_Or } from "@/util";
 import { Modifer } from "../data/pokemon";
 
 type ModData = Record<string, "string"|"number"|"boolean"|"Type">
+type ModType = string|boolean|number
+type DefaultData = Record<string, ModType|ModType[]>
 
 /** Modifier Input Element
  * 
  */
 export default class ModsInput extends HTMLElement {
     private _data:Record<string, HTMLInputElement|HTMLSelectElement>;
-
     /** Default Constructor
      * 
      * @param {ModData} data 
+     * @param {DefaultData} def
      */
-    constructor(data?:ModData){
+    constructor(data:ModData, def:DefaultData = {}){
         super();
         this._data = {};
-        if(data)
-            this.init(data);
+        this.init(data, def);
         this.className = "pokmeon-optional-list";
         this.role = "list";
     }
@@ -32,21 +33,27 @@ export default class ModsInput extends HTMLElement {
      * 
      * @param {ModData} values 
      */
-    init(values:ModData): void{
+    init(values:ModData, def:DefaultData): void{
         this._data = {};
 
         for(const name in values){
+            const value = def[name];
+
             switch (values[name]) {
                 case "boolean":
-                    this._data[name] = _("input", {type: "checkbox", id:name});
+                    this._data[name] = _("input", {type: "checkbox", id:name, checked: value == true});
                     break;
 
                 case "Type":
-                    this._data[name] = createTypeSelect(name);
+                    this._data[name] = createTypeSelect(name, String(value));
                     break;
 
                 default:
-                    this._data[name] = _("input", {type: values[name], id:name});
+                    if(Array.isArray(value)){
+                        this._data[name] = buildSelect({id: name}, <string[]>value)
+                    } else {
+                        this._data[name] = _("input", {type: values[name], id:name, value});
+                    }
             }          
         }
     }
@@ -56,9 +63,13 @@ export default class ModsInput extends HTMLElement {
      * @param {string} name 
      * @param {string|number|boolean} value 
      */
-    set(name:string, value:string|number|boolean): void{
-        const input = this._data[name];
+    set(name:string, value:ModType): void {
+        if(value === undefined) {
+            console.error(`Missing value on ${name}`);
+            return;
+        }
 
+        const input = this._data[name];
         if(input === undefined) {
             console.error(`Unable to find modifier ${name}!`);
             return;
@@ -69,7 +80,7 @@ export default class ModsInput extends HTMLElement {
             if(type !== "string"){
                 console.warn(`Mismatched type ${type} for Type ${name}!`);
                 input.value = "???";
-            } else if(!isType(<string>value) || value === "Stellar") {
+            } else if(!isType(<string>value) && value !== "Stellar") {
                 console.warn(`Invalid Pokemon Type ${value} for Type ${name}!`)
                 input.value = "???";
             } else {
@@ -157,25 +168,36 @@ function formatName(value:string):string {
     return value.charAt(0).toLocaleLowerCase() + value.substring(1).replaceAll(/([A-Z])/g, " $1");
 }
 
-function createTypeSelect(id:string):HTMLSelectElement {
-    return _("select", {id},
-        _("option", {value: "???"}, "???"),
-        _("option", {value: "Bug"},      "Bug"),
-        _("option", {value: "Dark"},     "Dark"),
-        _("option", {value: "Dragon"},   "Dragon"),
-        _("option", {value: "Electric"}, "Electric"),
-        _("option", {value: "Fairy"},    "Fairy"),
-        _("option", {value: "Fighting"}, "Fighting"),
-        _("option", {value: "Fire"},     "Fire"),
-        _("option", {value: "Ghost"},    "Ghost"),
-        _("option", {value: "Grass"},    "Grass"),
-        _("option", {value: "Ground"},   "Ground"),
-        _("option", {value: "Ice"},      "Ice"),
-        _("option", {value: "Normal"},   "Normal"),
-        _("option", {value: "Water"},    "Water"),
-        _("option", {value: "Poison"},   "Poison"),
-        _("option", {value: "Psychic"},  "Psychic"),
-        _("option", {value: "Steel"},    "Steel"),
-        _("option", {value: "Rock"},     "Rock")
-    )
+function buildSelect(props:any, list:string[], value?:string):HTMLSelectElement {
+    const select = _("select", props,
+        list.map(s=>_("option", {value:s}, s))
+    );
+
+    if(value)
+        select.value = value;
+
+    return select;
+}
+
+function createTypeSelect(id:string, value?:string):HTMLSelectElement {
+    return buildSelect({id}, [
+        "???",
+        "Bug",
+        "Dark",
+        "Dragon",
+        "Electric",
+        "Fairy",
+        "Fighting",
+        "Fire",
+        "Ghost",
+        "Grass",
+        "Ground",
+        "Ice",
+        "Normal",
+        "Water",
+        "Poison",
+        "Psychic",
+        "Steel",
+        "Rock"
+    ], value);
 }

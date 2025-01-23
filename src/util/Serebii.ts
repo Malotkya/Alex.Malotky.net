@@ -6,13 +6,28 @@
  */
 import Cache from "./Cache";
 const URI = "https://poke.malotky.net";
+const SEREBII_URI = "https://www.serebii.net/";
 
 export const CACHE_NAME = "Serebii";
 export const CACHE_TTL  = 604800000;
 
+export const VersionMap:Record<string, string> = {
+    "-a": "Alola",
+    "-h": "Hisuian"
+}
+
 export type Type = "Normal"|"Fire"|"Water"|"Grass"|"Flying"|"Fighting"|
                    "Poison"|"Electric"|"Ground"|"Rock"|"Psychic"|"Ice"|
                    "Bug"|"Ghost"|"Steel"|"Dragon"|"Dark"|"Fairy";
+
+/** Is Type
+ * 
+ * @param {string} value
+ * @returns {boolean}
+*/
+export function isType(value:string):value is Type {
+    return value.match(/(bug|dark|dragon|electric|fairy|fighting|fire|flying|ghost|grass|ground|ice|normal|poison|psychic|rock|steel|water)/i) !== null;
+}
 
 /** Move API Data
  * 
@@ -46,6 +61,7 @@ export async function getMoveData(name:string, gen:number):Promise<MoveData> {
  * 
  */
 export interface PokemonData {
+    number: number,
     name: string,
     types: string[],
     versions: string[],
@@ -82,16 +98,23 @@ export async function getPokedex(game:string):Promise<string[]> {
     return response.json();
 }
 
+/** Sprite API Data
+ * 
+ */
+interface Sprite {
+    normal:string,
+    shiney?:string
+    ext?: string //Default .png
+}
+
 /** Game API Data
  * 
  */
 export interface GameData {
     name: string,
-    sprites: {
-        normal: string,
-        shiney?: string
-    },
+    sprites: Sprite,
     generation: number,
+    region: string,
     modifiers: Record<string, "string"|"number"|"boolean">,
     pokedex: string[]
 }
@@ -208,4 +231,33 @@ export async function getAbilityData(name:string):Promise<string> {
         throw new Error(await response.text());
 
     return (<Item>await response.json())["value"];
+}
+
+/** Generate Sprite
+ * 
+ * @param {GameData} game 
+ * @param {string} name - Pokemon
+ * @param {string} number - Pokemon
+ * @param {strimg} mod 
+ * @param {boolean} s - Shiney
+ * @param {boolean} g - Gender
+ * @returns 
+ */
+export function generateSprite(game:GameData, name:string, number:number, mod?:string|null, s?:boolean|null, g?:boolean|null):[string, string]{
+    const {ext = ".png", normal, shiney} = game.sprites;
+    
+    const string = number < 1000
+        ? `00${number}`.slice(-3)
+        : String(number);
+    const gender = typeof g === "boolean"
+        ? g ?"Male" :"Female"
+        : "";
+    
+    const uri = game.generation < 2
+        ? SEREBII_URI.concat(normal, `/${string}`, mod || "", ext)
+        : SEREBII_URI.concat(s? shiney!: normal, `/${string}`, mod || "", ext);
+
+    const alt = `${s? "Shiney ":""}${gender} ${name} ${game.name} Sprite`;
+
+    return [uri, alt];
 }

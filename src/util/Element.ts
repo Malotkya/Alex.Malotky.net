@@ -2,7 +2,7 @@
  * 
  * @author Alex Malotky
  */
-export type Element = string|number|boolean|undefined|HTMLElement|null|Array<Element>;
+export type Element = string|number|boolean|undefined|HTMLElement|HTMLSelectElement|HTMLInputElement|null|Array<Element>;
 
 /** Creates HTML Element
  * 
@@ -13,6 +13,8 @@ export type Element = string|number|boolean|undefined|HTMLElement|null|Array<Ele
  * @param {Array} children 
  * @returns 
  */
+export function createElement<K extends keyof HTMLElementTagNameMap>(name:K, attributes?:Record<string, any>|Element, ...children:Array<Element>):HTMLElementTagNameMap[K]
+export function createElement(name:string, attributes?:Record<string, any>|Element, ...children:Array<Element>):HTMLElement
 export function createElement(name:string, attributes:any = {}, ...children:Array<Element>): HTMLElement{
     if(typeof attributes !== "object" || attributes instanceof HTMLElement || Array.isArray(attributes)) {
         children.unshift(attributes);
@@ -33,7 +35,7 @@ export function createElement(name:string, attributes:any = {}, ...children:Arra
  * @param {HTMLElement} element 
  * @param {Array<Element>} children 
  */
-export function appendChildren(element:HTMLElement, children:Array<Element>):void {
+export function appendChildren(element:HTMLElement|HTMLSelectElement, children:Array<Element>):void {
     for(let child of children){
         if(Array.isArray(child)){
             appendChildren(element, child);

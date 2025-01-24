@@ -56,6 +56,9 @@ export default class ModsInput extends HTMLElement {
                     }
             }          
         }
+
+        if(this.isConnected)
+            this.connectedCallback();
     }
 
     /** Set Input Value
@@ -137,6 +140,8 @@ export default class ModsInput extends HTMLElement {
      * 
      */
     connectedCallback(): void{
+        this.innerHTML = "";
+
         for(let name in this._data){
 
             if(this._data[name].type === "checkbox") {

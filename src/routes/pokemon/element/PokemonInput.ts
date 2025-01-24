@@ -1,13 +1,14 @@
 import { GameData, PokemonData, getPokemonData, getMoveData, generateSprite, VersionMap } from "@/util/Serebii";
 import { createElement as _, appendChildren } from "@/util/Element";
 import { sleep, Number_Or } from "@/util";
-import Pokemon from "../data/pokemon";
+import Pokemon, {Move} from "../data/pokemon";
 import ModsInput from "./ModsInput";
 
 const EMPTY_POKEMON:Pokemon = {
     stats: {},
     types: [],
-    modifiers: {}
+    modifiers: {},
+    moves: []
 } as any;
 const EMPTY_POKEMON_DATA:PokemonData = {
     number: -1,
@@ -21,7 +22,7 @@ const EMPTY_POKEMON_DATA:PokemonData = {
 export default class PokemonInput extends HTMLElement {
     private _game:GameData;
     private _pokemon:PokemonData;
-    private _data:Pokemon|undefined;
+    private _data:Pokemon;
 
     //View
     private _types:HTMLUListElement;
@@ -48,6 +49,7 @@ export default class PokemonInput extends HTMLElement {
         this.role = "list-item";
         this._game = data;
         this._pokemon = EMPTY_POKEMON_DATA;
+        this._data = JSON.parse(JSON.stringify(EMPTY_POKEMON));
 
         // GAME DATA *******************************************************
         //Name Select
@@ -82,6 +84,7 @@ export default class PokemonInput extends HTMLElement {
          */
         this._selName.addEventListener("change", (event)=>{
             event.stopPropagation();
+            this._data.name = this._selName.value;
             this.pokmeon = this._selName.value;
         });
 
@@ -97,14 +100,11 @@ export default class PokemonInput extends HTMLElement {
                     await sleep();
 
                 await this.changeSprite();
-    
-                if(this._data === undefined)
-                    this._data = EMPTY_POKEMON;
 
                 this._data.name = this._selName.value;
                 this._data.level = Number_Or(this._numLevel.value, 0);
                 this._data.types = Array.from(this._sprite.children).map(c=>c.textContent!);
-                this._data.moves = (await Promise.all(this._moves
+                this._data.moves = <Move[]>(await Promise.all(this._moves
                     .map(async(e)=>{
                         if(e.value === "")
                             return null;
@@ -228,11 +228,13 @@ export default class PokemonInput extends HTMLElement {
             return _("li", {class: `pokemon-type-item ${value.toLocaleLowerCase()}`}, value)
         }));
 
+        this._stats["data"]
+
         this._selVersion.innerHTML = "",
         this._selVersion.appendChild(_("option", {value: ""}, "Normal"));
         appendChildren(this._selVersion, this._pokemon.versions.map(value=>
             _("option", {value}, VersionMap[value] || "Error")
-        ))
+        ));
     }
 
     /** Set Pokemon Value
@@ -265,45 +267,42 @@ export default class PokemonInput extends HTMLElement {
      * @returns 
      */
     async update(){
-        if(this._data){
-            this._selName.value = this._data.name;
+        this._selName.value = this._data.name;
 
-            this._numLevel.value = String(this._data.level);
+        this._numLevel.value = String(this._data.level);
 
-            if(typeof this._data.gender === "boolean") {
-                this._selGender.value = this._data.gender? "M": "F";
-            }
-
-            this._chbShiney.checked = typeof this._data.shiney === "boolean"
-                ? this._data.shiney
-                : false;
-
-            this._selVersion.value = this._data.version || "";
-                
-            this._stats["health"].value = String(this._data.stats["health"]);
-            this._stats["attack"].value = String(this._data.stats["attack"]);
-            this._stats["health"].value = String(this._data.stats["defense"]);
-            this._stats["health"].value = String(this._data.stats["speed"]);
-            this._stats["health"].value = String(this._data.stats["health"]);
-
-            if(this._game.generation < 3){
-                this._stats["special"].value = String(this._data.stats["special"]);
-            } else {
-                this._stats["specialAttack"].value = String(this._data.stats["specialAttack"]);
-                this._stats["specialDefence"].value = String(this._data.stats["specialDefence"]);
-            }
-
-            for(let i=0; i<this._moves.length; i++){
-                this._moves[i].value = this._data.moves[i]? this._data.moves[i].name: "";
-            }
-
-            for(const name in this._game.modifiers){
-                //@ts-ignore
-                this._mods.set(name, this._data.modifiers[name]);
-            }
-            
-            await this.changeSprite();
+        if(typeof this._data.gender === "boolean") {
+            this._selGender.value = this._data.gender? "M": "F";
         }
+
+        this._chbShiney.checked = typeof this._data.shiney === "boolean"
+            ? this._data.shiney
+            : false;
+
+        this._selVersion.value = this._data.version || "";
+                
+        this._stats["health"].value  = String(this._data.stats["health"]);
+        this._stats["attack"].value  = String(this._data.stats["attack"]);
+        this._stats["defense"].value = String(this._data.stats["defense"]);
+        this._stats["speed"].value   = String(this._data.stats["speed"]);;
+
+        if(this._game.generation < 3){
+            this._stats["special"].value = String(this._data.stats["special"]);
+        } else {
+            this._stats["specialAttack"].value = String(this._data.stats["specialAttack"]);
+            this._stats["specialDefense"].value = String(this._data.stats["specialDefense"]);
+        }
+
+        for(let i=0; i<this._moves.length; i++){
+            this._moves[i].value = this._data.moves[i]? this._data.moves[i].name: "";
+        }
+
+        for(const name in this._game.modifiers){
+            //@ts-ignore
+            this._mods.set(name, this._data.modifiers[name]);
+        }
+            
+        await this.changeSprite();
     }
 
     changeSprite():Promise<void> {
@@ -342,13 +341,13 @@ export default class PokemonInput extends HTMLElement {
                         this._selVersion
                     )
                     : null,
-                this._game.generation < 2
+                this._game.generation > 1
                     ? _("li", {class: "sprite-input-item radio"},
                         this._chbShiney,
                         _("label", {for: "shiney"}, "Shiney")
                     )
                     : null,
-                this._game.generation < 2
+                this._game.generation > 1
                     ? _("li", {class: "sprite-input-item"},
                         _("label", {for: "gender"}, "Gender: "),
                         this._selGender

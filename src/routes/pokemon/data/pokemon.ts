@@ -22,7 +22,7 @@ export const StatsObject = object({
     health: number(),
     special: optional(number()),
     specialAttack: optional(number()),
-    specialDefence: optional(number())
+    specialDefense: optional(number())
 });
 
 export type Stats = TypeOf<typeof StatsObject>;

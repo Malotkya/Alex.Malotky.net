@@ -1,10 +1,14 @@
 import { GameData, PokemonData, getPokemonData, getMoveData, generateSprite, VersionMap } from "@/util/Serebii";
 import { createElement as _, appendChildren } from "@/util/Element";
 import { sleep, Number_Or } from "@/util";
-import Pokemon, { Stats } from "../data/pokemon";
+import Pokemon from "../data/pokemon";
 import ModsInput from "./ModsInput";
 
-const EMPTY_POKEMON:Pokemon = {} as any;
+const EMPTY_POKEMON:Pokemon = {
+    stats: {},
+    types: [],
+    modifiers: {}
+} as any;
 const EMPTY_POKEMON_DATA:PokemonData = {
     number: -1,
     name: "Mising No.",
@@ -41,6 +45,7 @@ export default class PokemonInput extends HTMLElement {
      */
     constructor(data:GameData, name?:string){
         super();
+        this.role = "list-item";
         this._game = data;
         this._pokemon = EMPTY_POKEMON_DATA;
 
@@ -53,14 +58,14 @@ export default class PokemonInput extends HTMLElement {
         //Stats Inputs
         const [wrapper, inputs] = buildStatsInputs(data.generation);
         this._stats = inputs;
-        this._statsList = _("ol", {class: "pokemon-stats-list-input"}, wrapper);
+        this._statsList = _("ol", {class: "pokemon-stats-list"}, wrapper);
 
         //Modfier Input
         this._mods = new ModsInput(data.modifiers);      
 
         // INIT DATA *******************************************************
         this._moves = [];
-        this._moveList = _("ol", {class: "pokemon-moves-list-input"});
+        this._moveList = _("ol");
 
         this._selVersion = _("select", {id: "version"}, _("option", {value: ""}, "Normal"));
         this._types = _("ul", {class: "pokemon-types-list"});
@@ -99,7 +104,18 @@ export default class PokemonInput extends HTMLElement {
                 this._data.name = this._selName.value;
                 this._data.level = Number_Or(this._numLevel.value, 0);
                 this._data.types = Array.from(this._sprite.children).map(c=>c.textContent!);
-                this._data.moves = await Promise.all(this._moves.map(e=>getMoveData(e.value, this._game.generation)));
+                this._data.moves = (await Promise.all(this._moves
+                    .map(async(e)=>{
+                        if(e.value === "")
+                            return null;
+                        try {
+                            return await getMoveData(e.value, this._game.generation);
+                        } catch (e){
+                            console.error(e);
+                            return null
+                        }
+                    }
+                ))).filter(v=>v!==null);
                 
                 if(this._game.generation > 1)
                     this._data.gender = this._selGender.value === "M";
@@ -119,6 +135,8 @@ export default class PokemonInput extends HTMLElement {
         //Start Init
         if(name){
             this.pokmeon = name;
+        } else {
+            this.pokmeon = this._selName.value;
         }
     }
 
@@ -168,7 +186,7 @@ export default class PokemonInput extends HTMLElement {
         this._stats = inputs;
 
         if(this.isConnected)
-            this.conncetedCallback()
+            this.connectedCallback()
 
         //Update Pokemon For Generation Change.
         this.pokmeon = this._pokemon.name;
@@ -202,6 +220,7 @@ export default class PokemonInput extends HTMLElement {
         
         const [moveItems, moveInputs] = buildMoveInputs(this._pokemon.moves);
         this._moves = moveInputs;
+        this._moveList.innerHTML = "";
         appendChildren(this._moveList, moveItems);
 
         this._types.innerHTML = "";
@@ -289,21 +308,23 @@ export default class PokemonInput extends HTMLElement {
 
     changeSprite():Promise<void> {
         return new Promise((res)=>{
-            if(this._data !== undefined && this._data !== EMPTY_POKEMON){
-                const [spriteSrc, spriteText] = generateSprite(this._game, this._data.name, this._pokemon.number, this._data.version, this._data.shiney, this._data.gender)
-                this._sprite.addEventListener("load", ()=>res(), {once: true});
-                this._sprite.src = spriteSrc;
-                this._sprite.alt = spriteText;
-            } else {
-                res();
-            }
+            const name    = this._selName.value;
+            const number  = this._pokemon.number;
+            const version = this._selVersion.value;
+            const shiney  = this._game.generation < 2? this._chbShiney.checked      : undefined;
+            const gender  = this._game.generation < 2? this._selGender.value === "M": undefined;
+
+            const [spriteSrc, spriteText] = generateSprite(this._game, name, number, version, shiney, gender);
+            this._sprite.addEventListener("load", ()=>res(), {once: true});
+            this._sprite.src = spriteSrc;
+            this._sprite.alt = spriteText;
         });
     }
 
     /** Connected Callback
      * 
      */
-    conncetedCallback(){
+    connectedCallback(){
         this.innerHTML = "";
 
         appendChildren(this,[
@@ -311,30 +332,45 @@ export default class PokemonInput extends HTMLElement {
                 _("label", {for: "name"}, "Name: "),
                 this._selName
             ),
-            _("figure", {class: "pokmeon-image"},
+            _("figure", {class: "pokemon-image"},
                 this._sprite
             ),
-            this._types,
             _("ul", {class: "pokemon-sprite-input"},
-                _("li", {class: "sprite-input-item"},
-                    _("label", {for: "version"}, "Version: "),
-                    this._selVersion
-                ),
-                _("li", {class: "sprite-innput-item"},
-                    this._chbShiney,
-                    _("label", {for: "shiney"}, "Shiney")
-                )
+                this._selVersion.children.length > 1
+                    ? _("li", {class: "sprite-input-item"},
+                        _("label", {for: "version"}, "Version: "),
+                        this._selVersion
+                    )
+                    : null,
+                this._game.generation < 2
+                    ? _("li", {class: "sprite-input-item radio"},
+                        this._chbShiney,
+                        _("label", {for: "shiney"}, "Shiney")
+                    )
+                    : null,
+                this._game.generation < 2
+                    ? _("li", {class: "sprite-input-item"},
+                        _("label", {for: "gender"}, "Gender: "),
+                        this._selGender
+                    )
+                    : null,
             ),
+            this._types,
             _("p", {class: "pokemon-level"},
                 _("label", {for: "level"}, "Level: "),
                 this._numLevel
             ),
             this._statsList,
-            this._moveList,
+            _("div",  {class: "pokemon-moves-list"},
+                _("p", {class: "move-header"}, "Moves:"),
+                this._moveList
+            ),
             this._mods
         ]);
     }
 }
+
+customElements.define("pokemon-input", PokemonInput)
 
 /** Build Stats Inputs
  * 

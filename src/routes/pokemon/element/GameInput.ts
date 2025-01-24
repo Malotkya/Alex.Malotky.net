@@ -126,7 +126,23 @@ export default class GameInputForm extends HTMLFormElement {
                 event.preventDefault();
                 event.stopPropagation();
             }
-        })
+        });
+
+        appendChildren(this, [
+            this._save["name"],
+            _("div", {class: "game-info"},
+                this._save["generation"],
+                this._save["region"],
+                this._save["team"],
+                this._save["others"]
+            ),
+            _("label", {class: "detail-summary", for: "main-pokmeon"}, "Main Pokemon"),
+            _("label", {class: "detail-summary", for: "other-pokmeon"}, "Other Pokemon"),
+            _("input", {id: "main-pokemon", class: "detail-toggle", type: "radio", name: "team-view", checked: true}),
+            this._main,
+            _("input", {id: "other-pokemon", class: "detail-toggle", type: "radio", name: "team-view"}),
+            this._other
+        ]);
 
         //Wait for ready.
         while(this._data === undefined)
@@ -137,13 +153,13 @@ export default class GameInputForm extends HTMLFormElement {
         
         //Main Team Inputs
         const btnNewTeam = _("button", {type: "button"}, "New");
-        const teamButtonView = _("li", {class: "new-pokmeon"}, btnNewTeam);
+        const teamButtonView = _("li", {class: "new-pokemon"}, btnNewTeam);
         this._main.appendChild(teamButtonView);
 
         //Other Team Inputs
         const btnNewOther = _("button", {type: "button"}, "New");
-        const otherButtonView = _("li", {class: "new-pokmeon"}, btnNewOther);
-        this._other.appendChild(teamButtonView);
+        const otherButtonView = _("li", {class: "new-pokemon"}, btnNewOther);
+        this._other.appendChild(otherButtonView);
 
         /** Update Form
          * 
@@ -169,21 +185,7 @@ export default class GameInputForm extends HTMLFormElement {
 
         this.addEventListener("change", ()=>update());
 
-        appendChildren(this, [
-            this._save["name"],
-            _("div", {class: "game-info"},
-                this._save["generation"],
-                this._save["region"],
-                this._save["team"],
-                this._save["others"]
-            ),
-            _("label", {class: "detail-summary", for: "main-pokmeon"}, "Main Pokemon"),
-            _("label", {class: "detail-summary", for: "other-pokmeon"}, "Other Pokemon"),
-            _("input", {id: "main-pokemon", class: "detail-toggle", type: "radio", name: "team-view", checked: true}),
-            this._main,
-            _("input", {id: "other-pokemon", class: "detail-toggle", type: "radio", name: "team-view"}),
-            this._other
-        ])
+        
     }
 }
 customElements.define("game-input", GameInputForm, {extends: "form"});
@@ -198,7 +200,7 @@ function buildGameSelect(list:GameData[]):HTMLElement[] {
         if(groups[game.generation] === undefined)
             groups[game.generation] = [];
 
-        groups[game.generation].push(_("option", {value: game.name}, game.name));
+        groups[game.generation].push(_("option", {value: i}, game.name));
     }
 
     for(const gen in groups){

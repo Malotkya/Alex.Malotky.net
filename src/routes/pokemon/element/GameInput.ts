@@ -63,7 +63,7 @@ export default class GameInputForm extends HTMLFormElement {
             throw new TypeError("Game Name must be a string!");
         this._save["name"].value = value.name;
 
-        const index = findData(value, this._data);
+        const index = findByName(value.name, this._data);
         if(index === null)
             throw new Error("Cannot find game in data!");
 
@@ -171,14 +171,43 @@ export default class GameInputForm extends HTMLFormElement {
                 ? "none": "";
         }
 
+        this._save["name"].addEventListener("change", (event)=>{
+            this.lock();
+            const game = findByName(this._save["name"].value, this._data!);
+            if(game === null)
+                return;
+
+            Promise.all(
+                (<PokemonInput[]>Array.from(this._main.querySelectorAll("pokemon-input")))
+                .concat(<PokemonInput[]>Array.from(this._other.querySelectorAll("pokemon-input")))
+                .map(async(input)=>{
+                    input.game = game;
+
+                    while(!input.ready)
+                        await sleep();
+                })
+            ).then(()=>{
+                this.unlock();
+            });
+
+        });
+
+        
+
         btnNewTeam.addEventListener("click", (event)=>{
-            const input = new PokemonInput(this._data![Number(this._save["name"].value)]);
+            const game = findByName(this._save["name"].value, this._data!);
+            if(game === null)
+                throw new Error("Invalid Game Name!");
+            const input = new PokemonInput(game);
             this._main.insertBefore(input, teamButtonView);
             update();
         });
 
         btnNewOther.addEventListener("click", (event)=>{
-            const input = new PokemonInput(this._data![Number(this._save["name"].value)]);
+            const game = findByName(this._save["name"].value, this._data!);
+            if(game === null)
+                throw new Error("Invalid Game Name!");
+            const input = new PokemonInput(game);
             this._other.insertBefore(input, otherButtonView);
             update();
         });
@@ -200,7 +229,7 @@ function buildGameSelect(list:GameData[]):HTMLElement[] {
         if(groups[game.generation] === undefined)
             groups[game.generation] = [];
 
-        groups[game.generation].push(_("option", {value: i}, game.name));
+        groups[game.generation].push(_("option", {value: game.name}, game.name));
     }
 
     for(const gen in groups){
@@ -210,9 +239,15 @@ function buildGameSelect(list:GameData[]):HTMLElement[] {
     return output;
 }
 
-function findData(game:Game, list:GameData[]):GameData|null {
+/** Find GameData By Name
+ * 
+ * @param {string} name 
+ * @param {GameData[]} list 
+ * @returns {GameData|null}
+ */
+function findByName(name:string, list:GameData[]):GameData|null {
     for(const data of list){
-        if(data.name == game.name)
+        if(data.name === name)
             return data;
     }
 

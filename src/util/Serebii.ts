@@ -112,7 +112,7 @@ interface Sprite {
  */
 export interface GameData {
     name: string,
-    sprites: Sprite,
+    sprite: Sprite,
     generation: number,
     region: string,
     modifiers: Record<string, "string"|"number"|"boolean">,
@@ -132,6 +132,9 @@ export async function getAllGameData():Promise<GameData[]> {
     if(store) {
         return JSON.parse(store);
     }
+
+    //@ts-ignore
+    env.info("Downloading Large Amount of Data!\nThis page may take a minute to load.");
 
     const response = await fetch(`${URI}/Game`);
 
@@ -244,7 +247,7 @@ export async function getAbilityData(name:string):Promise<string> {
  * @returns 
  */
 export function generateSprite(game:GameData, name:string, number:number, mod?:string|null, s?:boolean|null, g?:boolean|null):[string, string]{
-    const {ext = ".png", normal, shiney} = game.sprites;
+    const {ext = ".png", normal, shiney} = game.sprite;
     
     const string = number < 1000
         ? `00${number}`.slice(-3)

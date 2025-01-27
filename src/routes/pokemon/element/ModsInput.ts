@@ -3,7 +3,6 @@
  * @author Alex Malotky
  */
 import { createElement as _ } from "@/util/Element";
-import { isType } from "@/util/Serebii";
 import { Number_Or } from "@/util";
 import { Modifer } from "../data/pokemon";
 
@@ -80,21 +79,8 @@ export default class ModsInput extends HTMLElement {
             console.error(`Unable to find modifier ${name}!`);
             return;
         }
-        
+
         const type = typeof value;
-        if(input instanceof HTMLSelectElement){
-            if(type !== "string"){
-                console.warn(`Mismatched type ${type} for Type ${name}!`);
-                input.value = "???";
-            } else if(!isType(<string>value) && value !== "Stellar") {
-                console.warn(`Invalid Pokemon Type ${value} for Type ${name}!`)
-                input.value = "???";
-            } else {
-                input.value = <string>value;
-            }
-            return;
-        }
-        
         switch(input.type){
             case "checkbox":
                 if(type !== "boolean") {

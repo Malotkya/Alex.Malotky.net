@@ -204,7 +204,8 @@ export default class PokemonInput extends HTMLElement {
         this.lock();
         getPokemonData(value, this._game.generation).then((data)=>{
             this._pokemon = data;
-            
+            this._data.name = data.name;
+            this._data.types = data.types;
 
             this.init();
             this.update().then(()=>{
@@ -274,7 +275,7 @@ export default class PokemonInput extends HTMLElement {
     async update(){
         this._selName.value = this._data.name;
 
-        this._numLevel.value = String(this._data.level);
+        this._numLevel.value = String(this._data.level || 0);
 
         if(typeof this._data.gender === "boolean") {
             this._selGender.value = this._data.gender? "M": "F";
@@ -315,8 +316,8 @@ export default class PokemonInput extends HTMLElement {
             const name    = this._selName.value;
             const number  = this._pokemon.number;
             const version = this._selVersion.value;
-            const shiney  = this._game.generation < 2? this._chbShiney.checked      : undefined;
-            const gender  = this._game.generation < 2? this._selGender.value === "M": undefined;
+            const shiney  = this._game.generation > 1? this._chbShiney.checked      : undefined;
+            const gender  = this._game.generation > 1? this._selGender.value === "M": undefined;
 
             const [spriteSrc, spriteText] = generateSprite(this._game, name, number, version, shiney, gender);
             this._sprite.addEventListener("load", ()=>res(), {once: true});

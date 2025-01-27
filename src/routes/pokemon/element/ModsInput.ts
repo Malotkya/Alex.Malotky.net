@@ -48,14 +48,14 @@ export default class ModsInput extends HTMLElement {
                     break;
 
                 case "Type":
-                    this._data[name] = createTypeSelect(name+this._id, String(value));
+                    this._data[name] = createTypeSelect(name+this._id, <string>value);
                     break;
 
                 default:
                     if(Array.isArray(value)){
                         this._data[name] = buildSelect({id: name+this._id}, <string[]>value)
                     } else {
-                        this._data[name] = _("input", {type: values[name], id:name+this._id, value});
+                        this._data[name] = _("input", {type: values[name], id:name+this._id, value:value||""});
                     }
             }          
         }
@@ -117,7 +117,7 @@ export default class ModsInput extends HTMLElement {
             default:
                 if(type !== "string"){
                     console.warn(`Mismatched type ${type} for text ${name}!`);
-                    input.value = String(value);
+                    input.value = <string>value;
                 } else {
                     input.value = <string>value;
                 }
@@ -173,7 +173,7 @@ export default class ModsInput extends HTMLElement {
 customElements.define("modifier-input", ModsInput);
 
 function formatName(value:string):string {
-    return value.charAt(0).toLocaleLowerCase() + value.substring(1).replaceAll(/([A-Z])/g, " $1");
+    return value.charAt(0).toLocaleUpperCase() + value.substring(1).replaceAll(/([A-Z])/g, " $1");
 }
 
 function buildSelect(props:any, list:string[], value?:string):HTMLSelectElement {

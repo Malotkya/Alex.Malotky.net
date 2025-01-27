@@ -5,15 +5,29 @@
  * @author Alex Malotky
  */
 import Cache from "./Cache";
-const URI = "https://poke.malotky.net";
+const API_URI = "https://poke.malotky.net";
 const SEREBII_URI = "https://www.serebii.net/";
+
+async function apiFetch<T>(uri:string):Promise<T> {
+    const response = await fetch(API_URI+uri);
+
+    if(!response.ok)
+        throw new Error(await response.text());
+
+    const ct = response.headers.get("Content-Type");
+    if(ct === null || !ct.includes("json"))
+        throw new Error("Did not recieve JSON response!");
+
+    return await response.json();
+}
 
 export const CACHE_NAME = "Serebii";
 export const CACHE_TTL  = 604800000;
 
 export const VersionMap:Record<string, string> = {
     "-a": "Alola",
-    "-h": "Hisuian"
+    "-h": "Hisuian",
+    "-g": "Galaran"
 }
 
 export type Type = "Normal"|"Fire"|"Water"|"Grass"|"Flying"|"Fighting"|
@@ -48,13 +62,8 @@ export interface MoveData {
  * @param {number} gen 
  * @returns {Promise<MoveData>}
  */
-export async function getMoveData(name:string, gen:number):Promise<MoveData> {
-    const response = await fetch(`${URI}/Move/${gen}/${encodeURI(name)}`);
-
-    if(!response.ok)
-        throw new Error(await response.text());
-
-    return response.json(); 
+export function getMoveData(name:string, gen:number):Promise<MoveData> {
+    return apiFetch(`/Move/${gen}/${encodeURI(name)}`)
 }
 
 /** Pokemon API Data
@@ -63,8 +72,7 @@ export async function getMoveData(name:string, gen:number):Promise<MoveData> {
 export interface PokemonData {
     number: number,
     name: string,
-    types: string[],
-    versions: string[],
+    types: Record<string, string[]>,
     abilities: string[],
     moves: string[]
 }
@@ -75,13 +83,8 @@ export interface PokemonData {
  * @param {number} gen 
  * @returns {Promise<PokemonData>}
  */
-export async function getPokemonData(name:string, gen:number):Promise<PokemonData> {
-    const response = await fetch(`${URI}/Pokedex/${gen}/${encodeURI(name)}`);
-
-    if(!response.ok)
-        throw new Error(await response.text());
-
-    return response.json();
+export function getPokemonData(name:string, gen:number):Promise<PokemonData> {
+    return apiFetch(`/Pokedex/${gen}/${encodeURI(name)}`)
 }
 
 /** Get Pokedex
@@ -90,12 +93,17 @@ export async function getPokemonData(name:string, gen:number):Promise<PokemonDat
  * @returns {Promise<string[]>}
  */
 export async function getPokedex(game:string):Promise<string[]> {
-    const response = await fetch(`${URI}/Pokedex/${encodeURI(game)}`);
+    const key = `/Pokedex/${encodeURI(game)}`;
+    const cache = new Cache(CACHE_NAME, CACHE_TTL);
 
-    if(!response.ok)
-        throw new Error(await response.text());
+    const store = await cache.get(key);
+    if(store)
+        return JSON.parse(store);
 
-    return response.json();
+    const value:string[] = await apiFetch(key);
+    await cache.set(key, JSON.stringify(value));
+
+    return value;
 }
 
 /** Sprite API Data
@@ -136,15 +144,10 @@ export async function getAllGameData():Promise<GameData[]> {
     //@ts-ignore
     env.info("Downloading Large Amount of Data!\nThis page may take a minute to load.");
 
-    const response = await fetch(`${URI}/Game`);
-
-    if(!response.ok)
-        throw new Error(await response.text());
-
-    const list:GameData[] = await response.json();
+    const list:GameData[] = await apiFetch("/Game");
 
     for(const game of list){
-        game.pokedex = await getPokedex(game.name);
+        game.pokedex = (await getPokedex(game.generation.toString())).sort();
     }
 
     await cache.set("Games", JSON.stringify(list));
@@ -172,13 +175,7 @@ export async function getAllItems():Promise<string[]> {
         return JSON.parse(store);
     }
 
-    const response = await fetch(`${URI}/Item`);
-
-    if(!response.ok)
-        throw new Error(await response.text());
-
-    const value:string[] = await response.json();
-
+    const value:string[] = await apiFetch("/Item")
     await cache.set("Item", JSON.stringify(value));
 
     return value;
@@ -190,12 +187,7 @@ export async function getAllItems():Promise<string[]> {
  * @returns {Promise<string>}
  */
 export async function getItemData(name:string):Promise<string> {
-    const response = await fetch(`${URI}/Item/${encodeURI(name)}`);
-
-    if(!response.ok)
-        throw new Error(await response.text());
-
-    return (<Item>await response.json())["value"];
+    return (await apiFetch<Item>(`/Item/${encodeURI(name)}`))["value"];
 }
 
 /** Get All Abilities
@@ -210,13 +202,7 @@ export async function getAllAbilities():Promise<string[]> {
         return JSON.parse(store);
     }
 
-    const response = await fetch(`${URI}/Ability`);
-
-    if(!response.ok)
-        throw new Error(await response.text());
-
-    const value:string[] = await response.json();
-
+    const value:string[] = await apiFetch("/Ability")
     await cache.set("Ability", JSON.stringify(value));
 
     return value;
@@ -228,12 +214,7 @@ export async function getAllAbilities():Promise<string[]> {
  * @returns {Promise<string>}
  */
 export async function getAbilityData(name:string):Promise<string> {
-    const response = await fetch(`${URI}/Ability/${encodeURI(name)}`);
-
-    if(!response.ok)
-        throw new Error(await response.text());
-
-    return (<Item>await response.json())["value"];
+    return (await apiFetch<Item>(`/Ability/${encodeURI(name)}`))["value"];
 }
 
 /** Generate Sprite

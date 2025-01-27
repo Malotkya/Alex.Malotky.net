@@ -13,8 +13,7 @@ const EMPTY_POKEMON:Pokemon = {
 const EMPTY_POKEMON_DATA:PokemonData = {
     number: -1,
     name: "Mising No.",
-    types: ["???"],
-    versions: [],
+    types: {"": ["???"]},
     abilities: [],
     moves: ["Struggle"]
 }
@@ -205,7 +204,7 @@ export default class PokemonInput extends HTMLElement {
         getPokemonData(value, this._game.generation).then((data)=>{
             this._pokemon = data;
             this._data.name = data.name;
-            this._data.types = data.types;
+            this._data.types = data.types[this._selVersion.value] || ["???"];
 
             this.init();
             this.update().then(()=>{
@@ -230,7 +229,7 @@ export default class PokemonInput extends HTMLElement {
         appendChildren(this._moveList, moveItems);
 
         this._types.innerHTML = "";
-        appendChildren(this._types, this._pokemon.types.map(value=>{
+        appendChildren(this._types, this._pokemon.types[this._selVersion.value]?.map(value=>{
             return _("li", {class: `pokemon-type-item ${value.toLocaleLowerCase()}`}, value)
         }));
 
@@ -238,7 +237,7 @@ export default class PokemonInput extends HTMLElement {
 
         this._selVersion.innerHTML = "",
         this._selVersion.appendChild(_("option", {value: ""}, "Normal"));
-        appendChildren(this._selVersion, this._pokemon.versions.map(value=>
+        appendChildren(this._selVersion, Object.keys(this._pokemon.types).filter(s=>s).map(value=>
             _("option", {value}, VersionMap[value] || "Error")
         ));
     }

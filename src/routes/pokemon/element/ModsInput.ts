@@ -16,14 +16,17 @@ type DefaultData = Record<string, ModType|ModType[]>
  */
 export default class ModsInput extends HTMLElement {
     private _data:Record<string, HTMLInputElement|HTMLSelectElement>;
+    private _id:number;
+
     /** Default Constructor
      * 
      * @param {ModData} data 
      * @param {DefaultData} def
      */
-    constructor(data:ModData, def:DefaultData = {}){
+    constructor(id:number, data:ModData, def:DefaultData = {}){
         super();
         this._data = {};
+        this._id = id;
         this.init(data, def);
         this.className = "pokmeon-optional-list";
         this.role = "list";
@@ -41,18 +44,18 @@ export default class ModsInput extends HTMLElement {
 
             switch (values[name]) {
                 case "boolean":
-                    this._data[name] = _("input", {type: "checkbox", id:name, checked: value == true});
+                    this._data[name] = _("input", {type: "checkbox", id:name+this._id, checked: value == true});
                     break;
 
                 case "Type":
-                    this._data[name] = createTypeSelect(name, String(value));
+                    this._data[name] = createTypeSelect(name+this._id, String(value));
                     break;
 
                 default:
                     if(Array.isArray(value)){
-                        this._data[name] = buildSelect({id: name}, <string[]>value)
+                        this._data[name] = buildSelect({id: name+this._id}, <string[]>value)
                     } else {
-                        this._data[name] = _("input", {type: values[name], id:name, value});
+                        this._data[name] = _("input", {type: values[name], id:name+this._id, value});
                     }
             }          
         }
@@ -68,7 +71,7 @@ export default class ModsInput extends HTMLElement {
      */
     set(name:string, value:ModType): void {
         if(value === undefined) {
-            console.error(`Missing value on ${name}`);
+            console.error(`Missing value on ${name}!`);
             return;
         }
 
@@ -150,13 +153,13 @@ export default class ModsInput extends HTMLElement {
                         this._data[name]
                     ),
                     _("span", {class: "pokemon-option-value"},
-                        _("label", {for: name}, formatName(name))
+                        _("label", {for: name+this._id}, formatName(name))
                     )
                 ));
             } else {
                 this.appendChild(_("li", {class: "pokemon-optional-item"},
                     _("span", {class: "pokemon-optional-name"},
-                        _("label", {for: name}, formatName(name)+": ")
+                        _("label", {for: name+this._id}, formatName(name)+": ")
                     ),
                     _("span", {class: "pokemon-option-value"},
                         this._data[name]

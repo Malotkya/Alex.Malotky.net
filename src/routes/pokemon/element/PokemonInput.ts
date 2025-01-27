@@ -23,6 +23,7 @@ export default class PokemonInput extends HTMLElement {
     private _game:GameData;
     private _pokemon:PokemonData;
     private _data:Pokemon;
+    private _id:number
 
     //View
     private _types:HTMLUListElement;
@@ -40,6 +41,9 @@ export default class PokemonInput extends HTMLElement {
     private _moves:Array<HTMLSelectElement>;
     private _mods:ModsInput;
 
+    //Static
+    private static count:number = 0;
+
     /** Constuctor
      * 
      * @param {GameData} data 
@@ -50,31 +54,32 @@ export default class PokemonInput extends HTMLElement {
         this._game = data;
         this._pokemon = EMPTY_POKEMON_DATA;
         this._data = JSON.parse(JSON.stringify(EMPTY_POKEMON));
+        this._id = ++PokemonInput.count;
 
         // GAME DATA *******************************************************
         //Name Select
-        this._selName = _("select", {id: "name"},
+        this._selName = _("select", {id: `name${this._id}`},
             data.pokedex.map(name=>_("option", {value: name}, name))
         );
         
         //Stats Inputs
-        const [wrapper, inputs] = buildStatsInputs(data.generation);
+        const [wrapper, inputs] = buildStatsInputs(data.generation, this._id);
         this._stats = inputs;
         this._statsList = _("ol", {class: "pokemon-stats-list"}, wrapper);
 
         //Modfier Input
-        this._mods = new ModsInput(data.modifiers);      
+        this._mods = new ModsInput(this._id, data.modifiers);      
 
         // INIT DATA *******************************************************
         this._moves = [];
         this._moveList = _("ol");
 
-        this._selVersion = _("select", {id: "version"}, _("option", {value: ""}, "Normal"));
+        this._selVersion = _("select", {id: `version${this._id}`}, _("option", {value: ""}, "Normal"));
         this._types = _("ul", {class: "pokemon-types-list"});
 
-        this._numLevel = _("input", {id: "level"});
+        this._numLevel = _("input", {id: `level${this._id}`});
         
-        this._chbShiney = _("input", {type: "checkbox", id: "shiney"});
+        this._chbShiney = _("input", {type: "checkbox", id: `shiney${this._id}`});
         this._selGender = _("select", _("option", {value: "M"}, "Male"), _("option", {value: "F"}, "Female"));
 
         this._sprite = new Image();
@@ -180,7 +185,7 @@ export default class PokemonInput extends HTMLElement {
             this._game.pokedex.map(name=>_("option", {value: name}, name))
         );
 
-        const [wrapper, inputs] = buildStatsInputs(value.generation);
+        const [wrapper, inputs] = buildStatsInputs(value.generation, this._id);
         this._statsList.innerHTML = "";
         appendChildren(this._statsList, wrapper);
         this._stats = inputs;
@@ -328,7 +333,7 @@ export default class PokemonInput extends HTMLElement {
 
         appendChildren(this,[
             _("p", {class: "pokemon-title"},
-                _("label", {for: "name"}, "Name: "),
+                _("label", {for: `name${this._id}`}, "Name: "),
                 this._selName
             ),
             _("figure", {class: "pokemon-image"},
@@ -337,26 +342,26 @@ export default class PokemonInput extends HTMLElement {
             _("ul", {class: "pokemon-sprite-input"},
                 this._selVersion.children.length > 1
                     ? _("li", {class: "sprite-input-item"},
-                        _("label", {for: "version"}, "Version: "),
+                        _("label", {for: `version${this._id}`}, "Version: "),
                         this._selVersion
                     )
                     : null,
                 this._game.generation > 1
                     ? _("li", {class: "sprite-input-item radio"},
                         this._chbShiney,
-                        _("label", {for: "shiney"}, "Shiney")
+                        _("label", {for: `shiney${this._id}`}, "Shiney")
                     )
                     : null,
                 this._game.generation > 1
                     ? _("li", {class: "sprite-input-item"},
-                        _("label", {for: "gender"}, "Gender: "),
+                        _("label", {for: `gender${this._id}`}, "Gender: "),
                         this._selGender
                     )
                     : null,
             ),
             this._types,
             _("p", {class: "pokemon-level"},
-                _("label", {for: "level"}, "Level: "),
+                _("label", {for: `level${this._id}`}, "Level: "),
                 this._numLevel
             ),
             this._statsList,
@@ -376,34 +381,34 @@ customElements.define("pokemon-input", PokemonInput)
  * @param {number} gen 
  * @returns {[Array, Array]}
  */
-function buildStatsInputs(gen:number):[HTMLLIElement[], Record<string, HTMLInputElement>]{
+function buildStatsInputs(gen:number, id:number):[HTMLLIElement[], Record<string, HTMLInputElement>]{
     const record:Record<string, HTMLInputElement> = {};
     const list:HTMLLIElement[] = [];
 
-    record["health"] = _("input", {id: "health", type: "number"});
+    record["health"] = _("input", {id: `health${id}`, type: "number"});
     list.push(_("li", {class: "pokemon-stat-name"},
         _("span", {class: "pokemon-stat-name"}, 
-            _("label", {for: "health"}, "Health: ")
+            _("label", {for: `health${id}`}, "Health: ")
         ),
         _("span", {class: "pokemon-stat-value"},
             record["health"]
         )
     ));
 
-    record["attack"] = _("input", {id: "attack", type: "number"});
+    record["attack"] = _("input", {id: `attack${id}`, type: "number"});
     list.push(_("li", {class: "pokemon-stat-name"},
         _("span", {class: "pokemon-stat-name"}, 
-            _("label", {for: "attack"}, "Attack: ")
+            _("label", {for: `attack${id}`}, "Attack: ")
         ),
         _("span", {class: "pokemon-stat-value"},
             record["attack"]
         )
     ));
 
-    record["defense"] = _("input", {id: "defense", type: "number"});
+    record["defense"] = _("input", {id: `defense${id}`, type: "number"});
     list.push(_("li", {class: "pokemon-stat-name"},
         _("span", {class: "pokemon-stat-name"}, 
-            _("label", {for: "defense"}, "Defense: ")
+            _("label", {for: `defense${id}`}, "Defense: ")
         ),
         _("span", {class: "pokemon-stat-value"},
             record["defense"]
@@ -411,30 +416,30 @@ function buildStatsInputs(gen:number):[HTMLLIElement[], Record<string, HTMLInput
     ));
 
     if(gen < 3){
-        record["special"] = _("input", {id: "special", type: "number"});
+        record["special"] = _("input", {id: `special${id}`, type: "number"});
         list.push(_("li", {class: "pokemon-stat-name"},
             _("span", {class: "pokemon-stat-name"}, 
-                _("label", {for: "special"}, "Special: ")
+                _("label", {for: `special${id}`}, "Special: ")
             ),
             _("span", {class: "pokemon-stat-value"},
                 record["special"]
             )
         ));
     } else {
-        record["specialAttack"] = _("input", {id: "specialAttack", type: "number"});
+        record["specialAttack"] = _("input", {id: `specialAttack${id}`, type: "number"});
         list.push(_("li", {class: "pokemon-stat-name"},
             _("span", {class: "pokemon-stat-name"}, 
-                _("label", {for: "specialAttack"}, "Sp. Attack: ")
+                _("label", {for: `specialAttack${id}`}, "Sp. Attack: ")
             ),
             _("span", {class: "pokemon-stat-value"},
                 record["specialAttack"]
             )
         ));
 
-        record["specialDefense"] = _("input", {id: "specialDefense", type: "number"});
+        record["specialDefense"] = _("input", {id: `specialDefense${id}`, type: "number"});
         list.push(_("li", {class: "pokemon-stat-name"},
             _("span", {class: "pokemon-stat-name"}, 
-                _("label", {for: "specialDefense"}, "Sp. Defense: ")
+                _("label", {for: `specialDefense${id}`}, "Sp. Defense: ")
             ),
             _("span", {class: "pokemon-stat-value"},
                 record["specialDefense"]
@@ -442,10 +447,10 @@ function buildStatsInputs(gen:number):[HTMLLIElement[], Record<string, HTMLInput
         ));
     }
 
-    record["speed"] = _("input", {id: "speed", type: "number"});
+    record["speed"] = _("input", {id: `speed${id}`, type: "number"});
     list.push(_("li", {class: "pokemon-stat-name"},
         _("span", {class: "pokemon-stat-name"}, 
-            _("label", {for: "speed"}, "Speed: ")
+            _("label", {for: `speed${id}`}, "Speed: ")
         ),
         _("span", {class: "pokemon-stat-value"},
             record["speed"]

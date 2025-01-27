@@ -77,7 +77,7 @@ export default class PokemonInput extends HTMLElement {
         this._selVersion = _("select", {id: `version${this._id}`}, _("option", {value: ""}, "Normal"));
         this._types = _("ul", {class: "pokemon-types-list"});
 
-        this._numLevel = _("input", {id: `level${this._id}`});
+        this._numLevel = _("input", {id: `level${this._id}`, type: "number"});
         
         this._chbShiney = _("input", {type: "checkbox", id: `shiney${this._id}`});
         this._selGender = _("select", _("option", {value: "M"}, "Male"), _("option", {value: "F"}, "Female"));
@@ -222,7 +222,7 @@ export default class PokemonInput extends HTMLElement {
     init(){
         this._selName.value = this._pokemon.name;
 
-        this._mods.init(this._game.modifiers, {"abilities": this._pokemon.abilities});
+        this._mods.init(this._game.modifiers, {"ability": this._pokemon.abilities});
         
         const [moveItems, moveInputs] = buildMoveInputs(this._pokemon.moves);
         this._moves = moveInputs;

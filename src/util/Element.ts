@@ -23,7 +23,11 @@ export function createElement(name:string, attributes:any = {}, ...children:Arra
     
     const element = document.createElement(name);
     for(let name in attributes){
-        element.setAttribute(name, String(attributes[name]));
+        if(typeof attributes[name] === "boolean"){
+            element.toggleAttribute(name, attributes[name])
+        } else {
+            element.setAttribute(name, String(attributes[name]));
+        }
     }
 
     appendChildren(element, children);

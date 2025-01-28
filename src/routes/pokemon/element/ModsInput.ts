@@ -4,6 +4,7 @@
  */
 import { createElement as _ } from "@/util/Element";
 import { Number_Or } from "@/util";
+import { AllTypes, getAbilityData, getItemData } from "@/util/Serebii";
 import { Modifer } from "../data/pokemon";
 
 type ModData = Record<string, "string"|"number"|"boolean"|"Type">
@@ -114,13 +115,16 @@ export default class ModsInput extends HTMLElement {
      * 
      * @returns {Modifer}
      */
-    value():Modifer {
-        const item        = this._data["item"]? this._data["item"].value: undefined;
+    async value():Promise<Modifer> {
+        const itemName    = this._data["item"]? this._data["item"].value: undefined;
         const nature      = this._data["nature"]? this._data["nature"].value: undefined;
-        const ability     = this._data["ability"]? this._data["ability"].value: undefined;
+        const abilityName = this._data["ability"]? this._data["ability"].value: undefined;
         const dynamax     = this._data["dynamax"]? Number_Or(this._data["dynamax"].value, 0): undefined;
         const gigantamax  = this._data["gigantamax"]? (<HTMLInputElement>this._data["gigantamax"]).checked: undefined;
         const terraType   = this._data["terraType"]? this._data["terraType"].value: undefined;
+
+        const item    = itemName? await getItemData(itemName): undefined;
+        const ability = abilityName? await getAbilityData(abilityName): undefined;
 
         return {item, nature, ability, dynamax, gigantamax, terraType}
     }
@@ -162,7 +166,7 @@ function formatName(value:string):string {
     return value.charAt(0).toLocaleUpperCase() + value.substring(1).replaceAll(/([A-Z])/g, " $1");
 }
 
-function buildSelect(props:any, list:string[], value?:string):HTMLSelectElement {
+function buildSelect(props:any, list:readonly string[], value?:string):HTMLSelectElement {
     const select = _("select", props,
         list.map(s=>_("option", {value:s}, s))
     );
@@ -174,24 +178,5 @@ function buildSelect(props:any, list:string[], value?:string):HTMLSelectElement 
 }
 
 function createTypeSelect(id:string, value?:string):HTMLSelectElement {
-    return buildSelect({id}, [
-        "???",
-        "Bug",
-        "Dark",
-        "Dragon",
-        "Electric",
-        "Fairy",
-        "Fighting",
-        "Fire",
-        "Ghost",
-        "Grass",
-        "Ground",
-        "Ice",
-        "Normal",
-        "Water",
-        "Poison",
-        "Psychic",
-        "Steel",
-        "Rock"
-    ], value);
+    return buildSelect({id}, AllTypes, value);
 }

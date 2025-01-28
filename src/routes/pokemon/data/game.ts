@@ -6,6 +6,7 @@ import DataObject, {string, TypeOf, number, list, optional} from "zim-engine/Val
 import {PokemonObject} from "./pokemon";
 
 export const GameObject = new DataObject("Pokemon", {
+    id: optional(number()),
     name: string(),
     generation: number(),
     region: string(),

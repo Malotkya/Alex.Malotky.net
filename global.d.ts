@@ -12,6 +12,8 @@ interface Dictionary<t> {
     [index:string]:t
 }
 
+type Optional<T> = T|null|undefined
+
 interface Env {
     ASSETS: Fetcher
     DB: D1Database

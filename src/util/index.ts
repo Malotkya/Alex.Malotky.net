@@ -391,8 +391,27 @@ export function MarkDown(markdown:string):string {
     return output.map(formatMarkdownElements).join("");
 }
 
+/** Sleep For
+ * 
+ * @param {number} n - microseconds
+ * @returns {Promise<void>}
+ */
 export function sleep(n:number = 1):Promise<void> {
     return new Promise((r)=>setTimeout(r, n));
+}
+
+/** If Record Has
+ * 
+ * @param {any} record 
+ * @param {K} value 
+ * @returns {boolean}
+ */
+export function recordHas<K extends number|string|symbol>(record:Record<K, unknown>, value:K):boolean {
+    for(const name in record){
+        if(value == name)
+            return true;
+    }
+    return false;
 }
 
 /** Get Number Or Backup
@@ -407,4 +426,28 @@ export function Number_Or(value:unknown, or:number):number {
     if(isNaN(number))
         return or;
     return number;
+}
+
+/** Simplify String
+ * 
+ * @param {string} value 
+ * @returns {string}
+ */
+export function simplify(value:string):string {
+    return decodeURI(value).toLocaleLowerCase()
+        .replaceAll("1", "one")
+        .replaceAll("2", "two")
+        .replaceAll("3", "three")
+        .replaceAll("4", "four")
+        .replaceAll("5", "five")
+        .replaceAll("6", "six")
+        .replaceAll("7", "seven")
+        .replaceAll("8", "eight")
+        .replaceAll("9", "nine")
+        .replaceAll("0", "zero")
+        .replaceAll(/♂/g, "M")
+        .replaceAll(/♀/g, "F")
+            .split("")
+            .filter(c=>c.match(/\w/))
+                .join("");
 }

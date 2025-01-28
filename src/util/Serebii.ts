@@ -24,12 +24,6 @@ async function apiFetch<T>(uri:string):Promise<T> {
 export const CACHE_NAME = "Serebii";
 export const CACHE_TTL  = 604800000;
 
-export const VersionMap:Record<string, string> = {
-    "-a": "Alola",
-    "-h": "Hisuian",
-    "-g": "Galaran"
-}
-
 export type Type = "Normal"|"Fire"|"Water"|"Grass"|"Flying"|"Fighting"|
                    "Poison"|"Electric"|"Ground"|"Rock"|"Psychic"|"Ice"|
                    "Bug"|"Ghost"|"Steel"|"Dragon"|"Dark"|"Fairy";
@@ -73,6 +67,7 @@ export interface PokemonData {
     number: number,
     name: string,
     types: Record<string, string[]>,
+    versions: Record<string, string[]>,
     abilities: string[],
     moves: string[]
 }

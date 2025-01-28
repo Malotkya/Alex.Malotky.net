@@ -1,4 +1,4 @@
-import { GameData, PokemonData, getPokemonData, getMoveData, generateSprite, VersionMap } from "@/util/Serebii";
+import { GameData, PokemonData, getPokemonData, getMoveData, generateSprite } from "@/util/Serebii";
 import { createElement as _, appendChildren } from "@/util/Element";
 import { sleep, Number_Or } from "@/util";
 import Pokemon, {Move} from "../data/pokemon";
@@ -14,6 +14,7 @@ const EMPTY_POKEMON_DATA:PokemonData = {
     number: -1,
     name: "Mising No.",
     types: {"": ["???"]},
+    versions: {},
     abilities: [],
     moves: ["Struggle"]
 }
@@ -105,9 +106,14 @@ export default class PokemonInput extends HTMLElement {
 
                 await this.changeSprite();
 
+                this._types.innerHTML = "";
+                appendChildren(this._types, this._pokemon.types[this._selVersion.value]?.map(value=>{
+                    return _("li", {class: `pokemon-type-item ${value.toLocaleLowerCase()}`}, value)
+                }));
+
                 this._data.name = this._selName.value;
                 this._data.level = Number_Or(this._numLevel.value, 0);
-                this._data.types = Array.from(this._sprite.children).map(c=>c.textContent!);
+                this._data.types = Array.from(this._types.children).map(c=>c.textContent!);
                 this._data.moves = <Move[]>(await Promise.all(this._moves
                     .map(async(e)=>{
                         if(e.value === "")
@@ -189,9 +195,6 @@ export default class PokemonInput extends HTMLElement {
         appendChildren(this._statsList, wrapper);
         this._stats = inputs;
 
-        if(this.isConnected)
-            this.connectedCallback()
-
         //Update Pokemon For Generation Change.
         this.pokmeon = this._pokemon.name;
     }
@@ -237,8 +240,8 @@ export default class PokemonInput extends HTMLElement {
 
         this._selVersion.innerHTML = "",
         this._selVersion.appendChild(_("option", {value: ""}, "Normal"));
-        appendChildren(this._selVersion, Object.keys(this._pokemon.types).filter(s=>s).map(value=>
-            _("option", {value}, VersionMap[value] || "Error")
+        appendChildren(this._selVersion, Object.keys(this._pokemon.versions).map(name=>
+            _("option", {value: this._pokemon.versions[name]}, name)
         ));
     }
 
@@ -307,6 +310,9 @@ export default class PokemonInput extends HTMLElement {
             this._mods.set(name, this._data.modifiers[name]);
         }
             
+        if(this.isConnected)
+            this.connectedCallback();
+
         await this.changeSprite();
     }
 

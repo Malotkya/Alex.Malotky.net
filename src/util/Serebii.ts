@@ -5,9 +5,17 @@
  * @author Alex Malotky
  */
 import Cache from "./Cache";
+
 const API_URI = "https://poke.malotky.net";
 const SEREBII_URI = "https://www.serebii.net/";
+const CACHE_NAME = "Serebii";
+const CACHE_TTL  = 604800000;
 
+/** API Fetch
+ * 
+ * @param {string} uri 
+ * @returns {any}
+ */
 async function apiFetch<T>(uri:string):Promise<T> {
     const response = await fetch(API_URI+uri);
 
@@ -21,12 +29,27 @@ async function apiFetch<T>(uri:string):Promise<T> {
     return await response.json();
 }
 
-export const CACHE_NAME = "Serebii";
-export const CACHE_TTL  = 604800000;
-
-export type Type = "Normal"|"Fire"|"Water"|"Grass"|"Flying"|"Fighting"|
-                   "Poison"|"Electric"|"Ground"|"Rock"|"Psychic"|"Ice"|
-                   "Bug"|"Ghost"|"Steel"|"Dragon"|"Dark"|"Fairy";
+export const AllTypes = [
+    "Normal",
+    "Fire",
+    "Water",
+    "Grass",
+    "Flying",
+    "Fighting",
+    "Poison",
+    "Electric",
+    "Ground",
+    "Rock",
+    "Psychic",
+    "Ice",
+    "Bug",
+    "Ghost",
+    "Steel",
+    "Dragon",
+    "Dark",
+    "Fairy"
+] as const;
+export type Type = typeof AllTypes[number];
 
 /** Is Type
  * 
@@ -181,8 +204,8 @@ export async function getAllItems():Promise<string[]> {
  * @param {string} name 
  * @returns {Promise<string>}
  */
-export async function getItemData(name:string):Promise<string> {
-    return (await apiFetch<Item>(`/Item/${encodeURI(name)}`))["value"];
+export async function getItemData(name:string):Promise<Item> {
+    return (await apiFetch<Item>(`/Item/${encodeURI(name)}`));
 }
 
 /** Get All Abilities
@@ -208,8 +231,8 @@ export async function getAllAbilities():Promise<string[]> {
  * @param {string} name 
  * @returns {Promise<string>}
  */
-export async function getAbilityData(name:string):Promise<string> {
-    return (await apiFetch<Item>(`/Ability/${encodeURI(name)}`))["value"];
+export async function getAbilityData(name:string):Promise<Item> {
+    return (await apiFetch<Item>(`/Ability/${encodeURI(name)}`));
 }
 
 /** Generate Sprite
@@ -239,4 +262,122 @@ export function generateSprite(game:GameData, name:string, number:number, mod?:s
     const alt = `${s? "Shiney ":""}${gender} ${name} ${game.name} Sprite`;
 
     return [uri, alt];
+}
+
+//Regions used for Navigation
+const KNOWN_REGIONS = [
+    "Kanto",
+    "Johto",
+    "Hoenn",
+    "Sinnoh",
+    "Unova",
+    "Kalos",
+    "Alola",
+    "Galar",
+    "Paldea"
+] as const;
+export type Region = typeof KNOWN_REGIONS[number];
+
+//Possible Sub Regions
+const REGION_INDEX:Record<Region, string[]> = {
+    "Kanto":  ["Kanto"],
+    "Johto":  ["Johto", "Johto/Kanto"],
+    "Hoenn":  ["Hoenn"],
+    "Sinnoh": ["Sinnoh", "Hisui"],
+    "Unova":  ["Unova"],
+    "Kalos":  ["Kalos"],
+    "Alola":  ["Alola"],
+    "Galar":  ["Galar", "Isle of Armor", "Crown Tundra"],
+    "Paldea": ["Paldea", "Kitakami", "Blueberry"]
+}
+
+/** Get Pokemon Region
+* 
+* @param {string} string 
+* @returns {Region}
+*/
+export function getRegion(string:string):Region|"Unknown" {
+   for(let region in REGION_INDEX ) {
+       if(REGION_INDEX[<Region>region].includes(string))
+           return region as Region;
+   }
+   return "Unknown";
+}
+
+/** Nature 
+ * 
+ */
+export interface Nature {
+    inc: string,
+    dec: string
+}
+
+export const AllNatures = [
+    "Bashful",
+    "Lonely",
+    "Adamant",
+    "Naughty",
+    "Brave",
+    "Bold",
+    "Docile",
+    "Impish",
+    "Lax",
+    "Relaxed",
+    "Modest",
+    "Mild",
+    "Hardy",
+    "Rash",
+    "Quiet",
+    "Calm",
+    "Gentle",
+    "Careful",
+    "Quirky",
+    "Sassy",
+    "Timid",
+    "Hasty",
+    "Jolly",
+    "Naive",
+    "Serious"
+] as const;
+
+export const NatureMap:Record<string, Nature> = {
+    "bashful": {inc: "attack",  dec: "attack"},
+    "lonely":  {inc: "attack",  dec: "defence"},
+    "adamant": {inc: "attack",  dec: "sepcialAttack"},
+    "naughty": {inc: "attack",  dec: "sepcialDefence"},
+    "brave":   {inc: "attack",  dec: "speed"},
+    "bold":    {inc: "defence", dec: "attack"},
+    "docile":  {inc: "defence", dec: "defence"},
+    "impish":  {inc: "defence", dec: "sepcialAttack"},
+    "lax":     {inc: "defence", dec: "sepcialDefence"},
+    "relaxed": {inc: "defence", dec: "speed"},
+    "modest":  {inc: "specialAttack",  dec: "attack"},
+    "mild":    {inc: "specialAttack",  dec: "defence"},
+    "hardy":   {inc: "specialAttack",  dec: "sepcialAttack"},
+    "rash":    {inc: "specialAttack",  dec: "sepcialDefence"},
+    "quiet":   {inc: "specialAttack",  dec: "speed"},
+    "calm":    {inc: "specialDefence", dec: "attack"},
+    "gentle":  {inc: "specialDefence", dec: "defence"},
+    "careful": {inc: "specialDefence", dec: "sepcialAttack"},
+    "quirky":  {inc: "specialDefence", dec: "sepcialDefence"},
+    "sassy":   {inc: "specialDefence", dec: "speed"},
+    "timid":   {inc: "speed", dec: "attack"},
+    "hasty":   {inc: "speed", dec: "defence"},
+    "jolly":   {inc: "speed", dec: "sepcialAttack"},
+    "naive":   {inc: "speed", dec: "sepcialDefence"},
+    "serious": {inc: "speed", dec: "speed"},
+}
+
+/** Nature To String
+ * 
+ * @param {Nature} nature 
+ * @returns {string}
+ */
+export function natureToString(nature:Nature):string {
+    const fix = (s:string):string =>(s.charAt(0).toUpperCase() + s.substring(1)).replace(/special/i, "Sp. ");
+    
+    if(nature.inc === nature.dec)
+        return "Does nothing to adjust stats.";
+    
+    return `Increases ${fix(nature.inc)}.\nDecreases ${fix(nature.dec)}.`;
 }

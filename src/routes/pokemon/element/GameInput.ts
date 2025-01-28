@@ -11,9 +11,11 @@ export default class GameInputForm extends HTMLFormElement {
     _save:Record<keyof Game, HTMLInputElement|HTMLSelectElement>;
     _main:HTMLUListElement;
     _other:HTMLUListElement;
+    _btnSubmit:HTMLButtonElement;
 
     constructor(){
         super();
+        this.className = "game-input";
 
         getAllGameData().then(data=>{
             this._data = data;
@@ -29,6 +31,7 @@ export default class GameInputForm extends HTMLFormElement {
 
         this._main  = _("ul", {class: "pokemon-view"});
         this._other = _("ul", {class: "pokemon-view"});
+        this._btnSubmit = _("button", {type: "submit"}, "Save")
 
         this.addEventListener("change", async(event)=>{
             this.lock();
@@ -99,11 +102,15 @@ export default class GameInputForm extends HTMLFormElement {
     lock() {
         this._save["name"].disabled = true;
         this._save["name"].ariaDisabled = "true";
+        this._btnSubmit.disabled = true;
+        this._btnSubmit.ariaDisabled = "true";
     }
 
     unlock() {
         this._save["name"].disabled = false;
         this._save["name"].ariaDisabled = "";
+        this._btnSubmit.disabled = false;
+        this._btnSubmit.ariaDisabled = "";
     }
 
     async data(string:string){
@@ -181,9 +188,9 @@ export default class GameInputForm extends HTMLFormElement {
                 this._save["team"],
                 this._save["others"]
             ),
-            _("label", {class: "detail-summary", for: "main-pokmeon"}, "Main Pokemon"),
-            _("label", {class: "detail-summary", for: "other-pokmeon"}, "Other Pokemon"),
-            _("button", "Submit"),
+            _("label", {class: "detail-summary", for: "main-pokemon"}, "Main Pokemon"),
+            _("label", {class: "detail-summary", for: "other-pokemon"}, "Other Pokemon"),
+            this._btnSubmit,
             _("input", {id: "main-pokemon", class: "detail-toggle", type: "radio", name: "team-view", checked: true}),
             this._main,
             _("input", {id: "other-pokemon", class: "detail-toggle", type: "radio", name: "team-view"}),
@@ -211,7 +218,7 @@ export default class GameInputForm extends HTMLFormElement {
         const otherButtonView = _("li", {class: "new-pokemon"}, btnNewOther);
         this._other.appendChild(otherButtonView);
 
-        /** Update Form
+        /** Update
          * 
          */
         const update = () => {
@@ -245,8 +252,6 @@ export default class GameInputForm extends HTMLFormElement {
             });
 
         });
-
-        
 
         btnNewTeam.addEventListener("click", (event)=>{
             const game = findByName(this._save["name"].value, this._data!);

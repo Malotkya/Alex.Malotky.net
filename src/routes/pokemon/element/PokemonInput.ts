@@ -126,13 +126,23 @@ export default class PokemonInput extends HTMLElement {
                         }
                     }
                 ))).filter(v=>v!==null);
+
+                this._data.stats = {
+                    attack:  Number_Or(this._stats["attack"].value, 0),
+                    defense: Number_Or(this._stats["deffence"].value, 0),
+                    health:  Number_Or(this._stats["health"].value, 0),
+                    speed:   Number_Or(this._stats["speed"].value, 0),
+                    specialAttack:  this._stats["specialAttack"] ? Number_Or(this._stats["specialAttack"].value, 0) : undefined,
+                    specialDefense: this._stats["specialDefense"]? Number_Or(this._stats["specialDefence"].value, 0): undefined,
+                    special:        this._stats["special"]       ? Number_Or(this._stats["special"].value, 0)       : undefined
+                };
                 
                 if(this._game.generation > 1)
                     this._data.gender = this._selGender.value === "M";
 
                 this._data.shiney = this._chbShiney.checked;
                 this._data.version = this._selVersion.value? this._selVersion.value: null;
-                this._data.modifiers = this._mods.value();
+                this._data.modifiers = await this._mods.value();
 
                 
                 this._data.sprite = this._sprite.src;

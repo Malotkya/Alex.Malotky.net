@@ -3,25 +3,20 @@
  * @author Alex Malotky
  */
 import { createElement as _, Content } from "zim-engine";
-import { Pokemon, MoveData, Nature, GameVersion } from "../types";
-import { MASTER_NATURE_INDEX, MASTER_ITEM_INDEX, MASTER_ABILITY_INDEX} from "@/util/Serebii/data"
-import { formatURI } from "@/util/Serebii";
+import Pokemon, { Move, Description } from "../data/pokemon";
+import { Nature, NatureMap, natureToString } from "@/util/Serebii";
 
 /** Pokemon Sprite
  * 
  */
-function Sprit(data:Pokemon, name:string, version?:GameVersion, ) {
-    const alt = `${data.shiney? "Shiney ":""}${data.name} ${name} Sprite`;
-
-     return _("img", {src: formatURI(data, version), alt})
-}
+const Sprite = (src:string, alt:string, lazy:boolean) => _("img", {src, alt, loading: lazy? "lazy": "eager"});
 
 /** Gender Icon Module
  * 
  * @param {boolean} gender 
  * @returns {Content}
  */
-function GenerIcon(gender?:boolean):Content{
+function GenerIcon(gender:Optional<boolean>):Content{
     if(gender === null || gender === undefined)
         return null;
 
@@ -34,7 +29,10 @@ function GenerIcon(gender?:boolean):Content{
  * @param {number} value 
  * @returns {Content}
  */
-function statsListItem(name:string, nature:Nature, value:number = -1): Content{
+function statsListItem(name:string, nature:Nature, value:Optional<number>): Content{
+    if(value === null || value === undefined)
+        value = -1;
+
     let extra:string = "";
     if(name === nature.inc){
         extra += " inc";
@@ -54,19 +52,12 @@ function statsListItem(name:string, nature:Nature, value:number = -1): Content{
  * @param {MoveData|string} data 
  * @returns {Content}
  */
-function MoveElement(data: MoveData|string):Content{
+function MoveElement(data: Move|string):Content{
     if(typeof data === "string") {
         return _("li", {class: "pokmeon-move-item"}, data );
     }
     
-    const {
-        name = "Missing",
-        type = "Normal",
-        category = "special",
-        accuracy = 0,
-        power,
-        effect
-    } = data;
+    const { name, type, category, accuracy, power, effect } = data;
 
     return _("li", {class: "pokmeon-move-item"},
         _("tool-tip", {"fixed-width": "true"}, name,
@@ -134,10 +125,13 @@ function OptionalList(data:Dictionary<Content>): Content{
  * @param {string} name 
  * @returns {Nature}
  */
-export function getNature(name:string = ""):Nature {
-    const temp:Nature = MASTER_NATURE_INDEX[name.toUpperCase()];
-    if(temp)
-        return temp;
+function getNature(name:Optional<string>):Nature {
+    if(name !== undefined && name !== null){
+        const nat = NatureMap[name.toLocaleLowerCase()];
+
+        if(nat)
+            return nat;
+    }
 
     return {inc: "", dec: ""};
 }
@@ -147,24 +141,17 @@ export function getNature(name:string = ""):Nature {
  * @param {string} name 
  * @returns {Content}
  */
-function getNatureDescription(name?:string):Content {
-    if(name === undefined)
+function NatureDescription(name:Optional<string>):Content {
+    if(name === undefined || name === null )
         return null;
 
     if(name === "")
         return _("i", "none")
 
-    const temp:Nature = MASTER_NATURE_INDEX[name.toUpperCase()];
+    const temp:Nature = NatureMap[name.toLocaleLowerCase()];
     let tip:Content;
     if(temp) {
-        if(temp.inc === temp.dec)
-            tip = "Does nothing to adjust stats.";
-
-        tip = [
-            `Increases ${temp.inc}.`,
-            _("br"),
-            `Decreases ${temp.dec}.`
-        ];
+        tip = natureToString(temp);
     } else {
         tip = `Nature '${name}' not found!`;
     }
@@ -180,16 +167,16 @@ function getNatureDescription(name?:string):Content {
  * @param {string} name 
  * @returns {Content}
  */
-function getItemDescription(name?:string):Content {
-    if(name === undefined)
+function ItemDescription(item:Optional<Description>):Content {
+    if(item === null || item === undefined)
         return null;
 
-    if(name === "")
+    if(item.name === "")
         return _("i", "none");
 
     return _("tool-tip",
-        name,
-        _("tool-tip-text", MASTER_ITEM_INDEX[name] || `Item '${name}' not found!`)
+        item.name,
+        _("tool-tip-text", item.value)
     )
 }
 
@@ -198,8 +185,8 @@ function getItemDescription(name?:string):Content {
  * @param {string} type
  * @returns {Content}
  */
-function getTerraType(type?:string):Content{
-    if(type === undefined)
+function getTerraType(type:Optional<string>):Content{
+    if(type === undefined || type === null)
         return null;
 
     return _("span", {class: `pokemon-type-item ${type.toLocaleLowerCase()}`}, type);
@@ -210,16 +197,13 @@ function getTerraType(type?:string):Content{
  * @param {string} name 
  * @returns {Content}
  */
-export function getAbilityDescription(name?:string):Content {
-    if(name === undefined)
-        return null;
-
+export function getAbilityDescription(name:string, value:string):Content {
     if(name === "")
         return _("i", "none");
 
     return _("tool-tip",
         name,
-        _("tool-tip-text", MASTER_ABILITY_INDEX[name] || `Ability '${name}' not found!`)
+        _("tool-tip-text", value)
     )
 }
 
@@ -229,8 +213,8 @@ export function getAbilityDescription(name?:string):Content {
  * @param {boolean} gigantamax, 
  * @returns {Content}
  */
-function getDynamaxInfo(dynamax:number = Number.NaN, gigantamax?:boolean):Content {
-    if(isNaN(dynamax))
+function getDynamaxInfo(dynamax:Optional<number> = null, gigantamax:Optional<boolean>):Content {
+    if(dynamax === null)
         return null;
 
     return [
@@ -242,21 +226,10 @@ function getDynamaxInfo(dynamax:number = Number.NaN, gigantamax?:boolean):Conten
 /** Pokemon-Element
  * 
  */
-export default function PokemonItem(data:Pokemon, gameName:string, version?:GameVersion):Content {
-    const {
-        name = "Misingno!",
-        level = 0,
-        types = ["Normal"],
-        gender,
-        stats,
-        moves = [],
-        ability,
-        nature,
-        item,
-        dynamax,
-        gigantamax,
-        terraType
-    } = data;
+export default function PokemonItem(data:Pokemon, lazy: boolean):Content {
+    const {name, level, types, gender, stats, modifiers, sprite, sprite_text} = data;
+    const moves:Array<string|Move> = data.moves;
+    const {nature, item, dynamax, gigantamax, terraType, ability} = modifiers;
 
     while(moves.length < 4){
         moves.push("");
@@ -276,7 +249,7 @@ export default function PokemonItem(data:Pokemon, gameName:string, version?:Game
         ),
         _("p", {class: "pokemon-level"}, `Level: ${level}`),
         _("figure", {class: "pokemon-image"},
-            Sprit(data, gameName, version),
+            Sprite(sprite, sprite_text, lazy),
             _("figcaption", data.name, GenerIcon(gender))
         ),
         _("ol", {class: "pokemon-stats-list"},
@@ -286,7 +259,7 @@ export default function PokemonItem(data:Pokemon, gameName:string, version?:Game
             stats.special? statsListItem("Special", NATURE, stats.special):
                 [
                     statsListItem("Sp. Attack"  , NATURE, stats.specialAttack),
-                    statsListItem("Sp. Defense", NATURE, stats.specialDefence)
+                    statsListItem("Sp. Defense", NATURE, stats.specialDefense)
                 ],
             statsListItem("Speed", NATURE, stats.speed)
         ),
@@ -294,9 +267,9 @@ export default function PokemonItem(data:Pokemon, gameName:string, version?:Game
             moves.map(move=>MoveElement(move))
         ),
         OptionalList({
-            "Ability": getAbilityDescription(ability),
-            "Nature":  getNatureDescription(nature),
-            "Item":    getItemDescription(item),
+            "Ability": ItemDescription(ability),
+            "Nature":  NatureDescription(nature),
+            "Item":    ItemDescription(item),
             "Dynamax Level": getDynamaxInfo(dynamax, gigantamax),
             "Terra Type": getTerraType(terraType)
         })

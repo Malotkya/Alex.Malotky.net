@@ -25,9 +25,9 @@ export default class GameInputForm extends HTMLFormElement {
             name: _("select", {id: "txtName", name: "name"}),
             generation: _("input", {id: "numGeneration", name:"generation", disabled: true}),
             region: _("input", {id: "txtRegion", name: "region", disabled: true}),
-            team: _("input", {type: "hidden", name: "team"}),
-            others: _("input", {type: "hidden", name: "other"})
-        }
+            team: _("input", {id: "inpTeam", type: "hidden", name: "team"}),
+            others: _("input", {id: "inpOther", type: "hidden", name: "others"})
+        } as any;
 
         this._main  = _("ul", {class: "pokemon-view"});
         this._other = _("ul", {class: "pokemon-view"});

@@ -29,10 +29,65 @@ export default class GameInputForm extends HTMLFormElement {
 
         this._main  = _("ul", {class: "pokemon-view"});
         this._other = _("ul", {class: "pokemon-view"});
+
+        this.addEventListener("change", async(event)=>{
+            this.lock();
+
+            this._save["team"].value = JSON.stringify(
+                await Promise.all(
+                    (<PokemonInput[]>Array.from(this._main.querySelectorAll("pokemon-input")))
+                        .map(async(input)=>{
+                            while(!input.ready)
+                                await sleep();
+
+                            return input.value;
+                        }
+                    )
+                )
+            );
+
+            this._save["others"].value = JSON.stringify(
+                await Promise.all(
+                    (<PokemonInput[]>Array.from(this._other.querySelectorAll("pokemon-input")))
+                        .map(async(input)=>{
+                            while(!input.ready)
+                                await sleep();
+
+                            return input.value;
+                        }
+                    )
+                )
+            );
+
+            this.unlock();
+        });
+
+        this.addEventListener("submit", async(event)=>{
+            event.preventDefault();
+            event.stopPropagation();
+
+            while(!this.ready)
+                await sleep();
+
+            const data = new FormData(this);
+            console.debug(data);
+        });
     }
 
     static get observedAttributes(){
         return ["data"]
+    }
+
+    get ready():boolean{
+        if(this._save["name"].disabled)
+            return false;
+
+        for(let input of <PokemonInput[]>Array.from(this.querySelectorAll("pokemon-input"))) {
+            if(!input.ready)
+                return false;
+        }
+
+        return true;
     }
 
     attributeChangedCallback(name:string, oldValue:string, newValue:string){
@@ -118,16 +173,6 @@ export default class GameInputForm extends HTMLFormElement {
     }
 
     async connectedCallback(){
-        let ready = false;
-
-        this.addEventListener("submit", (event)=>{
-            //TODO: Add other internal tests
-            if(!ready) {
-                event.preventDefault();
-                event.stopPropagation();
-            }
-        });
-
         appendChildren(this, [
             this._save["name"],
             _("div", {class: "game-info"},
@@ -138,11 +183,14 @@ export default class GameInputForm extends HTMLFormElement {
             ),
             _("label", {class: "detail-summary", for: "main-pokmeon"}, "Main Pokemon"),
             _("label", {class: "detail-summary", for: "other-pokmeon"}, "Other Pokemon"),
+            _("button", "Submit"),
             _("input", {id: "main-pokemon", class: "detail-toggle", type: "radio", name: "team-view", checked: true}),
             this._main,
             _("input", {id: "other-pokemon", class: "detail-toggle", type: "radio", name: "team-view"}),
             this._other
         ]);
+
+        this.lock();
 
         //Wait for ready.
         while(this._data === undefined)
@@ -150,6 +198,8 @@ export default class GameInputForm extends HTMLFormElement {
 
         //Game Inputs
         appendChildren(this._save["name"], buildGameSelect(this._data));
+        this._save["generation"].value = this._data[0].generation.toString();
+        this._save["region"].value = this._data[0].region;
         
         //Main Team Inputs
         const btnNewTeam = _("button", {type: "button"}, "New");
@@ -173,9 +223,13 @@ export default class GameInputForm extends HTMLFormElement {
 
         this._save["name"].addEventListener("change", (event)=>{
             this.lock();
+            event.stopPropagation();
             const game = findByName(this._save["name"].value, this._data!);
             if(game === null)
                 return;
+
+            this._save["generation"].value = game.generation.toString();
+            this._save["region"].value = game.region;
 
             Promise.all(
                 (<PokemonInput[]>Array.from(this._main.querySelectorAll("pokemon-input")))
@@ -214,7 +268,7 @@ export default class GameInputForm extends HTMLFormElement {
 
         this.addEventListener("change", ()=>update());
 
-        
+        this.unlock();
     }
 }
 customElements.define("game-input", GameInputForm, {extends: "form"});

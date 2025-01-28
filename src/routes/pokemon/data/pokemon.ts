@@ -27,10 +27,17 @@ export const StatsObject = object({
 
 export type Stats = TypeOf<typeof StatsObject>;
 
+export const DescriptionObject = object({
+    name: string(),
+    value: string()
+});
+
+export type Description = TypeOf<typeof DescriptionObject>
+
 export const ModObject = object({
-    item: optional(string()),
+    item: optional(DescriptionObject),
     nature: optional(string()),
-    ability: optional(string()),
+    ability: optional(DescriptionObject),
     dynamax: optional(number()),
     gigantamax: optional(boolean()),
     terraType: optional(string())

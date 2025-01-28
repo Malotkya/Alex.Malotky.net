@@ -266,8 +266,8 @@ export default class PokemonInput extends HTMLElement {
     /** Get Pokemon Value
      * 
      */
-    get value():Pokemon|null{
-        return this._data || null;
+    get value():Pokemon{
+        return this._data;
     }
 
     /** Update Specific Pokemon Data

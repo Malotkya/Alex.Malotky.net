@@ -85,9 +85,9 @@ export default class ModsInput extends HTMLElement {
             case "checkbox":
                 if(type !== "boolean") {
                     console.warn(`Mismatched type ${type} for checkbox ${name}!`);
-                    input.checked = false;
+                    (<HTMLInputElement>input).checked = false;
                 } else {
-                    input.checked = <boolean>value;
+                    (<HTMLInputElement>input).checked = <boolean>value;
                 }
                 break;
 

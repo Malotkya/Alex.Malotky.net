@@ -1,6 +1,6 @@
-import { GameData, PokemonData, getPokemonData, getMoveData, generateSprite } from "@/util/Serebii";
+import { GameData, PokemonData, getPokemonData, getMoveData, generateSprite, AllNatures } from "@/util/Serebii";
 import { createElement as _, appendChildren } from "@/util/Element";
-import { sleep, Number_Or } from "@/util";
+import { sleep, Number_Or, simplify } from "@/util";
 import Pokemon, {Move} from "../data/pokemon";
 import ModsInput from "./ModsInput";
 
@@ -43,6 +43,11 @@ export default class PokemonInput extends HTMLElement {
 
     //Static
     private static count:number = 0;
+    public static items:string[]|undefined;
+
+    static get loading():boolean {
+        return PokemonInput.items === undefined;
+    }
 
     /** Constuctor
      * 
@@ -129,11 +134,11 @@ export default class PokemonInput extends HTMLElement {
 
                 this._data.stats = {
                     attack:  Number_Or(this._stats["attack"].value, 0),
-                    defense: Number_Or(this._stats["deffence"].value, 0),
+                    defense: Number_Or(this._stats["defense"].value, 0),
                     health:  Number_Or(this._stats["health"].value, 0),
                     speed:   Number_Or(this._stats["speed"].value, 0),
                     specialAttack:  this._stats["specialAttack"] ? Number_Or(this._stats["specialAttack"].value, 0) : undefined,
-                    specialDefense: this._stats["specialDefense"]? Number_Or(this._stats["specialDefence"].value, 0): undefined,
+                    specialDefense: this._stats["specialDefense"]? Number_Or(this._stats["specialDefense"].value, 0): undefined,
                     special:        this._stats["special"]       ? Number_Or(this._stats["special"].value, 0)       : undefined
                 };
                 
@@ -219,11 +224,15 @@ export default class PokemonInput extends HTMLElement {
             this._data.name = data.name;
             this._data.types = data.types[this._selVersion.value] || ["???"];
 
-            this.init();
-            this.update().then(()=>{
-                this.unlock();
-                this.dispatchEvent(new CustomEvent("change"));
+            this.init().then(()=>{
+
+                this.update().then(()=>{
+                    this.unlock();
+                    this.dispatchEvent(new CustomEvent("change"));
+                }).catch(console.error);
+
             }).catch(console.error);
+            
         }).catch(console.error);
 
     }
@@ -231,10 +240,17 @@ export default class PokemonInput extends HTMLElement {
     /** Init Pokemon Generic Info
      * 
      */
-    init(){
+    async init(){
         this._selName.value = this._pokemon.name;
 
-        this._mods.init(this._game.modifiers, {"ability": this._pokemon.abilities});
+        while(PokemonInput.loading)
+            sleep();
+
+        this._mods.init(this._game.modifiers, {
+            "ability": this._pokemon.abilities,
+            "nature": AllNatures,
+            "item": PokemonInput.items!
+        });
         
         const [moveItems, moveInputs] = buildMoveInputs(this._pokemon.moves);
         this._moves = moveInputs;
@@ -312,13 +328,21 @@ export default class PokemonInput extends HTMLElement {
         }
 
         for(let i=0; i<this._moves.length; i++){
-            this._moves[i].value = this._data.moves[i]? this._data.moves[i].name: "";
+            this._moves[i].value = this._data.moves[i]? simplify(this._data.moves[i].name): "";
         }
 
-        for(const name in this._game.modifiers){
-            //@ts-ignore
-            this._mods.set(name, this._data.modifiers[name]);
-        }
+        if(this._data.modifiers.item)
+            this._mods.set("item", this._data.modifiers.item.name);
+        if(this._data.modifiers.nature)
+            this._mods.set("nature", this._data.modifiers.nature);
+        if(this._data.modifiers.ability)
+            this._mods.set("ability", this._data.modifiers.ability.name);
+        if(this._data.modifiers.dynamax)
+            this._mods.set("dynamax", this._data.modifiers.dynamax);
+        if(this._data.modifiers.gigantamax)
+            this._mods.set("gigantiamax", this._data.modifiers.gigantamax);
+        if(this._data.modifiers.terraType)
+            this._mods.set("terraType", this._data.modifiers.terraType);
             
         if(this.isConnected)
             this.connectedCallback();
@@ -482,7 +506,7 @@ function buildStatsInputs(gen:number, id:number):[HTMLLIElement[], Record<string
  * @returns {[Array, Array]}
  */
 function buildMoveInputs(list:string[]):[HTMLLIElement[], HTMLSelectElement[]]{
-    const option = (s:string) => _("option", {value:s}, s);
+    const option = (s:string) => _("option", {value:simplify(s)}, s);
     const select = (att:Record<string, any> = {}) => _("select", att,
         _("option", ""),
         list.map(option)

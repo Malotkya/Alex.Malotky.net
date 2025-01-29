@@ -30,25 +30,25 @@ async function apiFetch<T>(uri:string):Promise<T> {
 }
 
 export const AllTypes = [
-    "Normal",
-    "Fire",
-    "Water",
-    "Grass",
-    "Flying",
-    "Fighting",
-    "Poison",
-    "Electric",
-    "Ground",
-    "Rock",
-    "Psychic",
-    "Ice",
     "Bug",
-    "Ghost",
-    "Steel",
-    "Dragon",
     "Dark",
-    "Fairy"
-] as const;
+    "Dragon",
+    "Electric",
+    "Fairy",
+    "Fighting",
+    "Fire",
+    "Flying",
+    "Ghost",
+    "Grass",
+    "Ground",
+    "Ice",
+    "Normal",
+    "Poison",
+    "Psychic",
+    "Rock",
+    "Steel",
+    "Water"
+  ] as const;
 export type Type = typeof AllTypes[number];
 
 /** Is Type
@@ -281,7 +281,7 @@ export type Region = typeof KNOWN_REGIONS[number];
 //Possible Sub Regions
 const REGION_INDEX:Record<Region, string[]> = {
     "Kanto":  ["Kanto"],
-    "Johto":  ["Johto", "Johto/Kanto"],
+    "Johto":  ["Johto"],
     "Hoenn":  ["Hoenn"],
     "Sinnoh": ["Sinnoh", "Hisui"],
     "Unova":  ["Unova"],
@@ -297,10 +297,14 @@ const REGION_INDEX:Record<Region, string[]> = {
 * @returns {Region}
 */
 export function getRegion(string:string):Region|"Unknown" {
-   for(let region in REGION_INDEX ) {
-       if(REGION_INDEX[<Region>region].includes(string))
-           return region as Region;
-   }
+
+    for(let region in REGION_INDEX ) {
+        for(const value of string.split("/")) {
+            if(REGION_INDEX[<Region>region].includes(value))
+                return region as Region;
+        }
+    }
+
    return "Unknown";
 }
 

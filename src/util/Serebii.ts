@@ -313,32 +313,32 @@ export interface Nature {
 }
 
 export const AllNatures = [
-    "Bashful",
-    "Lonely",
     "Adamant",
-    "Naughty",
-    "Brave",
+    "Bashful",
     "Bold",
-    "Docile",
-    "Impish",
-    "Lax",
-    "Relaxed",
-    "Modest",
-    "Mild",
-    "Hardy",
-    "Rash",
-    "Quiet",
+    "Brave",
     "Calm",
-    "Gentle",
     "Careful",
-    "Quirky",
-    "Sassy",
-    "Timid",
+    "Docile",
+    "Gentle",
+    "Hardy",
     "Hasty",
+    "Impish",
     "Jolly",
+    "Lax",
+    "Lonely",
+    "Mild",
+    "Modest",
     "Naive",
-    "Serious"
-] as const;
+    "Naughty",
+    "Quiet",
+    "Quirky",
+    "Rash",
+    "Relaxed",
+    "Sassy",
+    "Serious",
+    "Timid"
+  ];
 
 export const NatureMap:Record<string, Nature> = {
     "bashful": {inc: "attack",  dec: "attack"},

@@ -69,14 +69,18 @@ export default class GameInputForm extends HTMLFormElement {
             this.unlock();
         });
 
-        this.addEventListener("submit", async(event)=>{
-            event.preventDefault();
-            event.stopPropagation();
+        this.addEventListener("submit", (event)=>{
+            if(!this.ready){
+                event.preventDefault();
+                event.stopPropagation();
 
-            while(!this.ready)
-                await sleep();
+                (async()=>{
+                    while(!this.ready)
+                        await sleep();
 
-            this.dispatchEvent(new CustomEvent("Submit", {bubbles: true}))
+                    this.dispatchEvent(new Event("submit"))
+                })();
+            }
         });
     }
 

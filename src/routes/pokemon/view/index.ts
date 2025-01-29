@@ -14,8 +14,8 @@ import styles from "./style.scss";
  * @param {Game} data 
  * @returns {Content}
  */
-export function PokemonGame(data:Game, current:boolean):Content {
-    const {id, name, generation, region, team, others} = data;
+export function PokemonGame(id:string, data:Game, current:boolean):Content {
+    const {name, generation, region, team, others} = data;
 
     return [
         _("input", {type: "hidden", id: id, name: "game", checked: current }),
@@ -61,7 +61,7 @@ export function buildBaseData(list:Game[]):[Record<string, Game>, string] {
     const getId = (value:Game):string => {
         const base = simplify(value.name);
         let id = base;
-        let count = 0;
+        let count = 1;
         while(recordHas(output, id))
             id = `${base}${++count}`;
 
@@ -92,8 +92,12 @@ export default function PokemonView(data:Record<string, Game>, init:string):Rend
     const map:Record<string, Content[]> = {};
 
     for(const name in data){
-        list.push(PokemonGame(data[name], name === init));
+        list.push(PokemonGame(name, data[name], name === init));
+
         const region = getRegion(data[name].region);
+        if(map[region] === undefined)
+            map[region] = [];
+
         map[region].push( _("label", {for: name, class: "pokemon-nav-item"}, data[name].name ));
     }
 

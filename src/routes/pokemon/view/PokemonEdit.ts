@@ -9,6 +9,7 @@ import GameInputForm from "../element/GameInput";
 import styles from "./style.scss";
 
 export default function EditPokemonList(data:Game[]):RenderUpdate {
+    const map:Record<string, number> = {};
     return {
         head: {
             styles,
@@ -21,16 +22,25 @@ export default function EditPokemonList(data:Game[]):RenderUpdate {
             main: [
                 _("h1", "Pokemon Games"),
                 _("a", {class: "btn", href: "/Pokemon/Edit/New"}, "New"),
-                _("ul", {class: "pokmeon-game-list"},
-                    data.map(game=>_("li", {class: "pokmeon-game-item"},
-                        _("a", {href: `/Pokemon/Edit/${game.id}`}, game.name),
-                        _("form", {method: "delete", onsubmit: (event)=>{
-                            if(window.confirm("Are you sure?")!){
-                                event.preventDefault();
-                                event.stopPropagation();
-                            }
-                        }}, _("button", "Delete"))
-                    ))
+                _("ul", {id: "pokemon-game-list"},
+                    data.map(game=>{
+                        let name:string
+                        if(map[game.name] === undefined) {
+                            map[game.name] = 1;
+                            name = game.name;
+                        } else {
+                            name = `${game.name} ${++map[game.name]}`;
+                        }
+                        return _("li", {class: "pokmeon-game-item"},
+                            _("a", {href: `/Pokemon/Edit/${game.id}`}, name),
+                            _("form", {method: "delete", onsubmit: (event)=>{
+                                if(window.confirm("Are you sure?")!){
+                                    event.preventDefault();
+                                    event.stopPropagation();
+                                }
+                            }}, _("button", "Delete"))
+                        );
+                    })
                 )
             ]
         }

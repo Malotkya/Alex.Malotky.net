@@ -10,6 +10,7 @@ export const MoveObject = object({
     category: string(),
     power: number(),
     accuracy: number(),
+    pp: number(),
     effect: string()
 });
 

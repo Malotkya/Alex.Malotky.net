@@ -27,8 +27,8 @@ export default class GameInputForm extends HTMLFormElement {
 
         this._save = {
             name: _("select", {id: "txtName", name: "name"}),
-            generation: _("input", {id: "numGeneration", name:"generation", disabled: true}),
-            region: _("input", {id: "txtRegion", name: "region", disabled: true}),
+            generation: _("input", {id: "numGeneration", name:"generation", readonly: true}),
+            region: _("input", {id: "txtRegion", name: "region", readonly: true}),
             team: _("input", {id: "inpTeam", type: "hidden", name: "team", value: "[]"}),
             others: _("input", {id: "inpOther", type: "hidden", name: "others", value: "[]"})
         } as any;
@@ -73,13 +73,6 @@ export default class GameInputForm extends HTMLFormElement {
             if(!this.ready){
                 event.preventDefault();
                 event.stopPropagation();
-
-                (async()=>{
-                    while(!this.ready)
-                        await sleep();
-
-                    this.dispatchEvent(new Event("submit"))
-                })();
             }
         });
     }
@@ -126,7 +119,9 @@ export default class GameInputForm extends HTMLFormElement {
         while(this._data === undefined)
             await sleep();
 
-        const value:Game = JSON.parse(string);
+        const value:Game|null = JSON.parse(string);
+        if(value === null)
+            return;
 
         if(typeof value.name !== "string") 
             throw new TypeError("Game Name must be a string!");
@@ -203,7 +198,6 @@ export default class GameInputForm extends HTMLFormElement {
             _("input", {id: "other-pokemon", class: "detail-toggle", type: "radio", name: "team-view"}),
             this._other
         ]);
-
         this.lock();
 
         //Wait for ready.
@@ -217,12 +211,16 @@ export default class GameInputForm extends HTMLFormElement {
         
         //Main Team Inputs
         const btnNewTeam = _("button", {type: "button"}, "New");
-        const teamButtonView = _("li", {class: "new-pokemon"}, btnNewTeam);
+        const teamButtonView = _("li", {class: "new-pokemon"}, 
+            _("div", {class: "new-button-wrapper"}, btnNewTeam)
+        );
         this._main.appendChild(teamButtonView);
 
         //Other Team Inputs
         const btnNewOther = _("button", {type: "button"}, "New");
-        const otherButtonView = _("li", {class: "new-pokemon"}, btnNewOther);
+        const otherButtonView = _("li", {class: "new-pokemon"}, 
+            _("div", {class: "new-button-wrapper"}, btnNewOther)
+        );
         this._other.appendChild(otherButtonView);
 
         /** Update

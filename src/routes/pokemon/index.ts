@@ -9,7 +9,7 @@ import { EditPokemonPreview } from "./view/PokemonEdit";
 import { recordHas } from "@/util";
 import Editor from "./edit";
 
-let data:Record<string, Game>|undefined, init:string|undefined;
+/*et data:Record<string, Game>|undefined, init:string|undefined;
 async function getData(ctx:Context):Promise<[Record<string, Game>, string]>{
     if(data === undefined || init === undefined){
         const [a, b] = buildBaseData(await ctx.query(GameObject).getAll());
@@ -18,7 +18,7 @@ async function getData(ctx:Context):Promise<[Record<string, Game>, string]>{
     }
 
     return [data, init];
-}
+}*/
 
 /** Pokemon Router
  * 
@@ -36,19 +36,19 @@ Pokemon.all("/New", async(ctx:Context)=>{
 /** Clear Cached Data
  * 
  */
-Pokemon.all("/Clear", async(ctx:Context)=>{
+/*Pokemon.all("/Clear", async(ctx:Context)=>{
     if(await ctx.getAuth()) {
         data = undefined;
         init = undefined;
         ctx.redirect("/Pokemon");
     }
-});
+});*/
 
 /** View All Games
  * 
  */
 Pokemon.all(async(ctx:Context)=>{
-    const [data, defaultInit] = await getData(ctx);
+    const [data, defaultInit] = buildBaseData(await ctx.query(GameObject).getAll()); //await getData(ctx);
     const selectedInit = ctx.search.get("game") || "";
 
     const init = recordHas(data, selectedInit)

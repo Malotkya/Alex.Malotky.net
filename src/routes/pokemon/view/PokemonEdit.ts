@@ -20,6 +20,7 @@ export default function EditPokemonList(data:Game[]):RenderUpdate {
         body: {
             main: [
                 _("h1", "Pokemon Games"),
+                _("a", {class: "btn", href: "/Pokemon/Edit/New"}, "New"),
                 _("ul", {class: "pokmeon-game-list"},
                     data.map(game=>_("li", {class: "pokmeon-game-item"},
                         _("a", {href: `/Pokemon/Edit/${game.id}`}, game.name),
@@ -57,7 +58,7 @@ export function EditPokemonGame(data:Game|null, id?:number):RenderUpdate {
         body: {
             main: [
                 _("h1", "Pokemon Game Test"),
-                _("form", {is: "game-input", data: buffer})
+                _("form", {is: "game-input", method: "POST", data: buffer})
             ]
         }
     }

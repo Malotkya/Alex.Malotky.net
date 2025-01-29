@@ -43,7 +43,7 @@ export default function PokemonGame(id:string, data:Game, current:boolean):Conte
 
 export function EditPokemonGame(data:Game|null):Content {
     const buffer = Buffer.from(
-        JSON.stringify(data)
+        unescape(encodeURIComponent(JSON.stringify(data)))
     ).toString("base64");
 
     return [
@@ -74,6 +74,17 @@ function saveFile(event:Event) {
 
     const form = <GameInputForm>event.target;
 
+    const getValue = (query:string):string => {
+        const input = <HTMLInputElement|null>form.querySelector(query);
+        if(input === null) {
+            console.debug(form);
+            throw new Error(`${query} is null!`);
+        }
+            
+
+        return input.value;
+    }
+
     const getData = ():Promise<Game> => {
         return new Promise((res, rej)=>{
             if(!form.ready) {
@@ -84,16 +95,12 @@ function saveFile(event:Event) {
             } else {
                 try {
                     res({
-                        id: undefined,
-                        name:   (<HTMLInputElement>form.querySelector("#txtName")).value,
-                        region: (<HTMLInputElement>form.querySelector("#txtRegion")).value, 
-                        generation: Number((<HTMLInputElement>form.querySelector("#txtName")).value),
-                        team: JSON.parse(
-                            (<HTMLInputElement>form.querySelector("#inpTeam")).value
-                        ),
-                        others: JSON.parse(
-                            (<HTMLInputElement>form.querySelector("#impOther")).value
-                        )
+                        id:         undefined,
+                        name:       getValue("#txtName"),
+                        region:     getValue("#txtRegion"), 
+                        generation: Number(getValue("#numGeneration")),
+                        team:       JSON.parse(getValue("#inpTeam")),
+                        others:     JSON.parse(getValue("#inpOther"))
                     });
                 } catch (e){
                     rej(e);
@@ -104,15 +111,16 @@ function saveFile(event:Event) {
 
     getData().then(data=>{
         const link = document.createElement("a");
-
-        link.setAttribute("href", `data:text/plain;charset=utf-8,${encodeURIComponent(JSON.stringify(data))}`);
-        link.setAttribute("download", `${data.name}.txt`);
-
+        link.href = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data, null, 2));
+        link.download =`${data.name.replaceAll(/\s+/g, "_")}.json`;
         link.style.display = "none";
 
         document.body.appendChild(link);
         link.click();
-        document.body.removeChild(link);
+
+        window.setTimeout(()=>{
+            document.body.removeChild(link);
+        }, 1);
 
     }).catch(console.error);
 }
@@ -125,7 +133,7 @@ function loadFile(event:Event) {
     (async()=>{
         const files = (<HTMLInputElement>event.target).files
         if(files){
-            const form = document.querySelector("form");
+            const form = document.querySelector("form[is='game-input']");
             if(form === null) {
                 //@ts-ignore
                 env.error("Unable to find form!");
@@ -133,8 +141,8 @@ function loadFile(event:Event) {
             }
 
             const data = await files[0].text();
-
-            form.setAttribute("data", btoa(data))
+            console.log(data);
+            form.setAttribute("data", btoa(unescape(encodeURIComponent(data))))
         }
     })();
 }

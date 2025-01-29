@@ -20,7 +20,7 @@ PokemonEdit.post("/New", async(ctx)=>{
 
     await ctx.query(GameObject).insert(game);
 
-    ctx.redirect(`/Decks/Edit/${id}`);
+    ctx.redirect(`/Pokemon/Edit/${id}`);
 });
 
 PokemonEdit.get("/New", async(ctx)=>{

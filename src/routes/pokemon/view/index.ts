@@ -18,7 +18,7 @@ export function PokemonGame(id:string, data:Game, current:boolean):Content {
     const {name, generation, region, team, others} = data;
 
     return [
-        _("input", {type: "hidden", id: id, name: "game", checked: current }),
+        _("input", {type: "radio", id: id, name: "game", class: "detail-toggle", checked: current }),
         _("section", {class: "pokemon-game-view"},
             _("h3", {class: "game-name"}, `Pokemon ${name}`),
             _("p", {class: "game-info"},
@@ -59,7 +59,7 @@ export function buildBaseData(list:Game[]):[Record<string, Game>, string] {
      * @returns {string}
      */
     const getId = (value:Game):string => {
-        const base = simplify(value.name);
+        const base = simplify(value.name.replace(/version/i, ""));
         let id = base;
         let count = 1;
         while(recordHas(output, id))
@@ -147,8 +147,13 @@ function updateNav(event:Event){
         event.preventDefault();
         event.stopPropagation();
 
-        const update = new URL(window.location.pathname);
+        //@ts-ignore
+        const update = new window.URL(window.location);
         update.searchParams.set("game", target);
         window.history.pushState({}, "", update);
+
+        (<NodeListOf<HTMLInputElement>>document.querySelectorAll('input[name="game"]')).forEach(input=>{
+            input.checked = input.id === target;
+        });
     }
 }

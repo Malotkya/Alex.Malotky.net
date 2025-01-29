@@ -90,6 +90,7 @@ export function buildBaseData(list:Game[]):[Record<string, Game>, string] {
 export default function PokemonView(data:Record<string, Game>, init:string):RenderUpdate {
     const list:Content[] = [];
     const map:Record<string, Content[]> = {};
+    const names:Record<string, number> = {}
 
     for(const name in data){
         list.push(PokemonGame(name, data[name], name === init));
@@ -98,7 +99,14 @@ export default function PokemonView(data:Record<string, Game>, init:string):Rend
         if(map[region] === undefined)
             map[region] = [];
 
-        map[region].push( _("label", {for: name, class: "pokemon-nav-item"}, data[name].name ));
+        let navName:string = data[name].name.replace(/version/i, "").trim();
+        if(names[navName] === undefined){
+            names[navName] = 1;
+        } else {
+            navName = `${navName} ${++names[navName]}`;
+        }
+
+        map[region].push( _("label", {for: name, class: "pokemon-nav-item"}, navName ));
     }
 
     const nav:Array<Content> = [];

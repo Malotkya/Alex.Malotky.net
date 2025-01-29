@@ -1,4 +1,4 @@
-import { getAllGameData, GameData } from "@/util/Serebii";
+import { getAllGameData, GameData, getAllItems, getAllAbilities } from "@/util/Serebii";
 import { createElement as _, appendChildren } from "@/util/Element";
 import Game from "../data/game";
 import PokemonInput from "./PokemonInput";
@@ -21,12 +21,16 @@ export default class GameInputForm extends HTMLFormElement {
             this._data = data;
         }).catch(console.error);
 
+        getAllItems().then(list=>{
+            PokemonInput.items = list;
+        }).catch(console.log);
+
         this._save = {
             name: _("select", {id: "txtName", name: "name"}),
             generation: _("input", {id: "numGeneration", name:"generation", disabled: true}),
             region: _("input", {id: "txtRegion", name: "region", disabled: true}),
-            team: _("input", {id: "inpTeam", type: "hidden", name: "team"}),
-            others: _("input", {id: "inpOther", type: "hidden", name: "others"})
+            team: _("input", {id: "inpTeam", type: "hidden", name: "team", value: "[]"}),
+            others: _("input", {id: "inpOther", type: "hidden", name: "others", value: "[]"})
         } as any;
 
         this._main  = _("ul", {class: "pokemon-view"});
@@ -72,8 +76,7 @@ export default class GameInputForm extends HTMLFormElement {
             while(!this.ready)
                 await sleep();
 
-            const data = new FormData(this);
-            console.debug(data);
+            this.dispatchEvent(new CustomEvent("Submit", {bubbles: true}))
         });
     }
 
@@ -95,7 +98,7 @@ export default class GameInputForm extends HTMLFormElement {
 
     attributeChangedCallback(name:string, oldValue:string, newValue:string){
         if(name === "data"){
-            this.data(atob(newValue));
+            this.data(decodeURIComponent(escape(atob(newValue))));
         }
     }
 

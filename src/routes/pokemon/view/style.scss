@@ -150,6 +150,19 @@
 
     .new-pokemon {
         @include pokemon-list-item;
+        border: 0;
+        align-items: center;
+        justify-content: center;
+
+        .new-button-wrapper {
+            border: #733EA8 solid 2px;
+            padding: 1rem;
+
+            button {
+                height: 4rem;
+                width: 4rem;
+            }
+        }
     }
 
     .pokemon {
@@ -441,4 +454,18 @@
 
 #pokemon-about {
     padding: .1em 1em;
+}
+
+#pokemon-game-list {
+    display: flex;
+    flex-flow: column nowrap;
+    list-style: none;
+    padding: 0;
+    gap: 1em;
+
+    li {
+        display: flex;
+        flex-flow: row nowrap;
+        gap: .5em;
+    }
 }

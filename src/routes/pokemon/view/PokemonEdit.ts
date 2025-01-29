@@ -3,65 +3,91 @@
  * @author Alex Malotky
  */
 import { Buffer } from "node:buffer";
-import { createElement as _, Content } from "zim-engine";
+import { createElement as _, RenderUpdate } from "zim-engine";
 import Game from "../data/game";
-import PokemonItem from "./PokemonItem";
 import GameInputForm from "../element/GameInput";
+import styles from "./style.scss";
 
-/** Pokemon Game View
- * 
- * @param {Game} data 
- * @returns {Content}
- */
-export default function PokemonGame(id:string, data:Game, current:boolean):Content {
-    const {name, generation, region, team, others} = data;
-
-    return [
-        _("input", {type: "hidden", id: id, name: "game" }),
-        _("section", {class: "pokemon-game-view"},
-            _("h3", {class: "game-name"}, `Pokemon ${name}`),
-            _("p", {class: "game-info"},
-                `Generation: ${generation}`,
-                _("br"),
-                `Region: ${region}`
-            ),
-            _("label", {for: "main-pokemon", class: "detail-summary"}, "Main Pokemon"),
-            others.length > 0? _("label", {for: "other-pokemon", class: "detail-summary"}, "Other Pokemon"):null,
-            _("input", {type: "radio", id: "main-pokemon", class: "detail-toggle", name: id, checked: true}),
-            _("ul", {class: "pokemon-view"},
-                team.map(p=>PokemonItem(p, current))
-            ),
-            others.length > 0 ? [
-                _("input", {type: "radio", id: "other-pokemon", class: "detail-toggle", name: id}),
-                _("ul", {class: "pokemon-view"},
-                    others.map(p=>PokemonItem(p, current))
+export default function EditPokemonList(data:Game[]):RenderUpdate {
+    return {
+        head: {
+            styles,
+            title: `Edit Pokemon List`,
+            meta: {
+                description: "List of Pokemon Games to Edit."
+            }
+        },
+        body: {
+            main: [
+                _("h1", "Pokemon Games"),
+                _("ul", {class: "pokmeon-game-list"},
+                    data.map(game=>_("li", {class: "pokmeon-game-item"},
+                        _("a", {href: `/Pokemon/Edit/${game.id}`}, game.name),
+                        _("form", {method: "delete", onsubmit: (event)=>{
+                            if(window.confirm("Are you sure?")!){
+                                event.preventDefault();
+                                event.stopPropagation();
+                            }
+                        }}, _("button", "Delete"))
+                    ))
                 )
-            ]: null
-        )
-    ]
+            ]
+        }
+    }
 }
 
-export function EditPokemonGame(data:Game|null):Content {
+/** Edit Pokemon Game
+ * 
+ * @param {Game} data 
+ * @returns {RenderUpdate}
+ */
+export function EditPokemonGame(data:Game|null, id?:number):RenderUpdate {
     const buffer = Buffer.from(
         unescape(encodeURIComponent(JSON.stringify(data)))
     ).toString("base64");
 
-    return [
-        _("h1", "Pokemon Game Test"),
-        _("form", {is: "game-input", data: buffer})
-    ]
+    return {
+        head: {
+            styles,
+            title: `Edit Pokemon Game (${id || "New"})`,
+            meta: {
+                description: "Pokemon Game Editor."
+            }
+        },
+        body: {
+            main: [
+                _("h1", "Pokemon Game Test"),
+                _("form", {is: "game-input", data: buffer})
+            ]
+        }
+    }
 }
 
-export function EditPokemonPreview():Content {
-    return [
-        _("h1", "Pokemon Game Test"),
-        _("aside", "This form might not load in safari!"),
-        _("section",
-            _("h2", "Load From File"),
-            _("input", {type: "file", onchange: loadFile})
-        ),
-        _("form", {is: "game-input", onsubmit:saveFile} )
-    ]
+/** Edit Pokemon Game Preivew
+ * 
+ * @returns {RenderUpdate}
+ */
+export function EditPokemonPreview():RenderUpdate {
+    return {
+        head: {
+            styles,
+            title: "Edit Pokemon Game (Preview)",
+            meta: {
+                description: "Try editing your own pokemon save information!"
+            }
+        },
+        body: {
+            main: [
+                _("h1", "Pokemon Game Test"),
+                _("aside", "This form might not load in safari!"),
+                _("section",
+                    _("h2", "Load From File"),
+                    _("input", {type: "file", onchange: loadFile})
+                ),
+                _("form", {is: "game-input", onsubmit:saveFile} )
+            ]
+        }
+    };
 }
 
 /** Save File Frontend Function
@@ -125,7 +151,7 @@ function saveFile(event:Event) {
     }).catch(console.error);
 }
 
-/** Load File
+/** Load File FrontEnd Function
  * 
  * @param {Event} event 
  */

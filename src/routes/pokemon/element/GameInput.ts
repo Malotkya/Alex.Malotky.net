@@ -1,6 +1,7 @@
 import { getAllGameData, GameData, getAllItems, getAllAbilities } from "@/util/Serebii";
 import { createElement as _, appendChildren } from "@/util/Element";
 import Game from "../data/game";
+import Pokemon from "../data/pokemon";
 import PokemonInput from "./PokemonInput";
 import { sleep } from "@/util";
 
@@ -9,9 +10,17 @@ const MAX_TEAM_SIZE = 6;
 export default class GameInputForm extends HTMLFormElement {
     _data:GameData[]|undefined;
     _save:Record<keyof Game, HTMLInputElement|HTMLSelectElement>;
+
+    //View Elements
     _main:HTMLUListElement;
     _other:HTMLUListElement;
+    _btnNewTeamWrapper:HTMLLIElement;
+    _btnNewOtherWrapper:HTMLLIElement;
+
+    //Button Elements
     _btnSubmit:HTMLButtonElement;
+    _btnNewTeam:HTMLButtonElement;
+    _btnNewOther:HTMLButtonElement;
 
     constructor(){
         super();
@@ -19,6 +28,9 @@ export default class GameInputForm extends HTMLFormElement {
 
         getAllGameData().then(data=>{
             this._data = data;
+            appendChildren(this._save["name"], buildGameSelect(this._data));
+            this._save["generation"].value = this._data[0].generation.toString();
+            this._save["region"].value = this._data[0].region;
         }).catch(console.error);
 
         getAllItems().then(list=>{
@@ -37,8 +49,74 @@ export default class GameInputForm extends HTMLFormElement {
         this._other = _("ul", {class: "pokemon-view"});
         this._btnSubmit = _("button", {type: "submit"}, "Save")
 
+
+
+        //Main Team Inputs
+        this._btnNewTeam = _("button", {type: "button"}, "New");
+        this._btnNewTeamWrapper = _("li", {class: "new-pokemon"}, 
+            _("div", {class: "new-button-wrapper"}, this._btnNewTeam)
+        );
+
+        //Other Team Inputs
+        this._btnNewOther = _("button", {type: "button"}, "New");
+        this._btnNewOtherWrapper = _("li", {class: "new-pokemon"}, 
+            _("div", {class: "new-button-wrapper"}, this._btnNewOther)
+        );
+
+        ////////////////////////  EVENT LISTENERS //////////////////////////////////////////////////
+
+        /** New Team Pokemon Event Listener
+         * 
+         */
+        this._btnNewTeam.addEventListener("click", (event)=>{
+            const game = findByName(this._save["name"].value, this._data!);
+            if(game === null)
+                throw new Error("Invalid Game Name!");
+            const input = new PokemonInput(game);
+            this._main.insertBefore(input, this._btnNewTeamWrapper);
+            this.update();
+        });
+
+        /** New Other Pokemon Event Listener
+         * 
+         */
+        this._btnNewOther.addEventListener("click", (event)=>{
+            const game = findByName(this._save["name"].value, this._data!);
+            if(game === null)
+                throw new Error("Invalid Game Name!");
+            const input = new PokemonInput(game);
+            this._other.insertBefore(input, this._btnNewOtherWrapper);
+            this.update();
+        });
+
+        /** Game Change Event Listener
+         * 
+         */
+        this._save["name"].addEventListener("change", (event)=>{
+            this.lock();
+            event.stopPropagation();
+            const game = findByName(this._save["name"].value, this._data!);
+            if(game === null)
+                return;
+
+            this._save["generation"].value = game.generation.toString();
+            this._save["region"].value = game.region;
+
+            Promise.all(
+                (<PokemonInput[]>Array.from(this._main.querySelectorAll("pokemon-input")))
+                .concat(<PokemonInput[]>Array.from(this._other.querySelectorAll("pokemon-input")))
+                .map(async(input)=>{
+                    await input.setGame(game);
+                })
+            ).then(()=>{
+                this.unlock();
+            });
+
+        });
+
         this.addEventListener("change", async(event)=>{
             this.lock();
+            this.update();
 
             this._save["team"].value = JSON.stringify(
                 await Promise.all(
@@ -47,7 +125,7 @@ export default class GameInputForm extends HTMLFormElement {
                             while(!input.ready)
                                 await sleep();
 
-                            return input.value;
+                            return input.getValue();
                         }
                     )
                 )
@@ -60,7 +138,7 @@ export default class GameInputForm extends HTMLFormElement {
                             while(!input.ready)
                                 await sleep();
 
-                            return input.value;
+                            return input.getValue();
                         }
                     )
                 )
@@ -77,10 +155,16 @@ export default class GameInputForm extends HTMLFormElement {
         });
     }
 
+    /** Ovserved Attributes
+     * 
+     */
     static get observedAttributes(){
         return ["data"]
     }
 
+    /** Ready For Submit
+     * 
+     */
     get ready():boolean{
         if(this._save["name"].disabled)
             return false;
@@ -93,30 +177,74 @@ export default class GameInputForm extends HTMLFormElement {
         return true;
     }
 
+    /** Attribute Changed Callback
+     * 
+     * @param {string} name 
+     * @param {string} oldValue 
+     * @param {string} newValue 
+     */
     attributeChangedCallback(name:string, oldValue:string, newValue:string){
         if(name === "data"){
             this.data(decodeURIComponent(escape(atob(newValue))));
         }
     }
 
+    /** Lock Form
+     * 
+     */
     lock() {
         this._save["name"].disabled = true;
         this._save["name"].ariaDisabled = "true";
+        this._save["region"].disabled = true;
+        this._save["region"].ariaDisabled = "true";
+        this._save["generation"].disabled = true;
+        this._save["generation"].ariaDisabled = "true";
         this._btnSubmit.disabled = true;
         this._btnSubmit.ariaDisabled = "true";
+        this._btnNewTeam.disabled = true;
+        this._btnNewTeam.ariaDisabled = "true";
+        this._btnNewOther.disabled = true;
+        this._btnNewOther.ariaDisabled = "true";
     }
 
+    /** Unlock Form
+     * 
+     */
     unlock() {
         this._save["name"].disabled = false;
-        this._save["name"].ariaDisabled = "";
+        this._save["name"].removeAttribute("aria-disabled");
+        this._save["region"].disabled = false;
+        this._save["region"].removeAttribute("aria-disabled");
+        this._save["generation"].disabled = false;
+        this._save["generation"].removeAttribute("aria-disabled");
         this._btnSubmit.disabled = false;
-        this._btnSubmit.ariaDisabled = "";
+        this._btnSubmit.removeAttribute("aria-disabled");
+        this._btnNewTeam.disabled = false;
+        this._btnNewTeam.removeAttribute("aria-disabled");
+        this._btnNewOther.disabled = false;
+        this._btnNewOther.removeAttribute("aria-disabled");
+    }
+
+    update() {
+        if( this._main.childElementCount > MAX_TEAM_SIZE ) {
+            if(this._main.contains(this._btnNewTeamWrapper))
+                this._main.removeChild(this._btnNewTeamWrapper);
+        } else {
+            this._main.appendChild(this._btnNewTeamWrapper);
+        }
+
+        if( this._other.childElementCount > MAX_TEAM_SIZE ) {
+            if(this._other.contains(this._btnNewOtherWrapper))
+                this._other.removeChild(this._btnNewOtherWrapper);
+        } else {
+            this._other.appendChild(this._btnNewOtherWrapper);
+        }
     }
 
     async data(string:string){
         this.lock();
 
-        while(this._data === undefined)
+        while(this._data === undefined || this._save["name"].children.length === 0)
             await sleep();
 
         const value:Game|null = JSON.parse(string);
@@ -141,39 +269,33 @@ export default class GameInputForm extends HTMLFormElement {
 
         if(!Array.isArray(value.team))
             throw new TypeError("Game Team must be an Array!");
+        
+        const team:Pokemon[] = [];
+        for(const pokemon of value.team){
+            const input = new PokemonInput(index, pokemon.name);
+            await input.setValue(pokemon);
+            this._main.appendChild(input);
+            team.push(input.getValue());
+        }
+        this._save["team"].value = JSON.stringify(team);
 
-        const mainPromise:Promise<PokemonInput>[] = value.team.map(pokemon => {
-            return new Promise(async(res)=>{
-                const input = new PokemonInput(index, pokemon.name);
-                input.value = pokemon;
+        /*if(!Array.isArray(value.team))
+            throw new TypeError("Other Team must be an Array!");
+        
+        if(value.others.length > 0){
+            this._save["others"].value = JSON.stringify(
+                (await Promise.all(value.others.map(async(pokemon) => {
+                    const input = new PokemonInput(index, pokemon.name);
+                    await input.setValue(pokemon);
+        
+                    this._main.appendChild(input);
 
-                this._main.appendChild(input);
-
-                while(!input.ready)
-                    await sleep();
-                res(input);
-            });
-        });
-
-        if(!Array.isArray(value.others))
-            throw new TypeError("Game Other Team must be an Array!");
-
-        const otherPromise:Promise<PokemonInput>[] = value.team.map(pokemon => {
-            return new Promise(async(res)=>{
-                const input = new PokemonInput(index, pokemon.name);
-                input.value = pokemon;
-
-                this._other.appendChild(input);
-
-                while(!input.ready)
-                    await sleep();
-                res(input);
-            });
-        });
-
-        this._save["team"].value   = JSON.stringify( (await Promise.all(mainPromise)).map(input => input.value) );
-        this._save["others"].value = JSON.stringify( (await Promise.all(otherPromise)).map(input => input.value) );
-
+                    return input.getValue();
+                })
+            )));
+        }*/
+        
+        this.update();
         this.unlock();
     }
 
@@ -183,9 +305,12 @@ export default class GameInputForm extends HTMLFormElement {
 
     async connectedCallback(){
         appendChildren(this, [
+            _("label", {for: "txtName"}, "Name:"),
             this._save["name"],
             _("div", {class: "game-info"},
+                _("label", {for: "txtGeneration"}, "Generation:"),
                 this._save["generation"],
+                _("label", {for: "txtGeneration"}, "Region:"),
                 this._save["region"],
                 this._save["team"],
                 this._save["others"]
@@ -198,87 +323,9 @@ export default class GameInputForm extends HTMLFormElement {
             _("input", {id: "other-pokemon", class: "detail-toggle", type: "radio", name: "team-view"}),
             this._other
         ]);
-        this.lock();
 
-        //Wait for ready.
-        while(this._data === undefined)
-            await sleep();
-
-        //Game Inputs
-        appendChildren(this._save["name"], buildGameSelect(this._data));
-        this._save["generation"].value = this._data[0].generation.toString();
-        this._save["region"].value = this._data[0].region;
-        
-        //Main Team Inputs
-        const btnNewTeam = _("button", {type: "button"}, "New");
-        const teamButtonView = _("li", {class: "new-pokemon"}, 
-            _("div", {class: "new-button-wrapper"}, btnNewTeam)
-        );
-        this._main.appendChild(teamButtonView);
-
-        //Other Team Inputs
-        const btnNewOther = _("button", {type: "button"}, "New");
-        const otherButtonView = _("li", {class: "new-pokemon"}, 
-            _("div", {class: "new-button-wrapper"}, btnNewOther)
-        );
-        this._other.appendChild(otherButtonView);
-
-        /** Update
-         * 
-         */
-        const update = () => {
-            teamButtonView.style.display = this._main.childElementCount > MAX_TEAM_SIZE
-                ? "none": "";
-            teamButtonView.style.display = this._other.childElementCount > MAX_TEAM_SIZE
-                ? "none": "";
-        }
-
-        this._save["name"].addEventListener("change", (event)=>{
-            this.lock();
-            event.stopPropagation();
-            const game = findByName(this._save["name"].value, this._data!);
-            if(game === null)
-                return;
-
-            this._save["generation"].value = game.generation.toString();
-            this._save["region"].value = game.region;
-
-            Promise.all(
-                (<PokemonInput[]>Array.from(this._main.querySelectorAll("pokemon-input")))
-                .concat(<PokemonInput[]>Array.from(this._other.querySelectorAll("pokemon-input")))
-                .map(async(input)=>{
-                    input.game = game;
-
-                    while(!input.ready)
-                        await sleep();
-                })
-            ).then(()=>{
-                this.unlock();
-            });
-
-        });
-
-        btnNewTeam.addEventListener("click", (event)=>{
-            const game = findByName(this._save["name"].value, this._data!);
-            if(game === null)
-                throw new Error("Invalid Game Name!");
-            const input = new PokemonInput(game);
-            this._main.insertBefore(input, teamButtonView);
-            update();
-        });
-
-        btnNewOther.addEventListener("click", (event)=>{
-            const game = findByName(this._save["name"].value, this._data!);
-            if(game === null)
-                throw new Error("Invalid Game Name!");
-            const input = new PokemonInput(game);
-            this._other.insertBefore(input, otherButtonView);
-            update();
-        });
-
-        this.addEventListener("change", ()=>update());
-
-        this.unlock();
+        this._main.appendChild(this._btnNewTeamWrapper);
+        this._other.appendChild(this._btnNewOtherWrapper);
     }
 }
 customElements.define("game-input", GameInputForm, {extends: "form"});

@@ -95,7 +95,7 @@ export default class PokemonInput extends HTMLElement {
         this._selName.addEventListener("change", (event)=>{
             event.stopPropagation();
             this._data.name = this._selName.value;
-            this.pokmeon = this._selName.value;
+            this.setPokmeon(this._selName.value);
         });
 
         /** Any Change Event Listern
@@ -159,9 +159,9 @@ export default class PokemonInput extends HTMLElement {
 
         //Start Init
         if(name){
-            this.pokmeon = name;
+            this.setPokmeon(name);
         } else {
-            this.pokmeon = this._selName.value;
+            this.setPokmeon(this._selName.value);
         }
     }
 
@@ -195,7 +195,7 @@ export default class PokemonInput extends HTMLElement {
     /** Game Data
      * 
      */
-    set game(value:GameData){
+    async setGame(value:GameData){
         this.lock();
         this._game = value;
 
@@ -211,30 +211,25 @@ export default class PokemonInput extends HTMLElement {
         this._stats = inputs;
 
         //Update Pokemon For Generation Change.
-        this.pokmeon = this._pokemon.name;
+        await this.setPokmeon(this._pokemon.name);
     }
 
     /** Set Pokemon Name
      * 
      */
-    set pokmeon(value:string){
+    async setPokmeon(value:string){
         this.lock();
-        getPokemonData(value, this._game.generation).then((data)=>{
-            this._pokemon = data;
-            this._data.name = data.name;
-            this._data.types = data.types[this._selVersion.value] || ["???"];
+        const data = await getPokemonData(value, this._game.generation);
 
-            this.init().then(()=>{
+        this._pokemon = data;
+        this._data.name = data.name;
+        this._data.types = data.types[this._selVersion.value] || ["???"];
 
-                this.update().then(()=>{
-                    this.unlock();
-                    this.dispatchEvent(new CustomEvent("change"));
-                }).catch(console.error);
+        await this.init();
+        await this.update();
 
-            }).catch(console.error);
-            
-        }).catch(console.error);
-
+        this.unlock();
+        this.dispatchEvent(new CustomEvent("change"));
     }
 
     /** Init Pokemon Generic Info
@@ -244,7 +239,7 @@ export default class PokemonInput extends HTMLElement {
         this._selName.value = this._pokemon.name;
 
         while(PokemonInput.loading)
-            sleep();
+            await sleep();
 
         this._mods.init(this._game.modifiers, {
             "ability": this._pokemon.abilities,
@@ -274,25 +269,28 @@ export default class PokemonInput extends HTMLElement {
     /** Set Pokemon Value
      * 
      */
-    set value(value:Pokemon) {
+    async setValue(value:Pokemon) {
         this._data = value;
+
+        while(this._pokemon.name === EMPTY_POKEMON.name || this._pokemon.name === EMPTY_POKEMON_DATA.name)
+            await sleep();
 
         //Change Pokemon if Different
         if(this._data.name !== this._pokemon.name){
-            this.pokmeon = value.name;
+            await this.setPokmeon(value.name);
         } else {
             this.lock();
 
-            this.update().then(()=>{
-                this.unlock();
-            });
+            await this.update()
+
+            this.unlock();
         }
     }
 
     /** Get Pokemon Value
      * 
      */
-    get value():Pokemon{
+    getValue():Pokemon{
         return this._data;
     }
 

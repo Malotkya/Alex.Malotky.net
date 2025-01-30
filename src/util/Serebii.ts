@@ -281,7 +281,7 @@ export type Region = typeof KNOWN_REGIONS[number];
 //Possible Sub Regions
 const REGION_INDEX:Record<Region, string[]> = {
     "Kanto":  ["Kanto"],
-    "Johto":  ["Johto"],
+    "Johto":  ["Johto", "Kanto"],
     "Hoenn":  ["Hoenn"],
     "Sinnoh": ["Sinnoh", "Hisui"],
     "Unova":  ["Unova"],
@@ -297,15 +297,48 @@ const REGION_INDEX:Record<Region, string[]> = {
 * @returns {Region}
 */
 export function getRegion(string:string):Region|"Unknown" {
+    string = string.toLocaleLowerCase();
 
     for(let region in REGION_INDEX ) {
-        for(const value of string.split("/")) {
-            if(REGION_INDEX[<Region>region].includes(value))
-                return region as Region;
+        const list = REGION_INDEX[<Region>region];
+
+        let value:string = list[0].toLocaleLowerCase();
+        if(value === string)
+            return <Region>region;
+
+        for(let i=1; i<list.length; i++){
+            const line = list[i].toLocaleLowerCase();
+            if(line === string)
+                return <Region>region;
+
+            value += "/"+line;
+            if(value === string)
+                return <Region>region;
         }
     }
 
    return "Unknown";
+}
+
+/** Sort Regions
+ * 
+ * @param {string} a 
+ * @param {string} b 
+ * @returns {number}
+ */
+export function sortRegions(a:string, b:string):number {
+    if(a === b)
+        return 0;
+
+    let lhs = KNOWN_REGIONS.indexOf(<any>a);
+    let rhs = KNOWN_REGIONS.indexOf(<any>b);
+
+    if(lhs === -1)
+        lhs = KNOWN_REGIONS.length;
+    if(lhs === -1)
+        rhs = KNOWN_REGIONS.length;
+
+    return lhs - rhs;
 }
 
 /** Nature 

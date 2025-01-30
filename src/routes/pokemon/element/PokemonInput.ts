@@ -85,7 +85,11 @@ export default class PokemonInput extends HTMLElement {
         this._numLevel = _("input", {id: `level${this._id}`, type: "number"});
         
         this._chbShiney = _("input", {type: "checkbox", id: `shiney${this._id}`});
-        this._selGender = _("select", _("option", {value: "M"}, "Male"), _("option", {value: "F"}, "Female"));
+        this._selGender = _("select",
+            _("optiona", {value: ""}, ""),
+            _("option", {value: "M"}, "Male"),
+            _("option", {value: "F"}, "Female")
+        );
 
         this._sprite = new Image();
 
@@ -143,7 +147,9 @@ export default class PokemonInput extends HTMLElement {
                 };
                 
                 if(this._game.generation > 1)
-                    this._data.gender = this._selGender.value === "M";
+                    this._data.gender = this._selGender.value === ""
+                        ? null
+                        : this._selGender.value === "M";
 
                 this._data.shiney = this._chbShiney.checked;
                 this._data.version = this._selVersion.value? this._selVersion.value: null;
@@ -304,7 +310,9 @@ export default class PokemonInput extends HTMLElement {
         this._numLevel.value = String(this._data.level || 0);
 
         if(typeof this._data.gender === "boolean") {
-            this._selGender.value = this._data.gender? "M": "F";
+            this._selGender.value = typeof this._data.gender === "boolean"
+                ? typeof this._data.gender? "M": "F"
+                : "";
         }
 
         this._chbShiney.checked = typeof this._data.shiney === "boolean"
@@ -354,7 +362,11 @@ export default class PokemonInput extends HTMLElement {
             const number  = this._pokemon.number;
             const version = this._selVersion.value;
             const shiney  = this._game.generation > 1? this._chbShiney.checked      : undefined;
-            const gender  = this._game.generation > 1? this._selGender.value === "M": undefined;
+            const gender  = this._game.generation > 1
+                ? this._selGender.value !== ""
+                    ? this._selGender.value === "M"
+                    : undefined
+                : undefined;
 
             const [spriteSrc, spriteText] = generateSprite(this._game, name, number, version, shiney, gender);
             this._sprite.addEventListener("load", ()=>res(), {once: true});

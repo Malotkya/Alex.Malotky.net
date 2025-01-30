@@ -170,7 +170,7 @@ function formatName(value:string):string {
     return value.charAt(0).toLocaleUpperCase() + value.substring(1).replaceAll(/([A-Z])/g, " $1");
 }
 
-function buildSelect(props:any, list:readonly string[], value?:string):HTMLSelectElement {
+function buildSelect(props:any, list:string[], value?:string):HTMLSelectElement {
     const select = _("select", props,
         list.map(s=>_("option", {value:s}, s))
     );
@@ -182,5 +182,5 @@ function buildSelect(props:any, list:readonly string[], value?:string):HTMLSelec
 }
 
 function createTypeSelect(id:string, value?:string):HTMLSelectElement {
-    return buildSelect({id}, AllTypes, value);
+    return buildSelect({id}, ["Steller"].concat(AllTypes), value);
 }

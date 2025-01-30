@@ -34,7 +34,7 @@ export default class GameInputForm extends HTMLFormElement {
         }).catch(console.error);
 
         getAllItems().then(list=>{
-            PokemonInput.items = list;
+            PokemonInput.items = ["none"].concat(list);
         }).catch(console.log);
 
         this._save = {
@@ -279,21 +279,17 @@ export default class GameInputForm extends HTMLFormElement {
         }
         this._save["team"].value = JSON.stringify(team);
 
-        /*if(!Array.isArray(value.team))
+        if(!Array.isArray(value.others))
             throw new TypeError("Other Team must be an Array!");
-        
-        if(value.others.length > 0){
-            this._save["others"].value = JSON.stringify(
-                (await Promise.all(value.others.map(async(pokemon) => {
-                    const input = new PokemonInput(index, pokemon.name);
-                    await input.setValue(pokemon);
-        
-                    this._main.appendChild(input);
 
-                    return input.getValue();
-                })
-            )));
-        }*/
+        const others:Pokemon[] = [];
+        for(const pokemon of value.others){
+            const input = new PokemonInput(index, pokemon.name);
+            await input.setValue(pokemon);
+            this._other.appendChild(input);
+            others.push(input.getValue());
+        }
+        this._save["others"].value = JSON.stringify(others);
         
         this.update();
         this.unlock();
@@ -330,6 +326,11 @@ export default class GameInputForm extends HTMLFormElement {
 }
 customElements.define("game-input", GameInputForm, {extends: "form"});
 
+/** Build Game Select
+ * 
+ * @param {GameData[]} list 
+ * @returns {HTMLElement[]}
+ */
 function buildGameSelect(list:GameData[]):HTMLElement[] {
     const output:Array<HTMLElement> = []
 

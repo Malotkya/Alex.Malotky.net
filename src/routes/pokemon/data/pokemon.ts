@@ -30,7 +30,7 @@ export type Stats = TypeOf<typeof StatsObject>;
 
 export const DescriptionObject = object({
     name: string(),
-    value: string()
+    value: string("")
 });
 
 export type Description = TypeOf<typeof DescriptionObject>

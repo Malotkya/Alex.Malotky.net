@@ -123,7 +123,11 @@ export default class ModsInput extends HTMLElement {
         const gigantamax  = this._data["gigantamax"]? (<HTMLInputElement>this._data["gigantamax"]).checked: undefined;
         const terraType   = this._data["terraType"]? this._data["terraType"].value: undefined;
 
-        const item    = itemName? await getItemData(itemName): undefined;
+        const item    = itemName
+            ?  itemName === "none"
+                ? {name: "none", value: ""}
+                : await getItemData(itemName)
+            : undefined;
         const ability = abilityName? await getAbilityData(abilityName): undefined;
 
         return {item, nature, ability, dynamax, gigantamax, terraType}

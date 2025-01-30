@@ -26,14 +26,14 @@ export function PokemonGame(id:string, data:Game, current:boolean):Content {
                 _("br"),
                 `Region: ${region}`
             ),
-            _("label", {for: "main-pokemon", class: "detail-summary"}, "Main Pokemon"),
-            others.length > 0? _("label", {for: "other-pokemon", class: "detail-summary"}, "Other Pokemon"):null,
-            _("input", {type: "radio", id: "main-pokemon", class: "detail-toggle", name: id, checked: true}),
+            _("label", {for: `main-pokemon-${id}`, class: "detail-summary"}, "Main Pokemon"),
+            others.length > 0? _("label", {for: `other-pokemon-${id}`, class: "detail-summary"}, "Other Pokemon"):null,
+            _("input", {type: "radio", id: `main-pokemon-${id}`, class: "detail-toggle", name: id, checked: true}),
             _("ul", {class: "pokemon-view"},
                 team.map(p=>PokemonItem(p, current))
             ),
             others.length > 0 ? [
-                _("input", {type: "radio", id: "other-pokemon", class: "detail-toggle", name: id}),
+                _("input", {type: "radio", id: `other-pokemon-${id}`, class: "detail-toggle", name: id}),
                 _("ul", {class: "pokemon-view"},
                     others.map(p=>PokemonItem(p, current))
                 )

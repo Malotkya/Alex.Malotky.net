@@ -6,7 +6,7 @@ import { createElement as _, Content, RenderUpdate } from "zim-engine";
 import Game from "../data/game";
 import PokemonItem from "./PokemonItem";
 import { simplify, recordHas } from "@/util";
-import { getRegion } from "@/util/Serebii";
+import { getRegion, sortRegions } from "@/util/Serebii";
 import styles from "./style.scss";
 
 /** Pokemon Game View
@@ -110,7 +110,7 @@ export default function PokemonView(data:Record<string, Game>, init:string):Rend
     }
 
     const nav:Array<Content> = [];
-    for(const name in map){
+    for(const name of Object.keys(map).sort(sortRegions)){
         nav.push(_("li", {class: "region"},
             _("button", {class: "pokemon-nav-header"}, name),
             _("div", {class: "sub-menu-container"},

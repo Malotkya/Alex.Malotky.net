@@ -86,7 +86,7 @@ export default class PokemonInput extends HTMLElement {
         
         this._chbShiney = _("input", {type: "checkbox", id: `shiney${this._id}`});
         this._selGender = _("select",
-            _("optiona", {value: ""}, ""),
+            _("option", {value: ""}, ""),
             _("option", {value: "M"}, "Male"),
             _("option", {value: "F"}, "Female")
         );

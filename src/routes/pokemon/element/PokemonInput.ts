@@ -369,7 +369,17 @@ export default class PokemonInput extends HTMLElement {
     connectedCallback(){
         this.innerHTML = "";
 
+        const btnDelete = _("button", {type: "button"}, "X");
+        btnDelete.addEventListener("click", (event)=>{
+            if(window.confirm(`Are you sure you want to delete ${this._selName.value}?`)) {
+                const parent = this.parentElement!;
+                parent.removeChild(this);
+                parent.dispatchEvent(new CustomEvent("change", {bubbles: true}));
+            }
+        });
+
         appendChildren(this,[
+            btnDelete,
             _("p", {class: "pokemon-title"},
                 _("label", {for: `name${this._id}`}, "Name: "),
                 this._selName

@@ -9,7 +9,7 @@ import { Nature, NatureMap, natureToString } from "@/util/Serebii";
 /** Pokemon Sprite
  * 
  */
-const Sprite = (src:string, alt:string, lazy:boolean) => _("img", {src, alt, loading: lazy? "lazy": "eager"});
+const Sprite = (src:string, alt:string, eager:boolean) => _("img", {src, alt, loading: eager? "eager": "lazzy"});
 
 /** Gender Icon Module
  * 
@@ -226,7 +226,7 @@ function getDynamaxInfo(dynamax:Optional<number> = null, gigantamax:Optional<boo
 /** Pokemon-Element
  * 
  */
-export default function PokemonItem(data:Pokemon, lazy: boolean):Content {
+export default function PokemonItem(data:Pokemon, eager: boolean):Content {
     const {name, level, types, gender, stats, modifiers, sprite, sprite_text} = data;
     const moves:Array<string|Move> = data.moves;
     const {nature, item, dynamax, gigantamax, terraType, ability} = modifiers;
@@ -249,7 +249,7 @@ export default function PokemonItem(data:Pokemon, lazy: boolean):Content {
         ),
         _("p", {class: "pokemon-level"}, `Level: ${level}`),
         _("figure", {class: "pokemon-image"},
-            Sprite(sprite, sprite_text, lazy),
+            Sprite(sprite, sprite_text, eager),
             _("figcaption", data.name, GenerIcon(gender))
         ),
         _("ol", {class: "pokemon-stats-list"},

@@ -66,7 +66,7 @@ function MoveElement(data: Move|string):Content{
                     _("span", {class: `pokemon-type-item ${type.toLocaleLowerCase()}`}, type)
                 ),
                 _("figure", {class: "pokmeon-move-category"},
-                    _("img", {src: `/${category}.png`, alt: category})
+                    _("img", {src: `/${category.toLocaleLowerCase()}.png`, alt: category})
                 ),
 
                 power?
@@ -171,7 +171,7 @@ function ItemDescription(item:Optional<Description>):Content {
     if(item === null || item === undefined)
         return null;
 
-    if(item.name === "")
+    if(item.name === "" || item.name === "none")
         return _("i", "none");
 
     return _("tool-tip",

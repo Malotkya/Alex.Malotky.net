@@ -18,7 +18,7 @@ export default class DeckInput extends HTMLFormElement {
 
     attributeChangedCallback(name:string, oldValue:string, newValue:string){
         if(name === "data"){
-            this.data = atob(newValue);
+            this.data = decodeURIComponent(escape(atob(newValue)));
         }
     }
 
@@ -69,7 +69,8 @@ export default class DeckInput extends HTMLFormElement {
 
         appendChildren(this, [
             _("a", {href: "/Decks/Edit", class:"btn", clear:"true"}, "Back"),
-            _("a", {href: `/Decks/${id}`, id: "btnView", class: "btn", clear:"true"}, "View"),
+            id ? _("a", {href: `/Decks/${id}`, id: "btnView", class: "btn", clear:"true"}, "View")
+                : null,
             _("button", {id:"submit"}, "Save Changes"),
             _("h1", "Deck Editor"),
             _("label", {for: "name"}, "Deck Name:"),

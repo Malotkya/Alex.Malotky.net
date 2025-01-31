@@ -42,9 +42,10 @@ export function EditPreview():Content {
             _("cache-downloader"),
             _("p", {class: "error"}, "This form does not work in safari!"),
         ),
-        _("section",
+        _("section", {style: "text-align: center"},
             _("h2", "Load Data from File"),
-            _("input", {type: "file", onchange: loadFile})
+            _("input", {type: "file", onchange: loadFile, style: "display: block; width: auto; margin: 0 auto;"}),
+            _("hr")
         ),
         _("form", {id: "deck-input", is: "deck-input", onsubmit:saveFile})
     ]

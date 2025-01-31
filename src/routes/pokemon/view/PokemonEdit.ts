@@ -90,10 +90,18 @@ export function EditPokemonPreview():RenderUpdate {
         body: {
             main: [
                 _("h1", "Pokemon Game Test"),
-                _("aside", "This form might not load in safari!"),
-                _("section",
+                _("aside", {class: "info"},
+                    _("p",
+                        "This is a preview of the editor used to save a record of a pokemon team. ",
+                        "While the form on this page doesn't have the ability to upload decks, it does have the ability to store them into a .json file to be downloaded. ",
+                        "Because this is a custom form instead of a custom element wrapped around a form, this will not laod in safari.  This is a known error that I have no intention to fix because I am the only who really uses this, and refactoring it isn't high on my priority list."
+                    ),
+                    _("p", {class: "error"}, "This form might not load in safari!")
+                ),
+                _("section", {style: "text-align: center"},
                     _("h2", "Load From File"),
-                    _("input", {type: "file", onchange: loadFile})
+                    _("input", {type: "file", onchange: loadFile, style: "display: block; width: auto; margin: 0 auto;"}),
+                    _("hr")
                 ),
                 _("form", {is: "game-input", onsubmit:saveFile} )
             ]

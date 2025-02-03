@@ -104,9 +104,18 @@ export default class ModsInput extends HTMLElement {
             default:
                 if(type !== "string"){
                     console.warn(`Mismatched type ${type} for text ${name}!`);
-                    input.value = <string>value;
+                    if(input instanceof HTMLSelectElement) {
+                        setSelectValue(input, String(value))
+                    } else {
+                        input.value = String(value);
+                    }
                 } else {
-                    input.value = <string>value;
+                    if(input instanceof HTMLSelectElement) {
+                        setSelectValue(input, <string>value)
+                    } else {
+                        input.value = <string>value;
+                    }
+                    
                 }
         }
     }
@@ -166,10 +175,22 @@ export default class ModsInput extends HTMLElement {
 
 customElements.define("modifier-input", ModsInput);
 
+/** Format Attribute Name
+ * 
+ * @param {string} value 
+ * @returns {string}
+ */
 function formatName(value:string):string {
     return value.charAt(0).toLocaleUpperCase() + value.substring(1).replaceAll(/([A-Z])/g, " $1");
 }
 
+/** Build Select Input
+ * 
+ * @param {Object} props 
+ * @param {string[]} list 
+ * @param {string} value 
+ * @returns {HTMLSelectElement}
+ */
 function buildSelect(props:any, list:string[], value?:string):HTMLSelectElement {
     const select = _("select", props,
         list.map(s=>_("option", {value:s}, s))
@@ -181,6 +202,31 @@ function buildSelect(props:any, list:string[], value?:string):HTMLSelectElement 
     return select;
 }
 
+/** Build Type Select
+ * 
+ * @param {string} id 
+ * @param {string} value 
+ * @returns {HTMLSelectElement}
+ */
 function createTypeSelect(id:string, value?:string):HTMLSelectElement {
     return buildSelect({id}, ["Steller"].concat(AllTypes), value);
+}
+
+function setSelectValue(input:HTMLSelectElement, value:string): void {
+    const list = input.querySelectorAll("option");
+
+    //Validate value is an option
+    let index = -1;
+    for(let i=0; i<list.length; i++){
+        if(list[i].value === value) {
+            index = i;
+            break;
+        }
+    }   
+
+    if(index == -1){
+        input.value = list[0].value;
+    } else {
+        input.value = value;
+    }
 }

@@ -16,6 +16,7 @@ const EMPTY_POKEMON_DATA:PokemonData = {
     types: {"": ["???"]},
     versions: {},
     abilities: [],
+    gendered: false,
     moves: ["Struggle"]
 }
 
@@ -266,7 +267,6 @@ export default class PokemonInput extends HTMLElement {
         this._stats["data"]
 
         this._selVersion.innerHTML = "",
-        this._selVersion.appendChild(_("option", {value: ""}, "Normal"));
         appendChildren(this._selVersion, Object.keys(this._pokemon.versions).map(name=>
             _("option", {value: this._pokemon.versions[name]}, name)
         ));
@@ -368,7 +368,7 @@ export default class PokemonInput extends HTMLElement {
                     : undefined
                 : undefined;
 
-            const [spriteSrc, spriteText] = generateSprite(this._game, name, number, version, shiney, gender);
+            const [spriteSrc, spriteText] = generateSprite(this._game, name, number, this._pokemon.gendered, version, shiney, gender);
             this._sprite.addEventListener("load", ()=>res(), {once: true});
             this._sprite.src = spriteSrc;
             this._sprite.alt = spriteText;

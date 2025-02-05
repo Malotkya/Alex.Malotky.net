@@ -6,38 +6,47 @@ import { createElement as _, Content, RenderEnvironment } from "zim-engine";
 import { DeckItem } from "../data/deck";
 import CardView from "./card";
 
-/** Fix Images
+/** Fix Images Front End Function
  * 
  * @param {RenderEnvironment} env 
  */
 function fixImages(env:RenderEnvironment){
     const main = document.querySelector("main")!;
 
-    async function handleFix(){
-        console.debug("Start Fix!");
-        const limit = main.getBoundingClientRect().bottom;
+    /** Handle Image Fix
+     * 
+     * @param {HTMLElement} figure 
+     */
+    async function handleFix(figure:HTMLElement|Event){
+        const {bottom:limit} = main.getBoundingClientRect();
 
-        (document.querySelectorAll(".figure") as NodeListOf<HTMLElement>).forEach((figure)=>{
+        /** Set Top Style Value
+         * 
+         * @param {HTMLElement} figure 
+         */
+        const setTop = (figure:HTMLElement) => {
             figure.style.top = "";
             const {bottom} = figure.getBoundingClientRect();
             if(bottom > limit){
                 figure.style.top = `${limit-bottom}px`;
             }
-        });
+        }
+
+        if(figure instanceof HTMLElement){
+            setTop(figure)
+        } else {
+            window.setTimeout(()=>{
+                (main.querySelectorAll(".figure") as NodeListOf<HTMLElement>).forEach(setTop);
+            }, 1);
+        }
     }
 
-    //Fix Images after all images are loaded
-    const allImagesLoaded:Promise<void>[] = [];
-
+    //Fix Images after they load
     main.querySelectorAll("img").forEach(image=>{
-        allImagesLoaded.push(new Promise(res=>{
-            image.addEventListener("load", ()=>res(), {once: true});
-        }))
+        image.addEventListener("load", ()=>{
+            handleFix(image.parentElement!);
+        }, {once: true});
     });
-
-    Promise.all(allImagesLoaded).then(()=>{
-        handleFix();
-    }).catch(console.error);
 
     //Fix Images after the page has resized.
     env.event("resize", handleFix);

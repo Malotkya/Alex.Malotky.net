@@ -25,10 +25,11 @@ export default function Home():Content {
         ),
         _("script", {env: true},
             ()=>{
-                if(typeof (window as any).visited === "undefined"){
-                    (window as any).visited = true;
+                if(typeof (<any>window).visited === "undefined"){
+                    (<any>window).visited = true;
                     console.log("Welcome to Alex.Malotky.net!");
-                    console.log("This is being printed from a script that is being loaded and executed dynamically!")
+                    console.log("This is being printed from a script that is being loaded and executed dynamically!");
+                    console.log("Code seen here: https://github.com/Malotkya/Alex.Malotky.net/blob/main/src/routes/home/view.ts");
                 }
             }
         )

@@ -14,8 +14,7 @@ export type Element = string|number|boolean|undefined|HTMLElement|HTMLSelectElem
  * @returns 
  */
 export function createElement<K extends keyof HTMLElementTagNameMap>(name:K, attributes?:Record<string, any>|Element, ...children:Array<Element>):HTMLElementTagNameMap[K]
-export function createElement(name:string, attributes?:Record<string, any>|Element, ...children:Array<Element>):HTMLElement
-export function createElement(name:string, attributes:any = {}, ...children:Array<Element>): HTMLElement{
+export function createElement(name:string, attributes:Record<string, any>|Element = {}, ...children:Array<Element>): HTMLElement{
     if(typeof attributes !== "object" || attributes instanceof HTMLElement || Array.isArray(attributes)) {
         children.unshift(attributes);
         attributes = {};

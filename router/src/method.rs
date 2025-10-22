@@ -50,8 +50,8 @@ impl FromStr for Method {
     }
 }
 
-impl From<HttpMethod> for Method {
-    fn from(value: HttpMethod) -> Self {
+impl From<&HttpMethod> for Method {
+    fn from(value:&HttpMethod) -> Self {
         match value {
             HttpMethod::Head => Self::Head,
             HttpMethod::Get => Self::Get,
@@ -134,7 +134,7 @@ impl Methods {
         self.0 ^= value as u16
     }
 
-    pub fn is(&self, value:HttpMethod) -> bool {
+    pub fn is(&self, value:&HttpMethod) -> bool {
         let value:Method = value.into();
         (self.0 & value as u16) == value as u16
     }

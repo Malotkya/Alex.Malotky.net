@@ -2,8 +2,10 @@
 {
     // The following will hide the js and map files in the editor
     "files.exclude": {
-        "build": false,
+        "build": true,
         "node_modules": true,
-        ".wrangler": true
+        ".wrangler": true,
+        ".vscode": true,
+        "target": true
     }
 }

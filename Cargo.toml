@@ -1,0 +1,15 @@
+[package]
+name = "portfolio-rs"
+version = "0.1.0"
+edition = "2021"
+authors = ["Alex Malotky <ZimTKE@gmail.com>"]
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+macros = {path = "macros" }
+router = { path = "router" }
+worker = { version = "0.6", features = ['http'] }
+worker-macros = { version = "0.6", features = ['http'] }
+http = "1.3"

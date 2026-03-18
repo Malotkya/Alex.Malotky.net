@@ -10,7 +10,6 @@
         /* Modules */
         "module": "es2022",
         "moduleResolution": "Bundler",
-        "isolatedModules": true,
         "types" : ["@cloudflare/workers-types/2023-07-01", "@types/node"],
         "resolveJsonModule": true,
 
@@ -20,6 +19,7 @@
         /* Type Checking  */
         "noImplicitAny": true,
         "strict": true,
+        "skipLibCheck": true,
         
         /* Emit */
         "outDir": "build",

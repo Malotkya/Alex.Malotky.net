@@ -1,4 +1,4 @@
-@import "@/template/styles/colors.scss";
+@use "@/template/styles/colors.scss";
 
 #blog-post-form {
     display: flex;
@@ -67,12 +67,12 @@
     margin-bottom: .5em;
     border-radius: 5px;
     padding: .25em;
-    background-color: $medium;
-    color: $white;
+    background-color: colors.$medium;
+    color: colors.$white;
 
     .post-title {
         flex-grow: 1;
-        color: $accent-light;
+        color: colors.$accent-light;
         padding-left: 0.5em;
     }
 
@@ -87,8 +87,8 @@
 
     .markdown {
         width: 100%;
-        color: $dark;
-        background-color: $white;
+        color: colors.$dark;
+        background-color: colors.$white;
     }
 
 

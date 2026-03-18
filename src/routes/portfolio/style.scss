@@ -1,25 +1,25 @@
-@import "@/template/styles/colors.scss";
+@use "@/template/styles/colors.scss";
 
 .portfolio-card{
     width: 90%;
     margin: auto;
-    background-color: $medium;
-    color: $white;
+    background-color: colors.$medium;
+    color: colors.$white;
     padding: 0.33em;
     border-radius: 5px;
     margin-bottom: 1em;
 
     h2 {
-        color: $accent-light;
+        color: colors.$accent-light;
         text-align: center;
-        border-bottom: 3px solid $white;
+        border-bottom: 3px solid colors.$white;
         padding: 0.5em;
         font-size: 2em;
         margin: 0;
     }
 
     h3, h4, h5 {
-        color: $accent-light;
+        color: colors.$accent-light;
     }
 
     .links{
@@ -28,6 +28,6 @@
 
     a:link,
     a:visited {
-        color: $accent-light;
+        color: colors.$accent-light;
     }
 }

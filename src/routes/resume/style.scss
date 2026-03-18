@@ -1,5 +1,4 @@
-@import "@/template/styles/colors.scss";
-@import "@/template/styles/breakpoints.scss";
+@use "@/template/styles/colors.scss";
 
 .resume-card-list{
     padding: 10px 5px;
@@ -10,7 +9,7 @@
 }
 
 .new-button {
-    background-color: $white;
+    background-color: colors.$white;
     display: flex;
     justify-content: center;
 }
@@ -18,15 +17,15 @@
 .resume-card {
     display: flex;
     flex-flow: row wrap;
-    background-color: $medium;
+    background-color: colors.$medium;
     list-style-type: none;
-    color: $white;
+    color: colors.$white;
     padding: 0.5em;
     width: 80%;
     border-radius: 5px;
 
     .resume-title {
-        color: $accent-light;
+        color: colors.$accent-light;
         font-size: 1.25em;
         margin: 0;
         flex: 1;
@@ -49,7 +48,7 @@
     }
 
     .resume-comments {
-        border-top: 3px solid $white;
+        border-top: 3px solid colors.$white;
     }
 }
 
@@ -101,26 +100,26 @@
 }
 
 .resume-chunk {
-    background-color: $light-grey;
-    border: solid 2px $accent-dark;
+    background-color: colors.$light-grey;
+    border: solid 2px colors.$accent-dark;
     margin-bottom: 10px;
     border-radius: 5px;
 
     h2 {
-        background-color: $medium;
+        background-color: colors.$medium;
         text-align: center;
         margin: 0;
         padding: 20px 0;
 
         a:visited, a:link {
-            color:  $accent-light;
+            color:  colors.$accent-light;
         }
     }
 
     > ul {
-        background-color: $white;
+        background-color: colors.$white;
         margin: 15px;
-        border: solid 2px $light;
+        border: solid 2px colors.$light;
         border-radius: 5px;
     }
 }

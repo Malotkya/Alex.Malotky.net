@@ -1,5 +1,5 @@
-@import "@/template/styles/breakpoints.scss";
-@import "@/template/styles/colors.scss";
+@use "@/template/styles/breakpoints.scss";
+@use "@/template/styles/colors.scss";
 
 .mana-symbol {
     background-image: url("/Mana Symbols.png");
@@ -277,10 +277,10 @@
         align-items: center;
 
         &:hover, &:focus {
-            background-color: $accent-light;
+            background-color: colors.$accent-light;
 
             h2 {
-                color: $dark !important;
+                color: colors.$dark !important;
             }
         }
     }
@@ -306,7 +306,7 @@
     }
 }
 
-@media (min-width: $tablet){
+@media (min-width: breakpoints.$tablet){
     .card {
         margin-top: 5px;
         position: relative;
@@ -333,7 +333,7 @@
     }
 }
 
-@media (min-width: $laptop){
+@media (min-width: breakpoints.$laptop){
     .category {
         width: 33%;
     }

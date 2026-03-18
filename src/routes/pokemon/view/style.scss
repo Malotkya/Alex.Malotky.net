@@ -1,4 +1,4 @@
-@import "@/template/styles/colors.scss";
+@use "@/template/styles/colors.scss";
 
 @mixin pokemon-list-item($min: 300px) {
     width: 33%;
@@ -7,7 +7,7 @@
     padding: 0.5em 0.3em;
     display: flex;
     flex-flow: row wrap;
-    border: $accent-dark solid 2px;
+    border: colors.$accent-dark solid 2px;
     border-radius: 5px;
     margin-bottom: 0.5em;
 }
@@ -352,15 +352,15 @@
     .detail-summary {
         font-weight: normal;
         width: auto;
-        background-color: $accent-dark;
-        color: $white;
+        background-color: colors.$accent-dark;
+        color: colors.$white;
         display: inline-block;
         padding: 5px;
         margin: 2px;
 
         &:hover, &:focus {
-            background-color: $accent-light;
-            color: $dark;
+            background-color: colors.$accent-light;
+            color: colors.$dark;
         }
     }
 }
@@ -390,7 +390,7 @@
         width: 100%;
         gap: 2px;
         padding: 2px;
-        background-color: $dark;
+        background-color: colors.$dark;
 
         li {
             list-style: none;
@@ -410,7 +410,7 @@
 
             ul {
                 position: absolute;
-                background-color: $dark;
+                background-color: colors.$dark;
                 gap: 2px;
                 padding: 2px;
             }
@@ -426,28 +426,28 @@
     .pokemon-nav-item {
         &, &:visited, &:link {
             @include pokemon-nav-base;
-            background-color: $accent-dark;
-            color: $white;
+            background-color: colors.$accent-dark;
+            color: colors.$white;
         }
 
         &:hover, &:link {
-            background-color: $accent-light;
-            color: $dark;
+            background-color: colors.$accent-light;
+            color: colors.$dark;
         }
     }
 
     .pokemon-nav-header {
         &, &:visited, &:link {
             @include pokemon-nav-base;
-            background-color: $accent-dark;
-            color: $white;
+            background-color: colors.$accent-dark;
+            color: colors.$white;
             font-weight: bold;
             font-size: 1.2em;
         }
 
         &:hover, &:link {
-            background-color: $accent-light;
-            color: $dark;
+            background-color: colors.$accent-light;
+            color: colors.$dark;
         }
     }
 }

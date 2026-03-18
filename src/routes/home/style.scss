@@ -1,5 +1,5 @@
-@import "@/template/styles/colors.scss";
-@import "@/template/styles/breakpoints.scss";
+@use "@/template/styles/colors.scss";
+@use "@/template/styles/breakpoints.scss";
 
 #home-container{
     animated-text, p {
@@ -10,12 +10,12 @@
 animated-text {
     display: block;
     white-space: pre;
-    color: $accent-dark;
+    color: colors.$accent-dark;
 }
 
 #spotlight {
     padding: 0.25em;
-    border: 3px solid $accent-dark; 
+    border: 3px solid colors.$accent-dark; 
     display: flex;
     flex-flow: row-reverse wrap;
 
@@ -29,7 +29,7 @@ animated-text {
         width: 100%;
     }
 
-    @media(min-width: $tablet) {
+    @media(min-width: breakpoints.$tablet) {
         section {
             width: 70%;
         }

@@ -16,7 +16,6 @@ build
 src/secrets.json
 
 .wrangler
-wrangler.toml
 
 *.db 
 pokemon.json

@@ -1,0 +1,9 @@
+name = "portfolio"
+compatibility_date="2026-03-18"
+compatibility_flags = [ "nodejs_compat" ]
+pages_build_output_dir = "./build" 
+
+[[d1_databases]]
+binding="DB"
+database_name = "portfolio"
+database_id="4e08224c-4eb2-43bb-83ca-1a5c3f5aed28"
